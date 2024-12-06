@@ -1,0 +1,34 @@
+#################################
+# @author K10s Open Source Team #
+# @since 01/01/2025             #
+#################################
+name: Build and Push Docker Image to GHCR
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2
+      - name: Set username to lowercase
+        id: set-lowercase
+        run: echo "LOWERCASE_USERNAME=$(echo ${{ github.actor }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
+      # Step 3
+      - name: Login to GHCR and build and push image
+        run: |
+            echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ env.LOWERCASE_USERNAME }} --password-stdin
+            docker build -t ghcr.io/${{ env.LOWERCASE_USERNAME }}/k10s:latest .
+            docker push ghcr.io/${{ env.LOWERCASE_USERNAME }}/k10s:latest

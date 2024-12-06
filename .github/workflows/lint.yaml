@@ -1,0 +1,38 @@
+#################################
+# @author K10s Open Source Team #
+# @since 01/01/2025             #
+#################################
+name: Lint YAML Files
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint-yaml:
+    name: Lint YAML Files
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: read
+      statuses: write
+
+    steps:
+      # Step 1
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Step 2
+      - name: Lint YAML Files
+        uses: super-linter/super-linter@v7.2.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_YAML: true
+          VALIDATE_YAML_FILES: "kubernetes/**/*"
