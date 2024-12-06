@@ -26,7 +26,7 @@ To ensure proper use and contribution, please refer to the following documentati
 - 📜 [LICENSE](/LICENSE.md): Details on permissions and limitations for using the software.
 - 🔒 [SECURITY](/SECURITY.md): Guidelines for identifying and reporting vulnerabilities.
 - 🤝 [CONTRIBUTING](/CONTRIBUTING.md): Instructions for contributing to the project and submitting pull requests.
-- 📝 [CODE OF CONDUCT](/CODE_OF_CONDUCT.md): Guidelines for participating in the community and maintaining a respectful environment.
+- 📝 [CODE OF CONDUCT](/CODE-OF-CONDUCT.md): Guidelines for participating in the community and maintaining a respectful environment.
 
 ## 🎨Color Scheme
 
