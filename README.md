@@ -36,7 +36,7 @@ The project's visual identity is defined by the following colors:
 - **Secondary Color**: <span style="color: #b6abce;">(#b6abce)</span>
 - **Accent Color**: <span style="color: #ac8fbd;">(#ac8fbd)</span>
 - **Background Color**: <span style="color: #eff7fb;">(#eff7fb)</span>
-- **Text Color**: <span style="color: #0b1013;">(##0b1013)</span>
+- **Text Color**: <span style="color: #0b1013;">(#0b1013)</span>
 
 ## 📚How to deploy
 
