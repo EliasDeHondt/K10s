@@ -1,6 +1,6 @@
 /**********************************/
-/* @since 01/01/2025             */
-/* @author K10s Open Source Team */
+/* @since 01/01/2025              */
+/* @author K10s Open Source Team  */
 /**********************************/
 
 // Background animations for login page.
@@ -21,11 +21,3 @@ document.querySelectorAll('g').forEach(function(cube, index) {
         endDelay: (el, i, l) => (l - i) * 100
     });
 });
-
-// Logo animation for login page.
-document.getElementById('logo').onload = function() {
-    var logo = document.getElementById('logo');
-    setTimeout(function() {
-        logo.src = '/images/icon-animation.png';
-    }, 3000);
-};

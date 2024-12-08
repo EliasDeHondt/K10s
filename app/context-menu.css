@@ -1,0 +1,70 @@
+/**********************************/
+/* @since 01/01/2025              */
+/* @author K10s Open Source Team  */
+/**********************************/
+
+/* Global Styles */
+:root[data-theme="dark"] {
+    --text: #ecf1f4;
+    --background: #040c10;
+    --primary: #004b7a;
+    --secondary: #3c3154;
+    --accent: #5f4270;
+}
+
+:root[data-theme="light"] {
+    --text: #0b1013;
+    --background: #eff7fb;
+    --primary: #85d0ff;
+    --secondary: #b6abce;
+    --accent: #ac8fbd;
+}
+/* Global Styles */
+
+/* Context Menu */
+.context-menu {
+    position: absolute;
+    cursor: pointer;
+    display: none;
+}
+
+.context-menu-svg {
+    fill: var(--primary);
+    padding-right: 10px;
+    width: 16px;
+    height: 16px;
+}
+
+.context-menu-item {
+    background-color: var(--background);
+    border: 1px solid var(--primary);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+    list-style: none;
+}
+
+.context-menu-item li {
+    font: inherit;
+    border: 0;
+    padding: 0px 15px 0px 15px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    text-decoration: unset;
+    color: var(--secondary);
+    font-weight: 500;
+    transition: 0.5s linear;
+    -webkit-transition: 0.5s linear;
+    -moz-transition: 0.5s linear;
+    -ms-transition: 0.5s linear;
+    -o-transition: 0.5s linear;
+}
+
+.context-menu-item li:hover {
+    background:var(--secondary);
+    color: var(--primary);
+    border-radius: 10px;
+}
+/* Context Menu */

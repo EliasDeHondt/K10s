@@ -14,6 +14,7 @@
         <!--CSS-->
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="/app/login.css">
+        <link rel="stylesheet" href="/app/context-menu.css">
         <!--CSS-->
     </head>
     <body class="login-body">
@@ -107,9 +108,10 @@
         <main>
             <div class="login-form">
                 <div class="login-logo">
-                    <img id="logo" src="/images/icon-animation.gif" alt="Logo">
+                    <img src="/images/icon-512x512.png" alt="Logo">
                 </div>
                 <div>
+                    <p class="login-appname">K10s</p>
                     <form method="post" action="">
                         <input type="text" name="username" placeholder="Username" required autocomplete="username"><br>
                         <input type="password" name="password" placeholder="Password" required autocomplete="current-password"><br>
@@ -117,12 +119,21 @@
                     </form>
                 </div>
             </div>
-            <p class="login-appname">K10s</p>
+            <p class="login-title">Open Source Project</p>
         </main>
         <!--Main-->
+        <!--Context Menu-->
+        <div class="context-menu" id="context-menu"></div>
+        <!--Context Menu-->
         <!--JS-->
         <script src='https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.0/anime.min.js'></script>
         <script src="/app/login.js"></script>
+        <script src="/app/main.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                loadExternalContent("context-menu", "/app/context-menu.html");
+            });
+        </script>
         <!--JS-->
     </body>
 </html>
