@@ -2,10 +2,12 @@
 # @author K10s Open Source Team #
 # @since 01/01/2025             #
 #################################
-FROM openjdk:17-jdk-slim
+FROM python:3.11-slim
 
 WORKDIR /app
 
-COPY app/k10s.jar /app
+COPY app/ /app/
 
-CMD ["java", "-jar", "k10s.jar"]
+EXPOSE 80
+
+CMD ["python3", "-m", "http.server", "80", "--directory", "/app", "--bind", "0.0.0.0"]

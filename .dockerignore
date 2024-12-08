@@ -2,3 +2,11 @@
 # @author K10s Open Source Team #
 # @since 01/01/2025             #
 #################################
+
+# Ignore .md files
+!*.md
+
+# Ignore directories
+!Kubernetes/
+!Images/
+!.github/
