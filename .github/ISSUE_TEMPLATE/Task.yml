@@ -1,0 +1,25 @@
+name: Task Template
+description: Describe this task here.
+title: "[TASK]: "
+labels: ["Task", "Open"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time 💜🩵🤍
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Task details
+      description: Please write the contents of your task. This can be in markdown.
+      placeholder: Type here (keep it simple but clear).
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/EliasDeHondt/K10s/blob/main/CODE-OF-CONDUCT.md). 
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true

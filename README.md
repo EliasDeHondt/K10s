@@ -32,25 +32,49 @@ To ensure proper use and contribution, please refer to the following documentati
 
 The project's visual identity is defined by the following colors:
 
-- **Primary Color**: <span style="color: #85d0ff;">(#85d0ff)</span>
-- **Secondary Color**: <span style="color: #b6abce;">(#b6abce)</span>
-- **Accent Color**: <span style="color: #ac8fbd;">(#ac8fbd)</span>
-- **Background Color**: <span style="color: #eff7fb;">(#eff7fb)</span>
-- **Text Color**: <span style="color: #0b1013;">(#0b1013)</span>
+```css
+:root[data-theme="dark"] {
+    --text: #ecf1f4;
+    --background: #040c10;
+    --primary: #004b7a;
+    --secondary: #3c3154;
+    --accent: #5f4270;
+}
+
+:root[data-theme="light"] {
+    --text: #0b1013;
+    --background: #eff7fb;
+    --primary: #85d0ff;
+    --secondary: #b6abce;
+    --accent: #ac8fbd;
+}
+```
 
 ## 📚How to deploy
 
-- Step 1: Deploy the application:
+- Step 1: Make a secret with the username and password of the application:
+```bash
+kubectl create secret generic k10s-secret -n k10s-namespaces --from-literal=username=admin --from-literal=password=admin
+```
+
+- Step 2: Deploy the application:
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/EliasDeHondt/K10s/refs/heads/main/Kubernetes/k10s.yaml
 ```
 
-- Step 2: Get the external IP of the application:
+- Step 3: Get the external IP of the application:
 ```bash
-kubectl get svc -n k10s
+kubectl get svc -n k10s-namespaces
 ```
+
+---
 
 - If you want to delete the application:
 ```bash
 kubectl delete -f https://raw.githubusercontent.com/EliasDeHondt/K10s/refs/heads/main/Kubernetes/k10s.yaml
+```
+
+- If you want to delete the secret:
+```bash
+kubectl delete secret k10s-secret -n k10s-namespaces
 ```

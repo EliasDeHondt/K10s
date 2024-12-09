@@ -3,3 +3,8 @@
 # @since 01/01/2025             #
 #################################
 ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: k10s-namespaces
+---

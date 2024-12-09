@@ -44,6 +44,14 @@
     z-index: -1;
 }
 
+.login-polygon-1 {
+    fill: var(--secondary);
+}
+
+.login-polygon-2 {
+    fill: var(--accent);
+}
+
 @media (max-width: 768px) {
     .login-cube {
         display: none;
