@@ -8,7 +8,7 @@
 /* Navigation bar */
 .navigation-bar {
     background-color: var(--tertiary);
-    color: var(--accent);
+    color: var(--secondary);
     border-radius: 15px;
     top: 20px;
     left: 20px;
@@ -55,7 +55,6 @@
 }
 
 .navigation-bar-menu-item {
-    color: var(--secondary);
     display: flex;
     align-items: center;
     padding: 10px 15px;
@@ -66,7 +65,6 @@
 }
 
 .navigation-bar-menu-item i {
-    color: var(--accent);
     margin-right: 10px;
     font-size: 1.2rem;
 }
