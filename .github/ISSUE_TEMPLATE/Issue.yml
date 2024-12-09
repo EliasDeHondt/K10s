@@ -1,3 +1,7 @@
+#################################
+# @author K10s Open Source Team #
+# @since 01/01/2025             #
+#################################
 name: Issue Template
 description: Describe this issue here.
 title: "[ISSUE]: "
@@ -8,7 +12,7 @@ body:
       value: |
         Thanks for taking the time 💜🩵🤍
   - type: textarea
-    id: what-happened
+    id: details
     attributes:
       label: Issue details
       description: Please write the contents of your issue. This can be in markdown.

@@ -1,0 +1,54 @@
+#################################
+# @author K10s Open Source Team #
+# @since 01/01/2025             #
+#################################
+name: Bug Template
+description: Describe this issue here.
+title: "[ISSUE]: "
+labels: ["Bug", "Open"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time 💜🩵🤍
+  - type: input
+    id: contact
+    attributes:
+      label: Contact Details
+      description: How can we get in touch with you if we need more info?
+      placeholder: ex. email@example.com
+    validations:
+      required: false
+  - type: textarea
+    id: details
+    attributes:
+      label: Bug details
+      description: Please write the contents of your bug. This can be in markdown.
+      placeholder: Type here (keep it simple but clear).
+    validations:
+      required: true
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: What browsers are you seeing the problem on?
+      multiple: true
+      options:
+        - Chrome
+        - Microsoft Edge
+        - Firefox
+        - Safari
+        - Other
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: shell
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/EliasDeHondt/K10s/blob/main/CODE-OF-CONDUCT.md). 
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true

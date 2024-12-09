@@ -1,3 +1,7 @@
+#################################
+# @author K10s Open Source Team #
+# @since 01/01/2025             #
+#################################
 name: Task Template
 description: Describe this task here.
 title: "[TASK]: "
@@ -8,7 +12,7 @@ body:
       value: |
         Thanks for taking the time 💜🩵🤍
   - type: textarea
-    id: what-happened
+    id: details
     attributes:
       label: Task details
       description: Please write the contents of your task. This can be in markdown.
