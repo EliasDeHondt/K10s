@@ -28,13 +28,6 @@
     display: none;
 }
 
-.context-menu-svg {
-    fill: var(--primary);
-    padding-right: 10px;
-    width: 16px;
-    height: 16px;
-}
-
 .context-menu-item {
     background-color: var(--background);
     border: 1px solid var(--primary);

@@ -83,9 +83,10 @@
 
 .login-form input {
     background-color: var(--background);
+    color: var(--text);
+    border: 1px solid var(--text);
     margin: 8px 0;
     padding: 12px;
-    border: 1px solid var(--text);
     border-radius: 4px;
     transition: border-color 0.3s;
     min-height: 44px;

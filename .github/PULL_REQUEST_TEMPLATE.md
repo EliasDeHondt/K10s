@@ -1,4 +1,3 @@
-![logo](/Images/icon-192x192.png)
 # 🤍🩵💜MERGEREQUEST💜🩵🤍
 
 ## 📘Table of Contents

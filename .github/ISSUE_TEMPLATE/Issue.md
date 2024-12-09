@@ -6,7 +6,6 @@ labels: Open
 assignees: 'EliasDeHondt'
 ---
 
-![logo](/Images/icon-192x192.png)
 # 🤍🩵💜ISSUE💜🩵🤍
 
 ## 📘Table of Contents
