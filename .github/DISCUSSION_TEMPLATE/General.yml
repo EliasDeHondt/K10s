@@ -2,7 +2,7 @@
 # @author K10s Open Source Team #
 # @since 01/01/2025             #
 #################################
-title: "[General] "
+title: "[General]: "
 labels: ["Discussion"]
 body:
   - type: markdown

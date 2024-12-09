@@ -1,0 +1,30 @@
+/**********************************/
+/* @since 01/01/2025              */
+/* @author K10s Open Source Team  */
+/**********************************/
+
+/* Global Styles */
+:root[data-theme="dark"] {
+    --text: #ecf1f4;
+    --background: #040c10;
+    --primary: #004b7a;
+    --secondary: #3c3154;
+    --tertiary: #0b1013;
+    --accent: #5f4270;
+}
+
+:root[data-theme="light"] {
+    --text: #0b1013;
+    --background: #eff7fb;
+    --primary: #85d0ff;
+    --secondary: #b6abce;
+    --tertiary: #e8eff3
+    --accent: #ac8fbd;
+}
+/* Global Styles */
+
+/* Global Body */
+body {
+    background-color: var(--background);
+    font-family: 'Inter', Arial;
+}

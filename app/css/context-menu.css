@@ -3,23 +3,7 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-/* Global Styles */
-:root[data-theme="dark"] {
-    --text: #ecf1f4;
-    --background: #040c10;
-    --primary: #004b7a;
-    --secondary: #3c3154;
-    --accent: #5f4270;
-}
-
-:root[data-theme="light"] {
-    --text: #0b1013;
-    --background: #eff7fb;
-    --primary: #85d0ff;
-    --secondary: #b6abce;
-    --accent: #ac8fbd;
-}
-/* Global Styles */
+@import url('/app/css/global.css');
 
 /* Context Menu */
 .context-menu {
@@ -36,6 +20,10 @@
     flex-direction: column;
     padding: 0px;
     list-style: none;
+}
+
+.context-menu-item i {
+    margin-right: 10px;
 }
 
 .context-menu-item li {
