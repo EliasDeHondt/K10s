@@ -38,6 +38,8 @@ The project's visual identity is defined by the following colors:
     --background: #040c10;
     --primary: #004b7a;
     --secondary: #3c3154;
+    --tertiary: #262b2e;
+    --quaternary: #1f2326;
     --accent: #5f4270;
 }
 
@@ -46,6 +48,8 @@ The project's visual identity is defined by the following colors:
     --background: #eff7fb;
     --primary: #85d0ff;
     --secondary: #b6abce;
+    --tertiary: #e8eff3;
+    --quaternary: #dedfed;
     --accent: #ac8fbd;
 }
 ```

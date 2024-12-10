@@ -12,7 +12,7 @@ function loadExternalContent(DivId, url) {
         });
 }
 
-/* Context Menu */
+// Context Menu
 let selectedText = '';
 let contextMenu = '';
 document.addEventListener('DOMContentLoaded', function() {
