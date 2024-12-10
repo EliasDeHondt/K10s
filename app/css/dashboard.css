@@ -9,9 +9,70 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     height: 100vh;
     margin: 0;
     user-select: none;
     padding: 0 10px;
+}
+
+.dashboard-top-boxes {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin: 20px 0px;
+    top: 20px;
+}
+
+.dashboard-top-boxes-marginleft {
+    margin-left: 20px;
+}
+
+.dashboard-box {
+    background-color: var(--quaternary);
+    color: var(--text);
+    border-radius: 15px;
+    width: 300px;
+    height: 200px;
+    display: flex;
+    font-weight: bold;
+    font-size: 1rem;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-box-header {
+    color: var(--text);
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.dashboard-box-header h2 {
+    margin: 10px;
+    padding: 0;
+}
+
+.dashboard-box-tree {
+    background-color: var(--tertiary);
+    color: var(--text);
+    border-radius: 15px;
+    width: 100%;
+    height: 290%;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+
+.link {
+    stroke: var(--ascent);
+    stroke-width: 2px;
+}
+
+.node {
+    fill: var(--primary);
+    stroke: var(--text);
+    stroke-width: 1.5px;
+    cursor: pointer;
+}
+
+text {
+    fill: var(--text);
+    pointer-events: none;
 }

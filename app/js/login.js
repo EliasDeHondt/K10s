@@ -3,6 +3,11 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
+// Load external content
+document.addEventListener('DOMContentLoaded', function() {
+    loadExternalContent("context-menu", "/app/includes/context-menu.html");
+});
+
 // Background animations for login page.
 document.querySelectorAll('g').forEach(function(cube, index) {
     var currentTranslateY = parseFloat(cube.getAttribute('transform').split('(')[1].split(')')[0].split(',')[1]) || 0;
