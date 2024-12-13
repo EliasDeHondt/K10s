@@ -26,42 +26,48 @@
     </head>
     <body class="dashboard-body">
         <!--Header-->
-        <header id="navigation-bar"></header>
+        <header class="dashboard-header">
+            <section class="dashboard-header-section1">
+                <article class="dashboard-header-article">
+                    <h2>Nodes</h2>
+                    <p>NO DATA</p> <!--This is temporary until back end is established-->
+                </article>
+            </section>
+            <section class="dashboard-header-section2">
+                <article class="dashboard-header-article">
+                    <h2>CPU Usage</h2>
+                    <p>NO DATA</p> <!--This is temporary until back end is established-->
+                </article>
+            </section>
+            <section class="dashboard-header-section3">
+                <article class="dashboard-header-article">
+                    <h2>RAM Usage</h2>
+                    <p>NO DATA</p> <!--This is temporary until back end is established-->
+                </article>
+            </section>
+            <section class="dashboard-header-section4">
+                <article class="dashboard-header-article">
+                    <h2>Disk Usage</h2>
+                    <p>NO DATA</p> <!--This is temporary until back end is established-->
+                </article>
+            </section>
+        </header>
+        <!--Header-->
+        <!--Nav-->
+        <nav class="dashboard-nav" id="navigation-bar"></nav>
+        <!--Nav-->
         <!--Header-->
         <!--Main-->
-        <main>
-            <div class="dashboard-top-boxes">
-                <div class="dashboard-box">
-                    <div class="dashboard-box-header">
-                        <h2>Nodes</h2>
-                    </div>
-                </div>
-                <div class="dashboard-box dashboard-top-boxes-marginleft">
-                    <div class="dashboard-box-header">
-                        <h2>CPU Usage</h2>
-                    </div>
-                </div>
-                <div class="dashboard-box dashboard-top-boxes-marginleft">
-                    <div class="dashboard-box-header">
-                        <h2>RAM Usage</h2>
-                    </div>
-                </div>
-                <div class="dashboard-box dashboard-top-boxes-marginleft">
-                    <div class="dashboard-box-header">
-                        <h2>Disk Usage</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="dashboard-box-tree">
-                <div id="dashboard-chart"></div>
-            </div>
+        <main class="dashboard-main">
+            <section class="dashboard-main-section">
+                <article id="dashboard-chart"></article>
+            </section>
         </main>
         <!--Main-->
         <!--Context Menu-->
-        <div class="context-menu" id="context-menu"></div>
+        <section class="context-menu" id="context-menu"></section>
         <!--Context Menu-->
         <!--JS-->
-        <script src="https://d3js.org/d3.v7.min.js"></script>
         <script src="/app/js/main.js"></script>
         <script src="/app/js/dashboard.js"></script>
         <!--JS-->
