@@ -5,74 +5,78 @@
 
 @import url('/app/css/global.css');
 
+
+/* SetUp Grid */
+.dashboard-header { grid-area: header; }
+.dashboard-header-section1 { grid-area: header1; }
+.dashboard-header-section2 { grid-area: header2; }
+.dashboard-header-section3 { grid-area: header3; }
+.dashboard-header-section4 { grid-area: header4; }
+.dashboard-nav { grid-area: nav; }
+.dashboard-main { grid-area: main; }
+
 .dashboard-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    user-select: none;
-    padding: 0 10px;
-}
-
-.dashboard-top-boxes {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    margin: 20px 0px;
+    display: grid;
+    grid-template-areas:
+        'nav header header header header'
+        'nav main main main main'
+        'nav main main main main'
+        'nav main main main main'
+        'nav main main main main'
+        'nav main main main main';
+    grid-template-columns: 1fr 2fr 2fr 2fr;
+    gap: 10px;
+    padding: 10px;
     top: 20px;
+    height: 95vh;
+}
+/* SetUp Grid */
+
+/* Dashboard Header */
+.dashboard-header {
+    display: grid;
+    grid-template-areas:
+        'header1 header2 header3 header4';
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 10px;
 }
 
-.dashboard-top-boxes-marginleft {
-    margin-left: 20px;
-}
-
-.dashboard-box {
+.dashboard-header-section1,
+.dashboard-header-section2,
+.dashboard-header-section3,
+.dashboard-header-section4 {
     background-color: var(--quaternary);
     color: var(--text);
     border-radius: 15px;
-    width: 300px;
-    height: 200px;
-    display: flex;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: 100%;
     font-weight: bold;
     font-size: 1rem;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
-.dashboard-box-header {
-    color: var(--text);
+.dashboard-header-article {
     font-size: 1.2rem;
     font-weight: 700;
 }
 
-.dashboard-box-header h2 {
+.dashboard-header-article h2 {
     margin: 10px;
     padding: 0;
 }
 
-.dashboard-box-tree {
+.dashboard-header-article p {
+    margin: 10px;
+    padding: 0;
+}
+/* Dashboard Header */
+
+/* Dashboard Main */
+.dashboard-main {
     background-color: var(--tertiary);
     color: var(--text);
     border-radius: 15px;
-    width: 100%;
-    height: 290%;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
 }
-
-
-.link {
-    stroke: var(--ascent);
-    stroke-width: 2px;
-}
-
-.node {
-    fill: var(--primary);
-    stroke: var(--text);
-    stroke-width: 1.5px;
-    cursor: pointer;
-}
-
-text {
-    fill: var(--text);
-    pointer-events: none;
-}
+/* Dashboard Main */

@@ -30,3 +30,54 @@ body {
     background-color: var(--background);
     font-family: 'Inter', Arial;
 }
+/* Global Body */
+
+/* Global Selection */
+::selection {
+    background-color: var(--primary);
+    color: var(--text);
+}
+/* Global Selection */
+
+/* Global Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--quaternary);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--tertiary);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--secondary);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background-color: var(--primary);
+}
+
+::-webkit-scrollbar-corner {
+    background-color: var(--quaternary);
+}
+
+::-webkit-scrollbar-button {
+    display: none;
+}
+
+::-webkit-scrollbar-track-piece {
+    display: none;
+}
+
+::-webkit-scrollbar-corner {
+    display: none;
+}
+
+::-webkit-resizer {
+    display: none;
+}
+/* Global Scrollbar */
