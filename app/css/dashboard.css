@@ -25,7 +25,7 @@
         'nav main main main main'
         'nav main main main main';
     grid-template-columns: 1fr 2fr 2fr 2fr;
-    gap: 10px;
+    gap: 16px;
     padding: 10px;
     top: 20px;
     height: 95vh;
@@ -38,7 +38,7 @@
     grid-template-areas:
         'header1 header2 header3 header4';
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 10px;
+    gap: 16px;
 }
 
 .dashboard-header-section1,
