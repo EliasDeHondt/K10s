@@ -27,7 +27,6 @@
     grid-template-columns: 1fr 2fr 2fr 2fr;
     gap: 16px;
     padding: 10px;
-    top: 20px;
     height: 95vh;
 }
 /* SetUp Grid */
@@ -35,8 +34,7 @@
 /* Dashboard Header */
 .dashboard-header {
     display: grid;
-    grid-template-areas:
-        'header1 header2 header3 header4';
+    grid-template-areas: 'header1 header2 header3 header4';
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 16px;
 }
@@ -80,3 +78,81 @@
     width: 100%;
 }
 /* Dashboard Main */
+
+/* Media Queries */
+@media screen and (max-width: 1024px) {
+    .dashboard-body {
+        grid-template-areas:
+            'nav header header header header'
+            'nav header header header header'
+            'main main main main main'
+            'main main main main main'
+            'main main main main main';
+        grid-template-columns: 1fr 3fr;
+    }
+
+    .dashboard-header {
+        grid-template-areas:
+            'header1 header2'
+            'header3 header4';
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .dashboard-body {
+        grid-template-areas:
+            'nav'
+            'header';
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-header {
+        grid-template-areas:
+            'header1'
+            'header2'
+            'header3'
+            'header4';
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-header-section1,
+    .dashboard-header-section2,
+    .dashboard-header-section3,
+    .dashboard-header-section4 {
+        margin-bottom: 16px;
+    }
+
+    .dashboard-main {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .dashboard-body {
+        grid-template-areas:
+            'nav'
+            'header';
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .dashboard-header {
+        grid-template-areas:
+            'header1'
+            'header2'
+            'header3'
+            'header4';
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .dashboard-header-section1,
+    .dashboard-header-section2,
+    .dashboard-header-section3,
+    .dashboard-header-section4 {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+}
+/* Media Queries */
