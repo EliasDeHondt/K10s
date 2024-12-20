@@ -23,6 +23,27 @@
     --quaternary: #dedfed;
     --accent: #ac8fbd;
 }
+
+:root { /* Kubernetes status colors */
+    --status-cluster-ready: #28a745;
+    --status-cluster-notready: #f44336;
+
+    --status-node-ready: #28a745;
+    --status-node-notready: #f44336;
+
+    --status-pod-pending: #ffa500;
+    --status-pod-running: #28a745;
+    --status-pod-failed: #f44336;
+    --status-pod-completed: #9e9e9e;
+    --status-pod-terminated: #9c27b0;
+    
+
+    --status-container-running: #28a745;
+    --status-container-waiting: #ffa500;
+    --status-container-terminated: #9c27b0;
+
+    --status-unknown: #9e9e9e; 
+}
 /* Global Styles */
 
 /* Global Body */
