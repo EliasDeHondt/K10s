@@ -127,32 +127,4 @@
         display: none;
     }
 }
-
-@media screen and (max-width: 480px) {
-    .dashboard-body {
-        grid-template-areas:
-            'nav'
-            'header';
-        grid-template-columns: 1fr;
-        gap: 8px;
-    }
-
-    .dashboard-header {
-        grid-template-areas:
-            'header1'
-            'header2'
-            'header3'
-            'header4';
-        grid-template-columns: 1fr;
-        gap: 8px;
-    }
-
-    .dashboard-header-section1,
-    .dashboard-header-section2,
-    .dashboard-header-section3,
-    .dashboard-header-section4 {
-        font-size: 0.9rem;
-        padding: 8px;
-    }
-}
 /* Media Queries */
