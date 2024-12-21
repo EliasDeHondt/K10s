@@ -21,4 +21,4 @@ Before contributing, take some time to understand the project's goals, structure
 
 We greatly appreciate all contributions, whether big or small. Contributors will be acknowledged in the project's README or release notes.
 
-Thank you for your interest in contributing to our project! Together, we can make it even better. 🤍🩶🩵
+Thank you for your interest in contributing to our project! Together, we can make it even better. 💜🩵🤍
