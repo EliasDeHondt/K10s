@@ -13,13 +13,13 @@ LABEL org.opencontainers.image.description="This is the backend image for the ap
 
 WORKDIR /app
 
-COPY go.mod go.sum ./
+COPY App/Backend/go.mod App/Backend/go.sum /app/
 
-RUN go mod download
+RUN go mod tidy
 
-COPY . .
+COPY App/Backend/cmd /app/cmd
 
-RUN go build -o main .
+RUN go build -o /app/main /app/cmd
 
 # Stage 2: Copy the GO app to a smaller image and run it
 FROM alpine:3.12 AS production
