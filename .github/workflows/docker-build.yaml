@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Build Backend Docker Image
         run: |
-          docker build -t ghcr.io/${{ needs.username-to-lowercase.outputs.LOWERCASE_USERNAME }}/k10s-backend:latest ./App/Backend -f ./App/Backend/Dockerfile
+          docker build -t ghcr.io/${{ needs.username-to-lowercase.outputs.LOWERCASE_USERNAME }}/k10s-backend:latest ./App/Backend
 
   build-frontend:
     needs: [username-to-lowercase]
