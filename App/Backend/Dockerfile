@@ -13,11 +13,12 @@ LABEL org.opencontainers.image.description="This is the backend image for the ap
 
 WORKDIR /app
 
-COPY go.mod go.sum /app/
+COPY ./App/Backend /app/
 
 RUN go mod tidy
 
-COPY . /app/
+# Test
+RUN ls -al /app
 
 RUN CGO_ENABLED=0 GOOS=linux go build -o main .
 
