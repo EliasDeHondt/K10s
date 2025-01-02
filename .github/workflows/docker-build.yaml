@@ -15,81 +15,43 @@ on:
 jobs:
   username-to-lowercase:
     runs-on: ubuntu-latest
+    outputs:
+      LOWERCASE_USERNAME: ${{ steps.set-lowercase.outputs.LOWERCASE_USERNAME }}
     steps:
       - name: Set username to lowercase
         id: set-lowercase
-        run: echo "LOWERCASE_USERNAME=$(echo ${{ github.actor }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+        run: echo "::set-output name=LOWERCASE_USERNAME::$(echo ${{ github.actor }} | tr '[:upper:]' '[:lower:]')"
 
   build-backend:
     needs: [username-to-lowercase]
     runs-on: ubuntu-latest
     steps:
-      # Step 1
       - name: Checkout code
         uses: actions/checkout@v3
-      # Step 2
       - name: Build Backend Docker Image
         run: |
-          docker build -t ghcr.io/${{ env.LOWERCASE_USERNAME }}/k10s-backend:latest ./App/Backend -f ./App/Backend/Dockerfile
+          docker build -t ghcr.io/${{ needs.username-to-lowercase.outputs.LOWERCASE_USERNAME }}/k10s-backend:latest ./App/Backend -f ./App/Backend/Dockerfile
 
   build-frontend:
     needs: [username-to-lowercase]
     runs-on: ubuntu-latest
     steps:
-      # Step 1
       - name: Checkout code
         uses: actions/checkout@v3
-      # Step 2
       - name: Build Frontend Docker Image
         run: |
-          docker build -t ghcr.io/${{ env.LOWERCASE_USERNAME }}/k10s-frontend:latest ./App/Frontend
+          docker build -t ghcr.io/${{ needs.username-to-lowercase.outputs.LOWERCASE_USERNAME }}/k10s-frontend:latest ./App/Frontend
 
   push:
     needs: [build-backend, build-frontend, username-to-lowercase]
     runs-on: ubuntu-latest
-
     steps:
-      # Step 1
       - name: Login to GHCR
         run: |
-            echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ env.LOWERCASE_USERNAME }} --password-stdin
-      # Step 2
+          echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ needs.username-to-lowercase.outputs.LOWERCASE_USERNAME }} --password-stdin
       - name: Push Backend Docker Image
         run: |
-          docker push ghcr.io/${{ env.LOWERCASE_USERNAME }}/k10s-backend:latest
-      # Step 3
+          docker push ghcr.io/${{ needs.username-to-lowercase.outputs.LOWERCASE_USERNAME }}/k10s-backend:latest
       - name: Push Frontend Docker Image
         run: |
-          docker push ghcr.io/${{ env.LOWERCASE_USERNAME }}/k10s-frontend:latest
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      # Step 3
-      - name: Login to GHCR and build and push image
-        run: |
-            echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ env.LOWERCASE_USERNAME }} --password-stdin
-            docker build -t ghcr.io/${{ env.LOWERCASE_USERNAME }}/k10s:latest .
-            docker push ghcr.io/${{ env.LOWERCASE_USERNAME }}/k10s:latest
+          docker push ghcr.io/${{ needs.username-to-lowercase.outputs.LOWERCASE_USERNAME }}/k10s-frontend:latest
