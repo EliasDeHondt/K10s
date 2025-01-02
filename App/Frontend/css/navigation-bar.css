@@ -6,7 +6,7 @@
 @import url('/App/Frontend/css/global.css');
 
 /* Navigation bar */
-.dashboard-nav {
+.navigation-bar {
     background-color: var(--tertiary);
     color: var(--secondary);
     border-radius: 15px;
@@ -16,24 +16,24 @@
     top: 20px;
 }
 
-.dashboard-nav-header {
+.navigation-bar-header {
     color: var(--secondary);
     margin-bottom: 20px;
 }
 
-.dashboard-nav-logo {
+.navigation-bar-logo {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 10px;
 }
 
-.dashboard-nav-logo img {
+.navigation-bar-logo img {
     width: 120px;
     height: 120px;
 }
 
-.dashboard-nav-username {
+.navigation-bar-username {
     color: var(--text);
     font-size: 1.2rem;
     font-weight: 700;
@@ -42,13 +42,13 @@
     margin-left: 10px;
 }
 
-.dashboard-nav-menu {
+.navigation-bar-menu {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
 
-.dashboard-nav-menu-item {
+.navigation-bar-menu-item {
     display: flex;
     align-items: center;
     padding: 10px 15px;
@@ -58,26 +58,26 @@
     cursor: pointer;
 }
 
-.dashboard-nav-menu-item i {
+.navigation-bar-menu-item i {
     margin-right: 10px;
     font-size: 1.2rem;
 }
 
-.dashboard-nav-menu-item span {
+.navigation-bar-menu-item span {
     color: var(--text);
     font-size: 1rem;
 }
 
-.dashboard-nav-menu-item a {
+.navigation-bar-menu-item a {
     color: var(--secondary);
     text-decoration: none;
 }
 
-.dashboard-nav-menu-item a:hover {
+.navigation-bar-menu-item a:hover {
     color: var(--accent);
 }
 
-.dashboard-nav-menu-item:hover {
+.navigation-bar-menu-item:hover {
     color: var(--accent);
 }
 /* Navigation bar */

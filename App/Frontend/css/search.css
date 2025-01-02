@@ -1,0 +1,27 @@
+/**********************************/
+/* @since 01/01/2025              */
+/* @author K10s Open Source Team  */
+/**********************************/
+
+@import url('/App/Frontend/css/global.css');
+
+/* SetUp Grid */
+.search-header { grid-area: header; }
+.navigation-bar { grid-area: nav; }
+.search-main { grid-area: main; }
+
+.search-body {
+    display: grid;
+    grid-template-areas:
+        'nav header header header header'
+        'nav main main main main'
+        'nav main main main main'
+        'nav main main main main'
+        'nav main main main main'
+        'nav main main main main';
+    grid-template-columns: 1fr 2fr 2fr 2fr;
+    gap: 16px;
+    padding: 10px;
+    height: 95vh;
+}
+/* SetUp Grid */

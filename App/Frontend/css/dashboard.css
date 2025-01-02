@@ -5,14 +5,13 @@
 
 @import url('/App/Frontend/css/global.css');
 
-
 /* SetUp Grid */
 .dashboard-header { grid-area: header; }
 .dashboard-header-section1 { grid-area: header1; }
 .dashboard-header-section2 { grid-area: header2; }
 .dashboard-header-section3 { grid-area: header3; }
 .dashboard-header-section4 { grid-area: header4; }
-.dashboard-nav { grid-area: nav; }
+.navigation-bar { grid-area: nav; }
 .dashboard-main { grid-area: main; }
 
 .dashboard-body {
