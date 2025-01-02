@@ -5,7 +5,7 @@
 
 // Load external content
 document.addEventListener('DOMContentLoaded', function() {
-    loadExternalContent("context-menu", "/app/includes/context-menu.html");
+    loadExternalContent("context-menu", "/App/Frontend/includes/context-menu.html");
 });
 
 // Background animations for login page.
