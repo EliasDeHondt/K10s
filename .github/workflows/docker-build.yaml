@@ -28,9 +28,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      - name: Login to GHCR
+        run: |
+          echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ needs.username-to-lowercase.outputs.LOWERCASE_USERNAME }} --password-stdin
       - name: Build Backend Docker Image
         run: |
-          docker build -t ghcr.io/${{ needs.username-to-lowercase.outputs.LOWERCASE_USERNAME }}/k10s-backend:latest ./App/Backend
+          docker build --push -t ghcr.io/${{ needs.username-to-lowercase.outputs.LOWERCASE_USERNAME }}/k10s-backend:latest ./App/Backend
 
   build-frontend:
     needs: [username-to-lowercase]
@@ -38,20 +41,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Build Frontend Docker Image
-        run: |
-          docker build -t ghcr.io/${{ needs.username-to-lowercase.outputs.LOWERCASE_USERNAME }}/k10s-frontend:latest ./App/Frontend
-
-  push:
-    needs: [build-backend, build-frontend, username-to-lowercase]
-    runs-on: ubuntu-latest
-    steps:
       - name: Login to GHCR
         run: |
           echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ needs.username-to-lowercase.outputs.LOWERCASE_USERNAME }} --password-stdin
-      - name: Push Backend Docker Image
+      - name: Build Frontend Docker Image
         run: |
-          docker push ghcr.io/${{ needs.username-to-lowercase.outputs.LOWERCASE_USERNAME }}/k10s-backend:latest
-      - name: Push Frontend Docker Image
-        run: |
-          docker push ghcr.io/${{ needs.username-to-lowercase.outputs.LOWERCASE_USERNAME }}/k10s-frontend:latest
+          docker build --push -t ghcr.io/${{ needs.username-to-lowercase.outputs.LOWERCASE_USERNAME }}/k10s-frontend:latest ./App/Frontend
