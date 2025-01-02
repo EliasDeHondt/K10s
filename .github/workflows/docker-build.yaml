@@ -22,7 +22,7 @@ jobs:
         id: set-lowercase
         run: echo "::set-output name=LOWERCASE_USERNAME::$(echo ${{ github.actor }} | tr '[:upper:]' '[:lower:]')"
 
-  build-backend:
+  build-push-backend:
     needs: [username-to-lowercase]
     runs-on: ubuntu-latest
     steps:
@@ -31,11 +31,11 @@ jobs:
       - name: Login to GHCR
         run: |
           echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ needs.username-to-lowercase.outputs.LOWERCASE_USERNAME }} --password-stdin
-      - name: Build Backend Docker Image
+      - name: Build/Push Backend Docker Image
         run: |
           docker build --push -t ghcr.io/${{ needs.username-to-lowercase.outputs.LOWERCASE_USERNAME }}/k10s-backend:latest ./App/Backend
 
-  build-frontend:
+  build-push-frontend:
     needs: [username-to-lowercase]
     runs-on: ubuntu-latest
     steps:
@@ -44,6 +44,6 @@ jobs:
       - name: Login to GHCR
         run: |
           echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ needs.username-to-lowercase.outputs.LOWERCASE_USERNAME }} --password-stdin
-      - name: Build Frontend Docker Image
+      - name: Build/Push Frontend Docker Image
         run: |
           docker build --push -t ghcr.io/${{ needs.username-to-lowercase.outputs.LOWERCASE_USERNAME }}/k10s-frontend:latest ./App/Frontend
