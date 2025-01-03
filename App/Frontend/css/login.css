@@ -6,6 +6,7 @@
 @import url('/App/Frontend/css/global.css');
 
 .login-body {
+    background-color: var(--background);
     display: flex;
     flex-direction: column;
     align-items: center;
