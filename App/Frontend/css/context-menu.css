@@ -15,7 +15,7 @@
 .context-menu-item {
     background-color: var(--tertiary);
     border: 1px solid var(--primary);
-    border-radius: 10px;
+    border-radius: var(--radius);
     display: flex;
     flex-direction: column;
     padding: 0px;
@@ -26,13 +26,12 @@
     color: var(--text);
 }
 
-.context-menu-item i {
-    color: var(--secondary);
+.context-menu-item svg {
+    fill: var(--secondary);
+    width: 24px;
+    height: 24px;
     margin-right: 10px;
-}
-
-.context-menu-item i:hover {
-    color: var(--accent);
+    transition: fill 0.3s ease;
 }
 
 .context-menu-item li {
@@ -53,6 +52,6 @@
 
 .context-menu-item li:hover {
     background-color: var(--background);
-    border-radius: 10px;
+    border-radius: var(--radius);
 }
 /* Context Menu */

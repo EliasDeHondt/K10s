@@ -9,8 +9,8 @@
 .navigation-bar {
     background-color: var(--tertiary);
     color: var(--secondary);
-    border-radius: 15px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    border-radius: var(--radius);
+    box-shadow: 2px 0 5px var(--shadow);
     min-width: 150px;
     padding: 20px;
     top: 20px;
@@ -39,7 +39,7 @@
     font-weight: 700;
     text-align: center;
     margin-bottom: 10px;
-    margin-left: 10px;
+    margin-left: 5px;
 }
 
 .navigation-bar-menu {
@@ -53,31 +53,33 @@
     align-items: center;
     padding: 10px 15px;
     margin: 5px 0;
-    border-radius: 10px;
-    transition: background-color 0.3s ease;
+    border-radius: var(--radius);
+    transition: background-color 0.3s ease, color 0.3s ease;
     cursor: pointer;
 }
 
-.navigation-bar-menu-item i {
-    margin-right: 10px;
-    font-size: 1.2rem;
-}
-
-.navigation-bar-menu-item span {
-    color: var(--text);
-    font-size: 1rem;
+.navigation-bar-menu-item:hover span, .navigation-bar-menu-item:hover svg {
+    color: var(--accent);
+    fill: var(--accent);
 }
 
 .navigation-bar-menu-item a {
     color: var(--secondary);
     text-decoration: none;
+    display: flex;
+    align-items: center;
 }
 
-.navigation-bar-menu-item a:hover {
-    color: var(--accent);
+.navigation-bar-header svg, .navigation-bar-menu-item svg {
+    fill: var(--secondary);
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    transition: fill 0.3s ease;
 }
 
-.navigation-bar-menu-item:hover {
-    color: var(--accent);
+.navigation-bar-menu-item span {
+    color: var(--text);
+    font-size: 1rem;
+    transition: color 0.3s ease;
 }
-/* Navigation bar */

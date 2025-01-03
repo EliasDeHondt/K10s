@@ -23,7 +23,7 @@
         'nav main main main main'
         'nav main main main main'
         'nav main main main main';
-    grid-template-columns: 1fr 2fr 2fr 2fr;
+    grid-template-columns: 1fr 3fr 3fr 3fr;
     gap: 16px;
     padding: 10px;
     height: 95vh;
@@ -44,8 +44,8 @@
 .dashboard-header-section4 {
     background-color: var(--quaternary);
     color: var(--text);
-    border-radius: 15px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    border-radius: var(--radius);
+    box-shadow: 2px 0 5px var(--shadow);
     width: 100%;
     height: 100%;
     font-weight: bold;
@@ -72,8 +72,8 @@
 .dashboard-main {
     background-color: var(--tertiary);
     color: var(--text);
-    border-radius: 15px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    border-radius: var(--radius);
+    box-shadow: 2px 0 5px var(--shadow);
     width: 100%;
 }
 /* Dashboard Main */
