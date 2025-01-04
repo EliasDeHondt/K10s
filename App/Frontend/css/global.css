@@ -52,6 +52,32 @@
 }
 /* Global Styles */
 
+/* Cursor */
+* {
+    cursor: url('/App/Frontend/svg/cursor-auto.svg'), auto;
+}
+
+.cursor-default {
+    cursor: url('/App/Frontend/svg/cursor-default.svg'), default;
+}
+
+.cursor-pointer {
+    cursor: url('/App/Frontend/svg/cursor-pointer.svg'), pointer;
+}
+
+.cursor-wait {
+    cursor: url('/App/Frontend/svg/cursor-wait.svg'), wait;
+}
+
+.cursor-text {
+    cursor: url('/App/Frontend/svg/cursor-text.svg'), text;
+}
+
+.cursor-move {
+    cursor: url('/App/Frontend/svg/cursor-move.svg'), move;
+}
+/* Cursor */
+
 /* Fonts */
 @font-face { /* cyrillic-ext */
     font-family: 'Inter';

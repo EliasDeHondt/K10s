@@ -97,7 +97,6 @@
     padding: 14px;
     border: none;
     border-radius: var(--radius);
-    cursor: pointer;
     transition: background-color 0.3s;
     font-size: 18px;
     min-height: 44px;

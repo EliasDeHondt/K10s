@@ -18,7 +18,8 @@
         <!--Favicon-->
         <!--CSS-->
         <link rel="stylesheet" href="/App/Frontend/css/dashboard.css">
-        <link rel="stylesheet" href="/App/Frontend/css/navigation-bar.css">
+        <link rel="stylesheet" href="/App/Frontend/css/nav.css">
+        <link rel="stylesheet" href="/App/Frontend/css/footer.css">
         <link rel="stylesheet" href="/App/Frontend/css/context-menu.css">
         <!--CSS-->
     </head>
@@ -72,22 +73,29 @@
         </header>
         <!--Header-->
         <!--Nav-->
-        <nav class="navigation-bar" id="navigation-bar"></nav>
+        <nav class="nav" id="nav"></nav>
         <!--Nav-->
         <!--Header-->
         <!--Main-->
-        <main class="dashboard-main">
+        <main class="dashboard-main" id="dashboard-main">
+            <div class="dashboard-title" id="dashboard-title">K10s</div>
             <section class="dashboard-main-section">
-                <article id="dashboard-chart"></article>
+                <article class="cursor-move" id="dashboard-chart"></article>
             </section>
+            <button class="dashboard-fullscreen-button" id="dashboard-fullscreen-button">Full Screen</button>
         </main>
         <!--Main-->
+        <!--Footer-->
+        <footer class="footer" id="footer"></footer>
+        <!--Footer-->
         <!--Context Menu-->
         <section class="context-menu" id="context-menu"></section>
         <!--Context Menu-->
         <!--JS-->
         <script src="/App/Frontend/js/main.js"></script>
         <script src="/App/Frontend/js/dashboard.js"></script>
+        <script src="/App/Frontend/js/footer.js"></script>
+        <script src="/App/Frontend/js/context-menu.js"></script>
         <!--JS-->
     </body>
 </html>

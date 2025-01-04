@@ -11,19 +11,18 @@
 .dashboard-header-section2 { grid-area: header2; }
 .dashboard-header-section3 { grid-area: header3; }
 .dashboard-header-section4 { grid-area: header4; }
-.navigation-bar { grid-area: nav; }
+.nav { grid-area: nav; }
 .dashboard-main { grid-area: main; }
+.footer { grid-area: footer; }
 
 .dashboard-body {
     display: grid;
     grid-template-areas:
         'nav header header header header'
         'nav main main main main'
-        'nav main main main main'
-        'nav main main main main'
-        'nav main main main main'
-        'nav main main main main';
+        'footer footer footer footer footer';
     grid-template-columns: 1fr 3fr 3fr 3fr;
+    grid-template-rows: 2fr 9fr 0.5fr;
     gap: 16px;
     padding: 10px;
     height: 95vh;
@@ -75,6 +74,40 @@
     border-radius: var(--radius);
     box-shadow: 2px 0 5px var(--shadow);
     width: 100%;
+    position: relative;
+}
+
+.dashboard-fullscreen-button {
+    background-color: var(--primary);
+    color: var(--text);
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    border-radius: var(--radius);
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px var(--shadow);
+    z-index: 10;
+}
+
+.dashboard-fullscreen-button:hover {
+    background-color: var(--secondary);
+}
+
+.dashboard-title {
+    color: var(--accent);
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    font-size: 1.5rem;
+    font-weight: bold;
+    z-index: 20;
 }
 /* Dashboard Main */
 
@@ -83,10 +116,8 @@
     .dashboard-body {
         grid-template-areas:
             'nav header header header header'
-            'nav header header header header'
             'main main main main main'
-            'main main main main main'
-            'main main main main main';
+            'footer footer footer footer footer';
         grid-template-columns: 1fr 3fr;
     }
 
@@ -102,7 +133,8 @@
     .dashboard-body {
         grid-template-areas:
             'nav'
-            'header';
+            'header'
+            'footer';
         grid-template-columns: 1fr;
     }
 

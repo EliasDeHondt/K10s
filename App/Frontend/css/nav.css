@@ -6,7 +6,7 @@
 @import url('/App/Frontend/css/global.css');
 
 /* Navigation bar */
-.navigation-bar {
+.nav {
     background-color: var(--tertiary);
     color: var(--secondary);
     border-radius: var(--radius);
@@ -16,24 +16,24 @@
     top: 20px;
 }
 
-.navigation-bar-header {
+.nav-header {
     color: var(--secondary);
     margin-bottom: 20px;
 }
 
-.navigation-bar-logo {
+.nav-logo {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 10px;
 }
 
-.navigation-bar-logo img {
+.nav-logo img {
     width: 120px;
     height: 120px;
 }
 
-.navigation-bar-username {
+.nav-username {
     color: var(--text);
     font-size: 1.2rem;
     font-weight: 700;
@@ -42,35 +42,34 @@
     margin-left: 5px;
 }
 
-.navigation-bar-menu {
+.nav-menu {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
 
-.navigation-bar-menu-item {
+.nav-menu-item {
     display: flex;
     align-items: center;
     padding: 10px 15px;
     margin: 5px 0;
     border-radius: var(--radius);
     transition: background-color 0.3s ease, color 0.3s ease;
-    cursor: pointer;
 }
 
-.navigation-bar-menu-item:hover span, .navigation-bar-menu-item:hover svg {
+.nav-menu-item:hover span, .nav-menu-item:hover svg {
     color: var(--accent);
     fill: var(--accent);
 }
 
-.navigation-bar-menu-item a {
+.nav-menu-item a {
     color: var(--secondary);
     text-decoration: none;
     display: flex;
     align-items: center;
 }
 
-.navigation-bar-header svg, .navigation-bar-menu-item svg {
+.nav-header svg, .nav-menu-item svg {
     fill: var(--secondary);
     width: 24px;
     height: 24px;
@@ -78,8 +77,9 @@
     transition: fill 0.3s ease;
 }
 
-.navigation-bar-menu-item span {
+.nav-menu-item span {
     color: var(--text);
     font-size: 1rem;
     transition: color 0.3s ease;
 }
+/* Navigation bar */

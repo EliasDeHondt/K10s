@@ -117,9 +117,9 @@
                 <article>
                     <p class="login-appname">K10s</p>
                     <form onsubmit="window.location.href='dashboard.html'; return false;"> <!--This is temporary until back end is established-->
-                        <input type="text" name="username" placeholder="Username" required autocomplete="username"><br>
-                        <input type="password" name="password" placeholder="Password" required autocomplete="current-password"><br>
-                        <button type="submit" name="login">Login</button>
+                        <input class="cursor-text" type="text" name="username" placeholder="Username" required autocomplete="username"><br>
+                        <input class="cursor-text" type="password" name="password" placeholder="Password" required autocomplete="current-password"><br>
+                        <button class="cursor-pointer" type="submit" name="login">Login</button>
                     </form>
                 </article>
             </section>
@@ -133,6 +133,7 @@
         <script src='https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.0/anime.min.js'></script>
         <script src="/App/Frontend/js/main.js"></script>
         <script src="/App/Frontend/js/login.js"></script>
+        <script src="/App/Frontend/js/context-menu.js"></script>
         <!--JS-->
     </body>
 </html>

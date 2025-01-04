@@ -8,7 +8,6 @@
 /* Context Menu */
 .context-menu {
     position: absolute;
-    cursor: pointer;
     display: none;
 }
 
