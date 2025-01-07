@@ -17,7 +17,7 @@ document.getElementById('dashboard-fullscreen-button').addEventListener('click',
     if (!dashboardMain.classList.contains('fullscreen')) {
         dashboardMain.classList.add('fullscreen');
         dashboardMain.style.gridArea = '1 / 1 / -1 / -1';
-        dashboardTitle.sKtyle.display = 'block';
+        dashboardTitle.style.display = 'block';
     } else {
         dashboardMain.classList.remove('fullscreen');
         dashboardMain.style.gridArea = '';

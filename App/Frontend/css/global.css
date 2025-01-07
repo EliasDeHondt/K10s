@@ -192,3 +192,50 @@ body {
     display: none;
 }
 /* Global Scrollbar */
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 4;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-article {
+    background-color: var(--background);
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid var(--primary);
+    width: 90%;
+    max-width: 410px;
+    max-height: 80vh;
+    overflow-y: auto;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-article h2 {
+    color: var(--primary);
+    margin: 0;
+    padding: 10px;
+    border-bottom: 1px solid var(--primary);
+}
+
+.modal-close-button {
+    color: var(--primary);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-close-button:hover, .modal-close-button:focus {
+    color: var(--secondary);
+    text-decoration: none;
+}
+/* Modal */

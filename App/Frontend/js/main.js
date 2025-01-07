@@ -24,3 +24,24 @@ function loadExternalContent(DivId, url) {
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
 }
+
+const settingsModalHTML = `
+    <section id="settingsModal" class="modal">
+        <article class="modal-article">
+            <span class="modal-close-button" onclick="closeModal('settingsModal')">x</span>
+            <h2>Settings</h2>
+        </article>
+    </section>
+`;
+
+// Open Modal
+function openModel(Id, modalHTML) {
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    document.getElementById(Id).style.display = 'block';
+}
+
+// Close Modal
+function closeModal(Id) {
+    const modal = document.getElementById(Id);
+    if (modal) modal.remove();
+}

@@ -9,6 +9,7 @@
 .context-menu {
     position: absolute;
     display: none;
+    z-index: 10;
 }
 
 .context-menu-item {
