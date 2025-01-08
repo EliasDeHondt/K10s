@@ -26,18 +26,25 @@
     <body class="search-body">
         <!--Header-->
         <header class="search-header">
-            <section class="search-header-section">
-                <article class="search-header-article search-search-group">
+            <section class="search-header-section1">
+                <article class="search-header-article1">
                     <input class="cursor-text" type="text" id="search-input" placeholder="Search Cluster...">
                     <button class="cursor-pointer" id="search-button">Search</button>
                 </article>
-                <article class="search-header-article search-checkbox-group">
+            </section>
+            <section class="search-header-section2">
+                <article class="search-header-article2">
                     <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-1">Nodes</label>
                     <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-2">Pods</label>
                     <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-3">Services</label>
                     <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-4">Deployments</label>
                     <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-5">ConfigMaps</label>
                     <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-6">Secrets</label>
+                </article>
+            </section>
+            <section class="search-header-section3">
+                <article class="search-header-article3">
+                    
                 </article>
             </section>
         </header>
@@ -255,6 +262,7 @@
         <section class="context-menu" id="context-menu"></section>
         <!--Context Menu-->
         <!--JS-->
+        <script src="/App/Frontend/js/modals/settings.js"></script>
         <script src="/App/Frontend/js/main.js"></script>
         <script src="/App/Frontend/js/search.js"></script>
         <script src="/App/Frontend/js/footer.js"></script>

@@ -25,15 +25,6 @@ function loadExternalContent(DivId, url) {
     xmlhttp.send();
 }
 
-const settingsModalHTML = `
-    <section id="settingsModal" class="modal">
-        <article class="modal-article">
-            <span class="modal-close-button" onclick="closeModal('settingsModal')">x</span>
-            <h2>Settings</h2>
-        </article>
-    </section>
-`;
-
 // Open Modal
 function openModel(Id, modalHTML) {
     document.body.insertAdjacentHTML('beforeend', modalHTML);
@@ -44,4 +35,20 @@ function openModel(Id, modalHTML) {
 function closeModal(Id) {
     const modal = document.getElementById(Id);
     if (modal) modal.remove();
+}
+
+// Toggle Language Dropdown 
+function toggleLanguageDropdown() {
+    document.querySelector('.modal-dropdown').classList.toggle('show');
+}
+
+// Change Language
+function changeLanguage(language) {
+    // TODO
+    translatePage(language);
+}
+
+// Translate Page
+function translatePage(language) {
+    // TODO
 }

@@ -1,4 +1,4 @@
-![logo](/Images/logo.png)
+![logo](/Assets/Images/logo.png)
 # 🤍🩵💜README💜🩵🤍
 
 ## 📘Table of Contents

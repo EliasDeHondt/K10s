@@ -8,3 +8,139 @@ kind: Namespace
 metadata:
   name: k10s-namespaces
 ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k10s-frontend-deployment
+  namespace: k10s-namespaces
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: k10s-frontend
+  template:
+    metadata:
+      labels:
+        app: k10s-frontend
+    spec:
+      containers:
+      - name: k10s-frontend
+        image: "ghcr.io/eliasdehondt/k10s-frontend:latest"
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: k10s-frontend-service
+  namespace: k10s-namespaces
+spec:
+  selector:
+    app: k10s-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k10s-backend-deployment
+  namespace: k10s-namespaces
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: k10s-backend
+  template:
+    metadata:
+      labels:
+        app: k10s-backend
+    spec:
+      serviceAccountName: k10s-backend-serviceaccount
+      containers:
+      - name: k10s-backend
+        image: "ghcr.io/eliasdehondt/k10s-backend:latest"
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+        env:
+        - name: USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: k10s-secret
+              key: username
+        - name: PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: k10s-secret
+              key: password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: k10s-backend-service
+  namespace: k10s-namespaces
+spec:
+  selector:
+    app: k10s-backend
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: k10s-backend-serviceaccount
+  namespace: k10s-namespaces
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: k10s-backend-clusterrole
+rules: # For all resources in the cluster read-only access:
+- apiGroups: [""]
+  resources: ["pods", "services", "endpoints", "nodes", "namespaces", "configmaps", "secrets"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["apps"]
+  resources: ["deployments", "replicasets", "statefulsets"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["batch"]
+  resources: ["jobs", "cronjobs"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["extensions"]
+  resources: ["ingresses"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["networking.k8s.io"]
+  resources: ["networkpolicies"]
+  verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: k10s-backend-clusterrole-binding
+subjects:
+- kind: ServiceAccount
+  name: k10s-backend-serviceaccount
+  namespace: k10s-namespaces
+roleRef:
+  kind: ClusterRole
+  name: k10s-backend-clusterrole
+  apiGroup: rbac.authorization.k8s.io
+---
