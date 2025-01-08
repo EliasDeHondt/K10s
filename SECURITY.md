@@ -1,4 +1,4 @@
-![logo](/Assets/Images/logo.png)
+![logo](/Assets/logo.png)
 # 🤍🩵💜SECURITY💜🩵🤍
 
 ## 👉Reporting a Vulnerability
