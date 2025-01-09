@@ -1,5 +1,5 @@
 ![logo](/Assets/logo.png)
-# 🤍🩵💜SUPPORT💜🩵🤍
+# 🤍🩵💜FUNDING💜🩵🤍
 
 We at **K10s Open Source Team** greatly appreciate the support of our community. Your contributions enable us to maintain and improve this project, ensuring that K10s continues to deliver value to Kubernetes users worldwide.
 
