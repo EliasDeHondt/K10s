@@ -6,10 +6,10 @@
 # Stage 1: Build the GO app
 FROM golang:1.20 AS builder
 
-LABEL maintainer="K10s Open Source Team"
-LABEL version="1.0"
-LABEL description="This is the backend image for the app."
-LABEL org.opencontainers.image.description="This is the backend image for the app."
+LABEL maintainer "K10s Open Source Team"
+LABEL version "1.0"
+LABEL description "This is the backend image for the app."
+LABEL org.opencontainers.image.description "This is the backend image for the app."
 
 WORKDIR /app
 

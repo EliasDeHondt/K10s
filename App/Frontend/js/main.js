@@ -37,9 +37,9 @@ function closeModal(Id) {
     if (modal) modal.remove();
 }
 
-// Toggle Language Dropdown 
-function toggleLanguageDropdown() {
-    document.querySelector('.modal-dropdown').classList.toggle('show');
+// Toggle Dropdown 
+function toggleDropdown(id) {
+    document.querySelector(id).classList.toggle('show');
 }
 
 // Change Language

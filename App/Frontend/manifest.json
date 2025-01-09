@@ -2,18 +2,18 @@
     "name": "Open Source Project K10s",
     "short_name": "K10s",
     "description": "K10s is a free and open-source Kubernetes management platform.",
-    "start_url": "/App/Frontend/pages/login.html",
+    "start_url": "/pages/login.html",
     "display": "standalone",
     "background_color": "#eff7fb",
     "theme_color": "#b6abce",
     "icons": [
         {
-            "src": "/App/Frontend/images/icon-192x192.png",
+            "src": "/images/icon-192x192.png",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "/App/Frontend/images/icon-512x512.png",
+            "src": "/images/icon-512x512.png",
             "sizes": "512x512",
             "type": "image/png"
         }

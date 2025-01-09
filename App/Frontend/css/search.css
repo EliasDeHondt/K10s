@@ -3,7 +3,7 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-@import url('/App/Frontend/css/global.css');
+@import url('/css/global.css');
 
 /* SetUp Grid */
 .search-header { grid-area: header; }
@@ -122,6 +122,71 @@
     gap: 4px;
     margin: 10px;
 }
+
+.search-dropdown1,
+.search-dropdown2 {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    z-index: 3;
+}
+
+.search-dropdown-button {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--secondary);
+    border-radius: var(--radius);
+    background-color: var(--secondary);
+    color: var(--text);
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.search-dropdown-button:hover {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.search-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    right: 0;
+    background-color: var(--background);
+    border: 1px solid var(--primary);
+    border-radius: 5px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    z-index: 4;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    display: none;
+}
+
+.search-dropdown-menu li {
+    color: var(--text);
+    padding: 10px 15px;
+    font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.search-dropdown-menu li:hover {
+    background-color: var(--accent);
+    color: var(--background);
+}
+
+.search-dropdown1.show .search-dropdown-menu,
+.search-dropdown2.show .search-dropdown-menu {
+    display: block;
+}
+
+.search-header-article3 {
+    width: 140px;
+    padding: 2px;
+    margin: 10px;
+}
 /* Search Header */
 
 /* Search Main */
@@ -202,9 +267,9 @@
     .search-body {
         grid-template-areas:
             'nav header'
-            'main main'
+            'nav main'
             'footer footer';
-        grid-template-columns: 1fr 3fr;
+        grid-template-columns: 0.5fr 3fr;
         grid-template-rows: 2fr 9fr 0.5fr;
     }
 
@@ -213,7 +278,7 @@
             'header1 header2'
             'header3 header3';
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr 3fr;
+        grid-template-rows: 1fr 1fr;
     }
 }
 
@@ -224,7 +289,7 @@
             'header2'
             'header3';
         grid-template-columns: 1fr;
-        grid-template-rows: 1fr 1fr 3fr;
+        grid-template-rows: 1fr 1fr 1fr;
     }
 }
 

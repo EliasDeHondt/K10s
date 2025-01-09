@@ -18,7 +18,7 @@ const settingsConfig = {
 // Function to generate the settings modal HTML
 function generateSettingsModalHTML(config) {
     const languageOptions = config.languages.map(lang => `
-        <li class="cursor-pointer" onclick="changeLanguage('${lang.code}'); toggleLanguageDropdown()">${lang.name}</li>
+        <li class="cursor-pointer" onclick="changeLanguage('${lang.code}'); toggleDropdown('.modal-dropdown')">${lang.name}</li>
     `).join('');
 
     return `
@@ -34,7 +34,7 @@ function generateSettingsModalHTML(config) {
                 </button>
                 <br><br>
                 <section class="modal-dropdown">
-                    <button class="modal-dropdown-button cursor-pointer" onclick="toggleLanguageDropdown()">Choose Language</button>
+                    <button class="modal-dropdown-button cursor-pointer" onclick="toggleDropdown('.modal-dropdown')">Choose Language</button>
                     <ul class="modal-dropdown-menu cursor-pointer">
                         ${languageOptions}
                     </ul>

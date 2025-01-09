@@ -10,17 +10,17 @@
         <!--Meta + Title-->
         <!--Progressive Web App (PWA) Metadata-->
         <meta name="theme-color" content="#b6abce">
-        <link rel="manifest" href="/App/Frontend/manifest.json">
-        <link rel="apple-touch-icon" href="/App/Frontend/images/icon-192x192.png">
+        <link rel="manifest" href="/manifest.json">
+        <link rel="apple-touch-icon" href="/images/icon-192x192.png">
         <!--Progressive Web App (PWA) Metadata-->
         <!--Favicon-->
-        <link href="/App/Frontend/images/icon-192x192.png" rel="icon">
+        <link href="/images/icon-192x192.png" rel="icon">
         <!--Favicon-->
         <!--CSS-->
-        <link rel="stylesheet" href="/App/Frontend/css/dashboard.css">
-        <link rel="stylesheet" href="/App/Frontend/css/nav.css">
-        <link rel="stylesheet" href="/App/Frontend/css/footer.css">
-        <link rel="stylesheet" href="/App/Frontend/css/context-menu.css">
+        <link rel="stylesheet" href="/css/dashboard.css">
+        <link rel="stylesheet" href="/css/nav.css">
+        <link rel="stylesheet" href="/css/footer.css">
+        <link rel="stylesheet" href="/css/context-menu.css">
         <!--CSS-->
     </head>
     <body class="dashboard-body">
@@ -29,45 +29,25 @@
             <section class="dashboard-header-section1">
                 <article class="dashboard-header-article">
                     <h2>Nodes</h2>
-                    <!--This is temporary until back end is established-->
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
+                    <span id="dashboard-header-1"></span> <!-- TODO: id="dashboard-header-1" is for Backend -->
                 </article>
             </section>
             <section class="dashboard-header-section2">
                 <article class="dashboard-header-article">
                     <h2>CPU Usage</h2>
-                    <!--This is temporary until back end is established-->
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
+                    <span id="dashboard-header-2"></span> <!-- TODO: id="dashboard-header-2" is for Backend -->
                 </article>
             </section>
             <section class="dashboard-header-section3">
                 <article class="dashboard-header-article">
                     <h2>RAM Usage</h2>
-                    <!--This is temporary until back end is established-->
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
+                    <span id="dashboard-header-3"></span> <!-- TODO: id="dashboard-header-3" is for Backend -->
                 </article>
             </section>
             <section class="dashboard-header-section4">
                 <article class="dashboard-header-article">
                     <h2>Disk Usage</h2>
-                    <!--This is temporary until back end is established-->
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
+                    <span id="dashboard-header-4"></span> <!-- TODO: id="dashboard-header-4" is for Backend -->
                 </article>
             </section>
         </header>
@@ -75,12 +55,11 @@
         <!--Nav-->
         <nav class="nav" id="nav"></nav>
         <!--Nav-->
-        <!--Header-->
         <!--Main-->
         <main class="dashboard-main" id="dashboard-main">
             <div class="dashboard-title" id="dashboard-title">K10s</div>
             <section class="dashboard-main-section">
-                <article class="cursor-move" id="dashboard-chart"></article>
+                <article class="cursor-move" id="dashboard-main-chart"></article> <!-- TODO: id="dashboard-main-chart" is for Backend -->
             </section>
             <section class="dashboard-fullscreen-button cursor-pointer" id="dashboard-fullscreen-button">
                 <svg class="cursor-pointer" viewBox="0 0 16 16">
@@ -96,11 +75,11 @@
         <section class="context-menu" id="context-menu"></section>
         <!--Context Menu-->
         <!--JS-->
-        <script src="/App/Frontend/js/modals/settings.js"></script>
-        <script src="/App/Frontend/js/main.js"></script>
-        <script src="/App/Frontend/js/dashboard.js"></script>
-        <script src="/App/Frontend/js/footer.js"></script>
-        <script src="/App/Frontend/js/context-menu.js"></script>
+        <script src="/js/modals/settings.js"></script>
+        <script src="/js/main.js"></script>
+        <script src="/js/dashboard.js"></script>
+        <script src="/js/footer.js"></script>
+        <script src="/js/context-menu.js"></script>
         <!--JS-->
     </body>
 </html>

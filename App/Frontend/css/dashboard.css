@@ -3,7 +3,7 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-@import url('/App/Frontend/css/global.css');
+@import url('/css/global.css');
 
 /* SetUp Grid */
 .dashboard-header { grid-area: header; }
@@ -139,7 +139,7 @@
             'header'
             'footer';
         grid-template-columns: 1fr;
-        grid-template-rows: 2fr 2fr 0.5fr;
+        grid-template-rows: 2fr 9fr 0.5fr;
     }
 
     .dashboard-header {

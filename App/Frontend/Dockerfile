@@ -5,10 +5,10 @@
 # Frontend build
 FROM nginx:alpine
 
-LABEL maintainer="K10s Open Source Team"
-LABEL version="1.0"
-LABEL description="This is the frontend image for the app."
-LABEL org.opencontainers.image.description="This is the frontend image for the app."
+LABEL maintainer "K10s Open Source Team"
+LABEL version "1.0"
+LABEL description "This is the frontend image for the app."
+LABEL org.opencontainers.image.description "This is the frontend image for the app."
 
 COPY ./nginx.conf /etc/nginx/nginx.conf
 COPY ./default.conf /etc/nginx/conf.d/default.conf

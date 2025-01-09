@@ -10,17 +10,17 @@
         <!--Meta + Title-->
         <!--Progressive Web App (PWA) Metadata-->
         <meta name="theme-color" content="#b6abce">
-        <link rel="manifest" href="/App/Frontend/manifest.json">
-        <link rel="apple-touch-icon" href="/App/Frontend/images/icon-192x192.png">
+        <link rel="manifest" href="/manifest.json">
+        <link rel="apple-touch-icon" href="/images/icon-192x192.png">
         <!--Progressive Web App (PWA) Metadata-->
         <!--Favicon-->
-        <link href="/App/Frontend/images/icon-192x192.png" rel="icon">
+        <link href="/images/icon-192x192.png" rel="icon">
         <!--Favicon-->
         <!--CSS-->
-        <link rel="stylesheet" href="/App/Frontend/css/search.css">
-        <link rel="stylesheet" href="/App/Frontend/css/nav.css">
-        <link rel="stylesheet" href="/App/Frontend/css/footer.css">
-        <link rel="stylesheet" href="/App/Frontend/css/context-menu.css">
+        <link rel="stylesheet" href="/css/search.css">
+        <link rel="stylesheet" href="/css/nav.css">
+        <link rel="stylesheet" href="/css/footer.css">
+        <link rel="stylesheet" href="/css/context-menu.css">
         <!--CSS-->
     </head>
     <body class="search-body">
@@ -44,7 +44,24 @@
             </section>
             <section class="search-header-section3">
                 <article class="search-header-article3">
-                    
+                    <section class="search-dropdown1">
+                        <button class="search-dropdown-button cursor-pointer" onclick="toggleDropdown('.search-dropdown1')">Select Node</button>
+                        <ul class="search-dropdown-menu cursor-pointer">
+                            <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown1')">None</li>
+                            <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown1')">Node A</li>
+                            <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown1')">Node B</li>
+                        </ul>
+                    </section>
+                </article>
+                <article class="search-header-article3">
+                    <section class="search-dropdown2">
+                        <button class="search-dropdown-button cursor-pointer" onclick="toggleDropdown('.search-dropdown2')">Select Cluster</button>
+                        <ul class="search-dropdown-menu cursor-pointer">
+                            <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown2')">None</li>
+                            <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown2')">Cluster A</li>
+                            <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown2')">Cluster B</li>
+                        </ul>
+                    </section>
                 </article>
             </section>
         </header>
@@ -52,10 +69,9 @@
         <!--Nav-->
         <nav class="nav" id="nav"></nav>
         <!--Nav-->
-        <!--Header-->
         <!--Main-->
         <main class="search-main">
-            <table class="search-table"> <!--Test Data-->
+            <table class="search-table"> <!-- TODO: This is test data. Replace with actual data from Backend -->
                 <thead>
                     <tr>
                         <th>Cluster Name</th>
@@ -262,11 +278,11 @@
         <section class="context-menu" id="context-menu"></section>
         <!--Context Menu-->
         <!--JS-->
-        <script src="/App/Frontend/js/modals/settings.js"></script>
-        <script src="/App/Frontend/js/main.js"></script>
-        <script src="/App/Frontend/js/search.js"></script>
-        <script src="/App/Frontend/js/footer.js"></script>
-        <script src="/App/Frontend/js/context-menu.js"></script>
+        <script src="/js/modals/settings.js"></script>
+        <script src="/js/main.js"></script>
+        <script src="/js/search.js"></script>
+        <script src="/js/footer.js"></script>
+        <script src="/js/context-menu.js"></script>
         <!--JS-->
     </body>
 </html>

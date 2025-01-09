@@ -5,7 +5,7 @@
 
 // Load external content
 document.addEventListener('DOMContentLoaded', function() {
-    loadExternalContent("nav", "/App/Frontend/includes/nav.html");
-    loadExternalContent("footer", "/App/Frontend/includes/footer.html");
-    loadExternalContent("context-menu", "/App/Frontend/includes/context-menu.html");
+    loadExternalContent("nav", "/includes/nav.html");
+    loadExternalContent("footer", "/includes/footer.html");
+    loadExternalContent("context-menu", "/includes/context-menu.html");
 });
