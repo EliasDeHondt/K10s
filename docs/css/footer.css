@@ -1,0 +1,33 @@
+/**********************************/
+/* @since 01/01/2025              */
+/* @author K10s Open Source Team  */
+/**********************************/
+
+@import url('/css/global.css');
+
+/* Footer */
+.footer {
+    background-color: var(--tertiary);
+    border-radius: var(--radius);
+    box-shadow: 2px 0 5px var(--shadow);
+    width: 100%;
+    height: 100%;
+    font-weight: bold;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    
+}
+
+.footer-section p {
+    color: var(--text);
+    margin: 0.5rem 0;
+}
+
+.footer-section a {
+    color: var(--primary);
+    text-decoration: none;
+}
+/* Footer */

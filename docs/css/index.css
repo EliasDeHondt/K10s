@@ -1,0 +1,105 @@
+/**********************************/
+/* @since 01/01/2025              */
+/* @author K10 */
+/**********************************/
+
+@import url('/css/global.css');
+
+/* SetUp Grid */
+.index-header { grid-area: header; }
+.index-main { grid-area: main; }
+.footer { grid-area: footer; }
+
+.index-body {
+    display: grid;
+    grid-template-areas:
+        'header'
+        'main'
+        'footer';
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 9fr 0.5fr;
+    gap: 16px;
+    padding: 10px;
+    height: 96vh;
+}
+/* SetUp Grid */
+
+/* Header */
+.index-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--quaternary);
+    color: var(--text);
+    border-radius: var(--radius);
+    box-shadow: 2px 0 5px var(--shadow);
+    padding: 10px;
+}
+
+.index-header .index-header-logo img {
+    height: 64px;
+    width: auto;
+}
+
+.index-header .index-header-company-name {
+    color: var(--secondary);
+    margin: 0;
+    font-size: 2rem;
+    text-align: center;
+    flex-grow: 1;
+}
+/* Header */
+
+/* Main */
+.index-main {
+    background-color: var(--tertiary);
+    color: var(--text);
+    border-radius: var(--radius);
+    box-shadow: 2px 0 5px var(--shadow);
+    width: 100%;
+    position: relative;
+}
+
+.index-main-section {
+    margin-bottom: 20px;
+    padding: 10px;
+    margin: 16px;
+    background: var(--quaternary);
+    border-radius: var(--radius);
+    box-shadow: 1px 1px 3px var(--shadow);
+}
+
+.index-main-section h2,
+.index-main-section h3 {
+    color: var(--accent);
+    margin-top: 0;
+}
+
+.index-main-section p {
+    line-height: 1.6;
+}
+
+.index-main-section a {
+    color: var(--primary);
+    text-decoration: none;
+}
+/* Main */
+
+/* Media Queries */
+@media screen and (max-width: 1024px) {
+    .index-body {
+        grid-template-rows: 1fr 9fr 0.5fr;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .index-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .index-body {
+        grid-template-rows: 1fr 9fr 0.5fr;
+    }
+}
+/* Media Queries */
