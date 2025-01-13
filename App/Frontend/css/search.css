@@ -219,7 +219,7 @@
 
 .search-table tbody {
     display: block;
-    max-height: calc(100vh - 285px);
+    max-height: calc(100vh - 310px);
     overflow-y: auto;
 }
 
@@ -259,6 +259,25 @@
 
 .search-table::-webkit-scrollbar-track {
     background-color: var(--secondary);
+}
+
+.search-main-pagination {
+    margin: 2px;
+}
+
+.search-main-pagination button {
+    margin: 0 2px;
+    padding: 5px 10px;
+    border: 1px solid var(--secondary);
+    border-radius: var(--radius);
+    background-color: var(--secondary);
+    color: var(--text);
+}
+
+.search-main-pagination button:hover {
+    border: 1px solid var(--primary);
+    background-color: var(--primary);
+    color: var(--text);
 }
 /* Search Main */
 
