@@ -45,7 +45,7 @@
             <section class="search-header-section3">
                 <article class="search-header-article3">
                     <section class="search-dropdown1">
-                        <button class="search-dropdown-button cursor-pointer" onclick="toggleDropdown('.search-dropdown1')">Select Node</button>
+                        <button class="search-dropdown-button cursor-pointer" onclick="toggleDropdown('.search-dropdown1')">Node</button>
                         <ul class="search-dropdown-menu cursor-pointer">
                             <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown1')">None</li>
                             <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown1')">Node A</li>
@@ -55,11 +55,22 @@
                 </article>
                 <article class="search-header-article3">
                     <section class="search-dropdown2">
-                        <button class="search-dropdown-button cursor-pointer" onclick="toggleDropdown('.search-dropdown2')">Select Cluster</button>
+                        <button class="search-dropdown-button cursor-pointer" onclick="toggleDropdown('.search-dropdown2')">Cluster</button>
                         <ul class="search-dropdown-menu cursor-pointer">
                             <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown2')">None</li>
                             <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown2')">Cluster A</li>
                             <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown2')">Cluster B</li>
+                        </ul>
+                    </section>
+                </article>
+                <article class="search-header-article3">
+                    <section class="search-dropdown3">
+                        <button class="search-dropdown-button cursor-pointer" onclick="toggleDropdown('.search-dropdown3')">Namespace</button>
+                        <ul class="search-dropdown-menu cursor-pointer">
+                            <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown3')">None</li>
+                            <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown3')">Webserver001</li>
+                            <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown3')">Database001</li>
+                            <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown3')">Monitoring001</li>
                         </ul>
                     </section>
                 </article>
@@ -270,10 +281,10 @@
                 </tbody>
             </table>
             <section class="search-main-pagination">
-                <button>20</button>
-                <button>50</button>
-                <button>100</button>
-                <button>All</button>
+                <button class="cursor-pointer">20</button>
+                <button class="cursor-pointer">50</button>
+                <button class="cursor-pointer">100</button>
+                <button class="cursor-pointer">All</button>
             </section>
         </main>
         <!--Main-->

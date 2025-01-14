@@ -21,6 +21,6 @@ COPY ./js /usr/share/nginx/html/js
 COPY ./pages /usr/share/nginx/html/pages
 COPY ./manifest.json /usr/share/nginx/html/manifest.json
 
-EXPOSE 80
+EXPOSE 8080
 
 CMD ["nginx", "-g", "daemon off;"]

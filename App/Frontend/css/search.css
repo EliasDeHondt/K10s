@@ -124,7 +124,8 @@
 }
 
 .search-dropdown1,
-.search-dropdown2 {
+.search-dropdown2,
+.search-dropdown3 {
     position: relative;
     display: inline-block;
     width: 100%;
@@ -178,7 +179,8 @@
 }
 
 .search-dropdown1.show .search-dropdown-menu,
-.search-dropdown2.show .search-dropdown-menu {
+.search-dropdown2.show .search-dropdown-menu,
+.search-dropdown3.show .search-dropdown-menu {
     display: block;
 }
 
