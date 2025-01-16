@@ -136,7 +136,9 @@ body {
     background-color: var(--primary);
     color: var(--text);
 }
+/* Global Selection */
 
+/* Global Scrollbar */
 ::-webkit-scrollbar {
     width: 10px;
 }
