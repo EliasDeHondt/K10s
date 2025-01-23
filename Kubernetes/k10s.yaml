@@ -7,6 +7,12 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: k10s-namespaces
+  labels:
+    name: k10s
+    app: k10s
+    environment: production
+  annotations:
+    description: This namespace is used for the k10s application.
 ---
 apiVersion: apps/v1
 kind: Deployment
