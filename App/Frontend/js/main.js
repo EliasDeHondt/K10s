@@ -52,3 +52,17 @@ function changeLanguage(language) {
 function translatePage(language) {
     // TODO
 }
+
+// Fetch GitHub Stars
+async function fetchGitHubStars() {
+    try {
+        const response = await fetch("https://api.github.com/repos/EliasDeHondt/K10s", {
+            headers: { "User-Agent": "Mozilla/5.0" }
+        });
+        if (!response.ok) throw new Error("GitHub API request failed");
+        const data = await response.json();
+        document.getElementById("nav-github-stars").textContent = `⭐ ${data.stargazers_count}`;
+    } catch (error) {
+        document.getElementById("nav-github-stars").textContent = "Error fetching stars";
+    }
+}
