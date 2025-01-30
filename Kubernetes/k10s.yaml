@@ -88,13 +88,18 @@ spec:
         - name: USERNAME
           valueFrom:
             secretKeyRef:
-              name: k10s-secret
+              name: k10s-secret-user
               key: username
         - name: PASSWORD
           valueFrom:
             secretKeyRef:
-              name: k10s-secret
+              name: k10s-secret-user
               key: password
+        - name: DISCORD_WEBHOOK
+          valueFrom:
+            secretKeyRef:
+              name: k10s-secret-discord
+              key: discord_webhook
 ---
 apiVersion: v1
 kind: Service
