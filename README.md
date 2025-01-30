@@ -58,7 +58,12 @@ The project's visual identity is defined by the following colors:
 
 - Step 1: Make a secret with the username and password of the application:
 ```bash
-kubectl create secret generic k10s-secret -n k10s-namespaces --from-literal=username=admin --from-literal=password=admin
+kubectl create secret generic k10s-secret-user -n k10s-namespaces --from-literal=username=admin --from-literal=password=admin
+```
+
+- Step 1.1: You can also make a separate secret to store a Discord webhook URL (optional):
+```bash
+kubectl create secret generic k10s-secret-discord_webhook -n k10s-namespaces --from-literal=discord_webhook=https://discord.com/api/webhooks/...
 ```
 
 - Step 2: Deploy the application:
@@ -78,7 +83,8 @@ kubectl get svc -n k10s-namespaces
 kubectl delete -f https://raw.githubusercontent.com/EliasDeHondt/K10s/refs/heads/main/Kubernetes/k10s.yaml
 ```
 
-- If you want to delete the secret:
+- If you want to delete the secrets:
 ```bash
-kubectl delete secret k10s-secret -n k10s-namespaces
+kubectl delete secret k10s-secret-user -n k10s-namespaces
+kubectl delete secret k10s-secret-discord_webhook -n k10s-namespaces
 ```
