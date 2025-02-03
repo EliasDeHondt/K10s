@@ -25,4 +25,4 @@ jobs:
 
           git remote add gitlab https://oauth2:${GITLAB_TOKEN}@gitlab.com/kdg-ti/the-lab/teams-24-25/k10s/k10s.git
 
-          git push --force --mirror gitlabs
+          git push --force --mirror gitlab
