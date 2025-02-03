@@ -32,8 +32,8 @@ jobs:
       - name: Post issue data to GitLab
         run: |
           echo "$ISSUES" | jq -c '.[]' | while read issue; do
-            TITLE=$(echo "$issue" | jq -r '.title')
-            DESCRIPTION=$(echo "$issue" | jq -r '.body')
+            TITLE=$(echo "$ISSUES" | jq -r '.title')
+            DESCRIPTION=$(echo "$ISSUES" | jq -r '.body')
             echo $TITLE
             echo $DESCRIPTION
             
