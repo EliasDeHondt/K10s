@@ -1,0 +1,23 @@
+#################################
+# @author K10s Open Source Team #
+# @since 01/01/2025             #
+#################################
+name: Mirror GitLab
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  mirror-gitlab:
+    concurrency:
+      group: ${{ github.workflow }}-gitlab
+      cancel-in-progress: true
+    runs-on: ubuntu-latest
+    steps:
+      - run: git clone --bare "https://github.com/EliasDeHondt/K10s.git" .
+      - run: git push --mirror "https://$USERNAME:$GITLAB_TOKEN@gitlab.com/kdg-ti/the-lab/teams-24-25/k10s/k10s.git"
+        env:
+          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+          USERNAME: "EliasDeHondt"
