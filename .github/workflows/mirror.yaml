@@ -29,4 +29,10 @@ jobs:
           curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
           -H "Accept: application/vnd.github.v3+json" \
           "https://api.github.com/repos/EliasDeHondt/K10s/issues" > issues.json
-          cat issues.json
+          
+      - name: Post issue data to GitLab
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+          -H "PRIVATE-TOKEN: ${{ secrets.GITLAB_TOKEN }}" \
+          -d @issues.json \
+          "https://gitlab.com/api/v4/projects/66752424/issues"
