@@ -4,7 +4,7 @@
 #################################
 # Backend build
 # Stage 1: Build the GO app
-FROM golang:1.20 AS builder
+FROM golang:1.23 AS builder
 
 LABEL maintainer "K10s Open Source Team"
 LABEL version "1.0"
