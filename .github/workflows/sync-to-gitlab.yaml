@@ -13,16 +13,12 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout repository (optioneel)
         uses: actions/checkout@v4
 
       - name: Push to GitLab
-        env:
-          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
         run: |
-          git config --global user.name "EliasDeHondt"
-          git config --global user.email "elias.dehondt@student.kdg.be"
-
-          git remote add gitlab https://oauth2:${GITLAB_TOKEN}@gitlab.com/kdg-ti/the-lab/teams-24-25/k10s/k10s.git
-
-          git push --force --mirror gitlab
+          git clone --mirror https://github.com/EliasDeHondt/k10s.git
+          cd k10s
+          git remote set-url origin https://oauth2:${{ secrets.GITLAB_TOKEN }}@gitlab.com/EliasDeHondt/k10s.git
+          git push --mirror origin
