@@ -85,16 +85,21 @@ spec:
             memory: "256Mi"
             cpu: "250m"
         env:
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: k10s-secret-jwt
+              key: JWT_SECRET
         - name: USERNAME
           valueFrom:
             secretKeyRef:
               name: k10s-secret-user
-              key: username
+              key: USERNAME
         - name: PASSWORD
           valueFrom:
             secretKeyRef:
               name: k10s-secret-user
-              key: password
+              key: PASSWORD
         - name: DISCORD_WEBHOOK
           valueFrom:
             secretKeyRef:

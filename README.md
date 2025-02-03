@@ -56,9 +56,10 @@ The project's visual identity is defined by the following colors:
 
 ## 📚How to deploy
 
-- Step 1: Make a secret with the username and password of the application:
+- Step 1: Create the necessary secrets for the application (replace the values with your own):
 ```bash
-kubectl create secret generic k10s-secret-user -n k10s-namespaces --from-literal=username=admin --from-literal=password=admin
+kubectl create secret generic k10s-secret-user -n k10s-namespaces --from-literal=USERNAME=admin --from-literal=PASSWORD=admin
+kubectl create secret generic k10s-secret-jwt -n k10s-namespaces --from-literal=JWT_SECRET=$(openssl rand -base64 32) # apt install openssl.
 ```
 
 - Step 1.1: You can also make a separate secret to store a Discord webhook URL (optional):
