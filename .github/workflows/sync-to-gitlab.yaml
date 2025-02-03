@@ -18,7 +18,6 @@ jobs:
 
       - name: Push to GitLab
         run: |
-          git clone --mirror https://github.com/EliasDeHondt/k10s.git
+          git clone https://github.com/EliasDeHondt/k10s.git
           cd k10s
-          git remote set-url origin https://oauth2:${{ secrets.GITLAB_TOKEN }}@gitlab.com/EliasDeHondt/k10s.git
-          git push --mirror origin
+          git push --mirror https://oauth2:${{ secrets.GITLAB_TOKEN }}@gitlab.com/EliasDeHondt/k10s.git
