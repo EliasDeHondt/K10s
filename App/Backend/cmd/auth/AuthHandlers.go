@@ -3,10 +3,11 @@ package auth
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"os"
 )
 
-var envUsername = "test" //os.Getenv("USERNAME")
-var envPassword = "test" //os.Getenv("PASSWORD")
+var envUsername = os.Getenv("USERNAME")
+var envPassword = os.Getenv("PASSWORD")
 
 func HandleLogin(ctx *gin.Context) {
 	var credentials struct {

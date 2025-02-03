@@ -4,10 +4,11 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"net/http"
+	"os"
 	"time"
 )
 
-var jwtSecret = []byte("L7Naq/2kj9tAYs2Aap47w5Pzo7q/HhtsVFB/zgGnLHg=") //[]byte(os.Getenv("JWT_SECRET"))
+var jwtSecret = []byte(os.Getenv("JWT_SECRET"))
 
 type JwtClaims struct {
 	Username string `json:"username"`
