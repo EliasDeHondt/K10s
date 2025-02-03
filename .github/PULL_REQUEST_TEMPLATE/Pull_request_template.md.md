@@ -22,3 +22,4 @@ This is a **Merge Request** that is in need of your attention. The person whe cr
 **Code Quality**
 * [ ] Everything runs.
 * [ ] Comments and unused code gone.
+* [ ] Correct error handling.
