@@ -27,8 +27,8 @@ jobs:
       - name: Get issue data from GitHub
         run: |
           ISSUES=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/EliasDeHondt/K10s/issues")
-          echo "$ISSUES" | jq -r '.[0].title'
-          echo "$ISSUES" | jq -r '.[0].body'
+          echo "$ISSUES" | jq -r '.[1].title'
+          echo "$ISSUES" | jq -r '.[1].body'
 
       - name: Post issue data to GitLab
         run: |
