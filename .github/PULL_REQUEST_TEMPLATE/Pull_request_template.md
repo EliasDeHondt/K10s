@@ -12,7 +12,14 @@
 
 This is a **Merge Request** that is in need of your attention. The person whe created this request is the assignee.
 
-## 📚To Do
-- [ ] Test the code
-- [ ] Review the code
-- [ ] Merge the code
+## 📎Definition of done Merge Request checklist.
+* [ ] Tests written (1 positive and 1 negative scenario if possible).
+
+**Code architecture**
+* [ ] Separate services (SRP).
+* [ ] Divide functions into functions with low complexity
+
+**Code Quality**
+* [ ] Everything runs.
+* [ ] Comments and unused code gone.
+* [ ] Correct error handling.
