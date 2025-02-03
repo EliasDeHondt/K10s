@@ -1,0 +1,28 @@
+#################################
+# @author K10s Open Source Team #
+# @since 01/01/2025             #
+#################################
+name: Sync to GitLab
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Push to GitLab
+        env:
+          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+        run: |
+          git config --global user.name "EliasDeHondt"
+          git config --global user.email "elias.dehondt@student.kdg.be"
+
+          git remote add gitlab https://oauth2:${GITLAB_TOKEN}@gitlab.com/kdg-ti/the-lab/teams-24-25/k10s/k10s.git
+
+          git push --force --mirror gitlabs
