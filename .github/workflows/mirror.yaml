@@ -20,23 +20,3 @@ jobs:
         run: git clone --bare "https://github.com/EliasDeHondt/K10s.git" .
       - name: Push to GitLab
         run: git push --mirror "https://${{ secrets.GITLAB_USERNAME }}:${{ secrets.GITLAB_TOKEN }}@gitlab.com/kdg-ti/the-lab/teams-24-25/k10s/k10s.git"
-
-  mirror-github-to-gitlab-issue:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get issue data from GitHub
-        run: |
-          ISSUES=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/EliasDeHondt/K10s/issues")
-          echo "$ISSUES" | jq -r '.[2].title'
-          echo "$ISSUES" | jq -r '.[2].body'
-
-      - name: Post issue data to GitLab
-        run: |
-          echo "$ISSUES" | jq -c '.[]' | while read issue; do
-            TITLE=$(echo "$issue" | jq -r '.title')
-            DESCRIPTION=$(echo "$issue" | jq -r '.body')
-            
-            curl -X POST -H "PRIVATE-TOKEN: ${{ secrets.GITLAB_TOKEN }}" \
-              -d "title=$TITLE&description=$DESCRIPTION" \
-              "https://gitlab.com/api/v4/projects/${{ secrets.GITLAB_PROJECT_ID }}/issues"
-          done
