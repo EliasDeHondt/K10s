@@ -15,7 +15,7 @@ COPY ./default.conf /etc/nginx/conf.d/default.conf
 
 COPY ./css /usr/share/nginx/html/css
 COPY ./fonts /usr/share/nginx/html/fonts
-COPY ./images /usr/share/nginx/html/images
+COPY src/assets/images /usr/share/nginx/html/images
 COPY ./includes /usr/share/nginx/html/includes
 COPY ./js /usr/share/nginx/html/js
 COPY ./pages /usr/share/nginx/html/pages
