@@ -1,85 +1,59 @@
-<!DOCTYPE html>
-<!--Author K10s Open Source Team-->
-<html lang="en" id="html">
-    <head>
-        <!--Meta + Title-->
-        <meta charset="utf-8">
-        <title>K10s - Dashboard</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="K10s is a free and open-source Kubernetes management platform.">
-        <!--Meta + Title-->
-        <!--Progressive Web App (PWA) Metadata-->
-        <meta name="theme-color" content="#b6abce">
-        <link rel="manifest" href="/manifest.json">
-        <link rel="apple-touch-icon" href="/images/icon-192x192.png">
-        <!--Progressive Web App (PWA) Metadata-->
-        <!--Favicon-->
-        <link href="/images/icon-192x192.png" rel="icon">
-        <!--Favicon-->
-        <!--CSS-->
-        <link rel="stylesheet" href="/css/dashboard.css">
-        <link rel="stylesheet" href="/css/nav.css">
-        <link rel="stylesheet" href="/css/footer.css">
-        <link rel="stylesheet" href="/css/context-menu.css">
-        <!--CSS-->
-    </head>
-    <body class="dashboard-body">
-        <!--Header-->
-        <header class="dashboard-header">
-            <section class="dashboard-header-section1">
-                <article class="dashboard-header-article">
-                    <h2>Nodes</h2>
-                    <span id="dashboard-header-1"></span> <!-- TODO: id="dashboard-header-1" is for Backend -->
-                </article>
-            </section>
-            <section class="dashboard-header-section2">
-                <article class="dashboard-header-article">
-                    <h2>CPU Usage</h2>
-                    <span id="dashboard-header-2"></span> <!-- TODO: id="dashboard-header-2" is for Backend -->
-                </article>
-            </section>
-            <section class="dashboard-header-section3">
-                <article class="dashboard-header-article">
-                    <h2>RAM Usage</h2>
-                    <span id="dashboard-header-3"></span> <!-- TODO: id="dashboard-header-3" is for Backend -->
-                </article>
-            </section>
-            <section class="dashboard-header-section4">
-                <article class="dashboard-header-article">
-                    <h2>Disk Usage</h2>
-                    <span id="dashboard-header-4"></span> <!-- TODO: id="dashboard-header-4" is for Backend -->
-                </article>
-            </section>
-        </header>
-        <!--Header-->
-        <!--Nav-->
-        <nav class="nav" id="nav"></nav>
-        <!--Nav-->
-        <!--Main-->
-        <main class="dashboard-main" id="dashboard-main">
-            <div class="dashboard-title" id="dashboard-title">K10s</div>
-            <section class="dashboard-main-section">
-                <article class="cursor-move" id="dashboard-main-chart"></article> <!-- TODO: id="dashboard-main-chart" is for Backend -->
-            </section>
-            <section class="dashboard-fullscreen-button cursor-pointer" id="dashboard-fullscreen-button">
-                <svg class="cursor-pointer" viewBox="0 0 16 16">
-                    <path d="M14 3.414L9.414 8 14 12.586v-2.583h2V16h-6v-1.996h2.59L8 9.414l-4.59 4.59H6V16H0v-5.997h2v2.583L6.586 8 2 3.414v2.588H0V0h16v6.002h-2V3.414zm-1.415-1.413H10V0H6v2H3.415L8 6.586 12.585 2z">
-                </svg>
-            </section>
-        </main>
-        <!--Main-->
-        <!--Footer-->
-        <footer class="footer" id="footer"></footer>
-        <!--Footer-->
-        <!--Context Menu-->
-        <section class="context-menu" id="context-menu"></section>
-        <!--Context Menu-->
-        <!--JS-->
-        <script src="/js/modals/settings.js"></script>
-        <script src="/js/main.js"></script>
-        <script src="/js/dashboard.js"></script>
-        <script src="/js/footer.js"></script>
-        <script src="/js/context-menu.js"></script>
-        <!--JS-->
-    </body>
-</html>
+<!--Header-->
+<header class="dashboard-header">
+    <section class="dashboard-header-section1">
+        <article class="dashboard-header-article">
+            <h2>Nodes</h2>
+            <span id="dashboard-header-1"></span> <!-- TODO: id="dashboard-header-1" is for Backend -->
+        </article>
+    </section>
+    <section class="dashboard-header-section2">
+        <article class="dashboard-header-article">
+            <h2>CPU Usage</h2>
+            <span id="dashboard-header-2"></span> <!-- TODO: id="dashboard-header-2" is for Backend -->
+        </article>
+    </section>
+    <section class="dashboard-header-section3">
+        <article class="dashboard-header-article">
+            <h2>RAM Usage</h2>
+            <span id="dashboard-header-3"></span> <!-- TODO: id="dashboard-header-3" is for Backend -->
+        </article>
+    </section>
+    <section class="dashboard-header-section4">
+        <article class="dashboard-header-article">
+            <h2>Disk Usage</h2>
+            <span id="dashboard-header-4"></span> <!-- TODO: id="dashboard-header-4" is for Backend -->
+        </article>
+    </section>
+</header>
+<!--Header-->
+<!--Nav-->
+<nav class="nav" id="nav"></nav>
+<!--Nav-->
+<!--Main-->
+<main class="dashboard-main" id="dashboard-main">
+    <div class="dashboard-title" id="dashboard-title">K10s</div>
+    <section class="dashboard-main-section">
+        <article class="cursor-move" id="dashboard-main-chart"></article> <!-- TODO: id="dashboard-main-chart" is for Backend -->
+    </section>
+    <section class="dashboard-fullscreen-button cursor-pointer" id="dashboard-fullscreen-button">
+      <svg class="cursor-pointer" viewBox="0 0 16 16">
+        <path d="M14 3.414L9.414 8 14 12.586v-2.583h2V16h-6v-1.996h2.59L8 9.414l-4.59 4.59H6V16H0v-5.997h2v2.583L6.586 8 2 3.414v2.588H0V0h16v6.002h-2V3.414zm-1.415-1.413H10V0H6v2H3.415L8 6.586 12.585 2z" />
+      </svg>
+    </section>
+</main>
+<!--Main-->
+
+<!--        &lt;!&ndash;Footer&ndash;&gt;-->
+<!--        <footer class="footer" id="footer"></footer>-->
+<!--        &lt;!&ndash;Footer&ndash;&gt;-->
+
+<!--        &lt;!&ndash;Context Menu&ndash;&gt;-->
+<!--        <section class="context-menu" id="context-menu"></section>-->
+<!--        &lt;!&ndash;Context Menu&ndash;&gt;-->
+<!--        &lt;!&ndash;JS&ndash;&gt;-->
+<!--        <script src="/js/modals/settings.js"></script>-->
+<!--        <script src="/js/main.js"></script>-->
+<!--        <script src="/js/dashboard.js"></script>-->
+<!--        <script src="/js/footer.js"></script>-->
+<!--        <script src="/js/context-menu.js"></script>-->
+<!--        &lt;!&ndash;JS&ndash;&gt;-->
