@@ -42,27 +42,27 @@
 
 /* Cursor */
 * {
-    cursor: url('../svg/cursor-auto.svg'), auto;
+    cursor: url('assets/svg/cursor-auto.svg'), auto;
 }
 
 .cursor-default {
-    cursor: url('../svg/cursor-default.svg'), default;
+    cursor: url('assets/svg/cursor-default.svg'), default;
 }
 
 .cursor-pointer {
-    cursor: url('../svg/cursor-pointer.svg'), pointer;
+    cursor: url('assets/svg/cursor-pointer.svg'), pointer;
 }
 
 .cursor-wait {
-    cursor: url('../svg/cursor-wait.svg'), wait;
+    cursor: url('assets/svg/cursor-wait.svg'), wait;
 }
 
 .cursor-text {
-    cursor: url('../svg/cursor-text.svg'), text;
+    cursor: url('assets/svg/cursor-text.svg'), text;
 }
 
 .cursor-move {
-    cursor: url('../svg/cursor-move.svg'), move;
+    cursor: url('assets/svg/cursor-move.svg'), move;
 }
 /* Cursor */
 
