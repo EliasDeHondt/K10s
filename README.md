@@ -5,9 +5,12 @@
 
 1. [📘Table of Contents](#📘table-of-contents)
 2. [🖖Introduction](#🖖introduction)
-    1. [👉Key Features:](#👉key-features)
+    1. [👉Key Features](#👉key-features)
 3. [🎨Color Scheme](#🎨color-scheme)
-4. [📚How to Deploy](#📚how-to-deploy)
+4. [🎥Video](#🎥video)
+5. [✒️Pitch](#✒️pitch)
+6. [📷Photos](#📷photos)
+7. [📚How to Deploy](#📚how-to-deploy)
 
 ---
 
@@ -17,7 +20,7 @@
 
 > If you find this project helpful or interesting, feel free to ⭐️ **star this repository** on GitHub. Your support helps us grow and reach more users in the community!
 
-### 👉Key Features:  
+### 👉Key Features
 - Visualize the full hierarchy of your Kubernetes ecosystem, from superclusters to individual pools, nodes and pods...
 - Gain real-time insights into cluster performance and management.
 - Simplify complex Kubernetes structures into an understandable format for developers and administrators alike.
@@ -27,6 +30,22 @@ To ensure proper use and contribution, please refer to the following documentati
 - 🔒 [SECURITY](/SECURITY.md): Guidelines for identifying and reporting vulnerabilities.
 - 🤝 [CONTRIBUTING](/CONTRIBUTING.md): Instructions for contributing to the project and submitting pull requests.
 - 📝 [CODE OF CONDUCT](/CODE-OF-CONDUCT.md): Guidelines for participating in the community and maintaining a respectful environment.
+
+## 🎥Video
+
+<video controls>
+    <source src="/Assets/video.mp4" type="video/mp4">
+</video>
+
+## ✒️Pitch
+
+- 💜K10s is your go-to tool for effortlessly exploring the hierarchy and structure of a Kubernetes clusters.🤍 By harnessing the power of the Kubernetes API, K10s delivers an intuitive and detailed overview of your cluster architecture.🩵
+
+## 📷Photos
+
+![photo 1](/Assets/photo1.png)
+
+![photo 2](/Assets/photo2.png)
 
 ## 🎨Color Scheme
 
