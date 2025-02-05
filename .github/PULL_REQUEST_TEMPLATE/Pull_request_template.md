@@ -4,7 +4,7 @@
 
 1. [📘Table of Contents](#📘table-of-contents)
 2. [🖖Introduction](#🖖introduction)
-3. [📚To Do](#📚to-do)
+3. [📎Definition of done Merge Request checklist.](#📎definition-of-done-merge-request-checklist)
 
 ---
 
