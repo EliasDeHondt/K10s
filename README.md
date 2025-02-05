@@ -33,9 +33,7 @@ To ensure proper use and contribution, please refer to the following documentati
 
 ## 🎥Video
 
-<video controls>
-    <source src="/Assets/video.mp4" type="video/mp4">
-</video>
+![video](/Assets/video.mp4)
 
 ## ✒️Pitch
 
