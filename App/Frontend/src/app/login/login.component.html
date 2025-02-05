@@ -1,0 +1,31 @@
+<!-- login.component.html -->
+<div class="login-body">
+  <header class="login-cube">
+    <link rel="stylesheet" href="styles.css" />
+    <svg class="login-svg" width="100%" height="100%" viewBox="0 0 885 455">
+      <g transform="translate(50, 250) scale(0.05)">
+        <polygon class="login-polygon-1" points="254.639,503.599 32.773,392.665 32.773,119.599 254.639,230.532"></polygon>
+        <polygon class="login-polygon-1" points="254.639,503.599 476.506,392.665 476.506,119.599 254.639,230.532"></polygon>
+        <polygon class="login-polygon-1" points="32.773,119.599 246.106,8.665 476.506,119.599 254.639,230.532"></polygon>
+      </g>
+      <!-- Add additional cubes -->
+    </svg>
+  </header>
+
+  <!-- Login Form -->
+  <main class="login-container">
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" [(ngModel)]="username" name="username" required />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" [(ngModel)]="password" name="password" required />
+      </div>
+
+      <button type="submit">Login</button>
+    </form>
+  </main>
+</div>
