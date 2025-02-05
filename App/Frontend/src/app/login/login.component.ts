@@ -1,7 +1,7 @@
 import anime from 'animejs';
-import {Component, ViewEncapsulation} from '@angular/core';
+import {Component} from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {loadExternalContent} from '../../main';
+// import {loadExternalContent} from '../../main';
 
 @Component({
   selector: 'app-login',
