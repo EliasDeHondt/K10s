@@ -1,1 +1,311 @@
-/* You can add global styles to this file, and also import other style files */
+/**********************************/
+/* @since 01/01/2025              */
+/* @author K10s Open Source Team  */
+/**********************************/
+
+/* Global Styles */
+:root[data-theme="dark"] {
+    --text: #ecf1f4;
+    --background: #040c10;
+    --primary: #004b7a;
+    --secondary: #3c3154;
+    --tertiary: #262b2e;
+    --quaternary: #1f2326;
+    --accent: #5f4270;
+}
+
+:root[data-theme="light"] {
+    --text: #0b1013;
+    --background: #eff7fb;
+    --primary: #85d0ff;
+    --secondary: #b6abce;
+    --tertiary: #e8eff3;
+    --quaternary: #dedfed;
+    --accent: #ac8fbd;
+}
+
+:root {
+    --radius: 12px;
+    --spacing: 16px;
+    --shadow: rgba(0, 0, 0, 0.1);
+}
+
+:root { /* Kubernetes status colors */
+    --status-green: #28a745;
+    --status-read: #f44336;
+    --status-orange: #ffa500;
+    --status-purple: #9c27b0;
+    --status-blue: #007bff;
+    --status-grey: #9e9e9e;
+}
+/* Global Styles */
+
+/* Cursor */
+* {
+    cursor: url('../svg/cursor-auto.svg'), auto;
+}
+
+.cursor-default {
+    cursor: url('../svg/cursor-default.svg'), default;
+}
+
+.cursor-pointer {
+    cursor: url('../svg/cursor-pointer.svg'), pointer;
+}
+
+.cursor-wait {
+    cursor: url('../svg/cursor-wait.svg'), wait;
+}
+
+.cursor-text {
+    cursor: url('../svg/cursor-text.svg'), text;
+}
+
+.cursor-move {
+    cursor: url('../svg/cursor-move.svg'), move;
+}
+/* Cursor */
+
+/* Fonts */
+@font-face { /* cyrillic-ext */
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    src: url(../fonts/inter-cyrillic-ext.woff2) format('woff2');
+    unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+
+@font-face { /* cyrillic */
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    src: url(../fonts/inter-cyrillic.woff2) format('woff2');
+    unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face { /* greek-ext */
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    src: url(../fonts/inter-greek-ext.woff2) format('woff2');
+    unicode-range: U+1F00-1FFF;
+}
+
+@font-face { /* greek */
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    src: url(../fonts/inter-greek.woff2) format('woff2');
+    unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+
+@font-face { /* vietnamese */
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    src: url(../fonts/inter-vietnamese.woff2) format('woff2');
+    unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+
+@font-face { /* latin-ext */
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    src: url(../fonts/inter-latin-ext.woff2) format('woff2');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face { /* latin */
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    src: url(../fonts/inter-latin.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* Fonts */
+
+/* Global Body */
+body {
+    background-color: var(--secondary);
+    font-family: 'Inter', Arial;
+}
+/* Global Body */
+
+/* Global Selection */
+::selection {
+    background-color: var(--primary);
+    color: var(--text);
+}
+/* Global Selection */
+
+/* Global Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--quaternary);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--tertiary);
+    border-radius: var(--radius);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--secondary);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background-color: var(--primary);
+}
+
+::-webkit-scrollbar-corner {
+    background-color: var(--quaternary);
+}
+
+::-webkit-scrollbar-button {
+    display: none;
+}
+
+::-webkit-scrollbar-track-piece {
+    display: none;
+}
+
+::-webkit-scrollbar-corner {
+    display: none;
+}
+
+::-webkit-resizer {
+    display: none;
+}
+/* Global Scrollbar */
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 4;
+}
+
+.modal-article {
+    background-color: var(--tertiary);
+    margin: 2.5% auto;
+    padding: var(--spacing);
+    border: 1px solid var(--primary);
+    width: 85%;
+    max-width: 410px;
+    overflow-y: visible;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 5;
+    position: relative;
+}
+
+.modal-article h2 {
+    color: var(--primary);
+    margin: 0;
+    padding: 10px;
+    border-bottom: 1px solid var(--primary);
+    font-size: 1.5rem;
+}
+
+.modal-close-button {
+    color: var(--primary);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.modal-close-button:hover, .modal-close-button:focus {
+    color: var(--secondary);
+    text-decoration: none;
+}
+
+.modal-theme-toggle-button {
+    background-color: var(--primary);
+    color: var(--text);
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.5s ease;
+}
+
+.modal-theme-toggle-button:hover {
+    background-color: var(--accent);
+}
+
+.modal-theme-toggle-button svg {
+    fill: var(--tertiary);
+    width: 24px;
+    height: 24px;
+    margin-top: 2px;
+    padding: 0px;
+    transition: fill 0.3s ease;
+}
+
+.modal-dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    z-index: 6;
+}
+
+.modal-dropdown-button {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--primary);
+    border-radius: 5px;
+    background-color: var(--background);
+    color: var(--text);
+    font-size: 16px;
+    text-align: left;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.modal-dropdown-button:hover {
+    background-color: var(--accent);
+    border-color: var(--primary);
+    color: var(--background);
+}
+
+.modal-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    right: 0;
+    background-color: var(--background);
+    border: 1px solid var(--primary);
+    border-radius: 5px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    z-index: 6;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    display: none;
+}
+
+.modal-dropdown-menu li {
+    color: var(--text);
+    padding: 10px 15px;
+    font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.modal-dropdown-menu li:hover {
+    background-color: var(--accent);
+    color: var(--background);
+}
+
+.modal-dropdown.show .modal-dropdown-menu {
+    display: block;
+}
+/* Modal */
