@@ -33,7 +33,7 @@ To ensure proper use and contribution, please refer to the following documentati
 
 ## 🎥Video
 
-![video](/Assets/video.mp4)
+[Watch our video on the K10s website](https://k10s.eliasdh.com)
 
 ## ✒️Pitch
 
