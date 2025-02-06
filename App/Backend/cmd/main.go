@@ -6,6 +6,7 @@ package main
 
 import (
 	"github.com/eliasdehondt/K10s/App/Backend/cmd/auth"
+	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes/handlers"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,7 +16,7 @@ func main() {
 
 	r.POST("/login", auth.HandleLogin)
 	r.GET("/logout", auth.HandleLogout)
-
+	r.GET("/nodes", handlers.GetNodesHandler)
 	secured := r.Group("/secured")
 	secured.Use(auth.AuthMiddleware())
 	secured.GET("/", func(c *gin.Context) {
