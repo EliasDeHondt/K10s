@@ -1,6 +1,7 @@
 import anime from 'animejs';
 import {Component} from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import {Router, RouterModule} from "@angular/router";
 // import {loadExternalContent} from '../../main';
 
 @Component({
@@ -8,14 +9,20 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  imports: [FormsModule],
+  imports: [FormsModule,RouterModule],
 })
 export class LoginComponent {
   username: string = '';
   password: string = '';
+  constructor(private router: Router) {}
 
-  onSubmit() {
-    console.log('Login attempt:', { username: this.username, password: this.password });
+  onSubmit() { //todo met backend
+    console.log(this.username, this.password);
+    if (this.username && this.password) {
+      this.router.navigate(['/dashboard']);
+    } else {
+      alert('Please enter valid credentials.');
+    }
   }
 }
 
