@@ -79,11 +79,6 @@ kubectl create secret generic k10s-secret-user -n k10s-namespaces --from-literal
 kubectl create secret generic k10s-secret-jwt -n k10s-namespaces --from-literal=JWT_SECRET=$(openssl rand -base64 32) # apt install openssl.
 ```
 
-- Step 1.1: You can also make a separate secret to store a Discord webhook URL (optional):
-```bash
-kubectl create secret generic k10s-secret-discord_webhook -n k10s-namespaces --from-literal=discord_webhook=https://discord.com/api/webhooks/...
-```
-
 - Step 2: Deploy the application:
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/EliasDeHondt/K10s/refs/heads/main/Kubernetes/k10s.yaml
