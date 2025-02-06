@@ -15,7 +15,7 @@ var c = kubernetes.TestFakeClient()
 func GetNodesHandler(ctx *gin.Context) {
 	nodeList, err := getNodes(c)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error has occurred or the request has been timed out."})
 		return
 	}
 	ctx.JSON(http.StatusOK, nodeList)
