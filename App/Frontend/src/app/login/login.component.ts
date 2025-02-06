@@ -2,6 +2,7 @@ import anime from 'animejs';
 import {Component} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {Router, RouterModule} from "@angular/router";
+import {FooterComponent} from "../footer/footer.component";
 // import {loadExternalContent} from '../../main';
 
 @Component({
@@ -9,7 +10,7 @@ import {Router, RouterModule} from "@angular/router";
   standalone: true,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  imports: [FormsModule,RouterModule],
+  imports: [FormsModule, RouterModule, FooterComponent],
 })
 export class LoginComponent {
   username: string = '';

@@ -44,17 +44,11 @@
 </main>
 <!--Main-->
 <!--Footer-->
-<footer class="footer" id="footer"></footer>
+<app-footer class="footer" id="footer"></app-footer>
 <!--Footer-->
+<!--todo Context Menu-->
+<section (contextmenu)="onRightClick($event)">
+    <app-context-menu class="context-menu" id="context-menu"></app-context-menu>
+</section>
 <!--Context Menu-->
-<section class="context-menu" id="context-menu"></section>
-<!--Context Menu-->
-<!--JS-->
-<script src="../../../js/modals/settings.js"></script>
-<script src="../../../js/main.js"></script>
-<script src="../../../js/dashboard.js"></script>
-<script src="../../../js/footer.js"></script>
-<script src="../../../js/context-menu.js"></script>
-<!--JS-->
-<!--JS-->
 </div>
