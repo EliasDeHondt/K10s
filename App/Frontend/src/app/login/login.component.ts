@@ -1,9 +1,8 @@
-import anime from 'animejs';
-import {Component} from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import {Router, RouterModule} from "@angular/router";
-import {FooterComponent} from "../footer/footer.component";
-// import {loadExternalContent} from '../../main';
+import anime from 'animejs/lib/anime.es.js';
+import { FooterComponent } from '../footer/footer.component';
 
 @Component({
   selector: 'app-login',
@@ -12,12 +11,38 @@ import {FooterComponent} from "../footer/footer.component";
   styleUrls: ['./login.component.css'],
   imports: [FormsModule, RouterModule, FooterComponent],
 })
-export class LoginComponent {
+export class LoginComponent implements AfterViewInit {
   username: string = '';
   password: string = '';
+
   constructor(private router: Router) {}
 
-  onSubmit() { //todo met backend
+  ngAfterViewInit() {
+    const cubes = document.querySelectorAll('g');
+    cubes.forEach((cube, index) => {
+      const transform = cube.getAttribute('transform') || 'translate(0,0) scale(1)';
+      const translateMatch = transform.match(/translate\(([^,]+),([^,]+)\)/);
+      const scaleMatch = transform.match(/scale\(([^)]+)\)/);
+
+      const currentTranslateX = translateMatch ? parseFloat(translateMatch[1]) : 0;
+      const currentTranslateY = translateMatch ? parseFloat(translateMatch[2]) : 0;
+      const scale = scaleMatch ? parseFloat(scaleMatch[1]) : 1;
+
+      anime({
+        targets: cube,
+        translateY: [currentTranslateY, currentTranslateY - 150],
+        translateX: [currentTranslateX, currentTranslateX], // No animation
+        scale: [scale, scale], // No animation
+        duration: 1500, // 1.5 seconds
+        direction: 'alternate',
+        loop: true,
+        delay: index * 100,
+        endDelay: (el, i, l) => (l - i) * 100
+      });
+    });
+  }
+
+  onSubmit() {
     console.log(this.username, this.password);
     if (this.username && this.password) {
       this.router.navigate(['/dashboard']);
@@ -26,41 +51,3 @@ export class LoginComponent {
     }
   }
 }
-
-
-//todo: elias code
-
-// // Load external content
-// document.addEventListener('DOMContentLoaded', function() {
-//   loadExternalContent("context-menu", "/includes/context-menu.html");
-// });
-
-// Background animations for login page.
-document.querySelectorAll<SVGElement>('g').forEach(function(cube, index) {
-  const transform = cube.getAttribute('transform');
-  let currentTranslateY = 0;
-  let currentTranslateX = 0;
-  let scale = 1;
-
-  if (transform) {
-    const transformValues = transform.split('(')[1].split(')')[0].split(',');
-
-    currentTranslateX = parseFloat(transformValues[0]) || 0;
-    currentTranslateY = parseFloat(transformValues[1]) || 0;
-
-    const scaleValue = transform.split('scale(')[1]?.split(')')[0];
-    scale = scaleValue ? parseFloat(scaleValue) : 1;
-  }
-
-  anime({
-    targets: cube,
-    translateY: [currentTranslateY, currentTranslateY - 150],
-    translateX: [currentTranslateX, currentTranslateX], // No animation
-    scale: [scale, scale], // No animation
-    duration: 1500, // 1.5 seconds
-    direction: 'alternate',
-    loop: true,
-    delay: index * 100,
-    endDelay: (el, i, l) => (l - i) * 100
-  });
-});
