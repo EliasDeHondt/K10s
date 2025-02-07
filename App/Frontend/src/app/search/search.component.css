@@ -3,7 +3,6 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-
 /* SetUp Grid */
 .search-header { grid-area: header; }
 .search-header-section1 { grid-area: header1; }

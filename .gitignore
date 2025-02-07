@@ -3,5 +3,6 @@
 # @since 01/01/2025             #
 #################################
 
-# Ignore Local Settings For Visual Studio Code
 .vscode
+App/Frontend/node_modules
+App/Frontend/.angular

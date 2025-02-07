@@ -1,279 +1,280 @@
-    <body class="search-body">
-        <!--Header-->
-        <header class="search-header">
-            <section class="search-header-section1">
-                <article class="search-header-article1">
-                    <input class="cursor-text" type="text" id="search-input" placeholder="Search Cluster...">
-                    <button class="cursor-pointer" id="search-button">Search</button>
-                </article>
-            </section>
-            <section class="search-header-section2">
-                <article class="search-header-article2">
-                    <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-1">Nodes</label>
-                    <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-2">Pods</label>
-                    <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-3">Services</label>
-                    <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-4">Deployments</label>
-                    <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-5">ConfigMaps</label>
-                    <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-6">Secrets</label>
-                </article>
-            </section>
-            <section class="search-header-section3">
-                <article class="search-header-article3">
-                    <section class="search-dropdown1">
-                        <button class="search-dropdown-button cursor-pointer" onclick="toggleDropdown('.search-dropdown1')">Node</button>
-                        <ul class="search-dropdown-menu cursor-pointer">
-                            <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown1')">None</li>
-                            <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown1')">Node A</li>
-                            <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown1')">Node B</li>
-                        </ul>
-                    </section>
-                </article>
-                <article class="search-header-article3">
-                    <section class="search-dropdown2">
-                        <button class="search-dropdown-button cursor-pointer" onclick="toggleDropdown('.search-dropdown2')">Cluster</button>
-                        <ul class="search-dropdown-menu cursor-pointer">
-                            <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown2')">None</li>
-                            <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown2')">Cluster A</li>
-                            <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown2')">Cluster B</li>
-                        </ul>
-                    </section>
-                </article>
-                <article class="search-header-article3">
-                    <section class="search-dropdown3">
-                        <button class="search-dropdown-button cursor-pointer" onclick="toggleDropdown('.search-dropdown3')">Namespace</button>
-                        <ul class="search-dropdown-menu cursor-pointer">
-                            <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown3')">None</li>
-                            <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown3')">Webserver001</li>
-                            <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown3')">Database001</li>
-                            <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown3')">Monitoring001</li>
-                        </ul>
-                    </section>
-                </article>
-            </section>
-        </header>
-        <!--Header-->
-        <!--Nav-->
-        <app-nav class="nav" id="nav"></app-nav>
-        <!--Nav-->
-        <!--Main-->
-        <main class="search-main">
-            <table class="search-table"> <!-- TODO: This is test data. Replace with actual data from Backend -->
-                <thead>
-                    <tr>
-                        <th>Cluster Name</th>
-                        <th>Namespace</th>
-                        <th>Pod Name</th>
-                        <th>Status</th>
-                        <th>Restart Count</th>
-                        <th>Last Updated</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Cluster-A</td>
-                        <td>default</td>
-                        <td>nginx-pod-1</td>
-                        <td>Running</td>
-                        <td>0</td>
-                        <td>2025-01-04 10:15:30</td>
-                    </tr>
-                    <tr>
-                        <td>Cluster-B</td>
-                        <td>kube-system</td>
-                        <td>kube-proxy-2</td>
-                        <td>Running</td>
-                        <td>1</td>
-                        <td>2025-01-03 18:45:12</td>
-                    </tr>
-                    <tr>
-                        <td>Cluster-C</td>
-                        <td>production</td>
-                        <td>backend-api-4</td>
-                        <td>CrashLoopBackOff</td>
-                        <td>5</td>
-                        <td>2025-01-04 09:30:45</td>
-                    </tr>
-                    <tr>
-                        <td>Cluster-D</td>
-                        <td>staging</td>
-                        <td>frontend-web-3</td>
-                        <td>Pending</td>
-                        <td>0</td>
-                        <td>2025-01-03 22:12:20</td>
-                    </tr>
-                    <tr>
-                        <td>Cluster-E</td>
-                        <td>monitoring</td>
-                        <td>prometheus-pod-7</td>
-                        <td>Running</td>
-                        <td>2</td>
-                        <td>2025-01-04 08:50:10</td>
-                    </tr>
-                    <tr>
-                        <td>Cluster-F</td>
-                        <td>default</td>
-                        <td>redis-cache-9</td>
-                        <td>Running</td>
-                        <td>0</td>
-                        <td>2025-01-04 07:45:00</td>
-                    </tr>
-                    <tr>
-                        <td>Cluster-G</td>
-                        <td>dev</td>
-                        <td>worker-node-5</td>
-                        <td>ImagePullBackOff</td>
-                        <td>3</td>
-                        <td>2025-01-04 10:00:00</td>
-                    </tr>
-                    <tr>
-                        <td>Cluster-H</td>
-                        <td>test</td>
-                        <td>db-service-10</td>
-                        <td>Running</td>
-                        <td>0</td>
-                        <td>2025-01-04 06:30:30</td>
-                    </tr>
-                    <tr>
-                        <td>Cluster-I</td>
-                        <td>default</td>
-                        <td>nginx-pod-1</td>
-                        <td>Running</td>
-                        <td>0</td>
-                        <td>2025-01-04 10:15:30</td>
-                    </tr>
-                    <tr>
-                        <td>Cluster-J</td>
-                        <td>kube-system</td>
-                        <td>kube-proxy-2</td>
-                        <td>Running</td>
-                        <td>1</td>
-                        <td>2025-01-03 18:45:12</td>
-                    </tr>
-                    <tr>
-                        <td>Cluster-L</td>
-                        <td>production</td>
-                        <td>backend-api-4</td>
-                        <td>CrashLoopBackOff</td>
-                        <td>5</td>
-                        <td>2025-01-04 09:30:45</td>
-                    </tr>
-                    <tr>
-                        <td>Cluster-M</td>
-                        <td>staging</td>
-                        <td>frontend-web-3</td>
-                        <td>Pending</td>
-                        <td>0</td>
-                        <td>2025-01-03 22:12:20</td>
-                    </tr>
-                    <tr>
-                        <td>Cluster-O</td>
-                        <td>monitoring</td>
-                        <td>prometheus-pod-7</td>
-                        <td>Running</td>
-                        <td>2</td>
-                        <td>2025-01-04 08:50:10</td>
-                    </tr>
-                    <tr>
-                        <td>Cluster-P</td>
-                        <td>default</td>
-                        <td>redis-cache-9</td>
-                        <td>Running</td>
-                        <td>0</td>
-                        <td>2025-01-04 07:45:00</td>
-                    </tr>
-                    <tr>
-                        <td>Cluster-K</td>
-                        <td>dev</td>
-                        <td>worker-node-5</td>
-                        <td>ImagePullBackOff</td>
-                        <td>3</td>
-                        <td>2025-01-04 10:00:00</td>
-                    </tr>
-                    <tr>
-                        <td>Cluster-R</td>
-                        <td>test</td>
-                        <td>db-service-10</td>
-                        <td>Running</td>
-                        <td>0</td>
-                        <td>2025-01-04 06:30:30</td>
-                    </tr>
-                    <tr>
-                        <td>Cluster-S</td>
-                        <td>default</td>
-                        <td>nginx-pod-1</td>
-                        <td>Running</td>
-                        <td>0</td>
-                        <td>2025-01-04 10:15:30</td>
-                    </tr>
-                    <tr>
-                        <td>Cluster-T</td>
-                        <td>default</td>
-                        <td>redis-cache-9</td>
-                        <td>Running</td>
-                        <td>0</td>
-                        <td>2025-01-04 07:45:00</td>
-                    </tr>
-                    <tr>
-                        <td>Cluster-V</td>
-                        <td>dev</td>
-                        <td>worker-node-5</td>
-                        <td>ImagePullBackOff</td>
-                        <td>3</td>
-                        <td>2025-01-04 10:00:00</td>
-                    </tr>
-                    <tr>
-                        <td>Cluster-W</td>
-                        <td>test</td>
-                        <td>db-service-10</td>
-                        <td>Running</td>
-                        <td>0</td>
-                        <td>2025-01-04 06:30:30</td>
-                    </tr>
-                    <tr>
-                        <td>Cluster-X</td>
-                        <td>default</td>
-                        <td>nginx-pod-1</td>
-                        <td>Running</td>
-                        <td>0</td>
-                        <td>2025-01-04 10:15:30</td>
-                    </tr>
-                    <tr>
-                        <td>Cluster-Y</td>
-                        <td>dev</td>
-                        <td>worker-node-5</td>
-                        <td>ImagePullBackOff</td>
-                        <td>3</td>
-                        <td>2025-01-04 10:00:00</td>
-                    </tr>
-                    <tr>
-                        <td>Cluster-Z</td>
-                        <td>test</td>
-                        <td>db-service-10</td>
-                        <td>Running</td>
-                        <td>0</td>
-                        <td>2025-01-04 06:30:30</td>
-                    </tr>
-                </tbody>
-            </table>
-            <section class="search-main-pagination">
-                <button class="cursor-pointer">20</button>
-                <button class="cursor-pointer">50</button>
-                <button class="cursor-pointer">100</button>
-                <button class="cursor-pointer">All</button>
-            </section>
-        </main>
-        <!--Main-->
-        <!--Footer-->
-        <app-footer class="footer" id="footer"></app-footer>
-        <!--Footer-->
-        <!--Context Menu-->
-        <section class="context-menu" id="context-menu"></section>
-        <!--Context Menu-->
-        <!--JS-->
-        <script src="../../../js/modals/settings.js"></script>
-        <script src="../../../js/main.js"></script>
-        <script src="../../../js/search.js"></script>
-        <script src="../../../js/footer.js"></script>
-        <script src="../../../js/context-menu.js"></script>
-        <!--JS-->
-    </body>
+<!--Author K10s Open Source Team-->
+<body class="search-body">
+    <!--Header-->
+    <header class="search-header">
+        <section class="search-header-section1">
+            <article class="search-header-article1">
+                <input class="cursor-text" type="text" id="search-input" placeholder="Search Cluster...">
+                <button class="cursor-pointer" id="search-button">Search</button>
+            </article>
+        </section>
+        <section class="search-header-section2">
+            <article class="search-header-article2">
+                <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-1">Nodes</label>
+                <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-2">Pods</label>
+                <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-3">Services</label>
+                <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-4">Deployments</label>
+                <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-5">ConfigMaps</label>
+                <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-6">Secrets</label>
+            </article>
+        </section>
+        <section class="search-header-section3">
+            <article class="search-header-article3">
+                <section class="search-dropdown1">
+                    <button class="search-dropdown-button cursor-pointer" onclick="toggleDropdown('.search-dropdown1')">Node</button>
+                    <ul class="search-dropdown-menu cursor-pointer">
+                        <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown1')">None</li>
+                        <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown1')">Node A</li>
+                        <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown1')">Node B</li>
+                    </ul>
+                </section>
+            </article>
+            <article class="search-header-article3">
+                <section class="search-dropdown2">
+                    <button class="search-dropdown-button cursor-pointer" onclick="toggleDropdown('.search-dropdown2')">Cluster</button>
+                    <ul class="search-dropdown-menu cursor-pointer">
+                        <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown2')">None</li>
+                        <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown2')">Cluster A</li>
+                        <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown2')">Cluster B</li>
+                    </ul>
+                </section>
+            </article>
+            <article class="search-header-article3">
+                <section class="search-dropdown3">
+                    <button class="search-dropdown-button cursor-pointer" onclick="toggleDropdown('.search-dropdown3')">Namespace</button>
+                    <ul class="search-dropdown-menu cursor-pointer">
+                        <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown3')">None</li>
+                        <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown3')">Webserver001</li>
+                        <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown3')">Database001</li>
+                        <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown3')">Monitoring001</li>
+                    </ul>
+                </section>
+            </article>
+        </section>
+    </header>
+    <!--Header-->
+    <!--Nav-->
+    <app-nav class="nav" id="nav"></app-nav>
+    <!--Nav-->
+    <!--Main-->
+    <main class="search-main">
+        <table class="search-table"> <!-- TODO: This is test data. Replace with actual data from Backend -->
+            <thead>
+                <tr>
+                    <th>Cluster Name</th>
+                    <th>Namespace</th>
+                    <th>Pod Name</th>
+                    <th>Status</th>
+                    <th>Restart Count</th>
+                    <th>Last Updated</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Cluster-A</td>
+                    <td>default</td>
+                    <td>nginx-pod-1</td>
+                    <td>Running</td>
+                    <td>0</td>
+                    <td>2025-01-04 10:15:30</td>
+                </tr>
+                <tr>
+                    <td>Cluster-B</td>
+                    <td>kube-system</td>
+                    <td>kube-proxy-2</td>
+                    <td>Running</td>
+                    <td>1</td>
+                    <td>2025-01-03 18:45:12</td>
+                </tr>
+                <tr>
+                    <td>Cluster-C</td>
+                    <td>production</td>
+                    <td>backend-api-4</td>
+                    <td>CrashLoopBackOff</td>
+                    <td>5</td>
+                    <td>2025-01-04 09:30:45</td>
+                </tr>
+                <tr>
+                    <td>Cluster-D</td>
+                    <td>staging</td>
+                    <td>frontend-web-3</td>
+                    <td>Pending</td>
+                    <td>0</td>
+                    <td>2025-01-03 22:12:20</td>
+                </tr>
+                <tr>
+                    <td>Cluster-E</td>
+                    <td>monitoring</td>
+                    <td>prometheus-pod-7</td>
+                    <td>Running</td>
+                    <td>2</td>
+                    <td>2025-01-04 08:50:10</td>
+                </tr>
+                <tr>
+                    <td>Cluster-F</td>
+                    <td>default</td>
+                    <td>redis-cache-9</td>
+                    <td>Running</td>
+                    <td>0</td>
+                    <td>2025-01-04 07:45:00</td>
+                </tr>
+                <tr>
+                    <td>Cluster-G</td>
+                    <td>dev</td>
+                    <td>worker-node-5</td>
+                    <td>ImagePullBackOff</td>
+                    <td>3</td>
+                    <td>2025-01-04 10:00:00</td>
+                </tr>
+                <tr>
+                    <td>Cluster-H</td>
+                    <td>test</td>
+                    <td>db-service-10</td>
+                    <td>Running</td>
+                    <td>0</td>
+                    <td>2025-01-04 06:30:30</td>
+                </tr>
+                <tr>
+                    <td>Cluster-I</td>
+                    <td>default</td>
+                    <td>nginx-pod-1</td>
+                    <td>Running</td>
+                    <td>0</td>
+                    <td>2025-01-04 10:15:30</td>
+                </tr>
+                <tr>
+                    <td>Cluster-J</td>
+                    <td>kube-system</td>
+                    <td>kube-proxy-2</td>
+                    <td>Running</td>
+                    <td>1</td>
+                    <td>2025-01-03 18:45:12</td>
+                </tr>
+                <tr>
+                    <td>Cluster-L</td>
+                    <td>production</td>
+                    <td>backend-api-4</td>
+                    <td>CrashLoopBackOff</td>
+                    <td>5</td>
+                    <td>2025-01-04 09:30:45</td>
+                </tr>
+                <tr>
+                    <td>Cluster-M</td>
+                    <td>staging</td>
+                    <td>frontend-web-3</td>
+                    <td>Pending</td>
+                    <td>0</td>
+                    <td>2025-01-03 22:12:20</td>
+                </tr>
+                <tr>
+                    <td>Cluster-O</td>
+                    <td>monitoring</td>
+                    <td>prometheus-pod-7</td>
+                    <td>Running</td>
+                    <td>2</td>
+                    <td>2025-01-04 08:50:10</td>
+                </tr>
+                <tr>
+                    <td>Cluster-P</td>
+                    <td>default</td>
+                    <td>redis-cache-9</td>
+                    <td>Running</td>
+                    <td>0</td>
+                    <td>2025-01-04 07:45:00</td>
+                </tr>
+                <tr>
+                    <td>Cluster-K</td>
+                    <td>dev</td>
+                    <td>worker-node-5</td>
+                    <td>ImagePullBackOff</td>
+                    <td>3</td>
+                    <td>2025-01-04 10:00:00</td>
+                </tr>
+                <tr>
+                    <td>Cluster-R</td>
+                    <td>test</td>
+                    <td>db-service-10</td>
+                    <td>Running</td>
+                    <td>0</td>
+                    <td>2025-01-04 06:30:30</td>
+                </tr>
+                <tr>
+                    <td>Cluster-S</td>
+                    <td>default</td>
+                    <td>nginx-pod-1</td>
+                    <td>Running</td>
+                    <td>0</td>
+                    <td>2025-01-04 10:15:30</td>
+                </tr>
+                <tr>
+                    <td>Cluster-T</td>
+                    <td>default</td>
+                    <td>redis-cache-9</td>
+                    <td>Running</td>
+                    <td>0</td>
+                    <td>2025-01-04 07:45:00</td>
+                </tr>
+                <tr>
+                    <td>Cluster-V</td>
+                    <td>dev</td>
+                    <td>worker-node-5</td>
+                    <td>ImagePullBackOff</td>
+                    <td>3</td>
+                    <td>2025-01-04 10:00:00</td>
+                </tr>
+                <tr>
+                    <td>Cluster-W</td>
+                    <td>test</td>
+                    <td>db-service-10</td>
+                    <td>Running</td>
+                    <td>0</td>
+                    <td>2025-01-04 06:30:30</td>
+                </tr>
+                <tr>
+                    <td>Cluster-X</td>
+                    <td>default</td>
+                    <td>nginx-pod-1</td>
+                    <td>Running</td>
+                    <td>0</td>
+                    <td>2025-01-04 10:15:30</td>
+                </tr>
+                <tr>
+                    <td>Cluster-Y</td>
+                    <td>dev</td>
+                    <td>worker-node-5</td>
+                    <td>ImagePullBackOff</td>
+                    <td>3</td>
+                    <td>2025-01-04 10:00:00</td>
+                </tr>
+                <tr>
+                    <td>Cluster-Z</td>
+                    <td>test</td>
+                    <td>db-service-10</td>
+                    <td>Running</td>
+                    <td>0</td>
+                    <td>2025-01-04 06:30:30</td>
+                </tr>
+            </tbody>
+        </table>
+        <section class="search-main-pagination">
+            <button class="cursor-pointer">20</button>
+            <button class="cursor-pointer">50</button>
+            <button class="cursor-pointer">100</button>
+            <button class="cursor-pointer">All</button>
+        </section>
+    </main>
+    <!--Main-->
+    <!--Footer-->
+    <app-footer class="footer" id="footer"></app-footer>
+    <!--Footer-->
+    <!--Context Menu-->
+    <section class="context-menu" id="context-menu"></section>
+    <!--Context Menu-->
+    <!--JS-->
+    <script src="../../../js/modals/settings.js"></script>
+    <script src="../../../js/main.js"></script>
+    <script src="../../../js/search.js"></script>
+    <script src="../../../js/footer.js"></script>
+    <script src="../../../js/context-menu.js"></script>
+    <!--JS-->
+</body>
