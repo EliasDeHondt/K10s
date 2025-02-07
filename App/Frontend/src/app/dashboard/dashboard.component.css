@@ -3,8 +3,6 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-@import url('/css/global.css');
-
 /* SetUp Grid */
 .dashboard-header { grid-area: header; }
 .dashboard-header-section1 { grid-area: header1; }

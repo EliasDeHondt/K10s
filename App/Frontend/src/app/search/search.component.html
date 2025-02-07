@@ -1,28 +1,3 @@
-<!DOCTYPE html>
-<!--Author K10s Open Source Team-->
-<html lang="en">
-    <head>
-        <!--Meta + Title-->
-        <meta charset="utf-8">
-        <title>K10s - Search</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="K10s is a free and open-source Kubernetes management platform.">
-        <!--Meta + Title-->
-        <!--Progressive Web App (PWA) Metadata-->
-        <meta name="theme-color" content="#b6abce">
-        <link rel="manifest" href="/manifest.json">
-        <link rel="apple-touch-icon" href="/images/icon-192x192.png">
-        <!--Progressive Web App (PWA) Metadata-->
-        <!--Favicon-->
-        <link href="/images/icon-192x192.png" rel="icon">
-        <!--Favicon-->
-        <!--CSS-->
-        <link rel="stylesheet" href="/css/search.css">
-        <link rel="stylesheet" href="/css/nav.css">
-        <link rel="stylesheet" href="/css/footer.css">
-        <link rel="stylesheet" href="/css/context-menu.css">
-        <!--CSS-->
-    </head>
     <body class="search-body">
         <!--Header-->
         <header class="search-header">
@@ -78,7 +53,7 @@
         </header>
         <!--Header-->
         <!--Nav-->
-        <nav class="nav" id="nav"></nav>
+        <app-nav class="nav" id="nav"></app-nav>
         <!--Nav-->
         <!--Main-->
         <main class="search-main">
@@ -289,17 +264,16 @@
         </main>
         <!--Main-->
         <!--Footer-->
-        <footer class="footer" id="footer"></footer>
+        <app-footer class="footer" id="footer"></app-footer>
         <!--Footer-->
         <!--Context Menu-->
         <section class="context-menu" id="context-menu"></section>
         <!--Context Menu-->
         <!--JS-->
-        <script src="/js/modals/settings.js"></script>
-        <script src="/js/main.js"></script>
-        <script src="/js/search.js"></script>
-        <script src="/js/footer.js"></script>
-        <script src="/js/context-menu.js"></script>
+        <script src="../../../js/modals/settings.js"></script>
+        <script src="../../../js/main.js"></script>
+        <script src="../../../js/search.js"></script>
+        <script src="../../../js/footer.js"></script>
+        <script src="../../../js/context-menu.js"></script>
         <!--JS-->
     </body>
-</html>

@@ -3,7 +3,6 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-@import url('/css/global.css');
 
 /* SetUp Grid */
 .search-header { grid-area: header; }
