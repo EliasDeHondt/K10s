@@ -4,7 +4,7 @@
 /**********************************/
 
 /* Footer */
-.footer {
+::ng-deep  .footer {
     background-color: var(--tertiary);
     border-radius: var(--radius);
     box-shadow: 2px 0 5px var(--shadow);
