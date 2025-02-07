@@ -125,7 +125,7 @@
 /* Fonts */
 
 /* Global Body */
-body {
+.global-body {
     background-color: var(--secondary);
     font-family: 'Inter', Arial;
 }
