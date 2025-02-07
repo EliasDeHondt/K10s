@@ -1,4 +1,4 @@
-import { Component,ViewChild } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {NavComponent} from '../nav/nav.component';
 import {FooterComponent} from "../footer/footer.component";
 import {ContextMenuComponent} from "../context-menu/context-menu.component";
