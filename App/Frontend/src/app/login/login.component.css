@@ -3,42 +3,7 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-/* Global Styles */
-:host([data-theme="dark"]) {
-  --text: #ecf1f4;
-  --background: #040c10;
-  --primary: #004b7a;
-  --secondary: #3c3154;
-  --tertiary: #262b2e;
-  --quaternary: #1f2326;
-  --accent: #5f4270;
-}
 
-:host([data-theme="light"]) {
-  --text: #0b1013;
-  --background: #eff7fb;
-  --primary: #85d0ff;
-  --secondary: #b6abce;
-  --tertiary: #e8eff3;
-  --quaternary: #dedfed;
-  --accent: #ac8fbd;
-}
-
-:host {
-  --radius: 12px;
-  --spacing: 16px;
-  --shadow: rgba(0, 0, 0, 0.1);
-
-  /* Kubernetes status colors */
-  --status-green: #28a745;
-  --status-read: #f44336;
-  --status-orange: #ffa500;
-  --status-purple: #9c27b0;
-  --status-blue: #007bff;
-  --status-grey: #9e9e9e;
-}
-
-/* Global Styles */
 .login-body {
   background-color: var(--background);
   display: flex;
