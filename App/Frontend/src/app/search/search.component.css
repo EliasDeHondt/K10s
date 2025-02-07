@@ -22,7 +22,7 @@
     grid-template-rows: 1fr 10fr 0.5fr;
     gap: 16px;
     padding: 10px;
-    height: 96vh;
+    height: 95vh;
 }
 /* SetUp Grid */
 
@@ -219,7 +219,7 @@
 
 .search-table tbody {
     display: block;
-    max-height: calc(100vh - 310px);
+    max-height: calc(100vh - 320px);
     overflow-y: auto;
 }
 

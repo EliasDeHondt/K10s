@@ -13,14 +13,7 @@ LABEL org.opencontainers.image.description "This is the frontend image for the a
 COPY ./nginx.conf /etc/nginx/nginx.conf
 COPY ./default.conf /etc/nginx/conf.d/default.conf
 
-COPY ./css /usr/share/nginx/html/css
-COPY ./fonts /usr/share/nginx/html/fonts
-COPY src/assets/images /usr/share/nginx/html/images
-COPY ./includes /usr/share/nginx/html/includes
-COPY ./js /usr/share/nginx/html/js
-COPY ./pages /usr/share/nginx/html/pages
-COPY src/assets/svg /usr/share/nginx/html/svg
-COPY ./manifest.json /usr/share/nginx/html/manifest.json
+COPY ./dist/frontend /usr/share/nginx/html
 
 EXPOSE 8080
 

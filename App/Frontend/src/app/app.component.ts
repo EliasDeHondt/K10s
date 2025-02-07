@@ -7,7 +7,7 @@ import { Component, inject } from '@angular/core';
 import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { filter, map } from 'rxjs/operators';
-import {CommonModule} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-root',
@@ -21,19 +21,19 @@ export class AppComponent {
     private titleService = inject(Title);
 
     constructor() {
-      if (this.titleService) {
-        this.router.events.pipe(
-          filter(event => event instanceof NavigationEnd),
-          map(() => {
-            let route = this.router.routerState.root;
-            while (route.firstChild) {
-              route = route.firstChild;
-            }
-            return route.snapshot.data['title'] || 'Standaard Titel';
-          })
-        ).subscribe(title => {
-          this.titleService.setTitle(title);  // Should now work
-        });
-      }
+        if (this.titleService) {
+            this.router.events.pipe(
+                filter(event => event instanceof NavigationEnd),
+                map(() => {
+                    let route = this.router.routerState.root;
+                    while (route.firstChild) {
+                        route = route.firstChild;
+                    }
+                    return route.snapshot.data['title'] || 'Standaard Titel';
+                })
+            ).subscribe(title => {
+                this.titleService.setTitle(title);
+            });
+        }
     }
 }

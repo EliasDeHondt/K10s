@@ -7,14 +7,13 @@ import { Component, AfterViewInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import anime from 'animejs/lib/anime.es.js';
-import { FooterComponent } from '../footer/footer.component';
 
 @Component({
     selector: 'app-login',
     standalone: true,
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css'],
-    imports: [FormsModule, RouterModule, FooterComponent],
+    imports: [FormsModule, RouterModule],
 })
 
 export class LoginComponent implements AfterViewInit {
@@ -49,11 +48,10 @@ export class LoginComponent implements AfterViewInit {
     }
 
     onSubmit() {
-        console.log(this.username, this.password);
         if (this.username && this.password) {
-        this.router.navigate(['/dashboard']);
+            this.router.navigate(['/dashboard']);
         } else {
-        alert('Please enter valid credentials.');
+            alert('Please enter valid credentials.');
         }
     }
 }

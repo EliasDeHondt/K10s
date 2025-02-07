@@ -1,40 +1,36 @@
-<div class="dashboard-body">
-    <!--Header-->
+<!--Author K10s Open Source Team-->
+<body class="dashboard-body">
     <header class="dashboard-header">
         <section class="dashboard-header-section1">
             <article class="dashboard-header-article">
                 <h2>Nodes</h2>
-                <span id="dashboard-header-1"></span> <!-- TODO: id="dashboard-header-1" is for Backend -->
+                <span id="dashboard-header-1"></span> <!-- TODO -->
             </article>
         </section>
         <section class="dashboard-header-section2">
             <article class="dashboard-header-article">
                 <h2>CPU Usage</h2>
-                <span id="dashboard-header-2"></span> <!-- TODO: id="dashboard-header-2" is for Backend -->
+                <span id="dashboard-header-2"></span> <!-- TODO -->
             </article>
         </section>
         <section class="dashboard-header-section3">
             <article class="dashboard-header-article">
                 <h2>RAM Usage</h2>
-                <span id="dashboard-header-3"></span> <!-- TODO: id="dashboard-header-3" is for Backend -->
+                <span id="dashboard-header-3"></span> <!-- TODO -->
             </article>
         </section>
         <section class="dashboard-header-section4">
             <article class="dashboard-header-article">
                 <h2>Disk Usage</h2>
-                <span id="dashboard-header-4"></span> <!-- TODO: id="dashboard-header-4" is for Backend -->
+                <span id="dashboard-header-4"></span> <!-- TODO -->
             </article>
         </section>
     </header>
-    <!--Header-->
-    <!--Nav-->
     <app-nav class="nav" id="nav"></app-nav>
-    <!--Nav-->
-    <!--Main-->
     <main class="dashboard-main" id="dashboard-main" #dashboardMain>
-        <div class="dashboard-title" id="dashboard-title" #dashboardTitle>K10s</div>
+        <section class="dashboard-title" id="dashboard-title" #dashboardTitle>K10s</section>
         <section class="dashboard-main-section">
-            <article class="cursor-move" id="dashboard-main-chart"></article> <!-- TODO: id="dashboard-main-chart" is for Backend -->
+            <article class="cursor-move" id="dashboard-main-chart"></article> <!-- TODO -->
         </section>
         <section class="dashboard-fullscreen-button cursor-pointer" id="dashboard-fullscreen-button">
             <svg class="cursor-pointer" viewBox="0 0 16 16">
@@ -42,13 +38,5 @@
             </svg>
         </section>
     </main>
-    <!--Main-->
-    <!--Footer-->
     <app-footer class="footer" id="footer"></app-footer>
-    <!--Footer-->
-    <!--Context Menu-->
-    <section (contextmenu)="onRightClick($event)">
-        <app-context-menu class="context-menu" id="context-menu"></app-context-menu>
-    </section>
-    <!--Context Menu-->
-</div>
+</body>

@@ -30,6 +30,18 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      - name: Set up Node.js (voor Angular)
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Install dependencies
+        run: |
+            cd ./App/Frontend
+            npm install
+      - name: Build Angular Application
+        run: |
+          cd ./App/Frontend
+          npm run build --prod
       - name: Login to GHCR
         run: |
           echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u eliasdehondt --password-stdin
