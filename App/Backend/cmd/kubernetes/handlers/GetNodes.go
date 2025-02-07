@@ -33,7 +33,7 @@ func getNodes(c *fake.Clientset) (*[]kubernetes.Node, error) {
 	var nodeList []kubernetes.Node
 
 	for _, node := range list.Items {
-		nodeList = append(nodeList, kubernetes.NewNode(node))
+		nodeList = append(nodeList, kubernetes.NewNode(node, c))
 	}
 	return &nodeList, nil
 }
