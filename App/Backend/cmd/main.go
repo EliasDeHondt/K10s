@@ -16,12 +16,11 @@ func main() {
 
 	r.POST("/login", auth.HandleLogin)
 	r.GET("/logout", auth.HandleLogout)
-	r.GET("/nodes", handlers.GetNodesHandler)
+
 	secured := r.Group("/secured")
 	secured.Use(auth.AuthMiddleware())
-	secured.GET("/", func(c *gin.Context) {
-		println("Test print")
-	})
+	secured.GET("/nodes", handlers.GetNodesHandler)
+	secured.GET("/pods", handlers.GetPodsHandler)
 
 	err := r.Run(":8080")
 	if err != nil {

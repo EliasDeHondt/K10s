@@ -10,28 +10,28 @@ import (
 	"time"
 )
 
-func GetNodesHandler(ctx *gin.Context) {
-	nodeList, err := getNodes(c)
+func GetPodsHandler(ctx *gin.Context) {
+	podList, err := getPods(c)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error has occurred or the request has been timed out."})
 		return
 	}
-	ctx.JSON(http.StatusOK, nodeList)
+	ctx.JSON(http.StatusOK, podList)
 }
 
-func getNodes(c *fake.Clientset) (*[]kubernetes.Node, error) {
+func getPods(c *fake.Clientset) (*[]kubernetes.Pod, error) {
 	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	list, err := c.CoreV1().Nodes().List(ct, metav1.ListOptions{})
+	list, err := c.CoreV1().Pods("").List(ct, metav1.ListOptions{})
 	if err != nil {
 		return nil, err
 	}
 
-	var nodeList []kubernetes.Node
+	var podList []kubernetes.Pod
 
-	for _, node := range list.Items {
-		nodeList = append(nodeList, kubernetes.NewNode(node, c))
+	for _, pod := range list.Items {
+		podList = append(podList, kubernetes.NewPod(pod, c))
 	}
-	return &nodeList, nil
+	return &podList, nil
 }
