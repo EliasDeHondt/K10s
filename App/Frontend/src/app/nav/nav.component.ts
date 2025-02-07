@@ -5,19 +5,21 @@
 
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from "@angular/router";
+import {CommonModule} from "@angular/common";
 
 @Component({
     selector: 'app-nav',
     templateUrl: './nav.component.html',
     standalone: true,
     imports: [
-        RouterLink
+        RouterLink,CommonModule
     ],
     styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
     githubStars: string = "⭐ Loading...";
-    showSettingsModal: boolean = false; // Controls modal visibility
+
+    showSettingsModal: boolean = false;
     settingsConfig = {
         title: "Settings",
         languages: [
