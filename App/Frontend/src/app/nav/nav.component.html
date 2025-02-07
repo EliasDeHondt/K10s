@@ -34,7 +34,8 @@
                 <span class="cursor-pointer">Settings</span>
             </a>
         </li>
-        <section *ngIf="showSettingsModal" class="modal">
+
+        <section class="modal">
             <article class="modal-article">
                 <span class="modal-close-button cursor-pointer" (click)="closeSettingsModal()">x</span>
                 <h2>{{ settingsConfig.title }}</h2>
@@ -46,8 +47,8 @@
                 </button>
                 <br><br>
                 <section class="modal-dropdown">
-                    <button class="modal-dropdown-button cursor-pointer" (click)="toggleDropdown('.modal-dropdown')">Choose Language</button>
-                    <ul class="modal-dropdown-menu cursor-pointer">
+                    <button class="modal-dropdown-button cursor-pointer" (click)="toggleDropdown()">Choose Language</button>
+                    <ul class="modal-dropdown-menu cursor-pointer" *ngIf="dropdownOpen">
                         <li *ngFor="let lang of settingsConfig.languages" (click)="changeLanguage(lang.code)">
                             {{ lang.name }}
                         </li>
@@ -55,6 +56,7 @@
                 </section>
             </article>
         </section>
+
         <li class="nav-menu-item">
             <a href="https://k10s.eliasdh.com">
                 <svg viewBox="0 0 24 24">
