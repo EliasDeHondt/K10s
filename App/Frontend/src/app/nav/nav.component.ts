@@ -4,30 +4,28 @@
 /**********************************/
 
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from "@angular/router";
-import {CommonModule} from "@angular/common";
+import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-nav',
     templateUrl: './nav.component.html',
     standalone: true,
-    imports: [
-        RouterLink,CommonModule
-    ],
+    imports: [RouterLink, CommonModule],
     styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
-    githubStars: string = "⭐ Loading...";
+    githubStars: string = '⭐ Loading...';
+    dropdownOpen: boolean = false;
 
-    showSettingsModal: boolean = false;
     settingsConfig = {
-        title: "Settings",
+        title: 'Settings',
         languages: [
-        { code: 'en', name: 'English' },
-        { code: 'nl', name: 'Dutch' },
-        { code: 'fr', name: 'French' },
-        { code: 'de', name: 'German' },
-        { code: 'zh', name: 'Chinese' }
+            { code: 'en', name: 'English' },
+            { code: 'nl', name: 'Dutch' },
+            { code: 'fr', name: 'French' },
+            { code: 'de', name: 'German' },
+            { code: 'zh', name: 'Chinese' }
         ]
     };
 
@@ -38,38 +36,35 @@ export class NavComponent implements OnInit {
     }
 
     async fetchGitHubStars() {
-            try {
-                const response = await fetch("https://api.github.com/repos/EliasDeHondt/K10s", {
-                    headers: { "User-Agent": "Mozilla/5.0" }
-                });
-                if (!response.ok) throw new Error("GitHub API request failed");
+        try {
+            const response = await fetch('https://api.github.com/repos/EliasDeHondt/K10s', {
+                headers: { 'User-Agent': 'Mozilla/5.0' }
+            });
+            if (!response.ok) throw new Error('GitHub API request failed');
 
-                const data = await response.json();
-                this.githubStars = `⭐ ${data.stargazers_count}`;
-            } catch (error) {
-                this.githubStars = "❌ Error fetching stars";
-            }
+            const data = await response.json();
+            this.githubStars = `⭐ ${data.stargazers_count}`;
+        } catch (error) {
+            this.githubStars = '❌ Error fetching stars';
         }
+    }
 
     openSettingsModal() {
-        this.showSettingsModal = true;
+        document.querySelector('.modal')?.classList.add('show');
     }
 
     closeSettingsModal() {
-        this.showSettingsModal = false;
+        document.querySelector('.modal')?.classList.remove('show');
     }
 
     changeLanguage(languageCode: string) {
-        console.log("Language changed to:", languageCode);
         this.closeSettingsModal();
     }
 
-    // Toggle Dropdown
-    toggleDropdown(id: string) {
-        document.querySelector(id)?.classList.toggle('show');
+    toggleDropdown() {
+        this.dropdownOpen = !this.dropdownOpen;
     }
 
-    // Dark Mode
     toggleTheme() {
         const htmlElement = document.documentElement;
         const currentTheme = htmlElement.getAttribute('data-theme');
