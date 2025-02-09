@@ -8,3 +8,9 @@ GET {{base}}/pods
 
 ### GET SERVICES
 GET {{base}}/services
+
+### GET CONFIGMAPS
+GET {{base}}/configMaps
+
+### GET SECRETS
+GET {{base}}/secrets

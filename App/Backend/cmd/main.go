@@ -22,6 +22,8 @@ func main() {
 	r.GET("/nodes", handlers.GetNodesHandler)
 	r.GET("/pods", handlers.GetPodsHandler)
 	r.GET("/services", handlers.GetServicesHandler)
+	r.GET("/configMaps", handlers.GetConfigMapsHandler)
+	r.GET("/secrets", handlers.GetSecretsHandler)
 
 	err := r.Run(":8080")
 	if err != nil {

@@ -9,28 +9,28 @@ import (
 	"time"
 )
 
-func GetNodesHandler(ctx *gin.Context) {
-	nodeList, err := getNodes(c)
+func GetConfigMapsHandler(ctx *gin.Context) {
+	configMapList, err := getConfigMaps(c)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error has occurred or the request has been timed out."})
 		return
 	}
-	ctx.JSON(http.StatusOK, nodeList)
+	ctx.JSON(http.StatusOK, configMapList)
 }
 
-func getNodes(c kubernetes.IClient) (*[]kubernetes.Node, error) {
+func getConfigMaps(c kubernetes.IClient) (*[]kubernetes.ConfigMap, error) {
 	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	list, err := c.GetNodes().List(ct, metav1.ListOptions{})
+	list, err := c.GetConfigMaps("").List(ct, metav1.ListOptions{})
 	if err != nil {
 		return nil, err
 	}
 
-	var nodeList = make([]kubernetes.Node, len(list.Items))
+	var configMapList = make([]kubernetes.ConfigMap, len(list.Items))
 
-	for _, node := range list.Items {
-		nodeList = append(nodeList, kubernetes.NewNode(node, c))
+	for _, configMap := range list.Items {
+		configMapList = append(configMapList, kubernetes.NewConfigMap(configMap))
 	}
-	return &nodeList, nil
+	return &configMapList, nil
 }

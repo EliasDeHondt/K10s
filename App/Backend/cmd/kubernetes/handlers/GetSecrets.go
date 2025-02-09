@@ -9,8 +9,8 @@ import (
 	"time"
 )
 
-func GetNodesHandler(ctx *gin.Context) {
-	nodeList, err := getNodes(c)
+func GetSecretsHandler(ctx *gin.Context) {
+	nodeList, err := getSecrets(c)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error has occurred or the request has been timed out."})
 		return
@@ -18,19 +18,19 @@ func GetNodesHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, nodeList)
 }
 
-func getNodes(c kubernetes.IClient) (*[]kubernetes.Node, error) {
+func getSecrets(c kubernetes.IClient) (*[]kubernetes.Secret, error) {
 	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	list, err := c.GetNodes().List(ct, metav1.ListOptions{})
+	list, err := c.GetSecrets("").List(ct, metav1.ListOptions{})
 	if err != nil {
 		return nil, err
 	}
 
-	var nodeList = make([]kubernetes.Node, len(list.Items))
+	var secretList = make([]kubernetes.Secret, len(list.Items))
 
-	for _, node := range list.Items {
-		nodeList = append(nodeList, kubernetes.NewNode(node, c))
+	for _, secret := range list.Items {
+		secretList = append(secretList, kubernetes.NewSecret(secret))
 	}
-	return &nodeList, nil
+	return &secretList, nil
 }
