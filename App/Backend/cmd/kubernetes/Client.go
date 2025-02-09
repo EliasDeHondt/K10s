@@ -3,6 +3,7 @@ package kubernetes
 import (
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/kubernetes/fake"
+	appsv1 "k8s.io/client-go/kubernetes/typed/apps/v1"
 	corev1 "k8s.io/client-go/kubernetes/typed/core/v1"
 )
 
@@ -13,6 +14,7 @@ type IClient interface {
 	GetEndpoints(namespace string) corev1.EndpointsInterface
 	GetConfigMaps(namespace string) corev1.ConfigMapInterface
 	GetSecrets(namespace string) corev1.SecretInterface
+	GetDeployments(namespace string) appsv1.DeploymentInterface
 }
 
 type FakeClient struct {
@@ -47,6 +49,10 @@ func (client *FakeClient) GetSecrets(namespace string) corev1.SecretInterface {
 	return client.Client.CoreV1().Secrets(namespace)
 }
 
+func (client *FakeClient) GetDeployments(namespace string) appsv1.DeploymentInterface {
+	return client.Client.AppsV1().Deployments(namespace)
+}
+
 func (client *Client) GetNodes() corev1.NodeInterface {
 	return client.Client.CoreV1().Nodes()
 }
@@ -69,4 +75,8 @@ func (client *Client) GetConfigMaps(namespace string) corev1.ConfigMapInterface 
 
 func (client *Client) GetSecrets(namespace string) corev1.SecretInterface {
 	return client.Client.CoreV1().Secrets(namespace)
+}
+
+func (client *Client) GetDeployments(namespace string) appsv1.DeploymentInterface {
+	return client.Client.AppsV1().Deployments(namespace)
 }

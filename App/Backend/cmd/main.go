@@ -19,11 +19,13 @@ func main() {
 
 	secured := r.Group("/secured")
 	secured.Use(auth.AuthMiddleware())
+	//TODO: Move to secured after testing
 	r.GET("/nodes", handlers.GetNodesHandler)
 	r.GET("/pods", handlers.GetPodsHandler)
 	r.GET("/services", handlers.GetServicesHandler)
 	r.GET("/configMaps", handlers.GetConfigMapsHandler)
 	r.GET("/secrets", handlers.GetSecretsHandler)
+	r.GET("/deployments", handlers.GetDeploymentsHandler)
 
 	err := r.Run(":8080")
 	if err != nil {
