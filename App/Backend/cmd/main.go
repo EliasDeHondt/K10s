@@ -19,8 +19,8 @@ func main() {
 
 	secured := r.Group("/secured")
 	secured.Use(auth.AuthMiddleware())
-	secured.GET("/nodes", handlers.GetNodesHandler)
-	secured.GET("/pods", handlers.GetPodsHandler)
+	r.GET("/nodes", handlers.GetNodesHandler)
+	r.GET("/pods", handlers.GetPodsHandler)
 
 	err := r.Run(":8080")
 	if err != nil {

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/client-go/kubernetes/fake"
 	"log"
 	"time"
 )
@@ -27,7 +26,7 @@ type PodTree struct {
 
 //TODO: remove fake clientset and use a real clientset
 
-func NewPod(pod v1.Pod, clientset *fake.Clientset) Pod {
+func NewPod(pod v1.Pod, clientset IClient) Pod {
 
 	runningServices, totalServices := getServiceHealthForPod(pod, clientset)
 
@@ -61,7 +60,7 @@ func isPodOnline(pod *v1.Pod) string {
 	return "NO STATUS ❓"
 }
 
-func getServiceHealthForPod(pod v1.Pod, clientset *fake.Clientset) (int, int) {
+func getServiceHealthForPod(pod v1.Pod, clientset IClient) (int, int) {
 	services := getServicesForPod(pod, clientset)
 	totalServices := len(services)
 	runningServices := 0
@@ -75,12 +74,12 @@ func getServiceHealthForPod(pod v1.Pod, clientset *fake.Clientset) (int, int) {
 	return runningServices, totalServices
 }
 
-func getServicesForPod(pod v1.Pod, clientset *fake.Clientset) []string {
+func getServicesForPod(pod v1.Pod, clientset IClient) []string {
 	var matchingServices []string
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	services, err := clientset.CoreV1().Services(pod.Namespace).List(ctx, metav1.ListOptions{})
+	services, err := clientset.GetServices(pod.Namespace).List(ctx, metav1.ListOptions{})
 	if err != nil {
 		log.Printf("Error listing services: %v", err)
 		return nil
@@ -111,11 +110,11 @@ func isPodMatchingService(pod v1.Pod, service v1.Service) bool {
 	return true
 }
 
-func isServiceRunning(namespace, serviceName string, clientset *fake.Clientset) bool {
+func isServiceRunning(namespace, serviceName string, clientset IClient) bool {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	endpoints, err := clientset.CoreV1().Endpoints(namespace).Get(ctx, serviceName, metav1.GetOptions{})
+	endpoints, err := clientset.GetEndpoints(namespace).Get(ctx, serviceName, metav1.GetOptions{})
 	if err != nil {
 		log.Printf("Error getting endpoints for service %s: %v", serviceName, err)
 		return false

@@ -8,8 +8,8 @@ import (
 	"time"
 )
 
-func TestFakeClient() *fake.Clientset {
-	clientset := fake.NewClientset()
+func TestFakeClient() IClient {
+	var clientset IClient = &FakeClient{fake.NewClientset()}
 
 	// Create fake nodes with labels and IPs
 	node1 := &corev1.Node{
@@ -56,8 +56,8 @@ func TestFakeClient() *fake.Clientset {
 		},
 	}
 
-	clientset.CoreV1().Nodes().Create(context.TODO(), node1, metav1.CreateOptions{})
-	clientset.CoreV1().Nodes().Create(context.TODO(), node2, metav1.CreateOptions{})
+	clientset.GetNodes().Create(context.TODO(), node1, metav1.CreateOptions{})
+	clientset.GetNodes().Create(context.TODO(), node2, metav1.CreateOptions{})
 
 	return clientset
 }

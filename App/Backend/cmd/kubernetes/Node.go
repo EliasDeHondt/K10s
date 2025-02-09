@@ -5,7 +5,6 @@ import (
 	"fmt"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/client-go/kubernetes/fake"
 	"time"
 )
 
@@ -26,7 +25,7 @@ type NodeTree struct {
 
 //TODO: remove fake clientset and use a real clientset
 
-func NewNode(node v1.Node, clientset *fake.Clientset) Node {
+func NewNode(node v1.Node, clientset IClient) Node {
 	return Node{
 		Name:       node.Name,
 		Status:     isNodeOnline(&node),
@@ -44,10 +43,10 @@ func calculateNodeAge(node *v1.Node) string {
 	return fmt.Sprintf("%d:%d:%d", int(age.Hours()/24), int(age.Hours())%24, int(age.Minutes())%60)
 }
 
-func getPodsInNode(nodeName string, clientset *fake.Clientset) int {
+func getPodsInNode(nodeName string, clientset IClient) int {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	pods, err := clientset.CoreV1().Pods("").List(ctx, metav1.ListOptions{
+	pods, err := clientset.GetPods("").List(ctx, metav1.ListOptions{
 		FieldSelector: "spec.nodeName=" + nodeName,
 	})
 	if err != nil {

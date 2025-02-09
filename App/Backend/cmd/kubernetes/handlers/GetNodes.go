@@ -5,7 +5,6 @@ import (
 	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes"
 	"github.com/gin-gonic/gin"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/client-go/kubernetes/fake"
 	"net/http"
 	"time"
 )
@@ -19,11 +18,11 @@ func GetNodesHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, nodeList)
 }
 
-func getNodes(c *fake.Clientset) (*[]kubernetes.Node, error) {
+func getNodes(c kubernetes.IClient) (*[]kubernetes.Node, error) {
 	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	list, err := c.CoreV1().Nodes().List(ct, metav1.ListOptions{})
+	list, err := c.GetNodes().List(ct, metav1.ListOptions{})
 	if err != nil {
 		return nil, err
 	}

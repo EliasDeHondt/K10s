@@ -1,0 +1,7 @@
+@base=http://localhost:8080
+
+### GET NODES
+GET {{base}}/nodes
+
+### GET PODS
+GET {{base}}/pods
