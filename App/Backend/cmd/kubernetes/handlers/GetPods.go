@@ -10,7 +10,17 @@ import (
 )
 
 func GetPodsHandler(ctx *gin.Context) {
-	podList, err := GetPods(c)
+	namespace, ok := ctx.GetQuery("namespace")
+
+	var podList *[]kubernetes.Pod
+	var err error
+
+	if ok {
+		podList, err = GetPods(c, namespace)
+	} else {
+		podList, err = GetPods(c, "")
+	}
+
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error has occurred or the request has been timed out."})
 		return
@@ -18,11 +28,11 @@ func GetPodsHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, podList)
 }
 
-func GetPods(c kubernetes.IClient) (*[]kubernetes.Pod, error) {
+func GetPods(c kubernetes.IClient, namespace string) (*[]kubernetes.Pod, error) {
 	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	list, err := c.GetPods("").List(ct, metav1.ListOptions{})
+	list, err := c.GetPods(namespace).List(ct, metav1.ListOptions{})
 	if err != nil {
 		return nil, err
 	}
