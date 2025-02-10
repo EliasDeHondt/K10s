@@ -29,8 +29,8 @@ func getServices(c kubernetes.IClient) (*[]kubernetes.Service, error) {
 
 	var serviceList = make([]kubernetes.Service, len(list.Items))
 
-	for _, service := range list.Items {
-		serviceList = append(serviceList, kubernetes.NewService(service))
+	for i, service := range list.Items {
+		serviceList[i] = kubernetes.NewService(service)
 	}
 	return &serviceList, nil
 }

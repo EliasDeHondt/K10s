@@ -29,8 +29,8 @@ func getConfigMaps(c kubernetes.IClient) (*[]kubernetes.ConfigMap, error) {
 
 	var configMapList = make([]kubernetes.ConfigMap, len(list.Items))
 
-	for _, configMap := range list.Items {
-		configMapList = append(configMapList, kubernetes.NewConfigMap(configMap))
+	for i, configMap := range list.Items {
+		configMapList[i] = kubernetes.NewConfigMap(configMap)
 	}
 	return &configMapList, nil
 }

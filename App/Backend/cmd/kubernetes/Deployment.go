@@ -33,7 +33,7 @@ func getReadyPods(deployment *v1.Deployment) string {
 	totalPods := deployment.Status.Replicas
 	readyPods := deployment.Status.ReadyReplicas
 
-	return fmt.Sprintf("%d/%d", totalPods, readyPods)
+	return fmt.Sprintf("%d/%d", readyPods, totalPods)
 }
 
 func getDeploymentAge(deployment *v1.Deployment) string {

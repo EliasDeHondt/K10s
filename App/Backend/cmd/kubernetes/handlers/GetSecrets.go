@@ -29,8 +29,8 @@ func getSecrets(c kubernetes.IClient) (*[]kubernetes.Secret, error) {
 
 	var secretList = make([]kubernetes.Secret, len(list.Items))
 
-	for _, secret := range list.Items {
-		secretList = append(secretList, kubernetes.NewSecret(secret))
+	for i, secret := range list.Items {
+		secretList[i] = kubernetes.NewSecret(secret)
 	}
 	return &secretList, nil
 }

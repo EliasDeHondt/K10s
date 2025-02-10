@@ -29,8 +29,8 @@ func getPods(c kubernetes.IClient) (*[]kubernetes.Pod, error) {
 
 	var podList = make([]kubernetes.Pod, len(list.Items))
 
-	for _, pod := range list.Items {
-		podList = append(podList, kubernetes.NewPod(pod, c))
+	for i, pod := range list.Items {
+		podList[i] = kubernetes.NewPod(pod, c)
 	}
 	return &podList, nil
 }

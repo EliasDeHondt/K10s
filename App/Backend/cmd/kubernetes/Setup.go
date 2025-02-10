@@ -12,54 +12,6 @@ import (
 func TestFakeClient() IClient {
 	var clientset IClient = &FakeClient{fake.NewClientset()}
 
-	node1 := &corev1.Node{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: "node-1",
-			Labels: map[string]string{
-				"kubernetes.io/role": "worker",
-				"version":            "v1.25.0",
-			},
-			CreationTimestamp: metav1.NewTime(time.Now().Add(-48 * time.Hour)),
-		},
-		Status: corev1.NodeStatus{
-			Conditions: []corev1.NodeCondition{
-				{
-					Type:   corev1.NodeReady,
-					Status: corev1.ConditionTrue,
-				},
-			},
-			Addresses: []corev1.NodeAddress{
-				{Type: corev1.NodeInternalIP, Address: "192.168.1.1"},
-			},
-		},
-	}
-
-	node2 := &corev1.Node{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: "node-2",
-			Labels: map[string]string{
-				"kubernetes.io/role": "master",
-				"version":            "v1.25.0",
-			},
-			CreationTimestamp: metav1.NewTime(time.Now().Add(-24 * time.Hour)), // 1-day-old node
-		},
-		Status: corev1.NodeStatus{
-			Conditions: []corev1.NodeCondition{
-				{
-					Type:   corev1.NodeReady,
-					Status: corev1.ConditionFalse,
-				},
-			},
-			Addresses: []corev1.NodeAddress{
-				{Type: corev1.NodeInternalIP, Address: "192.168.1.2"},
-			},
-		},
-	}
-
-	clientset.GetNodes().Create(context.TODO(), node1, metav1.CreateOptions{})
-	clientset.GetNodes().Create(context.TODO(), node2, metav1.CreateOptions{})
-
-	// 🟢 Create Fake Nodes
 	nodes := []*corev1.Node{
 		{
 			ObjectMeta: metav1.ObjectMeta{
@@ -102,7 +54,6 @@ func TestFakeClient() IClient {
 		clientset.GetNodes().Create(context.TODO(), node, metav1.CreateOptions{})
 	}
 
-	// 🟢 Create Fake Pods
 	pods := []*corev1.Pod{
 		{
 			ObjectMeta: metav1.ObjectMeta{
@@ -139,7 +90,6 @@ func TestFakeClient() IClient {
 		clientset.GetPods("default").Create(context.TODO(), pod, metav1.CreateOptions{})
 	}
 
-	// 🟢 Create Fake Services
 	services := []*corev1.Service{
 		{
 			ObjectMeta: metav1.ObjectMeta{Name: "service-1", Namespace: "default"},
@@ -156,7 +106,6 @@ func TestFakeClient() IClient {
 
 	var replicas int32 = 3
 
-	// 🟢 Create Fake Deployments
 	deployments := []*appsv1.Deployment{
 		{
 			ObjectMeta: metav1.ObjectMeta{Name: "deployment-1", Namespace: "default"},
@@ -166,7 +115,7 @@ func TestFakeClient() IClient {
 			},
 			Status: appsv1.DeploymentStatus{
 				Replicas:          3,
-				ReadyReplicas:     2, // Simulating 1 pod not ready
+				ReadyReplicas:     2,
 				UpdatedReplicas:   3,
 				AvailableReplicas: 2,
 			},
@@ -176,7 +125,6 @@ func TestFakeClient() IClient {
 		clientset.GetDeployments("default").Create(context.TODO(), deployment, metav1.CreateOptions{})
 	}
 
-	// 🟢 Create Fake Secrets
 	secrets := []*corev1.Secret{
 		{
 			ObjectMeta: metav1.ObjectMeta{Name: "secret-1", Namespace: "default"},
@@ -188,7 +136,6 @@ func TestFakeClient() IClient {
 		clientset.GetSecrets("default").Create(context.TODO(), secret, metav1.CreateOptions{})
 	}
 
-	// 🟢 Create Fake ConfigMaps
 	configMaps := []*corev1.ConfigMap{
 		{
 			ObjectMeta: metav1.ObjectMeta{Name: "configmap-1", Namespace: "default"},

@@ -29,8 +29,8 @@ func getDeployments(c kubernetes.IClient) (*[]kubernetes.Deployment, error) {
 
 	var deploymentList = make([]kubernetes.Deployment, len(list.Items))
 
-	for _, deployment := range list.Items {
-		deploymentList = append(deploymentList, kubernetes.NewDeployment(deployment))
+	for i, deployment := range list.Items {
+		deploymentList[i] = kubernetes.NewDeployment(deployment)
 	}
 	return &deploymentList, nil
 }
