@@ -6,6 +6,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'app-nav',
@@ -29,7 +30,16 @@ export class NavComponent implements OnInit {
         ]
     };
 
-    constructor() {}
+    constructor(private translate: TranslateService) {
+        // Set default language
+        this.translate.setDefaultLang('en');
+
+        // Load preferred language from localStorage (if available)
+        const savedLang = localStorage.getItem('language');
+        if (savedLang) {
+            this.translate.use(savedLang);
+        }
+    }
 
     ngOnInit(): void {
         this.fetchGitHubStars();
@@ -58,8 +68,10 @@ export class NavComponent implements OnInit {
     }
 
     changeLanguage(languageCode: string) {
-        //todo
-        this.closeSettingsModal();
+        // Change the language based on the selected option
+        this.translate.use(languageCode);
+        localStorage.setItem('language', languageCode); // Save the selected language to localStorage
+        this.closeSettingsModal(); // Close the modal after language change
     }
 
     toggleDropdown() {
