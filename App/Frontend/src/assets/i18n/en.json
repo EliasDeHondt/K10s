@@ -1,3 +1,17 @@
 {
-  "LANGUAGE": "Change Language"
+  "NAV": {
+    "LANGUAGE": "Change Language",
+    "DASHBOARD": "Dashboard",
+    "SEARCH": "Zoeken",
+    "SETTINGS": "Instellingen",
+    "LOGOUT": "Uitloggen",
+    "DESCRIPTION": "Beschrijving",
+    "REPOSITORY": "Repository",
+    "CLOSE": "Sluiten",
+    "THEME": "Thema"
+  },
+  "FOOTER": {
+    "PART1": "Designed by the",
+    "PART2": "open source team"
+  }
 }

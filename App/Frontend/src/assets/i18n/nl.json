@@ -1,3 +1,17 @@
 {
-  "LANGUAGE": "Taal wijzigen"
+  "NAV": {
+    "LANGUAGE": "Taal wijzigen",
+    "DASHBOARD": "Dashboard",
+    "SEARCH": "Zoeken",
+    "SETTINGS": "Instellingen",
+    "LOGOUT": "Uitloggen",
+    "DESCRIPTION": "Beschrijving",
+    "REPOSITORY": "Repository",
+    "CLOSE": "Sluiten",
+    "THEME": "Thema"
+  },
+  "FOOTER": {
+    "PART1": "Ontworpen door de",
+    "PART2": "open-source ploeg"
+  }
 }
