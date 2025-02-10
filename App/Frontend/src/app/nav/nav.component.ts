@@ -20,13 +20,12 @@ export class NavComponent implements OnInit {
     dropdownOpen: boolean = false;
 
     settingsConfig = {
-        title: 'Settings',
         languages: [
             { code: 'en', name: 'English' },
-            { code: 'nl', name: 'Dutch' },
-            { code: 'fr', name: 'French' },
-            { code: 'de', name: 'German' },
-            { code: 'zh', name: 'Chinese' }
+            { code: 'nl', name: 'Nederlands' },
+            { code: 'fr', name: 'Français' },
+            { code: 'de', name: 'Deutsch' },
+            { code: 'zh', name: '中文' }
         ]
     };
 
