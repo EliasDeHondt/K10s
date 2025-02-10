@@ -2,16 +2,21 @@
   "NAV": {
     "LANGUAGE": "Change Language",
     "DASHBOARD": "Dashboard",
-    "SEARCH": "Zoeken",
-    "SETTINGS": "Instellingen",
-    "LOGOUT": "Uitloggen",
-    "DESCRIPTION": "Beschrijving",
+    "SEARCH": "Search",
+    "SETTINGS": "Settings",
+    "LOGOUT": "Logout",
+    "DESCRIPTION": "Description",
     "REPOSITORY": "Repository",
-    "CLOSE": "Sluiten",
-    "THEME": "Thema"
+    "CLOSE": "Close",
+    "THEME": "Theme"
   },
   "FOOTER": {
     "PART1": "Designed by the",
     "PART2": "open source team"
+  },
+  "LOGIN": {
+    "USERNAME_PLACEHOLDER": "Username",
+    "PASSWORD_PLACEHOLDER": "password",
+    "LOGIN_BUTTON": "Log in"
   }
 }

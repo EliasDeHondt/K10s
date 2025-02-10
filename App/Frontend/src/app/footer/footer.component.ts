@@ -10,9 +10,7 @@ import {TranslatePipe} from "@ngx-translate/core";
     selector: 'app-footer',
     templateUrl: './footer.component.html',
     standalone: true,
-    imports: [
-        TranslatePipe
-    ],
+    imports: [TranslatePipe],
     styleUrls: ['./footer.component.css']
 })
 

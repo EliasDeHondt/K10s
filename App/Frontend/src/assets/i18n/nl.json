@@ -13,5 +13,10 @@
   "FOOTER": {
     "PART1": "Ontworpen door de",
     "PART2": "open-source ploeg"
+  },
+  "LOGIN": {
+    "USERNAME_PLACEHOLDER": "Gebruikersnaam",
+    "PASSWORD_PLACEHOLDER": "Wachtwoord",
+    "LOGIN_BUTTON": "Inloggen"
   }
 }
