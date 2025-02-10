@@ -168,7 +168,7 @@
     transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
 }
 
-.search-dropdown-menu[ng-reflect-ng-if="true"] {
+.search-dropdown-menu.show {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);

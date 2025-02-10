@@ -23,8 +23,8 @@
                     <button class="search-dropdown-button cursor-pointer" (click)="toggleDropdown('searchDropdown1')">
                         Node
                     </button>
-                    <ul class="search-dropdown-menu cursor-pointer" *ngIf="dropdowns['searchDropdown1']">
-                        <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown1')">None</li>
+                    <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown1']">
+                    <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown1')">None</li>
                         <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown1')">Node A</li>
                         <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown1')">Node B</li>
                     </ul>
@@ -36,7 +36,7 @@
                     <button class="search-dropdown-button cursor-pointer" (click)="toggleDropdown('searchDropdown2')">
                         Cluster
                     </button>
-                    <ul class="search-dropdown-menu cursor-pointer" *ngIf="dropdowns['searchDropdown2']">
+                    <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown2']">
                         <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown2')">None</li>
                         <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown2')">Cluster A</li>
                         <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown2')">Cluster B</li>
@@ -49,7 +49,7 @@
                     <button class="search-dropdown-button cursor-pointer" (click)="toggleDropdown('searchDropdown3')">
                         Namespace
                     </button>
-                    <ul class="search-dropdown-menu cursor-pointer" *ngIf="dropdowns['searchDropdown3']">
+                    <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown3']">
                         <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown3')">None</li>
                         <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown3')">Webserver001</li>
                         <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown3')">Database001</li>
