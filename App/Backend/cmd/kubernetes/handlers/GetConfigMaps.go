@@ -10,7 +10,7 @@ import (
 )
 
 func GetConfigMapsHandler(ctx *gin.Context) {
-	configMapList, err := getConfigMaps(c)
+	configMapList, err := GetConfigMaps(c)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error has occurred or the request has been timed out."})
 		return
@@ -18,7 +18,7 @@ func GetConfigMapsHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, configMapList)
 }
 
-func getConfigMaps(c kubernetes.IClient) (*[]kubernetes.ConfigMap, error) {
+func GetConfigMaps(c kubernetes.IClient) (*[]kubernetes.ConfigMap, error) {
 	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 

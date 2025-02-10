@@ -10,7 +10,7 @@ import (
 )
 
 func GetDeploymentsHandler(ctx *gin.Context) {
-	deploymentList, err := getDeployments(c)
+	deploymentList, err := GetDeployments(c)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error has occurred or the request has been timed out."})
 		return
@@ -18,7 +18,7 @@ func GetDeploymentsHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, deploymentList)
 }
 
-func getDeployments(c kubernetes.IClient) (*[]kubernetes.Deployment, error) {
+func GetDeployments(c kubernetes.IClient) (*[]kubernetes.Deployment, error) {
 	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 

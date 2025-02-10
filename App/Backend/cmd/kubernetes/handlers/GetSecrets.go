@@ -10,7 +10,7 @@ import (
 )
 
 func GetSecretsHandler(ctx *gin.Context) {
-	nodeList, err := getSecrets(c)
+	nodeList, err := GetSecrets(c)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error has occurred or the request has been timed out."})
 		return
@@ -18,7 +18,7 @@ func GetSecretsHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, nodeList)
 }
 
-func getSecrets(c kubernetes.IClient) (*[]kubernetes.Secret, error) {
+func GetSecrets(c kubernetes.IClient) (*[]kubernetes.Secret, error) {
 	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 

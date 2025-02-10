@@ -10,7 +10,7 @@ import (
 )
 
 func GetPodsHandler(ctx *gin.Context) {
-	podList, err := getPods(c)
+	podList, err := GetPods(c)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error has occurred or the request has been timed out."})
 		return
@@ -18,7 +18,7 @@ func GetPodsHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, podList)
 }
 
-func getPods(c kubernetes.IClient) (*[]kubernetes.Pod, error) {
+func GetPods(c kubernetes.IClient) (*[]kubernetes.Pod, error) {
 	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 

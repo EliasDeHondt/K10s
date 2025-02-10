@@ -10,7 +10,7 @@ import (
 )
 
 func GetNodesHandler(ctx *gin.Context) {
-	nodeList, err := getNodes(c)
+	nodeList, err := GetNodes(c)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error has occurred or the request has been timed out."})
 		return
@@ -18,7 +18,7 @@ func GetNodesHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, nodeList)
 }
 
-func getNodes(c kubernetes.IClient) (*[]kubernetes.Node, error) {
+func GetNodes(c kubernetes.IClient) (*[]kubernetes.Node, error) {
 	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
