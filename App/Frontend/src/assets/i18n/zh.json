@@ -1,0 +1,46 @@
+{
+  "NAV": {
+    "LANGUAGE": "更改语言",
+    "DASHBOARD": "仪表板",
+    "SEARCH": "搜索",
+    "SETTINGS": "设置",
+    "LOGOUT": "退出登录",
+    "DESCRIPTION": "描述",
+    "REPOSITORY": "仓库",
+    "CLOSE": "关闭",
+    "THEME": "主题"
+  },
+  "FOOTER": {
+    "PART1": "由",
+    "PART2": "开源团队设计"
+  },
+  "LOGIN": {
+    "USERNAME_PLACEHOLDER": "用户名",
+    "PASSWORD_PLACEHOLDER": "密码",
+    "LOGIN_BUTTON": "登录"
+  },
+  "DASHBOARD": {
+    "NODES": "节点",
+    "CPU": "CPU使用率",
+    "RAM": "内存使用率",
+    "DISK": "磁盘使用率"
+  },
+  "SEARCH": {
+    "SEARCH_PLACEHOLDER": "搜索集群...",
+    "SEARCH": "搜索",
+    "NODE": "节点",
+    "PODS": "Pods",
+    "SERVICES": "服务",
+    "DEPLOYMENTS": "部署",
+    "CONFIGMAPS": "配置映射",
+    "SECRETS": "密钥",
+    "CLUSTER": "集群",
+    "NAMESPACE": "命名空间",
+    "CLUSTER_NAME": "集群名称",
+    "POD_NAME": "Pod名称",
+    "STATUS": "状态",
+    "RESTART_COUNT": "重启次数",
+    "LAST_UPDATED": "最后更新",
+    "ALL": "全部"
+  }
+}

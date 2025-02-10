@@ -31,8 +31,6 @@ export class NavComponent implements OnInit {
     };
 
     constructor(private translate: TranslateService) {
-        this.translate.setDefaultLang('en');
-
         const savedLang = localStorage.getItem('language');
         if (savedLang) {
             this.translate.use(savedLang);
@@ -47,7 +45,6 @@ export class NavComponent implements OnInit {
         this.fetchGitHubStars();
 
     }
-
 
     async fetchGitHubStars() {
         try {
