@@ -18,11 +18,6 @@ type Node struct {
 	IP         string
 }
 
-type NodeTree struct {
-	Node Node
-	Pods []Pod
-}
-
 //TODO: remove fake clientset and use a real clientset
 
 func NewNode(node v1.Node, clientset IClient) Node {
