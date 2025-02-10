@@ -48,7 +48,9 @@
                 <br><br>
 
                 <section class="modal-dropdown">
-                    <button class="modal-dropdown-button cursor-pointer" (click)="toggleDropdown()">{{ 'DESCRIPTION' | translate }}</button>
+                    <button class="modal-dropdown-button cursor-pointer" (click)="toggleDropdown()">
+                        {{ 'LANGUAGE' | translate }}
+                    </button>
                     <ul class="modal-dropdown-menu cursor-pointer" *ngIf="dropdownOpen">
                         <li *ngFor="let lang of settingsConfig.languages" (click)="changeLanguage(lang.code)">
                             {{ lang.name }}
