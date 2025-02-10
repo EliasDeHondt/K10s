@@ -10,8 +10,17 @@ import (
 	"os"
 )
 
-var envUsername = os.Getenv("USERNAME")
-var envPassword = os.Getenv("PASSWORD")
+var envUsername, usernameOk = os.LookupEnv("USERNAME")
+var envPassword, passwordOk = os.LookupEnv("PASSWORD")
+
+func Init() {
+	if !usernameOk {
+		envUsername = "admin"
+	}
+	if !passwordOk {
+		envPassword = "password"
+	}
+}
 
 func HandleLogin(ctx *gin.Context) {
 	var credentials struct {

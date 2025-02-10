@@ -1,19 +1,28 @@
 @base=http://localhost:8080
 
+### LOGIN
+POST {{base}}/login
+Content-Type: application/json
+
+{
+  "username": "scrat",
+  "password": "password"
+}
+
 ### GET NODES
-GET {{base}}/nodes
+GET {{base}}/secured/nodes
 
 ### GET PODS
-GET {{base}}/pods
+GET {{base}}/secured/pods
 
 ### GET SERVICES
-GET {{base}}/services
+GET {{base}}/secured/services
 
 ### GET CONFIGMAPS
-GET {{base}}/configMaps
+GET {{base}}/secured/configMaps
 
 ### GET SECRETS
-GET {{base}}/secrets
+GET {{base}}/secured/secrets
 
 ### GET DEPLOYMENTS
-GET {{base}}/deployments
+GET {{base}}/secured/deployments
