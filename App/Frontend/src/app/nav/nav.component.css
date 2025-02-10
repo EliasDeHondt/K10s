@@ -152,7 +152,7 @@
   overflow-y: visible;
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  z-index: 10000; /* Increase z-index */
+  z-index: 10000;
   position: relative;
 }
 
@@ -199,61 +199,57 @@
   padding: 0px;
   transition: fill 0.3s ease;
 }
-
 .modal-dropdown {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-  z-index: 10001; /* Ensure the dropdown is above the modal */
+    visibility: visible;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    z-index: 10001;
 }
 
 .modal-dropdown-button {
-  width: 100%;
-  padding: 12px 15px;
-  border: 1px solid var(--primary);
-  border-radius: 5px;
-  background-color: var(--background);
-  color: var(--text);
-  font-size: 16px;
-  text-align: left;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--primary);
+    border-radius: 5px;
+    background-color: var(--background);
+    color: var(--text);
+    font-size: 16px;
+    text-align: left;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .modal-dropdown-button:hover {
-  background-color: var(--accent);
-  border-color: var(--primary);
-  color: var(--background);
+    background-color: var(--accent);
+    border-color: var(--primary);
+    color: var(--background);
 }
 
 .modal-dropdown-menu {
-  position: absolute;
-  top: calc(100% + 5px);
-  left: 0;
-  right: 0;
-  background-color: var(--background);
-  border: 1px solid var(--primary);
-  border-radius: 5px;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  z-index: 10002; /* Ensure the dropdown is above other elements */
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  display: none;
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    right: 0;
+    background-color: var(--background);
+    border: 1px solid var(--primary);
+    border-radius: 5px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    z-index: 10002;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .modal-dropdown-menu li {
-  color: var(--text);
-  padding: 10px 15px;
-  font-size: 16px;
-  transition: background-color 0.3s ease, color 0.3s ease;
+    color: var(--text);
+    padding: 10px 15px;
+    font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .modal-dropdown-menu li:hover {
-  background-color: var(--accent);
-  color: var(--background);
+    background-color: var(--accent);
+    color: var(--background);
 }
 
-.modal-dropdown.show .modal-dropdown-menu {
-  display: block;
-}
 /* Modal */
