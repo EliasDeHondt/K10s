@@ -20,35 +20,44 @@
         <section class="search-header-section3">
             <article class="search-header-article3">
                 <section class="search-dropdown1">
-                    <button class="search-dropdown-button cursor-pointer" onclick="toggleDropdown('.search-dropdown1')">Node</button>
-                    <ul class="search-dropdown-menu cursor-pointer">
-                        <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown1')">None</li>
-                        <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown1')">Node A</li>
-                        <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown1')">Node B</li>
+                    <button class="search-dropdown-button cursor-pointer" (click)="toggleDropdown('searchDropdown1')">
+                        Node
+                    </button>
+                    <ul class="search-dropdown-menu cursor-pointer" *ngIf="dropdowns['searchDropdown1']">
+                        <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown1')">None</li>
+                        <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown1')">Node A</li>
+                        <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown1')">Node B</li>
                     </ul>
                 </section>
             </article>
+
             <article class="search-header-article3">
                 <section class="search-dropdown2">
-                    <button class="search-dropdown-button cursor-pointer" onclick="toggleDropdown('.search-dropdown2')">Cluster</button>
-                    <ul class="search-dropdown-menu cursor-pointer">
-                        <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown2')">None</li>
-                        <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown2')">Cluster A</li>
-                        <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown2')">Cluster B</li>
+                    <button class="search-dropdown-button cursor-pointer" (click)="toggleDropdown('searchDropdown2')">
+                        Cluster
+                    </button>
+                    <ul class="search-dropdown-menu cursor-pointer" *ngIf="dropdowns['searchDropdown2']">
+                        <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown2')">None</li>
+                        <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown2')">Cluster A</li>
+                        <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown2')">Cluster B</li>
                     </ul>
                 </section>
             </article>
+
             <article class="search-header-article3">
                 <section class="search-dropdown3">
-                    <button class="search-dropdown-button cursor-pointer" onclick="toggleDropdown('.search-dropdown3')">Namespace</button>
-                    <ul class="search-dropdown-menu cursor-pointer">
-                        <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown3')">None</li>
-                        <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown3')">Webserver001</li>
-                        <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown3')">Database001</li>
-                        <li class="cursor-pointer" onclick="toggleDropdown('.search-dropdown3')">Monitoring001</li>
+                    <button class="search-dropdown-button cursor-pointer" (click)="toggleDropdown('searchDropdown3')">
+                        Namespace
+                    </button>
+                    <ul class="search-dropdown-menu cursor-pointer" *ngIf="dropdowns['searchDropdown3']">
+                        <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown3')">None</li>
+                        <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown3')">Webserver001</li>
+                        <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown3')">Database001</li>
+                        <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown3')">Monitoring001</li>
                     </ul>
                 </section>
             </article>
+
         </section>
     </header>
     <app-nav class="nav" id="nav"></app-nav>

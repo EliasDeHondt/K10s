@@ -58,6 +58,7 @@ export class NavComponent implements OnInit {
     }
 
     changeLanguage(languageCode: string) {
+        //todo
         this.closeSettingsModal();
     }
 
