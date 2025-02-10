@@ -29,8 +29,8 @@ func getNodes(c kubernetes.IClient) (*[]kubernetes.Node, error) {
 
 	var nodeList = make([]kubernetes.Node, len(list.Items))
 
-	for _, node := range list.Items {
-		nodeList = append(nodeList, kubernetes.NewNode(node, c))
+	for i, node := range list.Items {
+		nodeList[i] = kubernetes.NewNode(node, c)
 	}
 	return &nodeList, nil
 }
