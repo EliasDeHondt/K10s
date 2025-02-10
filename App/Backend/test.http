@@ -31,4 +31,4 @@ GET {{base}}/secured/deployments
 GET {{base}}/secured/table?element=nodes
 
 ### GET TABLE (Pods)
-GET {{base}}/secured/table?element=pODs
+GET {{base}}/secured/table?element=pODs&namespace=test

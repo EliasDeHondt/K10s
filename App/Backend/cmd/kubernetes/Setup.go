@@ -49,6 +49,24 @@ func TestFakeClient() IClient {
 				},
 			},
 		},
+		{
+			ObjectMeta: metav1.ObjectMeta{
+				Name: "node-3",
+				Labels: map[string]string{
+					"kubernetes.io/role": "master",
+					"version":            "v1.25.0",
+				},
+				CreationTimestamp: metav1.NewTime(time.Now().Add(-48 * time.Hour)),
+			},
+			Status: corev1.NodeStatus{
+				Conditions: []corev1.NodeCondition{
+					{Type: corev1.NodeReady, Status: corev1.ConditionTrue},
+				},
+				Addresses: []corev1.NodeAddress{
+					{Type: corev1.NodeInternalIP, Address: "192.168.1.3"},
+				},
+			},
+		},
 	}
 	for _, node := range nodes {
 		clientset.GetNodes().Create(context.TODO(), node, metav1.CreateOptions{})
@@ -85,9 +103,25 @@ func TestFakeClient() IClient {
 			},
 			Spec: corev1.PodSpec{NodeName: "node-2"},
 		},
+		{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      "pod-3",
+				Namespace: "test",
+				Labels:    map[string]string{"app": "test-app"},
+			},
+			Status: corev1.PodStatus{
+				Phase: corev1.PodPending,
+				PodIP: "10.0.0.3",
+				ContainerStatuses: []corev1.ContainerStatus{
+					{RestartCount: 1},
+				},
+			},
+			Spec: corev1.PodSpec{NodeName: "node-3"},
+		},
 	}
 	for _, pod := range pods {
-		clientset.GetPods("default").Create(context.TODO(), pod, metav1.CreateOptions{})
+		namespace := pod.GetNamespace()
+		clientset.GetPods(namespace).Create(context.TODO(), pod, metav1.CreateOptions{})
 	}
 
 	services := []*corev1.Service{

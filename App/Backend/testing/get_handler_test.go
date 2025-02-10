@@ -19,7 +19,7 @@ func TestGetNodes(t *testing.T) {
 }
 
 func TestGetPods(t *testing.T) {
-	pods, err := handlers.GetPods(client)
+	pods, err := handlers.GetPods(client, "")
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, pods)
@@ -28,7 +28,7 @@ func TestGetPods(t *testing.T) {
 }
 
 func TestGetServices(t *testing.T) {
-	services, err := handlers.GetServices(client)
+	services, err := handlers.GetServices(client, "")
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, services)
@@ -36,7 +36,7 @@ func TestGetServices(t *testing.T) {
 }
 
 func TestGetDeployments(t *testing.T) {
-	deployments, err := handlers.GetDeployments(client)
+	deployments, err := handlers.GetDeployments(client, "")
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, deployments)
@@ -44,7 +44,7 @@ func TestGetDeployments(t *testing.T) {
 }
 
 func TestGetConfigMaps(t *testing.T) {
-	maps, err := handlers.GetConfigMaps(client)
+	maps, err := handlers.GetConfigMaps(client, "")
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, maps)
@@ -52,7 +52,7 @@ func TestGetConfigMaps(t *testing.T) {
 }
 
 func TestGetSecrets(t *testing.T) {
-	secrets, err := handlers.GetSecrets(client)
+	secrets, err := handlers.GetSecrets(client, "")
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, secrets)
