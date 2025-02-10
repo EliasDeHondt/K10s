@@ -18,11 +18,11 @@ func GetServicesHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, podList)
 }
 
-func GetServices(c kubernetes.IClient) (*[]kubernetes.Service, error) {
+func GetServices(c *kubernetes.IClient) (*[]kubernetes.Service, error) {
 	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	list, err := c.GetServices("").List(ct, metav1.ListOptions{})
+	list, err := (*c).GetServices("").List(ct, metav1.ListOptions{})
 	if err != nil {
 		return nil, err
 	}

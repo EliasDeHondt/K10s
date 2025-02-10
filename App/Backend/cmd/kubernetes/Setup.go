@@ -4,13 +4,84 @@ import (
 	"context"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/kubernetes/fake"
+	"k8s.io/client-go/rest"
+	"k8s.io/metrics/pkg/apis/metrics"
+	metricsv "k8s.io/metrics/pkg/client/clientset/versioned"
 	"time"
 )
 
-func TestFakeClient() IClient {
+func GetClients() (*IClient, *IMetricsClient) {
+	config, err := rest.InClusterConfig()
+
+	if err != nil {
+		client, metricsClient := TestFakeClient()
+		return &client, &metricsClient
+	}
+
+	c, err := kubernetes.NewForConfig(config)
+	if err != nil {
+		client, metricsClient := TestFakeClient()
+		return &client, &metricsClient
+	}
+
+	mc, err := metricsv.NewForConfig(config)
+	if err != nil {
+		client, metricsClient := TestFakeClient()
+		return &client, &metricsClient
+	}
+
+	var client IClient = &Client{c}
+	var metricsClient IMetricsClient = &MetricsClient{mc}
+	return &client, &metricsClient
+}
+
+func TestFakeClient() (IClient, IMetricsClient) {
 	var clientset IClient = &FakeClient{fake.NewClientset()}
+
+	fakeMetricsClient := &FakeMetricsClient{
+		NodeMetrics: map[string]*metrics.NodeMetrics{
+			"node-1": {
+				Usage: map[corev1.ResourceName]resource.Quantity{
+					corev1.ResourceCPU:    resource.MustParse("500m"),
+					corev1.ResourceMemory: resource.MustParse("2Gi"),
+				},
+			},
+			"node-2": {
+				Usage: map[corev1.ResourceName]resource.Quantity{
+					corev1.ResourceCPU:    resource.MustParse("300m"),
+					corev1.ResourceMemory: resource.MustParse("1Gi"),
+				},
+			},
+		},
+		PodMetrics: map[string]*metrics.PodMetrics{
+			"default/pod-1": {
+				Containers: []metrics.ContainerMetrics{
+					{
+						Name: "container-1",
+						Usage: map[corev1.ResourceName]resource.Quantity{
+							corev1.ResourceCPU:    resource.MustParse("200m"),
+							corev1.ResourceMemory: resource.MustParse("512Mi"),
+						},
+					},
+				},
+			},
+			"default/pod-2": {
+				Containers: []metrics.ContainerMetrics{
+					{
+						Name: "container-1",
+						Usage: map[corev1.ResourceName]resource.Quantity{
+							corev1.ResourceCPU:    resource.MustParse("100m"),
+							corev1.ResourceMemory: resource.MustParse("256Mi"),
+						},
+					},
+				},
+			},
+		},
+	}
 
 	nodes := []*corev1.Node{
 		{
@@ -146,5 +217,5 @@ func TestFakeClient() IClient {
 		clientset.GetConfigMaps("default").Create(context.TODO(), configMap, metav1.CreateOptions{})
 	}
 
-	return clientset
+	return clientset, fakeMetricsClient
 }

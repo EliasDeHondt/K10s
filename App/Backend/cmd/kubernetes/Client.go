@@ -5,7 +5,21 @@ import (
 	"k8s.io/client-go/kubernetes/fake"
 	appsv1 "k8s.io/client-go/kubernetes/typed/apps/v1"
 	corev1 "k8s.io/client-go/kubernetes/typed/core/v1"
+	"k8s.io/metrics/pkg/apis/metrics"
+	metricsv "k8s.io/metrics/pkg/client/clientset/versioned"
 )
+
+type IMetricsClient interface {
+}
+
+type FakeMetricsClient struct {
+	NodeMetrics map[string]*metrics.NodeMetrics
+	PodMetrics  map[string]*metrics.PodMetrics
+}
+
+type MetricsClient struct {
+	Client *metricsv.Clientset
+}
 
 type IClient interface {
 	GetNodes() corev1.NodeInterface
