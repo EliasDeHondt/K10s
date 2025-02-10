@@ -3,25 +3,25 @@
     <header class="search-header">
         <section class="search-header-section1">
             <article class="search-header-article1">
-                <input class="cursor-text" type="text" id="search-input" placeholder="Search Cluster...">
-                <button class="cursor-pointer" id="search-button">Search</button>
+                <input class="cursor-text" type="text" id="search-input" [placeholder]="'SEARCH.SEARCH_PLACEHOLDER' | translate">
+                <button class="cursor-pointer" id="search-button">{{ 'SEARCH.SEARCH' | translate }}</button>
             </article>
         </section>
         <section class="search-header-section2">
             <article class="search-header-article2">
-                <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-1">Nodes</label>
-                <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-2">Pods</label>
-                <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-3">Services</label>
-                <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-4">Deployments</label>
-                <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-5">ConfigMaps</label>
-                <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-6">Secrets</label>
+                <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-1">{{ 'DASHBOARD.NODES' | translate }}</label>
+                <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-2">{{ 'SEARCH.PODS' | translate }}</label>
+                <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-3">{{ 'SEARCH.SERVICES' | translate }}</label>
+                <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-4">{{ 'SEARCH.DEPLOYMENTS' | translate }}</label>
+                <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-5">{{ 'SEARCH.CONFIGMAPS' | translate }}</label>
+                <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-6">{{ 'SEARCH.SECRETS' | translate }}</label>
             </article>
         </section>
         <section class="search-header-section3">
             <article class="search-header-article3">
                 <section class="search-dropdown1">
                     <button class="search-dropdown-button cursor-pointer" (click)="toggleDropdown('searchDropdown1')">
-                        Node
+                        {{ 'SEARCH.NODE' | translate }}
                     </button>
                     <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown1']">
                     <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown1')">None</li>
@@ -34,7 +34,7 @@
             <article class="search-header-article3">
                 <section class="search-dropdown2">
                     <button class="search-dropdown-button cursor-pointer" (click)="toggleDropdown('searchDropdown2')">
-                        Cluster
+                        {{ 'SEARCH.CLUSTER' | translate }}
                     </button>
                     <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown2']">
                         <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown2')">None</li>
@@ -47,7 +47,7 @@
             <article class="search-header-article3">
                 <section class="search-dropdown3">
                     <button class="search-dropdown-button cursor-pointer" (click)="toggleDropdown('searchDropdown3')">
-                        Namespace
+                        {{ 'SEARCH.NAMESPACE' | translate }}
                     </button>
                     <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown3']">
                         <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown3')">None</li>
@@ -62,15 +62,16 @@
     </header>
     <app-nav class="nav" id="nav"></app-nav>
     <main class="search-main">
-        <table class="search-table"> <!-- TODO -->
+        <table class="search-table"> <!-- TODO (+ todo translation when real table) -->
             <thead>
                 <tr>
-                    <th>Cluster Name</th>
-                    <th>Namespace</th>
-                    <th>Pod Name</th>
-                    <th>Status</th>
-                    <th>Restart Count</th>
-                    <th>Last Updated</th>
+                    <th>{{ 'SEARCH.CLUSTER_NAME' | translate }}</th>
+                    <th>{{ 'SEARCH.NAMESPACE' | translate }}</th>
+                    <th>{{ 'SEARCH.POD_NAME' | translate }}</th>
+                    <th>{{ 'SEARCH.STATUS' | translate }}</th>
+                    <th>{{ 'SEARCH.RESTART_COUNT' | translate }}</th>
+                    <th>{{ 'SEARCH.LAST_UPDATED' | translate }}</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -264,7 +265,7 @@
             <button class="cursor-pointer">20</button>
             <button class="cursor-pointer">50</button>
             <button class="cursor-pointer">100</button>
-            <button class="cursor-pointer">All</button>
+            <button class="cursor-pointer">{{ 'SEARCH.ALL' | translate }}</button>
         </section>
     </main>
     <app-footer class="footer" id="footer"></app-footer>
