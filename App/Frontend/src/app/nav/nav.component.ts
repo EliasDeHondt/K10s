@@ -6,12 +6,13 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import {TranslatePipe, TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'app-nav',
     templateUrl: './nav.component.html',
     standalone: true,
-    imports: [RouterLink, CommonModule],
+    imports: [RouterLink, CommonModule,TranslatePipe],
     styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
@@ -19,20 +20,29 @@ export class NavComponent implements OnInit {
     dropdownOpen: boolean = false;
 
     settingsConfig = {
-        title: 'Settings',
         languages: [
             { code: 'en', name: 'English' },
-            { code: 'nl', name: 'Dutch' },
-            { code: 'fr', name: 'French' },
-            { code: 'de', name: 'German' },
-            { code: 'zh', name: 'Chinese' }
+            { code: 'nl', name: 'Nederlands' },
+            { code: 'fr', name: 'Français' },
+            { code: 'de', name: 'Deutsch' },
+            { code: 'zh', name: '中文' }
         ]
     };
 
-    constructor() {}
+    constructor(private translate: TranslateService) {
+        const savedLang = localStorage.getItem('language');
+        if (savedLang) {
+            this.translate.use(savedLang);
+        } else {
+            this.translate.use('en');
+        }
+        console.log('Current language:', this.translate.currentLang);
+
+    }
 
     ngOnInit(): void {
         this.fetchGitHubStars();
+
     }
 
     async fetchGitHubStars() {
@@ -58,7 +68,9 @@ export class NavComponent implements OnInit {
     }
 
     changeLanguage(languageCode: string) {
-        //todo
+        this.translate.use(languageCode);
+        localStorage.setItem('language', languageCode);
+        console.log('Language changed to:', languageCode);
         this.closeSettingsModal();
     }
 

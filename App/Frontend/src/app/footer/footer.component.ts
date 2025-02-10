@@ -4,11 +4,13 @@
 /**********************************/
 
 import { Component, OnInit } from '@angular/core';
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     selector: 'app-footer',
     templateUrl: './footer.component.html',
     standalone: true,
+    imports: [TranslatePipe],
     styleUrls: ['./footer.component.css']
 })
 

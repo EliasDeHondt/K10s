@@ -7,20 +7,23 @@ import { Component, AfterViewInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import anime from 'animejs/lib/anime.es.js';
+import {TranslatePipe, TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'app-login',
     standalone: true,
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css'],
-    imports: [FormsModule, RouterModule],
+    imports: [FormsModule, RouterModule, TranslatePipe],
 })
 
 export class LoginComponent implements AfterViewInit {
     username: string = '';
     password: string = '';
 
-    constructor(private router: Router) {}
+    constructor(private router: Router,private translate: TranslateService) {
+        this.translate.setDefaultLang('en');
+    }
 
     ngAfterViewInit() {
         const cubes = document.querySelectorAll('g');

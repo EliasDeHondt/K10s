@@ -6,12 +6,13 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { NavComponent } from '../nav/nav.component';
 import { FooterComponent } from "../footer/footer.component";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css'],
-    imports: [NavComponent, FooterComponent],
+    imports: [NavComponent, FooterComponent, TranslatePipe],
     standalone: true
 })
 
