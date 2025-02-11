@@ -271,7 +271,7 @@
 }
 
 .search-main-pagination button {
-    margin: 0 4px;
+    margin: 0 8px;
     padding: 5px 10px;
     border: 1px solid var(--secondary);
     border-radius: var(--radius);
