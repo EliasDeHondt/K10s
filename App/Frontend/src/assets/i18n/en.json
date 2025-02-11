@@ -39,7 +39,6 @@
         "POD_NAME": "Pod Name",
         "STATUS": "Status",
         "RESTART_COUNT": "Restart Count",
-        "LAST_UPDATED": "Last Updated",
-        "ALL": "All"
+        "LAST_UPDATED": "Last Updated"
     }
 }

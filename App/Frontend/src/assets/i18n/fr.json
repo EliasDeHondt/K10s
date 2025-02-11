@@ -39,7 +39,6 @@
         "POD_NAME": "Nom du pod",
         "STATUS": "Statut",
         "RESTART_COUNT": "Nombre de redémarrages",
-        "LAST_UPDATED": "Dernière mise à jour",
-        "ALL": "Tout"
+        "LAST_UPDATED": "Dernière mise à jour"
     }
 }

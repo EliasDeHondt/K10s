@@ -39,7 +39,6 @@
         "POD_NAME": "Pod名称",
         "STATUS": "状态",
         "RESTART_COUNT": "重启次数",
-        "LAST_UPDATED": "最后更新",
-        "ALL": "全部"
+        "LAST_UPDATED": "最后更新"
     }
 }

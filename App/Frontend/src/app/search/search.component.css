@@ -271,8 +271,9 @@
 }
 
 .search-main-pagination button {
-    margin: 0 8px;
+    margin: 0 2px;
     padding: 5px 10px;
+    width: 50px;
     border: 1px solid var(--secondary);
     border-radius: var(--radius);
     background-color: var(--secondary);
