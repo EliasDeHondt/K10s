@@ -1,46 +1,45 @@
 {
-  "NAV": {
-    "LANGUAGE": "Change Language",
-    "DASHBOARD": "Dashboard",
-    "SEARCH": "Search",
-    "SETTINGS": "Settings",
-    "LOGOUT": "Logout",
-    "DESCRIPTION": "Description",
-    "REPOSITORY": "Repository",
-    "CLOSE": "Close",
-    "THEME": "Theme"
-  },
-  "FOOTER": {
-    "PART1": "Designed by the",
-    "PART2": "open source team"
-  },
-  "LOGIN": {
-    "USERNAME_PLACEHOLDER": "Username",
-    "PASSWORD_PLACEHOLDER": "password",
-    "LOGIN_BUTTON": "Log in"
-  },
-  "DASHBOARD": {
-    "NODES": "Nodes",
-    "CPU": "CPU Usage",
-    "RAM": "RAM Usage",
-    "DISK": "Disk Usage"
-  },
-  "SEARCH": {
-    "SEARCH_PLACEHOLDER": "Search Cluster...",
-    "SEARCH": "Search",
-    "NODE": "Node",
-    "PODS": "Pods",
-    "SERVICES": "Services",
-    "DEPLOYMENTS": "Deployments",
-    "CONFIGMAPS": "ConfigMaps",
-    "SECRETS": "Secrets",
-    "CLUSTER": "Cluster",
-    "NAMESPACE": "Namespace",
-    "CLUSTER_NAME": "Cluster Name",
-    "POD_NAME": "Pod Name",
-    "STATUS": "Status",
-    "RESTART_COUNT": "Restart Count",
-    "LAST_UPDATED": "Last Updated",
-    "ALL": "All"
-  }
+    "NAV": {
+        "LANGUAGE": "Change Language",
+        "DASHBOARD": "Dashboard",
+        "SEARCH": "Search",
+        "SETTINGS": "Settings",
+        "LOGOUT": "Logout",
+        "DESCRIPTION": "Description",
+        "REPOSITORY": "Repository",
+        "CLOSE": "Close",
+        "THEME": "Theme"
+    },
+    "FOOTER": {
+        "PART1": "Designed by the",
+        "PART2": "open source team"
+    },
+    "LOGIN": {
+        "USERNAME_PLACEHOLDER": "Username",
+        "PASSWORD_PLACEHOLDER": "password",
+        "LOGIN_BUTTON": "Log in"
+    },
+    "DASHBOARD": {
+        "NODES": "Nodes",
+        "CPU": "CPU Usage",
+        "RAM": "RAM Usage",
+        "DISK": "Disk Usage"
+    },
+    "SEARCH": {
+        "SEARCH_PLACEHOLDER": "Search Cluster...",
+        "SEARCH": "Search",
+        "NODE": "Node",
+        "PODS": "Pods",
+        "SERVICES": "Services",
+        "DEPLOYMENTS": "Deployments",
+        "CONFIGMAPS": "ConfigMaps",
+        "SECRETS": "Secrets",
+        "NAMESPACE": "Namespace",
+        "CLUSTER_NAME": "Cluster Name",
+        "POD_NAME": "Pod Name",
+        "STATUS": "Status",
+        "RESTART_COUNT": "Restart Count",
+        "LAST_UPDATED": "Last Updated",
+        "ALL": "All"
+    }
 }

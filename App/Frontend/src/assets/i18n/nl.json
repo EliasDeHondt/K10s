@@ -1,46 +1,45 @@
 {
-  "NAV": {
-    "LANGUAGE": "Taal wijzigen",
-    "DASHBOARD": "Dashboard",
-    "SEARCH": "Zoeken",
-    "SETTINGS": "Instellingen",
-    "LOGOUT": "Uitloggen",
-    "DESCRIPTION": "Beschrijving",
-    "REPOSITORY": "Repository",
-    "CLOSE": "Sluiten",
-    "THEME": "Thema"
-  },
-  "FOOTER": {
-    "PART1": "Ontworpen door de",
-    "PART2": "open-source ploeg"
-  },
-  "LOGIN": {
-    "USERNAME_PLACEHOLDER": "Gebruikersnaam",
-    "PASSWORD_PLACEHOLDER": "Wachtwoord",
-    "LOGIN_BUTTON": "Inloggen"
-  },
-  "DASHBOARD": {
-    "NODES": "Knooppunten",
-    "CPU": "CPU-gebruik",
-    "RAM": "RAM-gebruik",
-    "DISK": "Schijfgebruik"
-  },
-  "SEARCH": {
-    "SEARCH_PLACEHOLDER": "Zoek Cluster...",
-    "SEARCH": "Zoek",
-    "NODE": "Knooppunt",
-    "PODS": "Pods",
-    "SERVICES": "Diensten",
-    "DEPLOYMENTS": "Deployments",
-    "CONFIGMAPS": "ConfigMaps",
-    "SECRETS": "Geheimen",
-    "CLUSTER" : "Cluster",
-    "NAMESPACE" : "Naamruimte",
-    "CLUSTER_NAME": "Clusternnaam",
-    "POD_NAME": "Podnaam",
-    "STATUS": "Status",
-    "RESTART_COUNT": "Aantal herstarts",
-    "LAST_UPDATED": "Laatst bijgewerkt",
-    "ALL": "Alles"
-  }
+    "NAV": {
+        "LANGUAGE": "Taal wijzigen",
+        "DASHBOARD": "Dashboard",
+        "SEARCH": "Zoeken",
+        "SETTINGS": "Instellingen",
+        "LOGOUT": "Uitloggen",
+        "DESCRIPTION": "Beschrijving",
+        "REPOSITORY": "Repository",
+        "CLOSE": "Sluiten",
+        "THEME": "Thema"
+    },
+    "FOOTER": {
+        "PART1": "Ontworpen door de",
+        "PART2": "open-source ploeg"
+    },
+    "LOGIN": {
+        "USERNAME_PLACEHOLDER": "Gebruikersnaam",
+        "PASSWORD_PLACEHOLDER": "Wachtwoord",
+        "LOGIN_BUTTON": "Inloggen"
+    },
+    "DASHBOARD": {
+        "NODES": "Knooppunten",
+        "CPU": "CPU-gebruik",
+        "RAM": "RAM-gebruik",
+        "DISK": "Schijfgebruik"
+    },
+    "SEARCH": {
+        "SEARCH_PLACEHOLDER": "Zoek Cluster...",
+        "SEARCH": "Zoek",
+        "NODE": "Knooppunt",
+        "PODS": "Pods",
+        "SERVICES": "Diensten",
+        "DEPLOYMENTS": "Deployments",
+        "CONFIGMAPS": "ConfigMaps",
+        "SECRETS": "Geheimen",
+        "NAMESPACE" : "Naamruimte",
+        "CLUSTER_NAME": "Clusternnaam",
+        "POD_NAME": "Podnaam",
+        "STATUS": "Status",
+        "RESTART_COUNT": "Aantal herstarts",
+        "LAST_UPDATED": "Laatst bijgewerkt",
+        "ALL": "Alles"
+    }
 }

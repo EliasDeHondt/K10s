@@ -1,46 +1,45 @@
 {
-  "NAV": {
-    "LANGUAGE": "Changer de langue",
-    "DASHBOARD": "Tableau de bord",
-    "SEARCH": "Rechercher",
-    "SETTINGS": "Paramètres",
-    "LOGOUT": "Déconnexion",
-    "DESCRIPTION": "Description",
-    "REPOSITORY": "Référentiel",
-    "CLOSE": "Fermer",
-    "THEME": "Thème"
-  },
-  "FOOTER": {
-    "PART1": "Conçu par",
-    "PART2": "l'équipe open source"
-  },
-  "LOGIN": {
-    "USERNAME_PLACEHOLDER": "Nom d'utilisateur",
-    "PASSWORD_PLACEHOLDER": "Mot de passe",
-    "LOGIN_BUTTON": "Se connecter"
-  },
-  "DASHBOARD": {
-    "NODES": "Nœuds",
-    "CPU": "Utilisation du CPU",
-    "RAM": "Utilisation de la RAM",
-    "DISK": "Utilisation du disque"
-  },
-  "SEARCH": {
-    "SEARCH_PLACEHOLDER": "Rechercher un cluster...",
-    "SEARCH": "Rechercher",
-    "NODE": "Nœud",
-    "PODS": "Pods",
-    "SERVICES": "Services",
-    "DEPLOYMENTS": "Déploiements",
-    "CONFIGMAPS": "ConfigMaps",
-    "SECRETS": "Secrets",
-    "CLUSTER": "Cluster",
-    "NAMESPACE": "Espace de noms",
-    "CLUSTER_NAME": "Nom du cluster",
-    "POD_NAME": "Nom du pod",
-    "STATUS": "Statut",
-    "RESTART_COUNT": "Nombre de redémarrages",
-    "LAST_UPDATED": "Dernière mise à jour",
-    "ALL": "Tout"
-  }
+    "NAV": {
+        "LANGUAGE": "Changer de langue",
+        "DASHBOARD": "Tableau de bord",
+        "SEARCH": "Rechercher",
+        "SETTINGS": "Paramètres",
+        "LOGOUT": "Déconnexion",
+        "DESCRIPTION": "Description",
+        "REPOSITORY": "Référentiel",
+        "CLOSE": "Fermer",
+        "THEME": "Thème"
+    },
+    "FOOTER": {
+        "PART1": "Conçu par",
+        "PART2": "l'équipe open source"
+    },
+    "LOGIN": {
+        "USERNAME_PLACEHOLDER": "Nom d'utilisateur",
+        "PASSWORD_PLACEHOLDER": "Mot de passe",
+        "LOGIN_BUTTON": "Se connecter"
+    },
+    "DASHBOARD": {
+        "NODES": "Nœuds",
+        "CPU": "Utilisation du CPU",
+        "RAM": "Utilisation de la RAM",
+        "DISK": "Utilisation du disque"
+    },
+    "SEARCH": {
+        "SEARCH_PLACEHOLDER": "Rechercher un cluster...",
+        "SEARCH": "Rechercher",
+        "NODE": "Nœud",
+        "PODS": "Pods",
+        "SERVICES": "Services",
+        "DEPLOYMENTS": "Déploiements",
+        "CONFIGMAPS": "ConfigMaps",
+        "SECRETS": "Secrets",
+        "NAMESPACE": "Espace de noms",
+        "CLUSTER_NAME": "Nom du cluster",
+        "POD_NAME": "Nom du pod",
+        "STATUS": "Statut",
+        "RESTART_COUNT": "Nombre de redémarrages",
+        "LAST_UPDATED": "Dernière mise à jour",
+        "ALL": "Tout"
+    }
 }
