@@ -10,7 +10,7 @@
 
 ## 🖖Introduction
 
-This is a **Merge Request** that is in need of your attention. The person whe created this request is the assignee.
+This is a **Merge Request** that is in need of your attention. The person who created this request is the assignee.
 
 ## 📎Definition of done Merge Request checklist.
 * [ ] Tests written (1 positive and 1 negative scenario if possible).
