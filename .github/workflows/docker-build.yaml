@@ -42,6 +42,11 @@ jobs:
         run: |
           cd ./App/Frontend
           npm run build --prod
+      - name: Set up Docker
+        run: |
+          ls -la ./App/Frontend
+          ls -la ./App/Frontend/dist
+          ls -la ./App/Frontend/dist/frontend
       - name: Login to GHCR
         run: |
           echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u eliasdehondt --password-stdin
