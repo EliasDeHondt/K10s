@@ -6,8 +6,8 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import anime from 'animejs/lib/anime.es.js';
-import {TranslatePipe, TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'app-login',
@@ -21,7 +21,7 @@ export class LoginComponent implements AfterViewInit {
     username: string = '';
     password: string = '';
 
-    constructor(private router: Router,private translate: TranslateService) {
+    constructor(private router: Router, private translate: TranslateService) {
         this.translate.setDefaultLang('en');
     }
 

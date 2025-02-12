@@ -3,6 +3,7 @@
         "LANGUAGE": "Taal wijzigen",
         "DASHBOARD": "Dashboard",
         "SEARCH": "Zoeken",
+        "ADD": "Toevoegen",
         "SETTINGS": "Instellingen",
         "LOGOUT": "Uitloggen",
         "DESCRIPTION": "Beschrijving",
@@ -40,5 +41,8 @@
         "STATUS": "Status",
         "RESTART_COUNT": "Aantal herstarts",
         "LAST_UPDATED": "Laatst bijgewerkt"
+    },
+    "NOTFOUND": {
+        "TITLE": "Het mag dan open source zijn, maar blijf verdomme in je eigen baan ;-)"
     }
 }

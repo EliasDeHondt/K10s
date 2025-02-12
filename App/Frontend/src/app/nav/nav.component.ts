@@ -6,7 +6,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import {TranslatePipe, TranslateService} from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 
 @Component({
     selector: 'app-nav',

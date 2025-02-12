@@ -6,7 +6,7 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { NavComponent } from '../nav/nav.component';
 import { FooterComponent } from "../footer/footer.component";
-import {TranslatePipe} from "@ngx-translate/core";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
     selector: 'app-dashboard',
@@ -21,7 +21,6 @@ export class DashboardComponent implements AfterViewInit {
         event.preventDefault();
     }
 
-
     // Fullscreen button
     @ViewChild('dashboardMain') dashboardMain!: ElementRef;
     @ViewChild('dashboardTitle') dashboardTitle!: ElementRef;
@@ -30,9 +29,7 @@ export class DashboardComponent implements AfterViewInit {
 
     ngAfterViewInit(): void {
         const fullscreenButton = document.getElementById('dashboard-fullscreen-button');
-        if (fullscreenButton) {
-        fullscreenButton.addEventListener('click', () => this.toggleFullscreen());
-        }
+        if (fullscreenButton) fullscreenButton.addEventListener('click', () => this.toggleFullscreen());
     }
 
     toggleFullscreen(): void {
@@ -41,23 +38,23 @@ export class DashboardComponent implements AfterViewInit {
         const dashboardTitleEl = this.dashboardTitle.nativeElement;
 
         if (!document.fullscreenElement) {
-        if (dashboardHtml.requestFullscreen) dashboardHtml.requestFullscreen();
-        else if ((dashboardHtml as any).mozRequestFullScreen) (dashboardHtml as any).mozRequestFullScreen();
-        else if ((dashboardHtml as any).webkitRequestFullscreen) (dashboardHtml as any).webkitRequestFullscreen();
-        else if ((dashboardHtml as any).msRequestFullscreen) (dashboardHtml as any).msRequestFullscreen();
+            if (dashboardHtml.requestFullscreen) dashboardHtml.requestFullscreen();
+            else if ((dashboardHtml as any).mozRequestFullScreen) (dashboardHtml as any).mozRequestFullScreen();
+            else if ((dashboardHtml as any).webkitRequestFullscreen) (dashboardHtml as any).webkitRequestFullscreen();
+            else if ((dashboardHtml as any).msRequestFullscreen) (dashboardHtml as any).msRequestFullscreen();
 
-        dashboardMainEl.classList.add('fullscreen');
-        dashboardMainEl.style.gridArea = '1 / 1 / -1 / -1';
-        dashboardTitleEl.style.display = 'block';
+            dashboardMainEl.classList.add('fullscreen');
+            dashboardMainEl.style.gridArea = '1 / 1 / -1 / -1';
+            dashboardTitleEl.style.display = 'block';
         } else {
-        if (document.exitFullscreen) document.exitFullscreen();
-        else if ((document as any).mozCancelFullScreen) (document as any).mozCancelFullScreen();
-        else if ((document as any).webkitExitFullscreen) (document as any).webkitExitFullscreen();
-        else if ((document as any).msExitFullscreen) (document as any).msExitFullscreen();
+            if (document.exitFullscreen) document.exitFullscreen();
+            else if ((document as any).mozCancelFullScreen) (document as any).mozCancelFullScreen();
+            else if ((document as any).webkitExitFullscreen) (document as any).webkitExitFullscreen();
+            else if ((document as any).msExitFullscreen) (document as any).msExitFullscreen();
 
-        dashboardMainEl.classList.remove('fullscreen');
-        dashboardMainEl.style.gridArea = '';
-        dashboardTitleEl.style.display = 'none';
+            dashboardMainEl.classList.remove('fullscreen');
+            dashboardMainEl.style.gridArea = '';
+            dashboardTitleEl.style.display = 'none';
         }
     }
 }

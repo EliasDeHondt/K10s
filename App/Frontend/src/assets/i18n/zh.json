@@ -3,6 +3,7 @@
         "LANGUAGE": "更改语言",
         "DASHBOARD": "仪表板",
         "SEARCH": "搜索",
+        "ADD": "添加",
         "SETTINGS": "设置",
         "LOGOUT": "退出登录",
         "DESCRIPTION": "描述",
@@ -40,5 +41,8 @@
         "STATUS": "状态",
         "RESTART_COUNT": "重启次数",
         "LAST_UPDATED": "最后更新"
+    },
+    "NOTFOUND": {
+        "TITLE": "也许是开源的，但别他妈越界 ;-)"
     }
 }
