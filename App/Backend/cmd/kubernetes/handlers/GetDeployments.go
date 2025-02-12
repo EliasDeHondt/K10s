@@ -10,7 +10,18 @@ import (
 )
 
 func GetDeploymentsHandler(ctx *gin.Context) {
-	deploymentList, err := GetDeployments(c)
+
+	namespace, ok := ctx.GetQuery("namespace")
+
+	var deploymentList *[]kubernetes.Deployment
+	var err error
+
+	if ok {
+		deploymentList, err = GetDeployments(c, namespace)
+	} else {
+		deploymentList, err = GetDeployments(c, "")
+	}
+
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error has occurred or the request has been timed out."})
 		return
@@ -18,11 +29,11 @@ func GetDeploymentsHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, deploymentList)
 }
 
-func GetDeployments(c *kubernetes.IClient) (*[]kubernetes.Deployment, error) {
+func GetDeployments(c *kubernetes.IClient, namespace string) (*[]kubernetes.Deployment, error) {
 	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	list, err := (*c).GetDeployments("").List(ct, metav1.ListOptions{})
+	list, err := (*c).GetDeployments(namespace).List(ct, metav1.ListOptions{})
 	if err != nil {
 		return nil, err
 	}

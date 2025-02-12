@@ -10,7 +10,9 @@
 4. [🎥Video](#🎥video)
 5. [✒️Pitch](#✒️pitch)
 6. [📷Photos](#📷photos)
-7. [📚How to Deploy](#📚how-to-deploy)
+7. [📚How to deploy and destroy](#📚how-to-deploy-and-destroy)
+    1. [🌌Kubernetes](#🌌kubernetes)
+    2. [🐳Docker](#🐳docker)
 
 ---
 
@@ -71,20 +73,22 @@ The project's visual identity is defined by the following colors:
 }
 ```
 
-## 📚How to deploy
+## 📚How to deploy and destroy
 
-- Step 1: Create the necessary secrets for the application (replace the values with your own):
+### 🌌Kubernetes
+
+- Step 1 - Create the necessary secrets for the application (replace the values with your own):
 ```bash
 kubectl create secret generic k10s-secret-user -n k10s-namespaces --from-literal=USERNAME=admin --from-literal=PASSWORD=admin
 kubectl create secret generic k10s-secret-jwt -n k10s-namespaces --from-literal=JWT_SECRET=$(openssl rand -base64 32) # apt install openssl.
 ```
 
-- Step 2: Deploy the application:
+- Step 2 - Deploy the application:
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/EliasDeHondt/K10s/refs/heads/main/Kubernetes/k10s.yaml
 ```
 
-- Step 3: Get the external IP of the application:
+- Step 3 - Get the external IP of the application:
 ```bash
 kubectl get svc -n k10s-namespaces
 ```
@@ -100,4 +104,23 @@ kubectl delete -f https://raw.githubusercontent.com/EliasDeHondt/K10s/refs/heads
 ```bash
 kubectl delete secret k10s-secret-user -n k10s-namespaces
 kubectl delete secret k10s-secret-discord_webhook -n k10s-namespaces
+```
+
+### 🐳Docker
+
+> **NOTE:** The following commands are simply for testing purposes only. For production use, please refer to the Kubernetes deployment instructions above.
+
+- Pull the latest image and run the container
+```bash
+sudo docker pull ghcr.io/eliasdehondt/k10s-frontend:latest
+sudo docker run --name k10s-frontend-container -p 8080:8080 -d ghcr.io/eliasdehondt/k10s-frontend:latest
+```
+
+---
+
+- Stop and remove the existing container and image
+```bash
+sudo docker stop k10s-frontend-container
+sudo docker rm k10s-frontend-container
+sudo docker rmi ghcr.io/eliasdehondt/k10s-frontend:latest
 ```

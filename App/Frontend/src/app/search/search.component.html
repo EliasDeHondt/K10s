@@ -30,20 +30,6 @@
                     </ul>
                 </section>
             </article>
-
-            <article class="search-header-article3">
-                <section class="search-dropdown2">
-                    <button class="search-dropdown-button cursor-pointer" (click)="toggleDropdown('searchDropdown2')">
-                        {{ 'SEARCH.CLUSTER' | translate }}
-                    </button>
-                    <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown2']">
-                        <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown2')">None</li>
-                        <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown2')">Cluster A</li>
-                        <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown2')">Cluster B</li>
-                    </ul>
-                </section>
-            </article>
-
             <article class="search-header-article3">
                 <section class="search-dropdown3">
                     <button class="search-dropdown-button cursor-pointer" (click)="toggleDropdown('searchDropdown3')">
@@ -57,7 +43,6 @@
                     </ul>
                 </section>
             </article>
-
         </section>
     </header>
     <app-nav class="nav" id="nav"></app-nav>
@@ -71,7 +56,6 @@
                     <th>{{ 'SEARCH.STATUS' | translate }}</th>
                     <th>{{ 'SEARCH.RESTART_COUNT' | translate }}</th>
                     <th>{{ 'SEARCH.LAST_UPDATED' | translate }}</th>
-
                 </tr>
             </thead>
             <tbody>
@@ -265,7 +249,6 @@
             <button class="cursor-pointer">20</button>
             <button class="cursor-pointer">50</button>
             <button class="cursor-pointer">100</button>
-            <button class="cursor-pointer">{{ 'SEARCH.ALL' | translate }}</button>
         </section>
     </main>
     <app-footer class="footer" id="footer"></app-footer>

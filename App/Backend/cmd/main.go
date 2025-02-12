@@ -20,6 +20,7 @@ func main() {
 
 	secured := r.Group("/secured")
 	secured.Use(auth.AuthMiddleware())
+	secured.GET("/table", handlers.GetTableHandler)
 	secured.GET("/nodes", handlers.GetNodesHandler)
 	secured.GET("/pods", handlers.GetPodsHandler)
 	secured.GET("/services", handlers.GetServicesHandler)

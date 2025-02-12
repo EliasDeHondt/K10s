@@ -1,46 +1,44 @@
 {
-  "NAV": {
-    "LANGUAGE": "Sprache ändern",
-    "DASHBOARD": "Dashboard",
-    "SEARCH": "Suche",
-    "SETTINGS": "Einstellungen",
-    "LOGOUT": "Abmelden",
-    "DESCRIPTION": "Beschreibung",
-    "REPOSITORY": "Repository",
-    "CLOSE": "Schließen",
-    "THEME": "Thema"
-  },
-  "FOOTER": {
-    "PART1": "Entworfen von",
-    "PART2": "dem Open-Source-Team"
-  },
-  "LOGIN": {
-    "USERNAME_PLACEHOLDER": "Benutzername",
-    "PASSWORD_PLACEHOLDER": "Passwort",
-    "LOGIN_BUTTON": "Anmelden"
-  },
-  "DASHBOARD": {
-    "NODES": "Knoten",
-    "CPU": "CPU-Nutzung",
-    "RAM": "RAM-Nutzung",
-    "DISK": "Festplattennutzung"
-  },
-  "SEARCH": {
-    "SEARCH_PLACEHOLDER": "Cluster suchen...",
-    "SEARCH": "Suche",
-    "NODE": "Knoten",
-    "PODS": "Pods",
-    "SERVICES": "Dienste",
-    "DEPLOYMENTS": "Bereitstellungen",
-    "CONFIGMAPS": "ConfigMaps",
-    "SECRETS": "Geheimnisse",
-    "CLUSTER": "Cluster",
-    "NAMESPACE": "Namensraum",
-    "CLUSTER_NAME": "Cluster-Name",
-    "POD_NAME": "Pod-Name",
-    "STATUS": "Status",
-    "RESTART_COUNT": "Neustartanzahl",
-    "LAST_UPDATED": "Zuletzt aktualisiert",
-    "ALL": "Alle"
-  }
+    "NAV": {
+        "LANGUAGE": "Sprache ändern",
+        "DASHBOARD": "Dashboard",
+        "SEARCH": "Suche",
+        "SETTINGS": "Einstellungen",
+        "LOGOUT": "Abmelden",
+        "DESCRIPTION": "Beschreibung",
+        "REPOSITORY": "Repository",
+        "CLOSE": "Schließen",
+        "THEME": "Thema"
+    },
+    "FOOTER": {
+        "PART1": "Entworfen von",
+        "PART2": "dem Open-Source-Team"
+    },
+    "LOGIN": {
+        "USERNAME_PLACEHOLDER": "Benutzername",
+        "PASSWORD_PLACEHOLDER": "Passwort",
+        "LOGIN_BUTTON": "Anmelden"
+    },
+    "DASHBOARD": {
+        "NODES": "Knoten",
+        "CPU": "CPU-Nutzung",
+        "RAM": "RAM-Nutzung",
+        "DISK": "Festplattennutzung"
+    },
+    "SEARCH": {
+        "SEARCH_PLACEHOLDER": "Cluster suchen...",
+        "SEARCH": "Suche",
+        "NODE": "Knoten",
+        "PODS": "Pods",
+        "SERVICES": "Dienste",
+        "DEPLOYMENTS": "Bereitstellungen",
+        "CONFIGMAPS": "ConfigMaps",
+        "SECRETS": "Geheimnisse",
+        "NAMESPACE": "Namensraum",
+        "CLUSTER_NAME": "Cluster-Name",
+        "POD_NAME": "Pod-Name",
+        "STATUS": "Status",
+        "RESTART_COUNT": "Neustartanzahl",
+        "LAST_UPDATED": "Zuletzt aktualisiert"
+    }
 }
