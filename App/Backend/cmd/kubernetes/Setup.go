@@ -14,33 +14,31 @@ import (
 	"time"
 )
 
-func GetClients() (*IClient, *IMetricsClient) {
+func GetClients() *IClient {
 	config, err := rest.InClusterConfig()
 
 	if err != nil {
-		client, metricsClient := TestFakeClient()
-		return &client, &metricsClient
+		client := TestFakeClient()
+		return &client
 	}
 
 	c, err := kubernetes.NewForConfig(config)
 	if err != nil {
-		client, metricsClient := TestFakeClient()
-		return &client, &metricsClient
+		client := TestFakeClient()
+		return &client
 	}
 
 	mc, err := metricsv.NewForConfig(config)
 	if err != nil {
-		client, metricsClient := TestFakeClient()
-		return &client, &metricsClient
+		client := TestFakeClient()
+		return &client
 	}
 
-	var client IClient = &Client{c}
-	var metricsClient IMetricsClient = &MetricsClient{mc}
-	return &client, &metricsClient
+	var client IClient = &Client{c, mc}
+	return &client
 }
 
-func TestFakeClient() (IClient, IMetricsClient) {
-	var clientset IClient = &FakeClient{fake.NewClientset()}
+func TestFakeClient() IClient {
 
 	fakeMetricsClient := &FakeMetricsClient{
 		NodeMetrics: map[string]*metrics.NodeMetrics{
@@ -83,6 +81,8 @@ func TestFakeClient() (IClient, IMetricsClient) {
 		},
 	}
 
+	var clientset IClient = &FakeClient{fake.NewClientset(), fakeMetricsClient}
+
 	nodes := []*corev1.Node{
 		{
 			ObjectMeta: metav1.ObjectMeta{
@@ -99,6 +99,10 @@ func TestFakeClient() (IClient, IMetricsClient) {
 				},
 				Addresses: []corev1.NodeAddress{
 					{Type: corev1.NodeInternalIP, Address: "192.168.1.1"},
+				},
+				Capacity: corev1.ResourceList{
+					corev1.ResourceCPU:    resource.MustParse("1000m"),
+					corev1.ResourceMemory: resource.MustParse("8Gi"),
 				},
 			},
 		},
@@ -117,6 +121,10 @@ func TestFakeClient() (IClient, IMetricsClient) {
 				},
 				Addresses: []corev1.NodeAddress{
 					{Type: corev1.NodeInternalIP, Address: "192.168.1.2"},
+				},
+				Capacity: corev1.ResourceList{
+					corev1.ResourceCPU:    resource.MustParse("1000m"),
+					corev1.ResourceMemory: resource.MustParse("8Gi"),
 				},
 			},
 		},
@@ -217,5 +225,5 @@ func TestFakeClient() (IClient, IMetricsClient) {
 		clientset.GetConfigMaps("default").Create(context.TODO(), configMap, metav1.CreateOptions{})
 	}
 
-	return clientset, fakeMetricsClient
+	return clientset
 }
