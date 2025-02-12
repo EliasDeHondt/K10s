@@ -27,6 +27,7 @@ func main() {
 	secured.GET("/configMaps", handlers.GetConfigMapsHandler)
 	secured.GET("/secrets", handlers.GetSecretsHandler)
 	secured.GET("/deployments", handlers.GetDeploymentsHandler)
+	secured.GET("/stats", handlers.GetStatsHandler)
 
 	err := r.Run(":8080")
 	if err != nil {

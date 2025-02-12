@@ -4,13 +4,86 @@ import (
 	"context"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/kubernetes/fake"
+	"k8s.io/client-go/rest"
+	"k8s.io/metrics/pkg/apis/metrics"
+	metricsv "k8s.io/metrics/pkg/client/clientset/versioned"
 	"time"
 )
 
+func GetClients() *IClient {
+	config, err := rest.InClusterConfig()
+
+	if err != nil {
+		client := TestFakeClient()
+		return &client
+	}
+
+	c, err := kubernetes.NewForConfig(config)
+	if err != nil {
+		client := TestFakeClient()
+		return &client
+	}
+
+	mc, err := metricsv.NewForConfig(config)
+	if err != nil {
+		client := TestFakeClient()
+		return &client
+	}
+
+	var client IClient = &Client{c, mc}
+	return &client
+}
+
 func TestFakeClient() IClient {
-	var clientset IClient = &FakeClient{fake.NewClientset()}
+
+	fakeMetricsClient := &FakeMetricsClient{
+		NodeMetrics: map[string]*metrics.NodeMetrics{
+			"node-1": {
+				Usage: map[corev1.ResourceName]resource.Quantity{
+					corev1.ResourceCPU:     resource.MustParse("500m"),
+					corev1.ResourceMemory:  resource.MustParse("2Gi"),
+					corev1.ResourceStorage: resource.MustParse("1Gi"),
+				},
+			},
+			"node-2": {
+				Usage: map[corev1.ResourceName]resource.Quantity{
+					corev1.ResourceCPU:     resource.MustParse("300m"),
+					corev1.ResourceMemory:  resource.MustParse("1Gi"),
+					corev1.ResourceStorage: resource.MustParse("2Gi"),
+				},
+			},
+		},
+		PodMetrics: map[string]*metrics.PodMetrics{
+			"default/pod-1": {
+				Containers: []metrics.ContainerMetrics{
+					{
+						Name: "container-1",
+						Usage: map[corev1.ResourceName]resource.Quantity{
+							corev1.ResourceCPU:    resource.MustParse("200m"),
+							corev1.ResourceMemory: resource.MustParse("512Mi"),
+						},
+					},
+				},
+			},
+			"default/pod-2": {
+				Containers: []metrics.ContainerMetrics{
+					{
+						Name: "container-1",
+						Usage: map[corev1.ResourceName]resource.Quantity{
+							corev1.ResourceCPU:    resource.MustParse("100m"),
+							corev1.ResourceMemory: resource.MustParse("256Mi"),
+						},
+					},
+				},
+			},
+		},
+	}
+
+	var clientset IClient = &FakeClient{fake.NewClientset(), fakeMetricsClient}
 
 	nodes := []*corev1.Node{
 		{
@@ -29,6 +102,11 @@ func TestFakeClient() IClient {
 				Addresses: []corev1.NodeAddress{
 					{Type: corev1.NodeInternalIP, Address: "192.168.1.1"},
 				},
+				Capacity: corev1.ResourceList{
+					corev1.ResourceCPU:     resource.MustParse("1000m"),
+					corev1.ResourceMemory:  resource.MustParse("8Gi"),
+					corev1.ResourceStorage: resource.MustParse("1Gi"),
+				},
 			},
 		},
 		{
@@ -46,6 +124,11 @@ func TestFakeClient() IClient {
 				},
 				Addresses: []corev1.NodeAddress{
 					{Type: corev1.NodeInternalIP, Address: "192.168.1.2"},
+				},
+				Capacity: corev1.ResourceList{
+					corev1.ResourceCPU:     resource.MustParse("1000m"),
+					corev1.ResourceMemory:  resource.MustParse("8Gi"),
+					corev1.ResourceStorage: resource.MustParse("3Gi"),
 				},
 			},
 		},
