@@ -7,6 +7,7 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { NavComponent } from '../nav/nav.component';
 import { FooterComponent } from "../footer/footer.component";
 import {TranslatePipe} from "@ngx-translate/core";
+import {SpiderWebComponent} from "../spider-web/spider-web.component";
 
 interface Node {
     id: number;
@@ -18,16 +19,11 @@ interface Node {
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css'],
-    imports: [NavComponent, FooterComponent, TranslatePipe],
+    imports: [NavComponent, FooterComponent, TranslatePipe, SpiderWebComponent],
     standalone: true
 })
 
 export class DashboardComponent implements AfterViewInit {
-    onRightClick(event: MouseEvent) {
-        event.preventDefault();
-    }
-
-
     // Fullscreen button
     @ViewChild('dashboardMain') dashboardMain!: ElementRef;
     @ViewChild('dashboardTitle') dashboardTitle!: ElementRef;

@@ -1,3 +1,7 @@
+/**********************************/
+/* @since 01/01/2025              */
+/* @author K10s Open Source Team  */
+/**********************************/
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 interface Node {
@@ -88,7 +92,6 @@ export class SpiderWebComponent implements OnInit {
   addEventListeners() {
     const canvas = this.canvasRef.nativeElement;
 
-    // Mouse down event for dragging
     canvas.addEventListener('mousedown', (event: MouseEvent) => {
       const mouseX = event.clientX;
       const mouseY = event.clientY;
@@ -104,7 +107,6 @@ export class SpiderWebComponent implements OnInit {
       }
     });
 
-    // Mouse move event for dragging
     canvas.addEventListener('mousemove', (event: MouseEvent) => {
       if (this.isDragging && this.draggedNode) {
         this.draggedNode.x = event.clientX - this.offsetX;
@@ -113,7 +115,6 @@ export class SpiderWebComponent implements OnInit {
       }
     });
 
-    // Mouse up event to stop dragging
     canvas.addEventListener('mouseup', () => {
       this.isDragging = false;
       this.draggedNode = null;

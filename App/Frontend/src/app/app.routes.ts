@@ -14,5 +14,5 @@ export const routes: Routes = [
     { path: 'login', component: LoginComponent, data: { title: 'K10s - Login' } },
     { path: 'dashboard', component: DashboardComponent, data: { title: 'K10s - Dashboard' } },
     { path: 'search', component: SearchComponent, data: { title: 'K10s - Search' } },
-    { path: 'asdf', component: SpiderWebComponent, data: { title: 'K10s - Search' } }
+    { path: 'spiderweb', component: SpiderWebComponent, data: { title: 'K10s - Search' } }
 ];

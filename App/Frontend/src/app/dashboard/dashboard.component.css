@@ -89,6 +89,7 @@
     fill: var(--secondary);
     width: 20px;
     height: 20px;
+    pointer-events: auto;
 }
 
 .dashboard-fullscreen-button:hover {
@@ -162,16 +163,3 @@
     }
 }
 /* Media Queries */
-
-
-.spider-web-container {
-    width: 100%;
-    height: 100vh;
-    position: relative;
-}
-
-canvas {
-    width: 100%;
-    height: 100%;
-    border: 1px solid #ccc;
-}
