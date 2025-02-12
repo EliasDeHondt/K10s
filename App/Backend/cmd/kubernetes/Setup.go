@@ -49,6 +49,24 @@ func TestFakeClient() IClient {
 				},
 			},
 		},
+		{
+			ObjectMeta: metav1.ObjectMeta{
+				Name: "node-3",
+				Labels: map[string]string{
+					"kubernetes.io/role": "master",
+					"version":            "v1.25.0",
+				},
+				CreationTimestamp: metav1.NewTime(time.Now().Add(-48 * time.Hour)),
+			},
+			Status: corev1.NodeStatus{
+				Conditions: []corev1.NodeCondition{
+					{Type: corev1.NodeReady, Status: corev1.ConditionTrue},
+				},
+				Addresses: []corev1.NodeAddress{
+					{Type: corev1.NodeInternalIP, Address: "192.168.1.3"},
+				},
+			},
+		},
 	}
 	for _, node := range nodes {
 		clientset.GetNodes().Create(context.TODO(), node, metav1.CreateOptions{})
@@ -85,9 +103,25 @@ func TestFakeClient() IClient {
 			},
 			Spec: corev1.PodSpec{NodeName: "node-2"},
 		},
+		{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      "pod-3",
+				Namespace: "test",
+				Labels:    map[string]string{"app": "test-app"},
+			},
+			Status: corev1.PodStatus{
+				Phase: corev1.PodPending,
+				PodIP: "10.0.0.3",
+				ContainerStatuses: []corev1.ContainerStatus{
+					{RestartCount: 1},
+				},
+			},
+			Spec: corev1.PodSpec{NodeName: "node-3"},
+		},
 	}
 	for _, pod := range pods {
-		clientset.GetPods("default").Create(context.TODO(), pod, metav1.CreateOptions{})
+		namespace := pod.GetNamespace()
+		clientset.GetPods(namespace).Create(context.TODO(), pod, metav1.CreateOptions{})
 	}
 
 	services := []*corev1.Service{
@@ -99,9 +133,18 @@ func TestFakeClient() IClient {
 				Selector:  map[string]string{"app": "test-app"},
 			},
 		},
+		{
+			ObjectMeta: metav1.ObjectMeta{Name: "service-2", Namespace: "test"},
+			Spec: corev1.ServiceSpec{
+				Type:      corev1.ServiceTypeClusterIP,
+				ClusterIP: "10.100.1.2",
+				Selector:  map[string]string{"app": "test-app"},
+			},
+		},
 	}
 	for _, service := range services {
-		clientset.GetServices("default").Create(context.TODO(), service, metav1.CreateOptions{})
+		namespace := service.GetNamespace()
+		clientset.GetServices(namespace).Create(context.TODO(), service, metav1.CreateOptions{})
 	}
 
 	var replicas int32 = 3
@@ -120,9 +163,23 @@ func TestFakeClient() IClient {
 				AvailableReplicas: 2,
 			},
 		},
+		{
+			ObjectMeta: metav1.ObjectMeta{Name: "deployment-2", Namespace: "test"},
+			Spec: appsv1.DeploymentSpec{
+				Replicas: &replicas,
+				Selector: &metav1.LabelSelector{MatchLabels: map[string]string{"app": "test-app"}},
+			},
+			Status: appsv1.DeploymentStatus{
+				Replicas:          3,
+				ReadyReplicas:     2,
+				UpdatedReplicas:   3,
+				AvailableReplicas: 2,
+			},
+		},
 	}
 	for _, deployment := range deployments {
-		clientset.GetDeployments("default").Create(context.TODO(), deployment, metav1.CreateOptions{})
+		namespace := deployment.GetNamespace()
+		clientset.GetDeployments(namespace).Create(context.TODO(), deployment, metav1.CreateOptions{})
 	}
 
 	secrets := []*corev1.Secret{
@@ -131,9 +188,15 @@ func TestFakeClient() IClient {
 			Type:       corev1.SecretTypeOpaque,
 			Data:       map[string][]byte{"password": []byte("supersecret")},
 		},
+		{
+			ObjectMeta: metav1.ObjectMeta{Name: "secret-2", Namespace: "test"},
+			Type:       corev1.SecretTypeOpaque,
+			Data:       map[string][]byte{"password": []byte("supersecret")},
+		},
 	}
 	for _, secret := range secrets {
-		clientset.GetSecrets("default").Create(context.TODO(), secret, metav1.CreateOptions{})
+		namespace := secret.GetNamespace()
+		clientset.GetSecrets(namespace).Create(context.TODO(), secret, metav1.CreateOptions{})
 	}
 
 	configMaps := []*corev1.ConfigMap{
@@ -141,9 +204,14 @@ func TestFakeClient() IClient {
 			ObjectMeta: metav1.ObjectMeta{Name: "configmap-1", Namespace: "default"},
 			Data:       map[string]string{"config": "value"},
 		},
+		{
+			ObjectMeta: metav1.ObjectMeta{Name: "configmap-2", Namespace: "test"},
+			Data:       map[string]string{"config": "value"},
+		},
 	}
 	for _, configMap := range configMaps {
-		clientset.GetConfigMaps("default").Create(context.TODO(), configMap, metav1.CreateOptions{})
+		namespace := configMap.GetNamespace()
+		clientset.GetConfigMaps(namespace).Create(context.TODO(), configMap, metav1.CreateOptions{})
 	}
 
 	return clientset

@@ -10,7 +10,17 @@ import (
 )
 
 func GetConfigMapsHandler(ctx *gin.Context) {
-	configMapList, err := GetConfigMaps(c)
+	namespace, ok := ctx.GetQuery("namespace")
+
+	var configMapList *[]kubernetes.ConfigMap
+	var err error
+
+	if ok {
+		configMapList, err = GetConfigMaps(c, namespace)
+	} else {
+		configMapList, err = GetConfigMaps(c, "")
+	}
+
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error has occurred or the request has been timed out."})
 		return
@@ -18,11 +28,11 @@ func GetConfigMapsHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, configMapList)
 }
 
-func GetConfigMaps(c kubernetes.IClient) (*[]kubernetes.ConfigMap, error) {
+func GetConfigMaps(c kubernetes.IClient, namespace string) (*[]kubernetes.ConfigMap, error) {
 	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	list, err := c.GetConfigMaps("").List(ct, metav1.ListOptions{})
+	list, err := c.GetConfigMaps(namespace).List(ct, metav1.ListOptions{})
 	if err != nil {
 		return nil, err
 	}
