@@ -44,14 +44,16 @@ func TestFakeClient() IClient {
 		NodeMetrics: map[string]*metrics.NodeMetrics{
 			"node-1": {
 				Usage: map[corev1.ResourceName]resource.Quantity{
-					corev1.ResourceCPU:    resource.MustParse("500m"),
-					corev1.ResourceMemory: resource.MustParse("2Gi"),
+					corev1.ResourceCPU:     resource.MustParse("500m"),
+					corev1.ResourceMemory:  resource.MustParse("2Gi"),
+					corev1.ResourceStorage: resource.MustParse("1Gi"),
 				},
 			},
 			"node-2": {
 				Usage: map[corev1.ResourceName]resource.Quantity{
-					corev1.ResourceCPU:    resource.MustParse("300m"),
-					corev1.ResourceMemory: resource.MustParse("1Gi"),
+					corev1.ResourceCPU:     resource.MustParse("300m"),
+					corev1.ResourceMemory:  resource.MustParse("1Gi"),
+					corev1.ResourceStorage: resource.MustParse("2Gi"),
 				},
 			},
 		},
@@ -101,8 +103,9 @@ func TestFakeClient() IClient {
 					{Type: corev1.NodeInternalIP, Address: "192.168.1.1"},
 				},
 				Capacity: corev1.ResourceList{
-					corev1.ResourceCPU:    resource.MustParse("1000m"),
-					corev1.ResourceMemory: resource.MustParse("8Gi"),
+					corev1.ResourceCPU:     resource.MustParse("1000m"),
+					corev1.ResourceMemory:  resource.MustParse("8Gi"),
+					corev1.ResourceStorage: resource.MustParse("1Gi"),
 				},
 			},
 		},
@@ -123,8 +126,9 @@ func TestFakeClient() IClient {
 					{Type: corev1.NodeInternalIP, Address: "192.168.1.2"},
 				},
 				Capacity: corev1.ResourceList{
-					corev1.ResourceCPU:    resource.MustParse("1000m"),
-					corev1.ResourceMemory: resource.MustParse("8Gi"),
+					corev1.ResourceCPU:     resource.MustParse("1000m"),
+					corev1.ResourceMemory:  resource.MustParse("8Gi"),
+					corev1.ResourceStorage: resource.MustParse("3Gi"),
 				},
 			},
 		},

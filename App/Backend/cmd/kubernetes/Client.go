@@ -13,8 +13,10 @@ import (
 )
 
 type Metrics struct {
-	CpuUsage float64
-	MemUsage float64
+	CpuUsage     float64
+	MemUsage     float64
+	DiskUsage    int64
+	DiskCapacity int64
 }
 
 type FakeMetricsClient struct {
@@ -111,23 +113,27 @@ func (client *FakeClient) GetTotalUsage() (*Metrics, error) {
 
 	var totalCpu int64
 	var totalMem int64
+	var totalDisk int64
 	var totalCpuUsage int64
 	var totalMemUsage int64
+	var totalDiskUsage int64
 
 	for _, node := range nodes.Items {
 		totalCpu += node.Status.Capacity.Cpu().MilliValue()
 		totalMem += node.Status.Capacity.Memory().Value()
+		totalDisk += node.Status.Capacity.Storage().Value()
 
 		nodeMetrics := client.MetricsClient.NodeMetrics[node.Name]
 
 		totalCpuUsage += nodeMetrics.Usage.Cpu().MilliValue()
 		totalMemUsage += nodeMetrics.Usage.Memory().Value()
+		totalDiskUsage += nodeMetrics.Usage.Storage().Value()
 	}
 
 	cpuUsagePercent := float64(totalCpuUsage) / float64(totalCpu) * 100
 	memUsagePercent := float64(totalMemUsage) / float64(totalMem) * 100
 
-	return &Metrics{CpuUsage: cpuUsagePercent, MemUsage: memUsagePercent}, nil
+	return &Metrics{CpuUsage: cpuUsagePercent, MemUsage: memUsagePercent, DiskUsage: totalDiskUsage, DiskCapacity: totalDisk}, nil
 }
 
 func (client *FakeClient) GetUsageForNode(nodeName string) (*Metrics, error) {
@@ -141,15 +147,18 @@ func (client *FakeClient) GetUsageForNode(nodeName string) (*Metrics, error) {
 
 	totalCpu := node.Status.Capacity.Cpu().MilliValue()
 	totalMem := node.Status.Capacity.Memory().Value()
+	totalDisk := node.Status.Capacity.Storage().Value()
 
 	nodeMetrics := client.MetricsClient.NodeMetrics[nodeName]
 
 	usedCpu := nodeMetrics.Usage.Cpu().MilliValue()
 	usedMem := nodeMetrics.Usage.Memory().Value()
+	usedDisk := nodeMetrics.Usage.Storage().Value()
+
 	cpuUsagePercent := float64(usedCpu) / float64(totalCpu) * 100
 	memoryUsagePercent := float64(usedMem) / float64(totalMem) * 100
 
-	return &Metrics{CpuUsage: cpuUsagePercent, MemUsage: memoryUsagePercent}, nil
+	return &Metrics{CpuUsage: cpuUsagePercent, MemUsage: memoryUsagePercent, DiskUsage: usedDisk, DiskCapacity: totalDisk}, nil
 }
 
 func (client *Client) GetTotalUsage() (*Metrics, error) {
@@ -163,12 +172,15 @@ func (client *Client) GetTotalUsage() (*Metrics, error) {
 
 	var totalCpu int64
 	var totalMem int64
+	var totalDisk int64
 	var totalCpuUsage int64
 	var totalMemUsage int64
+	var totalDiskUsage int64
 
 	for _, node := range nodes.Items {
 		totalCpu += node.Status.Capacity.Cpu().MilliValue()
 		totalMem += node.Status.Capacity.Memory().Value()
+		totalDisk += node.Status.Capacity.Storage().Value()
 
 		nodeMetrics, err := client.MetricsClient.MetricsV1beta1().NodeMetricses().Get(ctx, node.Name, metav1.GetOptions{})
 		if err != nil {
@@ -177,12 +189,13 @@ func (client *Client) GetTotalUsage() (*Metrics, error) {
 
 		totalCpuUsage += nodeMetrics.Usage.Cpu().MilliValue()
 		totalMemUsage += nodeMetrics.Usage.Memory().Value()
+		totalDiskUsage += nodeMetrics.Usage.Storage().Value()
 	}
 
 	cpuUsagePercent := float64(totalCpuUsage) / float64(totalCpu) * 100
 	memUsagePercent := float64(totalMemUsage) / float64(totalMem) * 100
 
-	return &Metrics{CpuUsage: cpuUsagePercent, MemUsage: memUsagePercent}, nil
+	return &Metrics{CpuUsage: cpuUsagePercent, MemUsage: memUsagePercent, DiskUsage: totalDiskUsage, DiskCapacity: totalDisk}, nil
 }
 
 func (client *Client) GetUsageForNode(nodeName string) (*Metrics, error) {
@@ -196,6 +209,7 @@ func (client *Client) GetUsageForNode(nodeName string) (*Metrics, error) {
 
 	totalCpu := node.Status.Capacity.Cpu().MilliValue()
 	totalMem := node.Status.Capacity.Memory().Value()
+	totalDisk := node.Status.Capacity.Storage().Value()
 
 	nodeMetrics, err := client.MetricsClient.MetricsV1beta1().NodeMetricses().Get(ctx, nodeName, metav1.GetOptions{})
 	if err != nil {
@@ -204,9 +218,10 @@ func (client *Client) GetUsageForNode(nodeName string) (*Metrics, error) {
 
 	usedCpu := nodeMetrics.Usage.Cpu().MilliValue()
 	usedMem := nodeMetrics.Usage.Memory().Value()
+	usedDisk := nodeMetrics.Usage.Storage().Value()
 
 	cpuUsagePercent := float64(usedCpu) / float64(totalCpu) * 100
 	memoryUsagePercent := float64(usedMem) / float64(totalMem) * 100
 
-	return &Metrics{CpuUsage: cpuUsagePercent, MemUsage: memoryUsagePercent}, nil
+	return &Metrics{CpuUsage: cpuUsagePercent, MemUsage: memoryUsagePercent, DiskUsage: usedDisk, DiskCapacity: totalDisk}, nil
 }
