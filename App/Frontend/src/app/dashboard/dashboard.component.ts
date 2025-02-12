@@ -8,6 +8,12 @@ import { NavComponent } from '../nav/nav.component';
 import { FooterComponent } from "../footer/footer.component";
 import {TranslatePipe} from "@ngx-translate/core";
 
+interface Node {
+    id: number;
+    x: number;
+    y: number;
+    radius: number;
+}
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
