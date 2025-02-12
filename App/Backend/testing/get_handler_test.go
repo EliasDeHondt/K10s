@@ -52,7 +52,7 @@ func TestGetServicesWithNamespace(t *testing.T) {
 }
 
 func TestGetDeployments(t *testing.T) {
-	deployments, err := handlers.GetDeployments(&client)
+	deployments, err := handlers.GetDeployments(&client, "")
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, deployments)
@@ -68,7 +68,7 @@ func TestGetDeploymentsWithNamespace(t *testing.T) {
 }
 
 func TestGetConfigMaps(t *testing.T) {
-	maps, err := handlers.GetConfigMaps(&client)
+	maps, err := handlers.GetConfigMaps(&client, "")
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, maps)
