@@ -9,12 +9,6 @@ import { FooterComponent } from "../footer/footer.component";
 import {TranslatePipe} from "@ngx-translate/core";
 import {SpiderWebComponent} from "../spider-web/spider-web.component";
 
-interface Node {
-    id: number;
-    x: number;
-    y: number;
-    radius: number;
-}
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
