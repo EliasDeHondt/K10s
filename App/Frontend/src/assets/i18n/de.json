@@ -3,6 +3,7 @@
         "LANGUAGE": "Sprache ändern",
         "DASHBOARD": "Dashboard",
         "SEARCH": "Suche",
+        "ADD": "Hinzufügen",
         "SETTINGS": "Einstellungen",
         "LOGOUT": "Abmelden",
         "DESCRIPTION": "Beschreibung",
@@ -40,5 +41,8 @@
         "STATUS": "Status",
         "RESTART_COUNT": "Neustartanzahl",
         "LAST_UPDATED": "Zuletzt aktualisiert"
+    },
+    "NOTFOUND": {
+        "TITLE": "Es mag Open Source sein, aber bleib verdammt noch mal in deiner Spur ;-)"
     }
 }
