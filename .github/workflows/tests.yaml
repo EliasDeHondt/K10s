@@ -34,11 +34,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
 
-      - name: Change to App/Backend directory
-        run: cd App/Backend
-
       - name: Install dependencies
-        run: go mod download
+        run: |
+          cd App/Backend
+          go mod download
 
       - name: Run tests
-        run: go test -v ./testing/...
+        run: go test -v App/backend/testing/...
