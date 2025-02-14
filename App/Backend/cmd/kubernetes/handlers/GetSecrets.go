@@ -10,19 +10,28 @@ import (
 )
 
 func GetSecretsHandler(ctx *gin.Context) {
-	nodeList, err := GetSecrets(c)
+	namespace, ok := ctx.GetQuery("namespace")
+
+	var secretList *[]kubernetes.Secret
+	var err error
+
+	if ok {
+		secretList, err = GetSecrets(c, namespace)
+	} else {
+		secretList, err = GetSecrets(c, "")
+	}
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error has occurred or the request has been timed out."})
 		return
 	}
-	ctx.JSON(http.StatusOK, nodeList)
+	ctx.JSON(http.StatusOK, secretList)
 }
 
-func GetSecrets(c kubernetes.IClient) (*[]kubernetes.Secret, error) {
+func GetSecrets(c *kubernetes.IClient, namespace string) (*[]kubernetes.Secret, error) {
 	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	list, err := c.GetSecrets("").List(ct, metav1.ListOptions{})
+	list, err := (*c).GetSecrets(namespace).List(ct, metav1.ListOptions{})
 	if err != nil {
 		return nil, err
 	}

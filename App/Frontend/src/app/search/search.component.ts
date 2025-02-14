@@ -6,8 +6,8 @@
 import { Component } from '@angular/core';
 import { NavComponent } from '../nav/nav.component';
 import { FooterComponent } from "../footer/footer.component";
-import {CommonModule} from "@angular/common";
-import {TranslatePipe} from "@ngx-translate/core";
+import { CommonModule } from "@angular/common";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
     selector: 'app-search',

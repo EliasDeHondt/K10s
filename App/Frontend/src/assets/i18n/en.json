@@ -3,6 +3,7 @@
         "LANGUAGE": "Change Language",
         "DASHBOARD": "Dashboard",
         "SEARCH": "Search",
+        "ADD": "Add",
         "SETTINGS": "Settings",
         "LOGOUT": "Logout",
         "DESCRIPTION": "Description",
@@ -40,5 +41,8 @@
         "STATUS": "Status",
         "RESTART_COUNT": "Restart Count",
         "LAST_UPDATED": "Last Updated"
+    },
+    "NOTFOUND": {
+        "TITLE": "It may be open source, but stay in your damn lane ;-)"
     }
 }

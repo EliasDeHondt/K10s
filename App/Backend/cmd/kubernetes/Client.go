@@ -1,11 +1,28 @@
 package kubernetes
 
 import (
+	"context"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/kubernetes/fake"
 	appsv1 "k8s.io/client-go/kubernetes/typed/apps/v1"
 	corev1 "k8s.io/client-go/kubernetes/typed/core/v1"
+	"k8s.io/metrics/pkg/apis/metrics"
+	metricsv "k8s.io/metrics/pkg/client/clientset/versioned"
+	"time"
 )
+
+type Metrics struct {
+	CpuUsage     float64
+	MemUsage     float64
+	DiskUsage    int64
+	DiskCapacity int64
+}
+
+type FakeMetricsClient struct {
+	NodeMetrics map[string]*metrics.NodeMetrics
+	PodMetrics  map[string]*metrics.PodMetrics
+}
 
 type IClient interface {
 	GetNodes() corev1.NodeInterface
@@ -15,14 +32,18 @@ type IClient interface {
 	GetConfigMaps(namespace string) corev1.ConfigMapInterface
 	GetSecrets(namespace string) corev1.SecretInterface
 	GetDeployments(namespace string) appsv1.DeploymentInterface
+	GetTotalUsage() (*Metrics, error)
+	GetUsageForNode(nodeName string) (*Metrics, error)
 }
 
 type FakeClient struct {
-	Client *fake.Clientset
+	Client        *fake.Clientset
+	MetricsClient *FakeMetricsClient
 }
 
 type Client struct {
-	Client *kubernetes.Clientset
+	Client        *kubernetes.Clientset
+	MetricsClient *metricsv.Clientset
 }
 
 func (client *FakeClient) GetNodes() corev1.NodeInterface {
@@ -79,4 +100,128 @@ func (client *Client) GetSecrets(namespace string) corev1.SecretInterface {
 
 func (client *Client) GetDeployments(namespace string) appsv1.DeploymentInterface {
 	return client.Client.AppsV1().Deployments(namespace)
+}
+
+func (client *FakeClient) GetTotalUsage() (*Metrics, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	nodes, err := client.Client.CoreV1().Nodes().List(ctx, metav1.ListOptions{})
+	if err != nil {
+		return nil, err
+	}
+
+	var totalCpu int64
+	var totalMem int64
+	var totalDisk int64
+	var totalCpuUsage int64
+	var totalMemUsage int64
+	var totalDiskUsage int64
+
+	for _, node := range nodes.Items {
+		totalCpu += node.Status.Capacity.Cpu().MilliValue()
+		totalMem += node.Status.Capacity.Memory().Value()
+		totalDisk += node.Status.Capacity.Storage().Value()
+
+		nodeMetrics := client.MetricsClient.NodeMetrics[node.Name]
+
+		totalCpuUsage += nodeMetrics.Usage.Cpu().MilliValue()
+		totalMemUsage += nodeMetrics.Usage.Memory().Value()
+		totalDiskUsage += nodeMetrics.Usage.Storage().Value()
+	}
+
+	cpuUsagePercent := float64(totalCpuUsage) / float64(totalCpu) * 100
+	memUsagePercent := float64(totalMemUsage) / float64(totalMem) * 100
+
+	return &Metrics{CpuUsage: cpuUsagePercent, MemUsage: memUsagePercent, DiskUsage: totalDiskUsage, DiskCapacity: totalDisk}, nil
+}
+
+func (client *FakeClient) GetUsageForNode(nodeName string) (*Metrics, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	node, err := client.Client.CoreV1().Nodes().Get(ctx, nodeName, metav1.GetOptions{})
+	if err != nil {
+		return nil, err
+	}
+
+	totalCpu := node.Status.Capacity.Cpu().MilliValue()
+	totalMem := node.Status.Capacity.Memory().Value()
+	totalDisk := node.Status.Capacity.Storage().Value()
+
+	nodeMetrics := client.MetricsClient.NodeMetrics[nodeName]
+
+	usedCpu := nodeMetrics.Usage.Cpu().MilliValue()
+	usedMem := nodeMetrics.Usage.Memory().Value()
+	usedDisk := nodeMetrics.Usage.Storage().Value()
+
+	cpuUsagePercent := float64(usedCpu) / float64(totalCpu) * 100
+	memoryUsagePercent := float64(usedMem) / float64(totalMem) * 100
+
+	return &Metrics{CpuUsage: cpuUsagePercent, MemUsage: memoryUsagePercent, DiskUsage: usedDisk, DiskCapacity: totalDisk}, nil
+}
+
+func (client *Client) GetTotalUsage() (*Metrics, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	nodes, err := client.Client.CoreV1().Nodes().List(ctx, metav1.ListOptions{})
+	if err != nil {
+		return nil, err
+	}
+
+	var totalCpu int64
+	var totalMem int64
+	var totalDisk int64
+	var totalCpuUsage int64
+	var totalMemUsage int64
+	var totalDiskUsage int64
+
+	for _, node := range nodes.Items {
+		totalCpu += node.Status.Capacity.Cpu().MilliValue()
+		totalMem += node.Status.Capacity.Memory().Value()
+		totalDisk += node.Status.Capacity.Storage().Value()
+
+		nodeMetrics, err := client.MetricsClient.MetricsV1beta1().NodeMetricses().Get(ctx, node.Name, metav1.GetOptions{})
+		if err != nil {
+			return nil, err
+		}
+
+		totalCpuUsage += nodeMetrics.Usage.Cpu().MilliValue()
+		totalMemUsage += nodeMetrics.Usage.Memory().Value()
+		totalDiskUsage += nodeMetrics.Usage.Storage().Value()
+	}
+
+	cpuUsagePercent := float64(totalCpuUsage) / float64(totalCpu) * 100
+	memUsagePercent := float64(totalMemUsage) / float64(totalMem) * 100
+
+	return &Metrics{CpuUsage: cpuUsagePercent, MemUsage: memUsagePercent, DiskUsage: totalDiskUsage, DiskCapacity: totalDisk}, nil
+}
+
+func (client *Client) GetUsageForNode(nodeName string) (*Metrics, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	node, err := client.Client.CoreV1().Nodes().Get(ctx, nodeName, metav1.GetOptions{})
+	if err != nil {
+		return nil, err
+	}
+
+	totalCpu := node.Status.Capacity.Cpu().MilliValue()
+	totalMem := node.Status.Capacity.Memory().Value()
+	totalDisk := node.Status.Capacity.Storage().Value()
+
+	nodeMetrics, err := client.MetricsClient.MetricsV1beta1().NodeMetricses().Get(ctx, nodeName, metav1.GetOptions{})
+	if err != nil {
+		return nil, err
+	}
+
+	usedCpu := nodeMetrics.Usage.Cpu().MilliValue()
+	usedMem := nodeMetrics.Usage.Memory().Value()
+	usedDisk := nodeMetrics.Usage.Storage().Value()
+
+	cpuUsagePercent := float64(usedCpu) / float64(totalCpu) * 100
+	memoryUsagePercent := float64(usedMem) / float64(totalMem) * 100
+
+	return &Metrics{CpuUsage: cpuUsagePercent, MemUsage: memoryUsagePercent, DiskUsage: usedDisk, DiskCapacity: totalDisk}, nil
 }

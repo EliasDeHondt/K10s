@@ -3,6 +3,7 @@
         "LANGUAGE": "Changer de langue",
         "DASHBOARD": "Tableau de bord",
         "SEARCH": "Rechercher",
+        "ADD": "Ajouter",
         "SETTINGS": "Paramètres",
         "LOGOUT": "Déconnexion",
         "DESCRIPTION": "Description",
@@ -40,5 +41,8 @@
         "STATUS": "Statut",
         "RESTART_COUNT": "Nombre de redémarrages",
         "LAST_UPDATED": "Dernière mise à jour"
+    },
+    "NOTFOUND": {
+        "TITLE": "C’est peut-être open source, mais reste bien dans ton foutu couloir ;-)"
     }
 }

@@ -26,3 +26,15 @@ GET {{base}}/secured/secrets
 
 ### GET DEPLOYMENTS
 GET {{base}}/secured/deployments
+
+### GET TABLE (Nodes)
+GET {{base}}/secured/table?element=nodes
+
+### GET TABLE (Pods)
+GET {{base}}/secured/table?element=pODs&namespace=test
+
+### GET STATS
+GET {{base}}/secured/stats
+
+### GET STATS FOR NODE
+GET {{base}}/secured/stats?nodeName=node-1

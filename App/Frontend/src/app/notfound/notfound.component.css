@@ -1,0 +1,116 @@
+/**********************************/
+/* @since 01/01/2025              */
+/* @author K10s Open Source Team  */
+/**********************************/
+
+/* SetUp Grid */
+.notfound-main { grid-area: main; }
+.footer { grid-area: footer; }
+
+.notfound-body {
+    display: grid;
+    grid-template-areas:
+        'main'
+        'footer';
+    grid-template-columns: 1fr;
+    grid-template-rows: 11fr 0.5fr;
+    gap: 16px;
+    padding: 10px;
+    height: 95vh;
+}
+/* SetUp Grid */
+
+/* Not Found Main */
+.notfound-main {
+    color: var(--background);
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0;
+}
+
+.notfound-main-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.notfound-main-span {
+    animation: glitch 1s linear infinite;
+    font-size: 300px;
+    letter-spacing: -7px;
+    font-weight: bold;
+}
+
+.notfound-main-title {
+    font-size: 24px;
+    margin-top: 16px;
+    text-align: center;
+}
+
+@keyframes glitch {
+    2%,64% {
+        transform: translate(2px,0) skew(0deg);
+    }
+    4%,60% {
+        transform: translate(-2px,0) skew(0deg);
+    }
+    62% {
+        transform: translate(0,0) skew(5deg); 
+    }
+}
+
+.notfound-main-span:before,
+.notfound-main-span:after {
+    content: attr(title);
+    position: absolute;
+    left: 0;
+}
+
+.notfound-main-span:before {
+    animation: glitchTop 1s linear infinite;
+    clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+}
+
+@keyframes glitchTop {
+    2%,64% {
+        transform: translate(2px,-2px);
+    }
+    4%,60% {
+        transform: translate(-2px,2px);
+    }
+    62% {
+        transform: translate(13px,-1px) skew(-13deg); 
+    }
+}
+
+.notfound-main-span:after {
+    animation: glitchBotom 1.5s linear infinite;
+    clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+    -webkit-clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+}
+
+@keyframes glitchBotom {
+    2%,64% {
+        transform: translate(-2px,0);
+    }
+    4%,60% {
+        transform: translate(-2px,0);
+    }
+    62% {
+        transform: translate(-22px,5px) skew(21deg); 
+    }
+}
+/* Not Found Main */
+
+/* Media Queries */
+@media screen and (max-width: 1045px) {
+    .notfound-main-span {
+        font-size: 200px;
+    }
+}
+/* Media Queries */
