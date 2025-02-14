@@ -56,6 +56,13 @@ func TestFakeClient() IClient {
 					corev1.ResourceStorage: resource.MustParse("2Gi"),
 				},
 			},
+			"node-3": {
+				Usage: map[corev1.ResourceName]resource.Quantity{
+					corev1.ResourceCPU:     resource.MustParse("1000m"),
+					corev1.ResourceMemory:  resource.MustParse("4Gi"),
+					corev1.ResourceStorage: resource.MustParse("3Gi"),
+				},
+			},
 		},
 		PodMetrics: map[string]*metrics.PodMetrics{
 			"default/pod-1": {
@@ -147,6 +154,11 @@ func TestFakeClient() IClient {
 				},
 				Addresses: []corev1.NodeAddress{
 					{Type: corev1.NodeInternalIP, Address: "192.168.1.3"},
+				},
+				Capacity: corev1.ResourceList{
+					corev1.ResourceCPU:     resource.MustParse("2000m"),
+					corev1.ResourceMemory:  resource.MustParse("12Gi"),
+					corev1.ResourceStorage: resource.MustParse("15Gi"),
 				},
 			},
 		},
