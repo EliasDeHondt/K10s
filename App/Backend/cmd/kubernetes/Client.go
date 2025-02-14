@@ -2,6 +2,7 @@ package kubernetes
 
 import (
 	"context"
+	av1 "k8s.io/api/apps/v1"
 	cv1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
@@ -35,7 +36,12 @@ type IClient interface {
 	GetDeployments(namespace string) appsv1.DeploymentInterface
 	GetTotalUsage() (*Metrics, error)
 	GetUsageForNode(nodeName string) (*Metrics, error)
-	CreatePod(podInterface *cv1.Pod) error
+	CreateNode(node *cv1.Node) error
+	CreatePod(pod *cv1.Pod) error
+	CreateDeployment(deployment *av1.Deployment) error
+	CreateService(service *cv1.Service) error
+	CreateConfigMap(configMap *cv1.ConfigMap) error
+	CreateSecret(secret *cv1.Secret) error
 }
 
 type FakeClient struct {
@@ -76,11 +82,51 @@ func (client *FakeClient) GetDeployments(namespace string) appsv1.DeploymentInte
 	return client.Client.AppsV1().Deployments(namespace)
 }
 
+func (client *FakeClient) CreateNode(node *cv1.Node) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	_, err := client.GetNodes().Create(ctx, node, metav1.CreateOptions{})
+	return err
+}
+
 func (client *FakeClient) CreatePod(pod *cv1.Pod) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
 	_, err := client.GetPods(pod.Namespace).Create(ctx, pod, metav1.CreateOptions{})
+	return err
+}
+
+func (client *FakeClient) CreateDeployment(deployment *av1.Deployment) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	_, err := client.GetDeployments(deployment.Namespace).Create(ctx, deployment, metav1.CreateOptions{})
+	return err
+}
+
+func (client *FakeClient) CreateService(service *cv1.Service) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	_, err := client.GetServices(service.Namespace).Create(ctx, service, metav1.CreateOptions{})
+	return err
+}
+
+func (client *FakeClient) CreateConfigMap(configMap *cv1.ConfigMap) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	_, err := client.GetConfigMaps(configMap.Namespace).Create(ctx, configMap, metav1.CreateOptions{})
+	return err
+}
+
+func (client *FakeClient) CreateSecret(secret *cv1.Secret) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	_, err := client.GetSecrets(secret.Namespace).Create(ctx, secret, metav1.CreateOptions{})
 	return err
 }
 
@@ -234,4 +280,52 @@ func (client *Client) GetUsageForNode(nodeName string) (*Metrics, error) {
 	memoryUsagePercent := float64(usedMem) / float64(totalMem) * 100
 
 	return &Metrics{CpuUsage: cpuUsagePercent, MemUsage: memoryUsagePercent, DiskUsage: usedDisk, DiskCapacity: totalDisk}, nil
+}
+
+func (client *Client) CreateNode(node *cv1.Node) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	_, err := client.GetNodes().Create(ctx, node, metav1.CreateOptions{})
+	return err
+}
+
+func (client *Client) CreatePod(pod *cv1.Pod) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	_, err := client.GetPods(pod.Namespace).Create(ctx, pod, metav1.CreateOptions{})
+	return err
+}
+
+func (client *Client) CreateDeployment(deployment *av1.Deployment) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	_, err := client.GetDeployments(deployment.Namespace).Create(ctx, deployment, metav1.CreateOptions{})
+	return err
+}
+
+func (client *Client) CreateService(service *cv1.Service) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	_, err := client.GetServices(service.Namespace).Create(ctx, service, metav1.CreateOptions{})
+	return err
+}
+
+func (client *Client) CreateConfigMap(configMap *cv1.ConfigMap) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	_, err := client.GetConfigMaps(configMap.Namespace).Create(ctx, configMap, metav1.CreateOptions{})
+	return err
+}
+
+func (client *Client) CreateSecret(secret *cv1.Secret) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	_, err := client.GetSecrets(secret.Namespace).Create(ctx, secret, metav1.CreateOptions{})
+	return err
 }
