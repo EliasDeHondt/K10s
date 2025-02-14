@@ -27,3 +27,7 @@ func TestCreateNode(t *testing.T) {
 	assert.NotNil(t, resources)
 	assert.Equal(t, 1, len(resources))
 }
+
+func TestCreatePod(t *testing.T) {
+
+}
