@@ -64,18 +64,15 @@ export class DashboardComponent implements AfterViewInit {
     usage: any = null;
     memoryChartData: any[] = [];
     cpuChartData: any[] = [];
+    diskUsagePercentage: number = 0.00;
+
     colorScheme: Color = {
         name: 'customScheme',
         selectable: true,
         group: ScaleType.Ordinal,
         domain: ['#4CAF50', '#E0E0E0']
     };
-    cpuColorScheme : Color = {
-        name: 'customScheme',
-        selectable: true,
-        group: ScaleType.Ordinal,
-        domain: ['#FF5733','#E0E0E0']
-    };
+    diskColor = "";
 
 
     constructor(private usageService: StatsService) {}
@@ -108,10 +105,25 @@ export class DashboardComponent implements AfterViewInit {
     updateChartData(): void {
         this.memoryChartData = [
             { name: 'Used', value: this.usage.MemUsage },
-            { name: 'Free', value: 100 - this.usage.MemUsage }
         ];
         this.cpuChartData = [
             { name: 'Used', value: this.usage?.CpuUsage || 0 },
         ];
+        this.diskUsagePercentage = (this.usage.DiskUsage / this.usage.DiskCapacity) * 100;
+
+        this.colorScheme = {
+            name: 'customScheme',
+            selectable: true,
+            group: ScaleType.Ordinal,
+            domain: [this.getUsageColor(this.usage.MemUsage), '#E0E0E0']
+        };
+        this.diskColor = this.getUsageColor(this.diskUsagePercentage);
     }
+
+    getUsageColor(usage: number): string {
+        if (usage < 50) return '#4CAF50';
+        if (usage < 80) return '#FFC107';
+        return '#FF5733';
+    }
+
 }
