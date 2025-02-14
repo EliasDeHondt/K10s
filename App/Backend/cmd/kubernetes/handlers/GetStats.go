@@ -15,7 +15,7 @@ func GetStatsHandler(ctx *gin.Context) {
 }
 
 func GetTotalStats(ctx *gin.Context) {
-	metrics, err := (*c).GetTotalUsage()
+	metrics, err := c.GetTotalUsage()
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error has occurred or the request has been timed out."})
 		return
@@ -24,7 +24,7 @@ func GetTotalStats(ctx *gin.Context) {
 }
 
 func GetStatsForNode(ctx *gin.Context, name string) {
-	metrics, err := (*c).GetUsageForNode(name)
+	metrics, err := c.GetUsageForNode(name)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error has occurred or the request has been timed out."})
 		return

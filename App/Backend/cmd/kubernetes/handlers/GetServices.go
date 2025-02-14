@@ -28,11 +28,11 @@ func GetServicesHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, serviceList)
 }
 
-func GetServices(c *kubernetes.IClient, namespace string) (*[]kubernetes.Service, error) {
+func GetServices(c kubernetes.IClient, namespace string) (*[]kubernetes.Service, error) {
 	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	list, err := (*c).GetServices(namespace).List(ct, metav1.ListOptions{})
+	list, err := c.GetServices(namespace).List(ct, metav1.ListOptions{})
 	if err != nil {
 		return nil, err
 	}

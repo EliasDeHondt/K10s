@@ -24,19 +24,21 @@ func DeploymentHandler(ctx *gin.Context) {
 		return
 	}
 
-	err = Deployment(c, data)
+	obj, err := Deployment(c, data)
 
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	ctx.Status(http.StatusCreated)
+	ctx.JSON(http.StatusCreated, obj)
 }
 
-func Deployment(c *kubernetes.IClient, data []byte) error {
+func Deployment(c kubernetes.IClient, data []byte) ([]interface{}, error) {
 	decoder := scheme.Codecs.UniversalDeserializer()
 
 	yamlResources := bytes.Split(data, []byte("---"))
+
+	var madeResources []interface{}
 
 	for _, y := range yamlResources {
 		if len(y) == 0 {
@@ -45,37 +47,47 @@ func Deployment(c *kubernetes.IClient, data []byte) error {
 
 		obj, gvk, err := decoder.Decode(data, nil, nil)
 		if err != nil {
-			return err
+			return madeResources, err
 		}
 
 		switch gvk.Kind {
 		case "Node":
 			node := obj.(*corev1.Node)
-			err = (*c).CreateNode(node)
+			var newNode kubernetes.Node
+			newNode, err = c.CreateNode(node)
+			madeResources = append(madeResources, newNode)
 		case "Pod":
 			pod := obj.(*corev1.Pod)
-			err = (*c).CreatePod(pod)
+			var newPod kubernetes.Pod
+			newPod, err = c.CreatePod(pod)
+			madeResources = append(madeResources, newPod)
 		case "Deployment":
 			deployment := obj.(*appsv1.Deployment)
-			err = (*c).CreateDeployment(deployment)
+			var newDeployment kubernetes.Deployment
+			newDeployment, err = c.CreateDeployment(deployment)
+			madeResources = append(madeResources, newDeployment)
 		case "Service":
 			service := obj.(*corev1.Service)
-			err = (*c).CreateService(service)
+			var newService kubernetes.Service
+			newService, err = c.CreateService(service)
+			madeResources = append(madeResources, newService)
 		case "ConfigMap":
 			configMap := obj.(*corev1.ConfigMap)
-			err = (*c).CreateConfigMap(configMap)
+			var newConfigMap kubernetes.ConfigMap
+			newConfigMap, err = c.CreateConfigMap(configMap)
+			madeResources = append(madeResources, newConfigMap)
 		case "Secret":
 			secret := obj.(*corev1.Secret)
-			err = (*c).CreateSecret(secret)
-		default:
-			return fmt.Errorf("unsupported resource kind: %s", gvk.Kind)
+			var newSecret kubernetes.Secret
+			newSecret, err = c.CreateSecret(secret)
+			madeResources = append(madeResources, newSecret)
 		}
 
 		if err != nil {
-			return fmt.Errorf("failed to apply %s: %w", gvk.Kind, err)
+			return madeResources, fmt.Errorf("failed to apply %s: %w", gvk.Kind, err)
 		}
 
 	}
 
-	return nil
+	return madeResources, nil
 }

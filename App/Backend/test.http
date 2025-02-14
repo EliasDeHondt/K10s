@@ -79,9 +79,4 @@ status:
       address: "192.168.1.10"
     - type: Hostname
       address: "node-1"
-  nodeInfo:
-    architecture: amd64
-    operatingSystem: linux
-    kubeletVersion: v1.25.0
-    containerRuntimeVersion: docker://20.10.10
 ---

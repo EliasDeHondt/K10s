@@ -18,11 +18,11 @@ func GetNodesHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, nodeList)
 }
 
-func GetNodes(c *kubernetes.IClient) (*[]kubernetes.Node, error) {
+func GetNodes(c kubernetes.IClient) (*[]kubernetes.Node, error) {
 	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	list, err := (*c).GetNodes().List(ct, metav1.ListOptions{})
+	list, err := c.GetNodes().List(ct, metav1.ListOptions{})
 	if err != nil {
 		return nil, err
 	}
