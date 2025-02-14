@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"bytes"
 	"fmt"
 	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes"
 	"github.com/gin-gonic/gin"
@@ -35,33 +36,46 @@ func DeploymentHandler(ctx *gin.Context) {
 func Deployment(c *kubernetes.IClient, data []byte) error {
 	decoder := scheme.Codecs.UniversalDeserializer()
 
-	obj, gvk, err := decoder.Decode(data, nil, nil)
-	if err != nil {
-		return err
+	yamlResources := bytes.Split(data, []byte("---"))
+
+	for _, y := range yamlResources {
+		if len(y) == 0 {
+			continue
+		}
+
+		obj, gvk, err := decoder.Decode(data, nil, nil)
+		if err != nil {
+			return err
+		}
+
+		switch gvk.Kind {
+		case "Node":
+			node := obj.(*corev1.Node)
+			err = (*c).CreateNode(node)
+		case "Pod":
+			pod := obj.(*corev1.Pod)
+			err = (*c).CreatePod(pod)
+		case "Deployment":
+			deployment := obj.(*appsv1.Deployment)
+			err = (*c).CreateDeployment(deployment)
+		case "Service":
+			service := obj.(*corev1.Service)
+			err = (*c).CreateService(service)
+		case "ConfigMap":
+			configMap := obj.(*corev1.ConfigMap)
+			err = (*c).CreateConfigMap(configMap)
+		case "Secret":
+			secret := obj.(*corev1.Secret)
+			err = (*c).CreateSecret(secret)
+		default:
+			return fmt.Errorf("unsupported resource kind: %s", gvk.Kind)
+		}
+
+		if err != nil {
+			return fmt.Errorf("failed to apply %s: %w", gvk.Kind, err)
+		}
+
 	}
 
-	switch gvk.Kind {
-	case "Node":
-		node := obj.(*corev1.Node)
-		err = (*c).CreateNode(node)
-	case "Pod":
-		pod := obj.(*corev1.Pod)
-		err = (*c).CreatePod(pod)
-	case "Deployment":
-		deployment := obj.(*appsv1.Deployment)
-		err = (*c).CreateDeployment(deployment)
-	case "Service":
-		service := obj.(*corev1.Service)
-		err = (*c).CreateService(service)
-	case "ConfigMap":
-		configMap := obj.(*corev1.ConfigMap)
-		err = (*c).CreateConfigMap(configMap)
-	case "Secret":
-		secret := obj.(*corev1.Secret)
-		err = (*c).CreateSecret(secret)
-	default:
-		return fmt.Errorf("unknown kind: %s", gvk.Kind)
-	}
-
-	return err
+	return nil
 }
