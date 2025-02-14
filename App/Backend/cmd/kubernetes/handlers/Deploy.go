@@ -9,6 +9,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/kubernetes/scheme"
 	"net/http"
+	"strings"
 )
 
 func CreateResourcesHandler(ctx *gin.Context) {
@@ -41,11 +42,11 @@ func CreateResources(c kubernetes.IClient, data []byte) ([]interface{}, error) {
 	var madeResources []interface{}
 
 	for _, y := range yamlResources {
-		if len(y) == 0 {
+		if isCommentsOrWhitespaceOnly(y) {
 			continue
 		}
 
-		obj, gvk, err := decoder.Decode(data, nil, nil)
+		obj, gvk, err := decoder.Decode(y, nil, nil)
 		if err != nil {
 			return madeResources, err
 		}
@@ -91,4 +92,24 @@ func CreateResources(c kubernetes.IClient, data []byte) ([]interface{}, error) {
 	}
 
 	return madeResources, nil
+}
+
+func isCommentsOrWhitespaceOnly(data []byte) bool {
+	lines := bytes.Split(data, []byte("\n"))
+	whitespaceCount := 0
+	hasCommentedLinesOnly := true
+
+	for _, line := range lines {
+		trimmed := strings.TrimSpace(string(line))
+		if trimmed == "" {
+			whitespaceCount++
+		} else {
+			if !strings.HasPrefix(trimmed, "#") {
+				hasCommentedLinesOnly = false
+			}
+		}
+	}
+
+	return (whitespaceCount == len(lines)) || hasCommentedLinesOnly
+
 }

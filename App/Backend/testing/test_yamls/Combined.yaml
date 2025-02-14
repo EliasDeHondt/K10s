@@ -1,3 +1,13 @@
+# This is a test comment
+
+
+    # To see if the comment validation works
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: testing-namespace
 
 ---
 apiVersion: v1

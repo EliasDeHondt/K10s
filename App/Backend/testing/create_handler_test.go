@@ -87,5 +87,5 @@ func TestCombined(t *testing.T) {
 	resources, err := handlers.CreateResources(createClient, data)
 
 	assert.NoError(t, err)
-	assert.Equal(t, 4, len(resources))
+	assert.Equal(t, 5, len(resources))
 }
