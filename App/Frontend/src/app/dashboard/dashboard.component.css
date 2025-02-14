@@ -49,6 +49,7 @@
     font-size: 1rem;
 }
 
+
 .dashboard-header-article {
     font-size: 1.2rem;
     font-weight: 700;
@@ -57,6 +58,11 @@
 .dashboard-header-article h2 {
     margin: 10px;
     padding: 0;
+}
+
+.dashboard-header-article span {
+    margin: 10%;
+    padding: 20%;
 }
 
 .dashboard-header-article p {
