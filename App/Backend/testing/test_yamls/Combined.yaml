@@ -1,0 +1,68 @@
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: custom-config
+  namespace: testing-namespace
+data:
+  config-key: "custom-value"
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: custom-secret
+  namespace: testing-namespace
+type: Opaque
+data:
+  password: c3VwZXJzZWNyZXQ=
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: custom-deployment
+  namespace: testing-namespace
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: custom-app
+  template:
+    metadata:
+      labels:
+        app: custom-app
+    spec:
+      containers:
+        - name: custom-container
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: CONFIG_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: custom-config
+                  key: config-key
+            - name: SECRET_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: custom-secret
+                  key: password
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: custom-service
+  namespace: testing-namespace
+spec:
+  selector:
+    app: custom-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+---

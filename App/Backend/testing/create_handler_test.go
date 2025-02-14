@@ -18,16 +18,74 @@ func getData(fileName string) []byte {
 	return data
 }
 
+func TestCreateNamespace(t *testing.T) {
+	data := getData("Namespace.yaml")
+
+	resources, err := handlers.CreateResources(createClient, data)
+
+	assert.NoError(t, err)
+	assert.Equal(t, 1, len(resources))
+}
+
 func TestCreateNode(t *testing.T) {
 	data := getData("Node.yaml")
 
 	resources, err := handlers.CreateResources(createClient, data)
 
 	assert.NoError(t, err)
-	assert.NotNil(t, resources)
 	assert.Equal(t, 1, len(resources))
 }
 
 func TestCreatePod(t *testing.T) {
+	data := getData("Pod.yaml")
 
+	resources, err := handlers.CreateResources(createClient, data)
+
+	assert.NoError(t, err)
+	assert.Equal(t, 1, len(resources))
+}
+
+func TestCreateService(t *testing.T) {
+	data := getData("Service.yaml")
+
+	resources, err := handlers.CreateResources(createClient, data)
+
+	assert.NoError(t, err)
+	assert.Equal(t, 1, len(resources))
+}
+
+func TestCreateDeployment(t *testing.T) {
+	data := getData("Deployment.yaml")
+
+	resources, err := handlers.CreateResources(createClient, data)
+
+	assert.NoError(t, err)
+	assert.Equal(t, 1, len(resources))
+}
+
+func TestCreateConfigMap(t *testing.T) {
+	data := getData("ConfigMap.yaml")
+
+	resources, err := handlers.CreateResources(createClient, data)
+
+	assert.NoError(t, err)
+	assert.Equal(t, 1, len(resources))
+}
+
+func TestCreateSecret(t *testing.T) {
+	data := getData("Secret.yaml")
+
+	resources, err := handlers.CreateResources(createClient, data)
+
+	assert.NoError(t, err)
+	assert.Equal(t, 1, len(resources))
+}
+
+func TestCombined(t *testing.T) {
+	data := getData("Combined.yaml")
+
+	resources, err := handlers.CreateResources(createClient, data)
+
+	assert.NoError(t, err)
+	assert.Equal(t, 4, len(resources))
 }
