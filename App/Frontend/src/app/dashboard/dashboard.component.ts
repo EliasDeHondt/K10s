@@ -28,6 +28,7 @@ export class DashboardComponent implements AfterViewInit {
     @ViewChild('dashboardMain') dashboardMain!: ElementRef;
     @ViewChild('dashboardTitle') dashboardTitle!: ElementRef;
 
+
     ngAfterViewInit(): void {
         const fullscreenButton = document.getElementById('dashboard-fullscreen-button');
         if (fullscreenButton) fullscreenButton.addEventListener('click', () => this.toggleFullscreen());
@@ -66,14 +67,14 @@ export class DashboardComponent implements AfterViewInit {
     cpuChartData: any[] = [];
     diskUsagePercentage: number = 0.00;
 
-    colorScheme: Color = {
+    colorScheme:Color = {
         name: 'customScheme',
         selectable: true,
         group: ScaleType.Ordinal,
-        domain: ['#4CAF50', '#E0E0E0']
+        domain: []
     };
+    colorSchemeCpu: Color = {...this.colorScheme}
     diskColor = "";
-
 
     constructor(private usageService: StatsService) {}
 
@@ -112,18 +113,25 @@ export class DashboardComponent implements AfterViewInit {
         this.diskUsagePercentage = (this.usage.DiskUsage / this.usage.DiskCapacity) * 100;
 
         this.colorScheme = {
-            name: 'customScheme',
-            selectable: true,
-            group: ScaleType.Ordinal,
+            ...this.colorScheme,
             domain: [this.getUsageColor(this.usage.MemUsage), '#E0E0E0']
+        };
+        this.colorSchemeCpu = {
+            ...this.colorScheme,
+            domain: [this.getUsageColor(this.usage.CpuUsage), '#E0E0E0']
         };
         this.diskColor = this.getUsageColor(this.diskUsagePercentage);
     }
 
     getUsageColor(usage: number): string {
-        if (usage < 50) return '#4CAF50';
-        if (usage < 80) return '#FFC107';
-        return '#FF5733';
+        const rootStyles = getComputedStyle(document.documentElement);
+        const green = rootStyles.getPropertyValue('--status-green').trim();
+        const orange = rootStyles.getPropertyValue('--status-orange').trim();
+        const red = rootStyles.getPropertyValue('--status-red').trim();
+
+        if (usage < 50) return green;
+        if (usage < 80) return orange;
+        return red;
     }
 
 }

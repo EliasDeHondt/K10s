@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {catchError, Observable, tap, throwError} from 'rxjs';
+const BASE_URL = 'http://localhost:8080';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StatsService {
-  private apiUrl = 'http://localhost:8080/secured/stats';
-  private loginUrl = 'http://localhost:8080/login';
+  private apiUrl = `${BASE_URL}/secured/stats`;
+  private loginUrl = `${BASE_URL}/login`;
 
   constructor(private http: HttpClient) {}
 
