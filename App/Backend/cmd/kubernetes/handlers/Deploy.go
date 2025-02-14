@@ -50,22 +50,25 @@ func CreateResources(c kubernetes.IClient, data []byte) ([]interface{}, error) {
 			return madeResources, err
 		}
 
+		var newResource interface{}
+
 		switch gvk.Kind {
+		case "Namespace":
+			namespace := obj.(*corev1.Namespace)
+			newResource, err = c.CreateNamespace(namespace)
+			madeResources = append(madeResources, newResource)
 		case "Node":
 			node := obj.(*corev1.Node)
-			var newNode kubernetes.Node
-			newNode, err = c.CreateNode(node)
-			madeResources = append(madeResources, newNode)
+			newResource, err = c.CreateNode(node)
+			madeResources = append(madeResources, newResource)
 		case "Pod":
 			pod := obj.(*corev1.Pod)
-			var newPod kubernetes.Pod
-			newPod, err = c.CreatePod(pod)
-			madeResources = append(madeResources, newPod)
+			newResource, err = c.CreatePod(pod)
+			madeResources = append(madeResources, newResource)
 		case "Deployment":
 			deployment := obj.(*appsv1.Deployment)
-			var newDeployment kubernetes.Deployment
-			newDeployment, err = c.CreateDeployment(deployment)
-			madeResources = append(madeResources, newDeployment)
+			newResource, err = c.CreateDeployment(deployment)
+			madeResources = append(madeResources, newResource)
 		case "Service":
 			service := obj.(*corev1.Service)
 			var newService kubernetes.Service
@@ -73,14 +76,12 @@ func CreateResources(c kubernetes.IClient, data []byte) ([]interface{}, error) {
 			madeResources = append(madeResources, newService)
 		case "ConfigMap":
 			configMap := obj.(*corev1.ConfigMap)
-			var newConfigMap kubernetes.ConfigMap
-			newConfigMap, err = c.CreateConfigMap(configMap)
-			madeResources = append(madeResources, newConfigMap)
+			newResource, err = c.CreateConfigMap(configMap)
+			madeResources = append(madeResources, newResource)
 		case "Secret":
 			secret := obj.(*corev1.Secret)
-			var newSecret kubernetes.Secret
-			newSecret, err = c.CreateSecret(secret)
-			madeResources = append(madeResources, newSecret)
+			newResource, err = c.CreateSecret(secret)
+			madeResources = append(madeResources, newResource)
 		}
 
 		if err != nil {

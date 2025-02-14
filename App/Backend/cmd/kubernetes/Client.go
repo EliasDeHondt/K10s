@@ -27,6 +27,7 @@ type FakeMetricsClient struct {
 }
 
 type IClient interface {
+	GetNamespaces() corev1.NamespaceInterface
 	GetNodes() corev1.NodeInterface
 	GetPods(namespace string) corev1.PodInterface
 	GetServices(namespace string) corev1.ServiceInterface
@@ -36,6 +37,7 @@ type IClient interface {
 	GetDeployments(namespace string) appsv1.DeploymentInterface
 	GetTotalUsage() (*Metrics, error)
 	GetUsageForNode(nodeName string) (*Metrics, error)
+	CreateNamespace(namespace *cv1.Namespace) (Namespace, error)
 	CreateNode(node *cv1.Node) (Node, error)
 	CreatePod(pod *cv1.Pod) (Pod, error)
 	CreateDeployment(deployment *av1.Deployment) (Deployment, error)
@@ -52,6 +54,10 @@ type FakeClient struct {
 type Client struct {
 	Client        *kubernetes.Clientset
 	MetricsClient *metricsv.Clientset
+}
+
+func (client *FakeClient) GetNamespaces() corev1.NamespaceInterface {
+	return client.Client.CoreV1().Namespaces()
 }
 
 func (client *FakeClient) GetNodes() corev1.NodeInterface {
@@ -80,6 +86,19 @@ func (client *FakeClient) GetSecrets(namespace string) corev1.SecretInterface {
 
 func (client *FakeClient) GetDeployments(namespace string) appsv1.DeploymentInterface {
 	return client.Client.AppsV1().Deployments(namespace)
+}
+
+func (client *FakeClient) CreateNamespace(namespace *cv1.Namespace) (Namespace, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	newNamespace, err := client.GetNamespaces().Create(ctx, namespace, metav1.CreateOptions{})
+
+	if err != nil {
+		return Namespace{}, err
+	}
+
+	return NewNamespace(*newNamespace), err
 }
 
 func (client *FakeClient) CreateNode(node *cv1.Node) (Node, error) {
@@ -158,6 +177,10 @@ func (client *FakeClient) CreateSecret(secret *cv1.Secret) (Secret, error) {
 	}
 
 	return NewSecret(*secret), err
+}
+
+func (client *Client) GetNamespaces() corev1.NamespaceInterface {
+	return client.Client.CoreV1().Namespaces()
 }
 
 func (client *Client) GetNodes() corev1.NodeInterface {
@@ -310,6 +333,19 @@ func (client *Client) GetUsageForNode(nodeName string) (*Metrics, error) {
 	memoryUsagePercent := float64(usedMem) / float64(totalMem) * 100
 
 	return &Metrics{CpuUsage: cpuUsagePercent, MemUsage: memoryUsagePercent, DiskUsage: usedDisk, DiskCapacity: totalDisk}, nil
+}
+
+func (client *Client) CreateNamespace(namespace *cv1.Namespace) (Namespace, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	newNamespace, err := client.GetNamespaces().Create(ctx, namespace, metav1.CreateOptions{})
+
+	if err != nil {
+		return Namespace{}, err
+	}
+
+	return NewNamespace(*newNamespace), err
 }
 
 func (client *Client) CreateNode(node *cv1.Node) (Node, error) {
