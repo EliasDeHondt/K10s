@@ -8,12 +8,14 @@ import { NavComponent } from '../nav/nav.component';
 import { FooterComponent } from "../footer/footer.component";
 import { TranslatePipe } from "@ngx-translate/core";
 import {StatsService} from "../services/stats.service";
+import {ByteFormatPipe} from "../byte-format.pipe";
+import {Color, NgxChartsModule, ScaleType} from "@swimlane/ngx-charts";
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css'],
-    imports: [NavComponent, FooterComponent, TranslatePipe],
+    imports: [NavComponent, FooterComponent, TranslatePipe, ByteFormatPipe,NgxChartsModule],
     standalone: true
 })
 
@@ -60,6 +62,21 @@ export class DashboardComponent implements AfterViewInit {
 
     // get stats
     usage: any = null;
+    memoryChartData: any[] = [];
+    cpuChartData: any[] = [];
+    colorScheme: Color = {
+        name: 'customScheme',
+        selectable: true,
+        group: ScaleType.Ordinal,
+        domain: ['#4CAF50', '#E0E0E0']
+    };
+    cpuColorScheme : Color = {
+        name: 'customScheme',
+        selectable: true,
+        group: ScaleType.Ordinal,
+        domain: ['#FF5733','#E0E0E0']
+    };
+
 
     constructor(private usageService: StatsService) {}
 
@@ -79,11 +96,22 @@ export class DashboardComponent implements AfterViewInit {
         this.usageService.getStats().subscribe({
             next: (data) => {
                 console.log(data)
-                this.usage = data.MemUsage;
+                this.usage = data;
+                this.updateChartData();
             },
             error: (error) => {
                 console.error(error);
             }
         });
+    }
+
+    updateChartData(): void {
+        this.memoryChartData = [
+            { name: 'Used', value: this.usage.MemUsage },
+            { name: 'Free', value: 100 - this.usage.MemUsage }
+        ];
+        this.cpuChartData = [
+            { name: 'Used', value: this.usage?.CpuUsage || 0 },
+        ];
     }
 }

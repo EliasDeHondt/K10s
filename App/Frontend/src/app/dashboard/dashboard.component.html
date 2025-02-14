@@ -10,19 +10,50 @@
         <section class="dashboard-header-section2">
             <article class="dashboard-header-article">
                 <h2>{{ 'DASHBOARD.CPU' | translate }}</h2>
-                <span id="dashboard-header-2"></span> <!-- TODO -->
+                <span id="dashboard-header-2">
+                    <ngx-charts-gauge
+                    [view]="[450, 250]"
+                    [min]="0"
+                    [results]="cpuChartData"
+                    [max]="100"
+                    [angleSpan]="180"
+                    [startAngle]="-90"
+                    [units]="'%'"
+                    [bigSegments]="2"
+                    [smallSegments]="0"
+                    [legend]="false"
+                    [scheme]="cpuColorScheme">
+                    </ngx-charts-gauge>
+                </span>
             </article>
         </section>
         <section class="dashboard-header-section3">
             <article class="dashboard-header-article">
                 <h2>{{ 'DASHBOARD.RAM' | translate }}</h2>
-                <span id="dashboard-header-3"></span> <!-- TODO -->
+
+                <span id="dashboard-header-3"><ngx-charts-pie-chart
+                        [results]="memoryChartData"
+                        [view]="[150, 150]"
+                        [doughnut]="false"
+                        [legend]="false"
+                        [labels]="false"
+                        [explodeSlices]="false"
+                        [gradient]="false"
+                        [scheme]="colorScheme">
+                </ngx-charts-pie-chart>
+                <p class="text-center font-bold mt-2">
+            {{ usage?.MemUsage }}% used
+        </p>
+
+                </span>
+
             </article>
         </section>
+
         <section class="dashboard-header-section4">
             <article class="dashboard-header-article">
                 <h2>{{ 'DASHBOARD.DISK' | translate }}</h2>
-                <span id="dashboard-header-4">{{ usage || 'Loading...' }}</span>
+                <span id="dashboard-header-4"> {{ usage.DiskUsage | byteFormat }} / {{ usage.DiskCapacity | byteFormat }}</span>
             </article>
         </section>
     </header>
