@@ -7,6 +7,7 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { NavComponent } from '../nav/nav.component';
 import { FooterComponent } from "../footer/footer.component";
 import { TranslatePipe } from "@ngx-translate/core";
+import {StatsService} from "../services/stats.service";
 
 @Component({
     selector: 'app-dashboard',
@@ -24,8 +25,6 @@ export class DashboardComponent implements AfterViewInit {
     // Fullscreen button
     @ViewChild('dashboardMain') dashboardMain!: ElementRef;
     @ViewChild('dashboardTitle') dashboardTitle!: ElementRef;
-
-    constructor() {}
 
     ngAfterViewInit(): void {
         const fullscreenButton = document.getElementById('dashboard-fullscreen-button');
@@ -56,5 +55,35 @@ export class DashboardComponent implements AfterViewInit {
             dashboardMainEl.style.gridArea = '';
             dashboardTitleEl.style.display = 'none';
         }
+    }
+
+
+    // get stats
+    usage: any = null;
+
+    constructor(private usageService: StatsService) {}
+
+    ngOnInit(): void {
+        this.usageService.login().subscribe({
+            next: () => {
+                this.loadUsage();
+            },
+            error: (error) => {
+                console.error(error);
+            }
+        });
+    }
+
+
+    loadUsage(): void {
+        this.usageService.getStats().subscribe({
+            next: (data) => {
+                console.log(data)
+                this.usage = data.MemUsage;
+            },
+            error: (error) => {
+                console.error(error);
+            }
+        });
     }
 }
