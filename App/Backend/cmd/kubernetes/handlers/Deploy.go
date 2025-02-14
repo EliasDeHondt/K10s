@@ -11,7 +11,7 @@ import (
 	"net/http"
 )
 
-func DeploymentHandler(ctx *gin.Context) {
+func CreateResourcesHandler(ctx *gin.Context) {
 	contentType := ctx.Request.Header.Get("Content-Type")
 	if contentType != "application/x-yaml" {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Invalid Content-Type"})
@@ -24,7 +24,7 @@ func DeploymentHandler(ctx *gin.Context) {
 		return
 	}
 
-	obj, err := Deployment(c, data)
+	obj, err := CreateResources(c, data)
 
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -33,7 +33,7 @@ func DeploymentHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, obj)
 }
 
-func Deployment(c kubernetes.IClient, data []byte) ([]interface{}, error) {
+func CreateResources(c kubernetes.IClient, data []byte) ([]interface{}, error) {
 	decoder := scheme.Codecs.UniversalDeserializer()
 
 	yamlResources := bytes.Split(data, []byte("---"))
