@@ -13,7 +13,7 @@ import {SpiderWebComponent} from "../spider-web/spider-web.component";
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css'],
-    imports: [NavComponent, FooterComponent, TranslatePipe],
+    imports: [NavComponent, FooterComponent, TranslatePipe, SpiderWebComponent],
     standalone: true
 })
 
