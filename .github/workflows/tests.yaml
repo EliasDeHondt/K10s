@@ -35,9 +35,9 @@ jobs:
             ${{ runner.os }}-go-
 
       - name: Install dependencies
-        run: |
-          cd App/Backend
-          go mod download
+        working-directory: App/Backend
+        run: go mod download
 
       - name: Run tests
-        run: go test -v App/Backend/testing
+        working-directory: App/Backend
+        run: go test -v ./testing
