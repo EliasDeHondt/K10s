@@ -34,11 +34,6 @@ func GetNodes(c *kubernetes.IClient, pageSize int, pageToken string) (*Paginated
 		return nil, err
 	}
 
-	var nodeList = make([]kubernetes.Node, len(list.Items))
-
-	for i, node := range list.Items {
-		nodeList[i] = kubernetes.NewNode(node, c)
-	}
 	return &PaginatedResponse[[]kubernetes.Node]{
 		Response:  transformNodes(&list.Items),
 		PageToken: list.Continue,

@@ -43,11 +43,6 @@ func GetConfigMaps(c *kubernetes.IClient, namespace string, pageSize int, pageTo
 		return nil, err
 	}
 
-	var configMapList = make([]kubernetes.ConfigMap, len(list.Items))
-
-	for i, configMap := range list.Items {
-		configMapList[i] = kubernetes.NewConfigMap(configMap)
-	}
 	return &PaginatedResponse[[]kubernetes.ConfigMap]{
 		Response:  transformConfigMaps(&list.Items),
 		PageToken: list.Continue,

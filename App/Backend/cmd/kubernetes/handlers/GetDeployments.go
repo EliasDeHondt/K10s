@@ -43,11 +43,6 @@ func GetDeployments(c *kubernetes.IClient, namespace string, pageSize int, pageT
 		return nil, err
 	}
 
-	var deploymentList = make([]kubernetes.Deployment, len(list.Items))
-
-	for i, deployment := range list.Items {
-		deploymentList[i] = kubernetes.NewDeployment(deployment)
-	}
 	return &PaginatedResponse[[]kubernetes.Deployment]{
 		Response:  transformDeployments(&list.Items),
 		PageToken: list.Continue,
