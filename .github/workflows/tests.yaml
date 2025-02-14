@@ -30,12 +30,15 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          key: ${{ runner.os }}-go-${{ hashFiles('App/backend/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-go-
+
+      - name: Change to App/Backend directory
+        run: cd App/Backend
 
       - name: Install dependencies
         run: go mod download
 
       - name: Run tests
-        run: go test -v ./App/backend/testing/...
+        run: go test -v ./testing/...
