@@ -58,7 +58,7 @@
                         {{ 'NAV.LANGUAGE' | translate }}
                     </button>
                     <ul class="modal-dropdown-menu cursor-pointer" *ngIf="dropdownOpen">
-                        <li *ngFor="let lang of settingsConfig.languages" (click)="changeLanguage(lang.code)">
+                        <li *ngFor="let lang of settingsConfig.languages" [class.active]="lang.code === currentLanguage"  (click)="changeLanguage(lang.code)">
                             {{ lang.name }}
                         </li>
                     </ul>

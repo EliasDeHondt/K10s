@@ -122,8 +122,7 @@
 }
 
 .search-dropdown1,
-.search-dropdown2,
-.search-dropdown3 {
+.search-dropdown2 {
     position: relative;
     display: inline-block;
     width: 100%;
@@ -181,7 +180,7 @@
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.search-dropdown-menu li:hover {
+.search-dropdown-menu li:hover,li.active {
     background-color: var(--accent);
     color: var(--background);
 }
