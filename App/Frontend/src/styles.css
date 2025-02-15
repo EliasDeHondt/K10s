@@ -31,9 +31,9 @@
 }
 
 :root { /* Kubernetes status colors */
-    --status-green: #28a745;
-    --status-read: #f44336;
-    --status-orange: #ffa500;
+    --status-green: #4CAF50;
+    --status-read: #FF5733;
+    --status-orange: #FFC107;
     --status-purple: #9c27b0;
     --status-blue: #007bff;
     --status-grey: #9e9e9e;

@@ -44,10 +44,14 @@
     border-radius: var(--radius);
     box-shadow: 2px 0 5px var(--shadow);
     width: 100%;
-    height: 100%;
+    height: 200px;
     font-weight: bold;
     font-size: 1rem;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
+
 
 .dashboard-header-article {
     font-size: 1.2rem;
@@ -59,8 +63,28 @@
     padding: 0;
 }
 
+#dashboard-header-4 {
+    margin: 10%;
+    padding: 20%;
+}
+.progress-container {
+    width: 95%;
+    height: 20px;
+    background-color: #E0E0E0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+    margin-left: 0.8rem;
+}
+
+.progress-bar {
+    height: 100%;
+    box-sizing: border-box;
+    transition: width 0.5s ease-in-out;
+}
+
 .dashboard-header-article p {
-    margin: 10px;
+    margin: 0.8rem;
     padding: 0;
 }
 /* Dashboard Header */
