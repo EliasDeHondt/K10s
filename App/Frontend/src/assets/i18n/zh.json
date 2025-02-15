@@ -22,7 +22,7 @@
     },
     "DASHBOARD": {
         "NODES": "节点",
-        "CPU": "CPU使用率",
+        "CPU": "中央处理器 使用率",
         "RAM": "内存使用率",
         "DISK": "磁盘使用率"
     },
@@ -30,14 +30,14 @@
         "SEARCH_PLACEHOLDER": "搜索集群...",
         "SEARCH": "搜索",
         "NODE": "节点",
-        "PODS": "Pods",
+        "PODS": "容器组",
         "SERVICES": "服务",
         "DEPLOYMENTS": "部署",
         "CONFIGMAPS": "配置映射",
         "SECRETS": "密钥",
         "NAMESPACE": "命名空间",
         "CLUSTER_NAME": "集群名称",
-        "POD_NAME": "Pod名称",
+        "POD_NAME": "容器组 名称",
         "STATUS": "状态",
         "RESTART_COUNT": "重启次数",
         "LAST_UPDATED": "最后更新"
