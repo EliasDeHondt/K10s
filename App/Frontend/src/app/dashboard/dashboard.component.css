@@ -73,6 +73,7 @@
     box-shadow: 2px 0 5px var(--shadow);
     width: 100%;
     position: relative;
+    pointer-events: none;
 }
 
 .dashboard-fullscreen-button {
@@ -89,6 +90,7 @@
     fill: var(--secondary);
     width: 20px;
     height: 20px;
+    pointer-events: auto;
 }
 
 .dashboard-fullscreen-button:hover {

@@ -7,12 +7,13 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { NavComponent } from '../nav/nav.component';
 import { FooterComponent } from "../footer/footer.component";
 import { TranslatePipe } from "@ngx-translate/core";
+import {SpiderWebComponent} from "../spider-web/spider-web.component";
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css'],
-    imports: [NavComponent, FooterComponent, TranslatePipe],
+    imports: [NavComponent, FooterComponent, TranslatePipe, SpiderWebComponent],
     standalone: true
 })
 

@@ -1,0 +1,12 @@
+/**********************************/
+/* @since 01/01/2025              */
+/* @author K10s Open Source Team  */
+/**********************************/
+
+.spider-web-container {
+    position: relative;
+}
+
+canvas {
+    pointer-events: auto;
+}
