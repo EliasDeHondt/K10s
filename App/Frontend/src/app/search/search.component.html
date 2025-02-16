@@ -8,15 +8,16 @@
             </article>
         </section>
         <section class="search-header-section2">
-            <article class="search-header-article2">
-                <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-1">{{ 'DASHBOARD.NODES' | translate }}</label>
-                <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-2">{{ 'SEARCH.PODS' | translate }}</label>
-                <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-3">{{ 'SEARCH.SERVICES' | translate }}</label>
-                <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-4">{{ 'SEARCH.DEPLOYMENTS' | translate }}</label>
-                <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-5">{{ 'SEARCH.CONFIGMAPS' | translate }}</label>
-                <label><input class="cursor-pointer" type="checkbox" id="search-filter-option-6">{{ 'SEARCH.SECRETS' | translate }}</label>
-            </article>
-        </section>
+        <article class="search-header-article2">
+            <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-1">{{ 'DASHBOARD.NODES' | translate }}</label>
+            <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-2">{{ 'SEARCH.PODS' | translate }}</label>
+            <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-3">{{ 'SEARCH.SERVICES' | translate }}</label>
+            <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-4">{{ 'SEARCH.DEPLOYMENTS' | translate }}</label>
+            <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-5">{{ 'SEARCH.CONFIGMAPS' | translate }}</label>
+            <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-6">{{ 'SEARCH.SECRETS' | translate }}</label>
+        </article>
+    </section>
+
         <section class="search-header-section3">
             <article class="search-header-article3">
                 <section class="search-dropdown1">
@@ -24,22 +25,22 @@
                         {{ 'SEARCH.NODE' | translate }}
                     </button>
                     <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown1']">
-                    <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown1')">None</li>
-                        <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown1')">Node A</li>
-                        <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown1')">Node B</li>
+                        <li class="cursor-pointer" [class.active]="selectedNode === 'None'" (click)="selectNode('None')">None</li>
+                        <li class="cursor-pointer" [class.active]="selectedNode === 'Node A'" (click)="selectNode('Node A')">Node A</li>
+                        <li class="cursor-pointer" [class.active]="selectedNode === 'Node B'" (click)="selectNode('Node B')">Node B</li>
                     </ul>
                 </section>
             </article>
             <article class="search-header-article3">
-                <section class="search-dropdown3">
-                    <button class="search-dropdown-button cursor-pointer" (click)="toggleDropdown('searchDropdown3')">
+                <section class="search-dropdown2">
+                    <button class="search-dropdown-button cursor-pointer" (click)="toggleDropdown('searchDropdown2')">
                         {{ 'SEARCH.NAMESPACE' | translate }}
                     </button>
-                    <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown3']">
-                        <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown3')">None</li>
-                        <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown3')">Webserver001</li>
-                        <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown3')">Database001</li>
-                        <li class="cursor-pointer" (click)="toggleDropdown('searchDropdown3')">Monitoring001</li>
+                    <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown2']">
+                        <li class="cursor-pointer" [class.active]="selectedNamespace === 'None'" (click)="selectNamespace('None')">None</li>
+                        <li class="cursor-pointer" [class.active]="selectedNamespace === 'Webserver001'" (click)="selectNamespace('Webserver001')">Webserver001</li>
+                        <li class="cursor-pointer" [class.active]="selectedNamespace === 'Database001'" (click)="selectNamespace('Database001')">Database001</li>
+                        <li class="cursor-pointer" [class.active]="selectedNamespace === 'Monitoring001'" (click)="selectNamespace('Monitoring001')">Monitoring001</li>
                     </ul>
                 </section>
             </article>

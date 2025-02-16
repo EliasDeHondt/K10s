@@ -18,6 +18,7 @@ import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 export class NavComponent implements OnInit {
     githubStars: string = '⭐ Loading...';
     dropdownOpen: boolean = false;
+    currentLanguage: string = 'en';
 
     settingsConfig = {
         languages: [
@@ -33,16 +34,14 @@ export class NavComponent implements OnInit {
         const savedLang = localStorage.getItem('language');
         if (savedLang) {
             this.translate.use(savedLang);
+            this.currentLanguage = savedLang;
         } else {
             this.translate.use('en');
         }
-        console.log('Current language:', this.translate.currentLang);
-
     }
 
     ngOnInit(): void {
         this.fetchGitHubStars();
-
     }
 
     async fetchGitHubStars() {
@@ -70,8 +69,9 @@ export class NavComponent implements OnInit {
     changeLanguage(languageCode: string) {
         this.translate.use(languageCode);
         localStorage.setItem('language', languageCode);
-        console.log('Language changed to:', languageCode);
+        this.currentLanguage = languageCode;
         this.closeSettingsModal();
+        this.dropdownOpen = false;
     }
 
     toggleDropdown() {
