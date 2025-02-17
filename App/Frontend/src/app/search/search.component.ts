@@ -14,7 +14,7 @@ import {LoadingComponent} from "../loading/loading.component";
     selector: 'app-search',
     templateUrl: './search.component.html',
     styleUrls: ['./search.component.css'],
-    imports: [NavComponent, FooterComponent, CommonModule, TranslatePipe, LoadingComponent],
+    imports: [NavComponent, FooterComponent, CommonModule, TranslatePipe],
     standalone: true
 })
 
