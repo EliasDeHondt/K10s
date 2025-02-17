@@ -44,5 +44,9 @@
     },
     "NOTFOUND": {
         "TITLE": "Het mag dan open source zijn, maar blijf verdomme in je eigen baan ;-)"
+    },
+    "ADD_DEPLOYMENT": {
+        "YAML_PLACEHOLDER": "Typ hier de YAML...",
+        "DEPLOY" : "Installeer"
     }
 }

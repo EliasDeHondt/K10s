@@ -44,5 +44,9 @@
     },
     "NOTFOUND": {
         "TITLE": "It may be open source, but stay in your damn lane ;-)"
+    },
+    "ADD_DEPLOYMENT": {
+        "YAML_PLACEHOLDER": "Type YAML here...",
+        "DEPLOY" : "Deploy"
     }
 }

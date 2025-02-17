@@ -44,5 +44,9 @@
     },
     "NOTFOUND": {
         "TITLE": "也许是开源的，但别他妈越界 ;-)"
+    },
+    "ADD_DEPLOYMENT": {
+        "YAML_PLACEHOLDER": "在此处键入 YAML...",
+        "DEPLOY" : "部署"
     }
 }
