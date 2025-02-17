@@ -87,18 +87,24 @@ export class DashboardComponent implements AfterViewInit {
         });
     }
 
+    loading: boolean = false;
+
     loadUsage(): void {
+        this.loading = true;
         this.usageService.getStats().subscribe({
             next: (data) => {
-                console.log(data)
+                console.log(data);
                 this.usage = data;
                 this.updateChartData();
+                this.loading = false;
             },
             error: (error) => {
                 console.error(error);
+                this.loading = false;
             }
         });
     }
+
 
     updateChartData(): void {
         this.memoryChartData = [
