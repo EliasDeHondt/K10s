@@ -58,10 +58,13 @@ func NewNodeView(node *v1.Node, client IClient) *NodeView {
 		log.Fatal(err)
 	}
 
+	deployments, err := getDeploymentsOnNode(node.Name, client)
+
 	return &NodeView{
-		Name:      node.Name,
-		Namespace: node.Namespace,
-		Services:  serviceViews,
+		Name:        node.Name,
+		Namespace:   node.Namespace,
+		Services:    serviceViews,
+		Deployments: deployments,
 	}
 }
 
@@ -285,4 +288,55 @@ func createNodeViews(client IClient) ([]*NodeView, error) {
 		nodeViews[i] = NewNodeView(&node, client)
 	}
 	return nodeViews, nil
+}
+
+func getDeploymentsOnNode(nodeName string, client IClient) ([]*DeploymentView, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	pods, err := client.GetPods("").List(ctx, metav1.ListOptions{
+		FieldSelector: "spec.nodeName=" + nodeName,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	replicaSetMap := make(map[string]string)
+	deploymentSet := make(map[string]appsv1.Deployment)
+
+	replicaSets, err := client.GetReplicaSets("").List(ctx, metav1.ListOptions{})
+	if err != nil {
+		return nil, err
+	}
+
+	for _, rs := range replicaSets.Items {
+		for _, owner := range rs.OwnerReferences {
+			if owner.Kind == "Deployment" {
+				replicaSetMap[rs.Name] = owner.Name
+			}
+		}
+	}
+
+	for _, pod := range pods.Items {
+		for _, owner := range pod.OwnerReferences {
+			if owner.Kind == "ReplicaSet" {
+				if deploymentName, exists := replicaSetMap[owner.Name]; exists {
+					deployment, err := client.GetDeployments(pod.Namespace).Get(ctx, deploymentName, metav1.GetOptions{})
+					if err != nil {
+						log.Printf("Failed to get Deployment %s: %v", deploymentName, err)
+						continue
+					}
+					deploymentSet[deployment.Name] = *deployment
+				}
+			}
+		}
+	}
+
+	deploymentViews := make([]*DeploymentView, 0)
+	for _, deployment := range deploymentSet {
+		deploymentViews = append(deploymentViews, NewDeploymentView(&deployment))
+	}
+
+	return deploymentViews, nil
+
 }
