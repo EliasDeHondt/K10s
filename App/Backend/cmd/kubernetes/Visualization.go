@@ -83,7 +83,6 @@ func NewServiceView(service *v1.Service, client IClient) *ServiceView {
 	loadBalancers, err := getLoadBalancersForService(service)
 	if err != nil {
 		log.Fatal(err)
-		return nil
 	}
 
 	return &ServiceView{
@@ -101,10 +100,6 @@ func NewLoadBalancer(ingress *v1.LoadBalancerIngress) *LoadBalancer {
 }
 
 func getLoadBalancersForService(service *v1.Service) ([]*LoadBalancer, error) {
-
-	if service.Spec.Type != "LoadBalancer" {
-		return nil, fmt.Errorf("service %s is not of type LoadBalancer", service.Name)
-	}
 
 	balancers := service.Status.LoadBalancer.Ingress
 	loadBalancers := make([]*LoadBalancer, 0)
