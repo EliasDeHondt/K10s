@@ -37,7 +37,6 @@
     justify-content: center;
 }
 
-
 /* Add Main */
 .add-main {
     background-color: var(--tertiary);
@@ -54,14 +53,14 @@
     gap: 8vh;
 }
 
-.textarea-container {
+.add-textarea-container {
     position: relative;
     width: 100%;
     height: 80%;
     display: flex;
 }
 
-textarea {
+.add-textarea {
     width: 100%;
     height: 100%;
     padding: var(--spacing);
@@ -71,7 +70,8 @@ textarea {
     box-shadow: 2px 0 5px var(--shadow);
     overflow: hidden;
 }
-.clear-button {
+
+.add-clear-button {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -89,7 +89,7 @@ textarea {
     transition: background 0.3s ease;
 }
 
-.clear-button:hover {
+.add-clear-button:hover {
     background: var(--primary);
 }
 
@@ -157,5 +157,4 @@ textarea {
     .add-header {
         display: none;
     }
-
 }

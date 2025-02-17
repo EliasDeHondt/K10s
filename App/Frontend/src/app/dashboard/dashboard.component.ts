@@ -7,15 +7,15 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { NavComponent } from '../nav/nav.component';
 import { FooterComponent } from "../footer/footer.component";
 import { TranslatePipe } from "@ngx-translate/core";
-import {StatsService} from "../services/stats.service";
-import {ByteFormatPipe} from "../byte-format.pipe";
-import {Color, NgxChartsModule, ScaleType} from "@swimlane/ngx-charts";
+import { StatsService } from "../services/stats.service";
+import { ByteFormatPipe } from "../byte-format.pipe";
+import { Color, NgxChartsModule, ScaleType } from "@swimlane/ngx-charts";
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css'],
-    imports: [NavComponent, FooterComponent, TranslatePipe, ByteFormatPipe,NgxChartsModule],
+    imports: [NavComponent, FooterComponent, TranslatePipe, ByteFormatPipe, NgxChartsModule],
     standalone: true
 })
 
@@ -27,7 +27,6 @@ export class DashboardComponent implements AfterViewInit {
     // Fullscreen button
     @ViewChild('dashboardMain') dashboardMain!: ElementRef;
     @ViewChild('dashboardTitle') dashboardTitle!: ElementRef;
-
 
     ngAfterViewInit(): void {
         const fullscreenButton = document.getElementById('dashboard-fullscreen-button');
@@ -60,7 +59,6 @@ export class DashboardComponent implements AfterViewInit {
         }
     }
 
-
     // get stats
     usage: any = null;
     memoryChartData: any[] = [];
@@ -88,7 +86,6 @@ export class DashboardComponent implements AfterViewInit {
             }
         });
     }
-
 
     loadUsage(): void {
         this.usageService.getStats().subscribe({
@@ -133,5 +130,4 @@ export class DashboardComponent implements AfterViewInit {
         if (usage < 80) return orange;
         return red;
     }
-
 }
