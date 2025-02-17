@@ -55,14 +55,14 @@
                         <div class="progress-bar" [style.width.%]="diskUsagePercentage" [style.background-color]="diskColor"></div>
                     </div>
                    <p class="text-center font-bold mt-2">
-    <ng-container *ngIf="!loading; else loadingTemplate">
-        {{ usage?.DiskUsage | byteFormat }} / {{ usage?.DiskCapacity | byteFormat }}
-    </ng-container>
-</p>
+                      <ng-container *ngIf="usage; else loadingTemplate">
+                        {{ usage.DiskUsage | byteFormat }} / {{ usage.DiskCapacity | byteFormat }}
+                      </ng-container>
+                    </p>
 
-<ng-template #loadingTemplate>
-    <div class="custom-loader"></div> <!-- Custom animated loader -->
-</ng-template>
+                    <ng-template #loadingTemplate>
+                        <app-loading [size]="30"></app-loading>
+                    </ng-template>
                 </span>
             </article>
         </section>
