@@ -7,11 +7,11 @@ import { Component } from '@angular/core';
 import { NavComponent } from "../nav/nav.component";
 import { FooterComponent } from "../footer/footer.component";
 import { FormsModule } from "@angular/forms";
-import { DeploymentService } from "../services/deployment.service";
+import { AddService } from "../services/add.service";
 import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-    selector: 'app-add-deployment',
+    selector: 'app-add',
     templateUrl: './add.component.html',
     styleUrl: './add.component.css',
     imports: [NavComponent, FooterComponent, FormsModule, TranslatePipe],
@@ -24,7 +24,7 @@ export class AddComponent {
     fileUploaded: boolean = false;
     textAreaActive: boolean = false;
 
-    constructor(private deploymentService: DeploymentService) {}
+    constructor(private addService: AddService) {}
 
     onFileUpload(event: Event) {
         const input = event.target as HTMLInputElement;
@@ -56,7 +56,7 @@ export class AddComponent {
             return;
         }
 
-        this.deploymentService.uploadYaml(yamlData).subscribe({
+        this.addService.uploadYaml(yamlData).subscribe({
             next: (response) => {console.log('YAML upload success', response);  this.clearTextarea();},
             error: (error) => console.error('Upload failed', error),
         });
