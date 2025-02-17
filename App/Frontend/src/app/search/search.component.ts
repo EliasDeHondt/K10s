@@ -8,16 +8,18 @@ import { NavComponent } from '../nav/nav.component';
 import { FooterComponent } from "../footer/footer.component";
 import { CommonModule } from "@angular/common";
 import { TranslatePipe } from "@ngx-translate/core";
+import {LoadingComponent} from "../loading/loading.component";
 
 @Component({
     selector: 'app-search',
     templateUrl: './search.component.html',
     styleUrls: ['./search.component.css'],
-    imports: [NavComponent, FooterComponent, CommonModule, TranslatePipe],
+    imports: [NavComponent, FooterComponent, CommonModule, TranslatePipe, LoadingComponent],
     standalone: true
 })
 
 export class SearchComponent {
+    isLoading: boolean = true;
     dropdowns: { [key: string]: boolean } = {
         searchDropdown1: false,
         searchDropdown2: false,
@@ -25,6 +27,7 @@ export class SearchComponent {
     };
     selectedNode: string = 'None';
     selectedNamespace: string = 'None';
+    searchResults: any[] = [];
 
     toggleDropdown(dropdownKey: string) {
         for (let key in this.dropdowns) {
@@ -38,5 +41,14 @@ export class SearchComponent {
     selectNamespace(namespace: string) {
         this.selectedNamespace = namespace;
         this.toggleDropdown('searchDropdown2');
+    }
+
+    ngOnInit(): void {
+        this.getData();
+    }
+
+    getData(): void {
+        this.isLoading = true;
+        //todo get
     }
 }
