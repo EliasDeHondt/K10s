@@ -23,10 +23,20 @@ export class SearchComponent {
         searchDropdown2: false,
         searchDropdown3: false
     };
+    selectedNode: string = 'None';
+    selectedNamespace: string = 'None';
 
     toggleDropdown(dropdownKey: string) {
         for (let key in this.dropdowns) {
             this.dropdowns[key] = key === dropdownKey ? !this.dropdowns[key] : false;
         }
+    }
+    selectNode(node: string) {
+        this.selectedNode = node;
+        this.toggleDropdown('searchDropdown1');
+    }
+    selectNamespace(namespace: string) {
+        this.selectedNamespace = namespace;
+        this.toggleDropdown('searchDropdown2');
     }
 }

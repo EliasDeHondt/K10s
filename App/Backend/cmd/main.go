@@ -7,12 +7,23 @@ package main
 import (
 	"github.com/eliasdehondt/K10s/App/Backend/cmd/auth"
 	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes/handlers"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"time"
 )
 
 func main() {
 
 	r := gin.Default()
+
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:4200"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
 
 	auth.Init()
 	r.POST("/login", auth.HandleLogin)
