@@ -38,3 +38,6 @@ GET {{base}}/secured/stats
 
 ### GET STATS FOR NODE
 GET {{base}}/secured/stats?nodeName=node-1
+
+### GET VISUALIZATION
+GET {{base}}/secured/visualization
