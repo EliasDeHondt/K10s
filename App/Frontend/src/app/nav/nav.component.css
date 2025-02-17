@@ -247,8 +247,9 @@
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.modal-dropdown-menu li:hover {
+.modal-dropdown-menu li:hover,li.active  {
     background-color: var(--accent);
     color: var(--background);
 }
+
 /* Modal */

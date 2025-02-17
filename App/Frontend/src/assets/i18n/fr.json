@@ -1,7 +1,7 @@
 {
     "NAV": {
         "LANGUAGE": "Changer de langue",
-        "DASHBOARD": "Tableau de bord",
+        "DASHBOARD": "Tableau",
         "SEARCH": "Rechercher",
         "ADD": "Ajouter",
         "SETTINGS": "Paramètres",
@@ -44,5 +44,9 @@
     },
     "NOTFOUND": {
         "TITLE": "C’est peut-être open source, mais reste bien dans ton foutu couloir ;-)"
+    },
+    "ADD_DEPLOYMENT": {
+        "YAML_PLACEHOLDER": "Saisir YAML ici...",
+        "DEPLOY" : "Déployer"
     }
 }
