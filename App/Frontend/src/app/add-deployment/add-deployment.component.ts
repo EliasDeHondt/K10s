@@ -9,12 +9,13 @@ import {NavComponent} from "../nav/nav.component";
 import {FooterComponent} from "../footer/footer.component";
 import {FormsModule} from "@angular/forms";
 import {DeploymentService} from "../services/deployment.service";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-add-deployment',
   templateUrl: './add-deployment.component.html',
   styleUrl: './add-deployment.component.css',
-  imports: [NavComponent, FooterComponent, FormsModule],
+  imports: [NavComponent, FooterComponent, FormsModule, TranslatePipe],
   standalone: true
 })
 export class AddDeploymentComponent {
