@@ -290,7 +290,6 @@
 .skeleton-table {
     margin: 1rem;
     display: grid;
-    gap: 0.2rem;
 }
 
 .skeleton-header {
@@ -302,21 +301,27 @@
 
 .skeleton-content {
     width: 100%;
-    height: 38rem;
-    background-color: var(--quaternary);
+    height: 2.2rem;
     border-radius: 4px;
     animation: shimmer 1.2s infinite linear;
 }
 
+.odd-row {
+    background-color: var(--quaternary);
+}
+
+.even-row {
+    background-color: var(--tertiary);
+}
 @keyframes shimmer {
     0% {
-        background-color: #b6abce;
+        opacity: 0.2;
     }
     50% {
-        background-color: #d6d6d6;
+        opacity: 0.6;
     }
     100% {
-        background-color:  var(--secondary);
+        opacity: 0.2;
     }
 }
 /* Skeleton Table */

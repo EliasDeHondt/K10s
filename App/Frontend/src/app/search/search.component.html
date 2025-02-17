@@ -51,8 +51,14 @@
         <ng-container *ngIf="isLoading; else tableTemplate">
             <div class="skeleton-table">
                 <div class="skeleton-header"></div>
-                <div class="skeleton-content"></div>
+                <div
+                        class="skeleton-content"
+                        *ngFor="let _ of [].constructor(18); let i = index"
+                        [class.odd-row]="i % 2 === 0"
+                        [class.even-row]="i % 2 !== 0">
+                </div>
             </div>
+
         </ng-container>
         <ng-template #tableTemplate>
             <table class="search-table">
