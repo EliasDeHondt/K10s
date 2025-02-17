@@ -1,0 +1,30 @@
+<!--Author K10s Open Source Team-->
+<body class="search-body">
+<header class="search-header">
+</header>
+<app-nav class="nav" id="nav"></app-nav>
+<main class="search-main">
+    <div class="yaml-container">
+        <h2>Upload or Paste YAML</h2>
+
+        <div class="upload-section">
+            <label class="upload-btn" *ngIf="!yamlText">
+                <input type="file" (change)="onFileSelected($event)" accept=".yaml, .yml" />
+                Select YAML File
+            </label>
+            <span *ngIf="fileName">Selected: {{ fileName }}</span>
+        </div>
+
+        <textarea
+                *ngIf="!isFileSelected"
+                [(ngModel)]="yamlText"
+                (input)="onTextChange()"
+                placeholder="Paste YAML here..."
+        ></textarea>
+
+        <button (click)="submitYaml()" [disabled]="!yamlText.trim()">Submit</button>
+    </div>
+
+</main>
+<app-footer class="footer" id="footer"></app-footer>
+</body>
