@@ -4,15 +4,12 @@
 /**********************************/
 
 /* SetUp Grid */
-.search-header { grid-area: header; }
-.search-header-section1 { grid-area: header1; }
-.search-header-section2 { grid-area: header2; }
-.search-header-section3 { grid-area: header3; }
+.add-header { grid-area: header; }
 .nav { grid-area: nav; }
-.search-main { grid-area: main; }
+.add-main { grid-area: main; }
 .footer { grid-area: footer; }
 
-.search-body {
+.add-body {
     display: grid;
     grid-template-areas:
         'nav header'
@@ -26,17 +23,7 @@
 }
 /* SetUp Grid */
 
-/* Search Header */
-.search-header {
-    display: grid;
-    grid-template-areas: 'header1 header2 header3';
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 16px;
-}
-
-.search-header-section1,
-.search-header-section2,
-.search-header-section3 {
+.add-header {
     background-color: var(--quaternary);
     color: var(--text);
     border-radius: var(--radius);
@@ -50,151 +37,9 @@
     justify-content: center;
 }
 
-.search-header-section1 input[type="text"] {
-    max-width: 400px;
-    padding: var(--spacing);
-    border-radius: var(--radius);
-    border: 1px solid var(--secondary);
-    box-shadow: inset 0 2px 4px var(--shadow);
-    font-size: 1rem;
-}
 
-.search-header-section1 button {
-    background-color: var(--secondary);
-    color: var(--text);
-    padding: var(--spacing);
-    border-radius: var(--radius);
-    border: none;
-    font-size: 1rem;
-    font-weight: 700;
-    transition: background-color 0.3s ease;
-}
-
-.search-header-section1 button:hover {
-    background-color: var(--primary);
-}
-
-.search-header-article1 {
-    background-color: var(--secondary);
-    border-radius: var(--radius);
-    padding: 2px;
-    margin: 10px;
-}
-
-.search-header-section2 label {
-    display: flex;
-    align-items: center;
-    font-size: 0.875rem;
-    background-color: var(--secondary);
-    color: var(--text);
-    padding: 6px 10px;
-    border-radius: var(--radius);
-    box-shadow: 2px 2px 5px var(--shadow);
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    cursor: pointer;
-}
-
-.search-header-section2 label:hover {
-    background-color: var(--primary);
-    transform: translateY(-2px);
-}
-
-.search-header-section2 input[type="checkbox"] {
-    margin-right: 6px;
-    width: 14px;
-    height: 14px;
-    border: 2px solid var(--primary);
-    border-radius: 4px;
-    accent-color: var(--primary);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.search-header-section2 input[type="checkbox"]:checked {
-    border-color: var(--secondary);
-    box-shadow: 0 0 5px var(--primary);
-}
-
-.search-header-article2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 4px;
-    margin: 10px;
-}
-
-.search-dropdown1,
-.search-dropdown2 {
-    position: relative;
-    display: inline-block;
-    width: 100%;
-    z-index: 3;
-}
-
-.search-dropdown-button {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid var(--secondary);
-    border-radius: var(--radius);
-    background-color: var(--secondary);
-    color: var(--text);
-    font-size: 16px;
-    font-weight: bold;
-    text-align: left;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-.search-dropdown-button:hover {
-    background-color: var(--primary);
-    border-color: var(--primary);
-}
-
-.search-dropdown-menu {
-    position: absolute;
-    top: calc(100% + 5px);
-    left: 0;
-    right: 0;
-    background-color: var(--background);
-    border: 1px solid var(--primary);
-    border-radius: 5px;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    z-index: 4;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-}
-
-.search-dropdown-menu.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.search-dropdown-menu li {
-    color: var(--text);
-    padding: 10px 15px;
-    font-size: 16px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.search-dropdown-menu li:hover,li.active {
-    background-color: var(--accent);
-    color: var(--background);
-}
-
-.search-header-article3 {
-    width: 160px;
-    padding: 2px;
-    margin: 10px;
-}
-
-/* Search Header */
-
-/* Search Main */
-.search-main {
+/* Add Main */
+.add-main {
     background-color: var(--tertiary);
     color: var(--text);
     border-radius: var(--radius);
@@ -202,93 +47,75 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8vh;
 }
 
-.search-table {
-    width: calc(100% - 32px);
-    max-width: 100%;
-    margin: var(--spacing);
-    border-collapse: separate;
+.textarea-container {
+    position: relative;
+    width: 100%;
+    height: 80%;
+    display: flex;
+}
+
+textarea {
+    width: 100%;
+    height: 100%;
+    padding: var(--spacing);
+    background-color: var(--tertiary);
+    color: var(--text);
     border-radius: var(--radius);
+    box-shadow: 2px 0 5px var(--shadow);
     overflow: hidden;
 }
-
-.search-table thead {
-    background-color: var(--secondary);
-    color: var(--text);
-    position: sticky;
-    top: 0;
-    z-index: 2;
+.clear-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--secondary);
+    color: white;
+    border: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
 }
 
-.search-table tbody {
-    display: block;
-    max-height: calc(100vh - 320px);
-    overflow-y: auto;
+.clear-button:hover {
+    background: var(--primary);
 }
 
-.search-table thead tr {
-    display: table;
-    width: 100%;
-    table-layout: fixed;
-}
-
-.search-table tbody tr {
-    display: table;
-    width: 100%;
-    table-layout: fixed;
-}
-
-.search-table th, .search-table td {
-    padding: 10px;
-    text-align: left;
-}
-
-.search-table tbody tr:nth-child(odd) {
-    background-color: var(--quaternary);
-}
-
-.search-table tbody tr:nth-child(even) {
-    background-color: var(--tertiary);
-}
-
-.search-table::-webkit-scrollbar {
-    width: 8px;
-}
-
-.search-table::-webkit-scrollbar-thumb {
-    background-color: var(--primary);
-    border-radius: 4px;
-}
-
-.search-table::-webkit-scrollbar-track {
-    background-color: var(--secondary);
-}
-
-.search-main-pagination {
-    margin: 2px;
-}
-
-.search-main-pagination button {
-    margin: 0 2px;
-    padding: 5px 10px;
-    width: 50px;
+.add-button {
+    width: 10%;
+    padding: 12px 15px;
     border: 1px solid var(--secondary);
     border-radius: var(--radius);
     background-color: var(--secondary);
     color: var(--text);
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-.search-main-pagination button:hover {
-    border: 1px solid var(--primary);
+.add-button:hover {
     background-color: var(--primary);
-    color: var(--text);
+    border-color: var(--primary);
 }
-/* Search Main */
+
+/* Add Main */
 
 /* Media Queries */
 @media screen and (max-width: 1360px) {
-    .search-body {
+    .add-body {
         grid-template-areas:
             'nav header'
             'nav main'
@@ -297,7 +124,7 @@
         grid-template-rows: 2fr 9fr 0.5fr;
     }
 
-    .search-header {
+    .add-header {
         grid-template-areas:
             'header1 header2'
             'header3 header3';
@@ -307,7 +134,7 @@
 }
 
 @media screen and (max-width: 1045px) {
-    .search-header {
+    .add-header {
         grid-template-areas:
             'header1'
             'header2'
@@ -318,7 +145,7 @@
 }
 
 @media screen and (max-width: 610px) {
-    .search-body {
+    .add-body {
         grid-template-areas:
             'nav'
             'main'
@@ -327,11 +154,8 @@
         grid-template-rows: 2fr 9fr 0.5fr;
     }
 
-    .search-header {
+    .add-header {
         display: none;
     }
 
-    .search-table thead {
-        display: none;
-    }
 }

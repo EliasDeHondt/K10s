@@ -1,56 +1,71 @@
+/**********************************/
+/* @since 01/01/2025              */
+/* @author K10s Open Source Team  */
+/**********************************/
+
 import { Component } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {NavComponent} from "../nav/nav.component";
 import {FooterComponent} from "../footer/footer.component";
 import {FormsModule} from "@angular/forms";
+import {DeploymentService} from "../services/deployment.service";
 
 @Component({
   selector: 'app-add-deployment',
-  imports: [
-    NavComponent,
-    FooterComponent,
-    FormsModule
-  ],
   templateUrl: './add-deployment.component.html',
-  standalone: true,
-  styleUrl: './add-deployment.component.css'
+  styleUrl: './add-deployment.component.css',
+  imports: [NavComponent, FooterComponent, FormsModule],
+  standalone: true
 })
 export class AddDeploymentComponent {
   yamlText: string = '';
-  fileName: string = '';
-  isFileSelected = false;
+  fileContent: string | null = null;
+  fileUploaded: boolean = false;
+  textAreaActive: boolean = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private deploymentService: DeploymentService) {}
 
-  onFileSelected(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      this.fileName = file.name;
-      this.isFileSelected = true;
-      this.yamlText = ''; // Clear text area
+  onFileUpload(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+
       const reader = new FileReader();
-      reader.onload = () => {
-        this.yamlText = reader.result as string;
+      reader.onload = (e) => {
+        this.fileContent = e.target?.result as string;
+        this.fileUploaded = true;
+        this.clearTextarea();
+        this.textAreaActive = false;
       };
       reader.readAsText(file);
     }
   }
 
-  onTextChange() {
-    if (this.yamlText.trim() !== '') {
-      this.isFileSelected = false;
-      this.fileName = '';
-    }
+  onTextInput() {
+    this.fileUploaded = false;
+    this.fileContent = null;
+    this.textAreaActive = true;
   }
 
-  submitYaml() {
-    if (!this.yamlText.trim()) {
-      alert('Please provide YAML data.');
+  sendData() {
+    const yamlData = this.fileContent || this.yamlText;
+
+    if (!yamlData) {
+      console.warn('No YAML data to upload');
       return;
     }
 
-    this.http.post('/api/yaml/upload', { yaml: this.yamlText }).subscribe(response => {
-      console.log('YAML uploaded successfully', response);
+    this.deploymentService.uploadYaml(yamlData).subscribe({
+      next: (response) => {console.log('YAML upload success', response);  this.clearTextarea();},
+      error: (error) => console.error('Upload failed', error),
     });
   }
+
+  clearTextarea() {
+    this.yamlText = '';
+    this.fileUploaded = true;
+    this.fileContent = null;
+    this.textAreaActive = false;
+  }
+
 }
