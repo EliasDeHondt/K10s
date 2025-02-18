@@ -313,6 +313,7 @@
 .even-row {
     background-color: var(--tertiary);
 }
+
 @keyframes shimmer {
     0% {
         opacity: 0.2;
@@ -325,7 +326,6 @@
     }
 }
 /* Skeleton Table */
-
 
 /* Media Queries */
 @media screen and (max-width: 1360px) {
@@ -376,3 +376,4 @@
         display: none;
     }
 }
+/* Media Queries */

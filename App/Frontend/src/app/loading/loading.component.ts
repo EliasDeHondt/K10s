@@ -6,11 +6,12 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-loading',
-  templateUrl: './loading.component.html',
-  standalone: true,
-  styleUrls: ['./loading.component.css']
+    selector: 'app-loading',
+    templateUrl: './loading.component.html',
+    standalone: true,
+    styleUrls: ['./loading.component.css']
 })
+
 export class LoadingComponent {
-  @Input() size: number = 24;
+    @Input() size: number = 24;
 }

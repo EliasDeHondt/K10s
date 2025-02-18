@@ -8,7 +8,7 @@ import { NavComponent } from '../nav/nav.component';
 import { FooterComponent } from "../footer/footer.component";
 import { CommonModule } from "@angular/common";
 import { TranslatePipe } from "@ngx-translate/core";
-import {LoadingComponent} from "../loading/loading.component";
+import { LoadingComponent } from "../loading/loading.component";
 
 @Component({
     selector: 'app-search',
@@ -34,10 +34,12 @@ export class SearchComponent {
             this.dropdowns[key] = key === dropdownKey ? !this.dropdowns[key] : false;
         }
     }
+
     selectNode(node: string) {
         this.selectedNode = node;
         this.toggleDropdown('searchDropdown1');
     }
+
     selectNamespace(namespace: string) {
         this.selectedNamespace = namespace;
         this.toggleDropdown('searchDropdown2');

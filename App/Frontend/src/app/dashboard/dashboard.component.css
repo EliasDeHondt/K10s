@@ -52,7 +52,6 @@
     overflow: hidden;
 }
 
-
 .dashboard-header-article {
     font-size: 1.2rem;
     font-weight: 700;
@@ -133,9 +132,6 @@
     z-index: 3;
 }
 /* Dashboard Main */
-
-
-
 
 /* Media Queries */
 @media screen and (max-width: 1024px) {

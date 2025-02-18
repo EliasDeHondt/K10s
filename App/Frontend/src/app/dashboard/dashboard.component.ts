@@ -10,7 +10,7 @@ import { TranslatePipe } from "@ngx-translate/core";
 import { StatsService } from "../services/stats.service";
 import { ByteFormatPipe } from "../byte-format.pipe";
 import { Color, NgxChartsModule, ScaleType } from "@swimlane/ngx-charts";
-import {LoadingComponent} from "../loading/loading.component";
+import { LoadingComponent } from "../loading/loading.component";
 
 @Component({
     selector: 'app-dashboard',
@@ -105,7 +105,6 @@ export class DashboardComponent implements AfterViewInit {
             }
         });
     }
-
 
     updateChartData(): void {
         this.memoryChartData = [

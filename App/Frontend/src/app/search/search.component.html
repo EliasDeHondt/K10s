@@ -8,16 +8,15 @@
             </article>
         </section>
         <section class="search-header-section2">
-        <article class="search-header-article2">
-            <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-1">{{ 'DASHBOARD.NODES' | translate }}</label>
-            <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-2">{{ 'SEARCH.PODS' | translate }}</label>
-            <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-3">{{ 'SEARCH.SERVICES' | translate }}</label>
-            <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-4">{{ 'SEARCH.DEPLOYMENTS' | translate }}</label>
-            <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-5">{{ 'SEARCH.CONFIGMAPS' | translate }}</label>
-            <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-6">{{ 'SEARCH.SECRETS' | translate }}</label>
-        </article>
-    </section>
-
+            <article class="search-header-article2">
+                <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-1">{{ 'DASHBOARD.NODES' | translate }}</label>
+                <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-2">{{ 'SEARCH.PODS' | translate }}</label>
+                <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-3">{{ 'SEARCH.SERVICES' | translate }}</label>
+                <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-4">{{ 'SEARCH.DEPLOYMENTS' | translate }}</label>
+                <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-5">{{ 'SEARCH.CONFIGMAPS' | translate }}</label>
+                <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-6">{{ 'SEARCH.SECRETS' | translate }}</label>
+            </article>
+        </section>
         <section class="search-header-section3">
             <article class="search-header-article3">
                 <section class="search-dropdown1">
@@ -52,35 +51,34 @@
             <div class="skeleton-table">
                 <div class="skeleton-header"></div>
                 <div
-                        class="skeleton-content"
-                        *ngFor="let _ of [].constructor(18); let i = index"
-                        [class.odd-row]="i % 2 === 0"
-                        [class.even-row]="i % 2 !== 0">
+                    class="skeleton-content"
+                    *ngFor="let _ of [].constructor(17); let i = index"
+                    [class.odd-row]="i % 2 === 0"
+                    [class.even-row]="i % 2 !== 0">
                 </div>
             </div>
-
         </ng-container>
         <ng-template #tableTemplate>
             <table class="search-table">
                 <thead>
-                <tr>
-                    <th>{{ 'SEARCH.CLUSTER_NAME' | translate }}</th>
-                    <th>{{ 'SEARCH.NAMESPACE' | translate }}</th>
-                    <th>{{ 'SEARCH.POD_NAME' | translate }}</th>
-                    <th>{{ 'SEARCH.STATUS' | translate }}</th>
-                    <th>{{ 'SEARCH.RESTART_COUNT' | translate }}</th>
-                    <th>{{ 'SEARCH.LAST_UPDATED' | translate }}</th>
-                </tr>
+                    <tr>
+                        <th>{{ 'SEARCH.CLUSTER_NAME' | translate }}</th>
+                        <th>{{ 'SEARCH.NAMESPACE' | translate }}</th>
+                        <th>{{ 'SEARCH.POD_NAME' | translate }}</th>
+                        <th>{{ 'SEARCH.STATUS' | translate }}</th>
+                        <th>{{ 'SEARCH.RESTART_COUNT' | translate }}</th>
+                        <th>{{ 'SEARCH.LAST_UPDATED' | translate }}</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let item of searchResults">
-                    <td>{{ item.cluster }}</td>
-                    <td>{{ item.namespace }}</td>
-                    <td>{{ item.podName }}</td>
-                    <td>{{ item.status }}</td>
-                    <td>{{ item.restartCount }}</td>
-                    <td>{{ item.lastUpdated }}</td>
-                </tr>
+                    <tr *ngFor="let item of searchResults">
+                        <td>{{ item.cluster }}</td>
+                        <td>{{ item.namespace }}</td>
+                        <td>{{ item.podName }}</td>
+                        <td>{{ item.status }}</td>
+                        <td>{{ item.restartCount }}</td>
+                        <td>{{ item.lastUpdated }}</td>
+                    </tr>
                 </tbody>
             </table>
         </ng-template>
