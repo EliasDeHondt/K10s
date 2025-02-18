@@ -10,12 +10,13 @@ import { TranslatePipe } from "@ngx-translate/core";
 import { StatsService } from "../services/stats.service";
 import { ByteFormatPipe } from "../byte-format.pipe";
 import { Color, NgxChartsModule, ScaleType } from "@swimlane/ngx-charts";
+import {LoadingComponent} from "../loading/loading.component";
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css'],
-    imports: [NavComponent, FooterComponent, TranslatePipe, ByteFormatPipe, NgxChartsModule],
+    imports: [NavComponent, FooterComponent, TranslatePipe, ByteFormatPipe, NgxChartsModule, LoadingComponent],
     standalone: true
 })
 
@@ -87,18 +88,24 @@ export class DashboardComponent implements AfterViewInit {
         });
     }
 
+    loading: boolean = false;
+
     loadUsage(): void {
+        this.loading = true;
         this.usageService.getStats().subscribe({
             next: (data) => {
-                console.log(data)
+                console.log(data);
                 this.usage = data;
                 this.updateChartData();
+                this.loading = false;
             },
             error: (error) => {
                 console.error(error);
+                this.loading = false;
             }
         });
     }
+
 
     updateChartData(): void {
         this.memoryChartData = [

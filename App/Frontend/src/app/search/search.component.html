@@ -48,8 +48,21 @@
     </header>
     <app-nav class="nav" id="nav"></app-nav>
     <main class="search-main">
-        <table class="search-table"> <!-- TODO (+ todo translation when real table) -->
-            <thead>
+        <ng-container *ngIf="isLoading; else tableTemplate">
+            <div class="skeleton-table">
+                <div class="skeleton-header"></div>
+                <div
+                        class="skeleton-content"
+                        *ngFor="let _ of [].constructor(18); let i = index"
+                        [class.odd-row]="i % 2 === 0"
+                        [class.even-row]="i % 2 !== 0">
+                </div>
+            </div>
+
+        </ng-container>
+        <ng-template #tableTemplate>
+            <table class="search-table">
+                <thead>
                 <tr>
                     <th>{{ 'SEARCH.CLUSTER_NAME' | translate }}</th>
                     <th>{{ 'SEARCH.NAMESPACE' | translate }}</th>
@@ -58,194 +71,19 @@
                     <th>{{ 'SEARCH.RESTART_COUNT' | translate }}</th>
                     <th>{{ 'SEARCH.LAST_UPDATED' | translate }}</th>
                 </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Cluster-A</td>
-                    <td>default</td>
-                    <td>nginx-pod-1</td>
-                    <td>Running</td>
-                    <td>0</td>
-                    <td>2025-01-04 10:15:30</td>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of searchResults">
+                    <td>{{ item.cluster }}</td>
+                    <td>{{ item.namespace }}</td>
+                    <td>{{ item.podName }}</td>
+                    <td>{{ item.status }}</td>
+                    <td>{{ item.restartCount }}</td>
+                    <td>{{ item.lastUpdated }}</td>
                 </tr>
-                <tr>
-                    <td>Cluster-B</td>
-                    <td>kube-system</td>
-                    <td>kube-proxy-2</td>
-                    <td>Running</td>
-                    <td>1</td>
-                    <td>2025-01-03 18:45:12</td>
-                </tr>
-                <tr>
-                    <td>Cluster-C</td>
-                    <td>production</td>
-                    <td>backend-api-4</td>
-                    <td>CrashLoopBackOff</td>
-                    <td>5</td>
-                    <td>2025-01-04 09:30:45</td>
-                </tr>
-                <tr>
-                    <td>Cluster-D</td>
-                    <td>staging</td>
-                    <td>frontend-web-3</td>
-                    <td>Pending</td>
-                    <td>0</td>
-                    <td>2025-01-03 22:12:20</td>
-                </tr>
-                <tr>
-                    <td>Cluster-E</td>
-                    <td>monitoring</td>
-                    <td>prometheus-pod-7</td>
-                    <td>Running</td>
-                    <td>2</td>
-                    <td>2025-01-04 08:50:10</td>
-                </tr>
-                <tr>
-                    <td>Cluster-F</td>
-                    <td>default</td>
-                    <td>redis-cache-9</td>
-                    <td>Running</td>
-                    <td>0</td>
-                    <td>2025-01-04 07:45:00</td>
-                </tr>
-                <tr>
-                    <td>Cluster-G</td>
-                    <td>dev</td>
-                    <td>worker-node-5</td>
-                    <td>ImagePullBackOff</td>
-                    <td>3</td>
-                    <td>2025-01-04 10:00:00</td>
-                </tr>
-                <tr>
-                    <td>Cluster-H</td>
-                    <td>test</td>
-                    <td>db-service-10</td>
-                    <td>Running</td>
-                    <td>0</td>
-                    <td>2025-01-04 06:30:30</td>
-                </tr>
-                <tr>
-                    <td>Cluster-I</td>
-                    <td>default</td>
-                    <td>nginx-pod-1</td>
-                    <td>Running</td>
-                    <td>0</td>
-                    <td>2025-01-04 10:15:30</td>
-                </tr>
-                <tr>
-                    <td>Cluster-J</td>
-                    <td>kube-system</td>
-                    <td>kube-proxy-2</td>
-                    <td>Running</td>
-                    <td>1</td>
-                    <td>2025-01-03 18:45:12</td>
-                </tr>
-                <tr>
-                    <td>Cluster-L</td>
-                    <td>production</td>
-                    <td>backend-api-4</td>
-                    <td>CrashLoopBackOff</td>
-                    <td>5</td>
-                    <td>2025-01-04 09:30:45</td>
-                </tr>
-                <tr>
-                    <td>Cluster-M</td>
-                    <td>staging</td>
-                    <td>frontend-web-3</td>
-                    <td>Pending</td>
-                    <td>0</td>
-                    <td>2025-01-03 22:12:20</td>
-                </tr>
-                <tr>
-                    <td>Cluster-O</td>
-                    <td>monitoring</td>
-                    <td>prometheus-pod-7</td>
-                    <td>Running</td>
-                    <td>2</td>
-                    <td>2025-01-04 08:50:10</td>
-                </tr>
-                <tr>
-                    <td>Cluster-P</td>
-                    <td>default</td>
-                    <td>redis-cache-9</td>
-                    <td>Running</td>
-                    <td>0</td>
-                    <td>2025-01-04 07:45:00</td>
-                </tr>
-                <tr>
-                    <td>Cluster-K</td>
-                    <td>dev</td>
-                    <td>worker-node-5</td>
-                    <td>ImagePullBackOff</td>
-                    <td>3</td>
-                    <td>2025-01-04 10:00:00</td>
-                </tr>
-                <tr>
-                    <td>Cluster-R</td>
-                    <td>test</td>
-                    <td>db-service-10</td>
-                    <td>Running</td>
-                    <td>0</td>
-                    <td>2025-01-04 06:30:30</td>
-                </tr>
-                <tr>
-                    <td>Cluster-S</td>
-                    <td>default</td>
-                    <td>nginx-pod-1</td>
-                    <td>Running</td>
-                    <td>0</td>
-                    <td>2025-01-04 10:15:30</td>
-                </tr>
-                <tr>
-                    <td>Cluster-T</td>
-                    <td>default</td>
-                    <td>redis-cache-9</td>
-                    <td>Running</td>
-                    <td>0</td>
-                    <td>2025-01-04 07:45:00</td>
-                </tr>
-                <tr>
-                    <td>Cluster-V</td>
-                    <td>dev</td>
-                    <td>worker-node-5</td>
-                    <td>ImagePullBackOff</td>
-                    <td>3</td>
-                    <td>2025-01-04 10:00:00</td>
-                </tr>
-                <tr>
-                    <td>Cluster-W</td>
-                    <td>test</td>
-                    <td>db-service-10</td>
-                    <td>Running</td>
-                    <td>0</td>
-                    <td>2025-01-04 06:30:30</td>
-                </tr>
-                <tr>
-                    <td>Cluster-X</td>
-                    <td>default</td>
-                    <td>nginx-pod-1</td>
-                    <td>Running</td>
-                    <td>0</td>
-                    <td>2025-01-04 10:15:30</td>
-                </tr>
-                <tr>
-                    <td>Cluster-Y</td>
-                    <td>dev</td>
-                    <td>worker-node-5</td>
-                    <td>ImagePullBackOff</td>
-                    <td>3</td>
-                    <td>2025-01-04 10:00:00</td>
-                </tr>
-                <tr>
-                    <td>Cluster-Z</td>
-                    <td>test</td>
-                    <td>db-service-10</td>
-                    <td>Running</td>
-                    <td>0</td>
-                    <td>2025-01-04 06:30:30</td>
-                </tr>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </ng-template>
         <section class="search-main-pagination">
             <button class="cursor-pointer">20</button>
             <button class="cursor-pointer">50</button>
