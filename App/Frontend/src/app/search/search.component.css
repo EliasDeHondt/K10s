@@ -121,6 +121,19 @@
     margin: 10px;
 }
 
+.search-header-article2 input[type="radio"] {
+    appearance: none;
+    position: absolute;
+    width: 0;
+    height: 0;
+}
+
+.search-header-article2 label:has(input[type="radio"]:checked) {
+    background-color: var(--primary);
+    color: var(--text);
+    border-color: var(--primary);
+}
+
 .search-dropdown1,
 .search-dropdown2 {
     position: relative;
