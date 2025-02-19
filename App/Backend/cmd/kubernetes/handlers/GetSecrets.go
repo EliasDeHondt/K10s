@@ -30,11 +30,11 @@ func GetSecretsHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, secretList)
 }
 
-func GetSecrets(c *kubernetes.IClient, namespace string, pageSize int, pageToken string) (*PaginatedResponse[[]kubernetes.Secret], error) {
+func GetSecrets(c kubernetes.IClient, namespace string, pageSize int, pageToken string) (*PaginatedResponse[[]kubernetes.Secret], error) {
 	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	list, err := (*c).GetSecrets(namespace).List(ct, metav1.ListOptions{
+	list, err := c.GetSecrets(namespace).List(ct, metav1.ListOptions{
 		Limit:    int64(pageSize),
 		Continue: pageToken,
 	})
