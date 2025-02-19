@@ -8,6 +8,8 @@ import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import anime from 'animejs/lib/anime.es.js';
+import {AuthService} from "../services/auth.service";
+import {take} from "rxjs";
 
 @Component({
     selector: 'app-login',
@@ -21,8 +23,11 @@ export class LoginComponent implements AfterViewInit {
     username: string = '';
     password: string = '';
 
-    constructor(private router: Router, private translate: TranslateService) {
+    constructor(private router: Router, private translate: TranslateService, private authService: AuthService) {
         this.translate.setDefaultLang('en');
+        if (this.authService.isLoggedIn()) {
+            this.router.navigate(['/dashboard']);
+        }
     }
 
     ngAfterViewInit() {
@@ -52,7 +57,11 @@ export class LoginComponent implements AfterViewInit {
 
     onSubmit() {
         if (this.username && this.password) {
-            this.router.navigate(['/dashboard']);
+            this.authService.login(this.username, this.password).subscribe({
+                next: () => {
+                    this.router.navigate(['/dashboard']);
+                }
+            })
         } else {
             alert('Please enter valid credentials.');
         }

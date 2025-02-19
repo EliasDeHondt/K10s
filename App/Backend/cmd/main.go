@@ -28,6 +28,7 @@ func main() {
 	auth.Init()
 	r.POST("/login", auth.HandleLogin)
 	r.GET("/logout", auth.HandleLogout)
+	r.GET("/isloggedin", auth.IsLoggedIn)
 
 	secured := r.Group("/secured")
 	secured.Use(auth.AuthMiddleware())
