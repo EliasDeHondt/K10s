@@ -10,12 +10,13 @@ import { TranslatePipe } from "@ngx-translate/core";
 import { StatsService } from "../services/stats.service";
 import { ByteFormatPipe } from "../byte-format.pipe";
 import { Color, NgxChartsModule, ScaleType } from "@swimlane/ngx-charts";
+import { LoadingComponent } from "../loading/loading.component";
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css'],
-    imports: [NavComponent, FooterComponent, TranslatePipe, ByteFormatPipe, NgxChartsModule],
+    imports: [NavComponent, FooterComponent, TranslatePipe, ByteFormatPipe, NgxChartsModule, LoadingComponent],
     standalone: true
 })
 
@@ -87,17 +88,25 @@ export class DashboardComponent implements AfterViewInit {
         });
     }
 
+    loading: boolean = false;
+
     loadUsage(): void {
+        this.loading = true;
         this.usageService.getStats().subscribe({
             next: (data) => {
-                console.log(data)
+                console.log(data);
                 this.usage = data;
                 this.updateChartData();
+                this.loading = false;
             },
             error: (error) => {
                 console.error(error);
+                this.loading = false;
             }
         });
+    }
+    valueFormatting(usage: number): string {
+        return usage+`%`;
     }
 
     updateChartData(): void {
@@ -126,8 +135,8 @@ export class DashboardComponent implements AfterViewInit {
         const orange = rootStyles.getPropertyValue('--status-orange').trim();
         const red = rootStyles.getPropertyValue('--status-red').trim();
 
-        if (usage < 50) return green;
-        if (usage < 80) return orange;
+        if (usage < 55) return green;
+        if (usage < 85) return orange;
         return red;
     }
 }

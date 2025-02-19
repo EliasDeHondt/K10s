@@ -1,12 +1,18 @@
+/**********************************/
+/* @since 01/01/2025              */
+/* @author K10s Open Source Team  */
+/**********************************/
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {catchError, Observable, pipe, tap, throwError} from 'rxjs';
-import {BASE_URL} from "./stats.service";
+import { catchError, Observable, throwError } from 'rxjs';
+import { BASE_URL } from "./stats.service";
 
 @Injectable({
     providedIn: 'root'
 })
-export class DeploymentService {
+
+export class AddService {
     private uploadUrl = `${BASE_URL}/upload`;
 
     constructor(private http: HttpClient) {}
@@ -19,5 +25,4 @@ export class DeploymentService {
             })
         );
     }
-
 }
