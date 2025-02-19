@@ -5,13 +5,13 @@
 
 /* Navigation Bar */
 ::ng-deep .nav {
-  background-color: var(--tertiary);
-  color: var(--secondary);
-  border-radius: var(--radius);
-  box-shadow: 2px 0 5px var(--shadow);
-  min-width: 150px;
-  padding: 20px;
-  top: 20px;
+    background-color: var(--tertiary);
+    color: var(--secondary);
+    border-radius: var(--radius);
+    box-shadow: 2px 0 5px var(--shadow);
+    min-width: 150px;
+    padding: 20px;
+    top: 20px;
 }
 
 .nav-header {
@@ -251,5 +251,4 @@
     background-color: var(--accent);
     color: var(--background);
 }
-
 /* Modal */

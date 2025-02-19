@@ -12,15 +12,14 @@
                 <h2>{{ 'DASHBOARD.CPU' | translate }}</h2>
                 <span id="dashboard-header-2">
                     <ngx-charts-gauge
-                    [view]="[450, 250]"
+                    [view]="[450, 200]"
                     [min]="0"
                     [results]="cpuChartData"
                     [max]="100"
                     [angleSpan]="180"
                     [startAngle]="-90"
-                    [units]="''"
-                    [bigSegments]="2"
-                    [smallSegments]="0"
+                    [valueFormatting]="valueFormatting"
+                    [showAxis]="false"
                     [legend]="false"
                     [scheme]="colorSchemeCpu">
                     </ngx-charts-gauge>
@@ -32,22 +31,20 @@
                 <h2>{{ 'DASHBOARD.RAM' | translate }}</h2>
                     <span id="dashboard-header-3">
                     <ngx-charts-gauge
-                            [view]="[450, 250]"
+                            [view]="[450, 200]"
                             [min]="0"
                             [results]="memoryChartData"
                             [max]="100"
                             [angleSpan]="180"
                             [startAngle]="-90"
-                            [units]="''"
-                            [bigSegments]="2"
-                            [smallSegments]="0"
+                            [valueFormatting]="valueFormatting"
+                            [showAxis]="false"
                             [legend]="false"
                             [scheme]="colorScheme">
                     </ngx-charts-gauge>
                 </span>
             </article>
         </section>
-
         <section class="dashboard-header-section4">
             <article class="dashboard-header-article">
                 <h2>{{ 'DASHBOARD.DISK' | translate }}</h2>
@@ -55,7 +52,14 @@
                     <div class="progress-container">
                         <div class="progress-bar" [style.width.%]="diskUsagePercentage" [style.background-color]="diskColor"></div>
                     </div>
-                    <p class="text-center font-bold mt-2">{{ usage.DiskUsage | byteFormat }} / {{ usage.DiskCapacity | byteFormat }}</p>
+                    <p class="progress-text">
+                        <ng-container *ngIf="usage; else loadingTemplate">
+                            {{ usage.DiskUsage | byteFormat }} / {{ usage.DiskCapacity | byteFormat }}
+                        </ng-container>
+                    </p>
+                    <ng-template #loadingTemplate>
+                        <app-loading [size]="30"></app-loading>
+                    </ng-template>
                 </span>
             </article>
         </section>

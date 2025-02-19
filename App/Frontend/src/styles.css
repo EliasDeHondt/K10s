@@ -11,7 +11,7 @@
     --secondary: #3c3154;
     --tertiary: #262b2e;
     --quaternary: #1f2326;
-    --accent: #5f4270;
+    --accent: #000000;
 }
 
 :root[data-theme="light"] {
