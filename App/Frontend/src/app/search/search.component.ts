@@ -8,17 +8,15 @@ import { NavComponent } from '../nav/nav.component';
 import { FooterComponent } from "../footer/footer.component";
 import { CommonModule } from "@angular/common";
 import { TranslatePipe } from "@ngx-translate/core";
-import { LoadingComponent } from "../loading/loading.component";
-import {PodTableComponent} from "../node-table/pod-table.component";
+import {PodTableComponent} from "../search-table/pod-table/pod-table.component";
 import {TableService} from "../services/table.service";
-import {PaginatedResponse, Pod} from "../domain/Kubernetes";
 import {PodCastPipe} from "../pipes/pod-cast.pipe";
 
 @Component({
     selector: 'app-search',
     templateUrl: './search.component.html',
     styleUrls: ['./search.component.css'],
-    imports: [NavComponent, FooterComponent, CommonModule, TranslatePipe, PodTableComponent, PodCastPipe],
+    imports: [NavComponent, FooterComponent, CommonModule, TranslatePipe, PodCastPipe, PodTableComponent],
     standalone: true
 })
 

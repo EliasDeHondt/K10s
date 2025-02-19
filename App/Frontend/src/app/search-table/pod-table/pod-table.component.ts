@@ -1,15 +1,15 @@
 import {Component, Input} from '@angular/core';
 import {TranslatePipe} from "@ngx-translate/core";
-import {Pod} from "../domain/Kubernetes";
+import {Pod} from "../../domain/Kubernetes";
 
 @Component({
-  selector: 'app-pod-table',
+  selector: 'app-pod-search-table',
   imports: [
     TranslatePipe
   ],
   templateUrl: './pod-table.component.html',
   standalone: true,
-  styleUrls: ['./pod-table.component.css', '../search/search.component.css']
+  styleUrls: ['./pod-table.component.css', '../../search/search.component.css']
 })
 export class PodTableComponent {
 
