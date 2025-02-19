@@ -105,6 +105,9 @@ export class DashboardComponent implements AfterViewInit {
             }
         });
     }
+    valueFormatting(usage: number): string {
+        return usage+`%`;
+    }
 
     updateChartData(): void {
         this.memoryChartData = [
