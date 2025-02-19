@@ -13,6 +13,6 @@ import {Pod} from "../domain/Kubernetes";
 })
 export class PodTableComponent {
 
-  @Input() pods: Pod[] = [];
+  @Input({required: true}) pods!: Pod[];
 
 }

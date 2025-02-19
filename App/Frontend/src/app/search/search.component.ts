@@ -12,12 +12,13 @@ import { LoadingComponent } from "../loading/loading.component";
 import {PodTableComponent} from "../node-table/pod-table.component";
 import {TableService} from "../services/table.service";
 import {PaginatedResponse, Pod} from "../domain/Kubernetes";
+import {PodCastPipe} from "../pipes/pod-cast.pipe";
 
 @Component({
     selector: 'app-search',
     templateUrl: './search.component.html',
     styleUrls: ['./search.component.css'],
-    imports: [NavComponent, FooterComponent, CommonModule, TranslatePipe, PodTableComponent],
+    imports: [NavComponent, FooterComponent, CommonModule, TranslatePipe, PodTableComponent, PodCastPipe],
     standalone: true
 })
 
@@ -31,8 +32,6 @@ export class SearchComponent {
     };
     selectedNode: string = 'None';
     selectedNamespace: string = 'None';
-    element = signal(this.tableService.element())
-    data = signal(this.tableService.data())
 
     updateElement(filter: string) {
         this.isLoading.set(true);

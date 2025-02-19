@@ -80,7 +80,7 @@
             </div>
         </div>
     } @else if (tableService.element() === "pods" && !isLoading()) {
-        <app-pod-table [pods]="tableService.data().Response"/>
+        <app-pod-table [pods]="tableService.data().Response | podCast"/>
     }
     <section class="search-main-pagination">
         <button class="cursor-pointer">20</button>
