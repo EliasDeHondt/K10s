@@ -44,7 +44,11 @@
         "SERVICES_READY": "Services ready",
         "POD_IP": "Pod IP",
         "NODE_NAME": "Node name",
-        "AGE": "Age"
+        "AGE": "Age",
+        "NODE_ROLE": "Node role",
+        "VERSION": "Version",
+        "POD_AMOUNT": "Pod amount",
+        "IP": "IP"
     },
     "NOTFOUND": {
         "TITLE": "It may be open source, but stay in your damn lane ;-)"

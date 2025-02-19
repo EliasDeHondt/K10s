@@ -11,12 +11,14 @@ import { TranslatePipe } from "@ngx-translate/core";
 import {PodTableComponent} from "../search-table/pod-table/pod-table.component";
 import {TableService} from "../services/table.service";
 import {PodCastPipe} from "../pipes/pod-cast.pipe";
+import {NodeTableComponent} from "../search-table/node-table/node-table.component";
+import {NodeCastPipe} from "../pipes/node-cast.pipe";
 
 @Component({
     selector: 'app-search',
     templateUrl: './search.component.html',
     styleUrls: ['./search.component.css'],
-    imports: [NavComponent, FooterComponent, CommonModule, TranslatePipe, PodCastPipe, PodTableComponent],
+    imports: [NavComponent, FooterComponent, CommonModule, TranslatePipe, PodCastPipe, PodTableComponent, NodeTableComponent, NodeCastPipe],
     standalone: true
 })
 

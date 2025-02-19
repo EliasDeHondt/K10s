@@ -44,7 +44,11 @@
         "SERVICES_READY": "Services klaar",
         "POD_IP": "Pod IP",
         "NODE_NAME": "Node naam",
-        "AGE": "Leeftijd"
+        "AGE": "Leeftijd",
+        "NODE_ROLE": "Node rol",
+        "VERSION": "Versie",
+        "POD_AMOUNT": "Pod kwantiteit",
+        "IP": "IP"
     },
     "NOTFOUND": {
         "TITLE": "Het mag dan open source zijn, maar blijf verdomme in je eigen baan ;-)"

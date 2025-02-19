@@ -79,8 +79,10 @@
                     [class.even-row]="i % 2 !== 0">
             </div>
         </div>
-    } @else if (tableService.element() === "pods" && !isLoading()) {
+    } @else if (tableService.element() === "pods") {
         <app-pod-search-table [pods]="tableService.data().Response | podCast"/>
+    } @else if (tableService.element() === "nodes") {
+        <app-node-table [nodes]="tableService.data().Response | nodeCast"/>
     }
     <section class="search-main-pagination">
         <button class="cursor-pointer">20</button>
