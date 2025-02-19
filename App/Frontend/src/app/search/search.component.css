@@ -202,6 +202,8 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .search-table {
@@ -266,7 +268,10 @@
 }
 
 .search-main-pagination {
-    margin: 2px;
+    margin-top: auto;
+    padding: 10px;
+    display: flex;
+    justify-content: start;
 }
 
 .search-main-pagination button {
