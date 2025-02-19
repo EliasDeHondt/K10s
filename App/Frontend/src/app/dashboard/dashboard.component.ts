@@ -105,6 +105,9 @@ export class DashboardComponent implements AfterViewInit {
             }
         });
     }
+    valueFormatting(usage: number): string {
+        return usage+`%`;
+    }
 
     updateChartData(): void {
         this.memoryChartData = [
@@ -132,8 +135,8 @@ export class DashboardComponent implements AfterViewInit {
         const orange = rootStyles.getPropertyValue('--status-orange').trim();
         const red = rootStyles.getPropertyValue('--status-red').trim();
 
-        if (usage < 50) return green;
-        if (usage < 80) return orange;
+        if (usage < 55) return green;
+        if (usage < 85) return orange;
         return red;
     }
 }
