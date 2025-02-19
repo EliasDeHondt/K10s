@@ -3,7 +3,7 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-import {Component, inject, OnInit, signal} from '@angular/core';
+import {Component, inject, signal} from '@angular/core';
 import { NavComponent } from '../nav/nav.component';
 import { FooterComponent } from "../footer/footer.component";
 import { CommonModule } from "@angular/common";

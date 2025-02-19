@@ -10,7 +10,6 @@ import {TranslatePipe, TranslateService} from "@ngx-translate/core";
 import anime from 'animejs/lib/anime.es.js';
 import {AuthService} from "../services/auth.service";
 import {take, tap} from "rxjs";
-import {map} from "rxjs/operators";
 
 @Component({
     selector: 'app-login',

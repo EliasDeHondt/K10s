@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {Node, Pod} from "../domain/Kubernetes";
+import {Node} from "../domain/Kubernetes";
 
 @Pipe({
     standalone: true,
