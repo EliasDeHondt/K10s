@@ -117,7 +117,7 @@
 }
 
 add-yaml-button {
-    width: 10%;
+    width: 15%;
     padding: 12px 15px;
     border: 1px solid var(--secondary);
     border-radius: var(--radius);
