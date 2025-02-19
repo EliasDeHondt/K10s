@@ -67,8 +67,10 @@
     <app-nav class="nav" id="nav"></app-nav>
     <main class="dashboard-main" id="dashboard-main" #dashboardMain>
         <section class="dashboard-title" id="dashboard-title" #dashboardTitle>K10s</section>
-        <section class="dashboard-main-section">
-            <article class="cursor-move" id="dashboard-main-chart"></article> <!-- TODO -->
+        <section class="dashboard-main-section" >
+            <article class="cursor-move" id="dashboard-main-chart">
+                <app-spider-web class="spider-web" id="spider-web"></app-spider-web>
+            </article>
         </section>
         <section class="dashboard-fullscreen-button cursor-pointer" id="dashboard-fullscreen-button">
             <svg class="cursor-pointer" viewBox="0 0 16 16">

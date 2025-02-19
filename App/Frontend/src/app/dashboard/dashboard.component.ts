@@ -11,12 +11,13 @@ import { StatsService } from "../services/stats.service";
 import { ByteFormatPipe } from "../byte-format.pipe";
 import { Color, NgxChartsModule, ScaleType } from "@swimlane/ngx-charts";
 import { LoadingComponent } from "../loading/loading.component";
+import { SpiderWebComponent } from "../spider-web/spider-web.component";
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css'],
-    imports: [NavComponent, FooterComponent, TranslatePipe, ByteFormatPipe, NgxChartsModule, LoadingComponent],
+    imports: [NavComponent, FooterComponent, TranslatePipe, ByteFormatPipe, NgxChartsModule, SpiderWebComponent, LoadingComponent],
     standalone: true
 })
 
@@ -94,7 +95,6 @@ export class DashboardComponent implements AfterViewInit {
         this.loading = true;
         this.usageService.getStats().subscribe({
             next: (data) => {
-                console.log(data);
                 this.usage = data;
                 this.updateChartData();
                 this.loading = false;

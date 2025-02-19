@@ -8,6 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SearchComponent } from './search/search.component';
 import { AddComponent } from "./add/add.component";
+import {SpiderWebComponent} from "./spider-web/spider-web.component";
 import { NotFoundComponent } from './notfound/notfound.component';
 
 export const routes: Routes = [
@@ -16,5 +17,6 @@ export const routes: Routes = [
     { path: 'dashboard', component: DashboardComponent, data: { title: 'K10s - Dashboard' } },
     { path: 'search', component: SearchComponent, data: { title: 'K10s - Search' } },
     { path: 'add', component: AddComponent, data: { title: 'K10s - Add' } },
+    { path: 'spiderweb', component: SpiderWebComponent, data: { title: 'K10s - Testing' } },
     { path: '**', component: NotFoundComponent, data: { title: 'K10s - Not Found' } }
 ];
