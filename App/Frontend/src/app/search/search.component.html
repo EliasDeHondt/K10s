@@ -1,92 +1,92 @@
 <!--Author K10s Open Source Team-->
 <body class="search-body">
-    <header class="search-header">
-        <section class="search-header-section1">
-            <article class="search-header-article1">
-                <input class="cursor-text" type="text" id="search-input" [placeholder]="'SEARCH.SEARCH_PLACEHOLDER' | translate">
-                <button class="cursor-pointer" id="search-button">{{ 'SEARCH.SEARCH' | translate }}</button>
-            </article>
-        </section>
-        <section class="search-header-section2">
-            <article class="search-header-article2">
-                <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-1">{{ 'DASHBOARD.NODES' | translate }}</label>
-                <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-2">{{ 'SEARCH.PODS' | translate }}</label>
-                <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-3">{{ 'SEARCH.SERVICES' | translate }}</label>
-                <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-4">{{ 'SEARCH.DEPLOYMENTS' | translate }}</label>
-                <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-5">{{ 'SEARCH.CONFIGMAPS' | translate }}</label>
-                <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-6">{{ 'SEARCH.SECRETS' | translate }}</label>
-            </article>
-        </section>
-        <section class="search-header-section3">
-            <article class="search-header-article3">
-                <section class="search-dropdown1">
-                    <button class="search-dropdown-button cursor-pointer" (click)="toggleDropdown('searchDropdown1')">
-                        {{ 'SEARCH.NODE' | translate }}
-                    </button>
-                    <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown1']">
-                        <li class="cursor-pointer" [class.active]="selectedNode === 'None'" (click)="selectNode('None')">None</li>
-                        <li class="cursor-pointer" [class.active]="selectedNode === 'Node A'" (click)="selectNode('Node A')">Node A</li>
-                        <li class="cursor-pointer" [class.active]="selectedNode === 'Node B'" (click)="selectNode('Node B')">Node B</li>
-                    </ul>
-                </section>
-            </article>
-            <article class="search-header-article3">
-                <section class="search-dropdown2">
-                    <button class="search-dropdown-button cursor-pointer" (click)="toggleDropdown('searchDropdown2')">
-                        {{ 'SEARCH.NAMESPACE' | translate }}
-                    </button>
-                    <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown2']">
-                        <li class="cursor-pointer" [class.active]="selectedNamespace === 'None'" (click)="selectNamespace('None')">None</li>
-                        <li class="cursor-pointer" [class.active]="selectedNamespace === 'Webserver001'" (click)="selectNamespace('Webserver001')">Webserver001</li>
-                        <li class="cursor-pointer" [class.active]="selectedNamespace === 'Database001'" (click)="selectNamespace('Database001')">Database001</li>
-                        <li class="cursor-pointer" [class.active]="selectedNamespace === 'Monitoring001'" (click)="selectNamespace('Monitoring001')">Monitoring001</li>
-                    </ul>
-                </section>
-            </article>
-        </section>
-    </header>
-    <app-nav class="nav" id="nav"></app-nav>
-    <main class="search-main">
-        <ng-container *ngIf="isLoading; else tableTemplate">
-            <div class="skeleton-table">
-                <div class="skeleton-header"></div>
-                <div
+<header class="search-header">
+    <section class="search-header-section1">
+        <article class="search-header-article1">
+            <input class="cursor-text" type="text" id="search-input"
+                   [placeholder]="'SEARCH.SEARCH_PLACEHOLDER' | translate">
+            <button class="cursor-pointer" id="search-button">{{ 'SEARCH.SEARCH' | translate }}</button>
+        </article>
+    </section>
+    <section class="search-header-section2">
+        <article class="search-header-article2">
+            <label><input class="cursor-pointer" type="radio" (change)="updateElement('nodes')" name="search-filter"
+                          id="search-filter-option-1">{{ 'DASHBOARD.NODES' | translate }}</label>
+            <label><input class="cursor-pointer" type="radio" (change)="updateElement('pods')" name="search-filter"
+                          id="search-filter-option-2">{{ 'SEARCH.PODS' | translate }}</label>
+            <label><input class="cursor-pointer" type="radio" (change)="updateElement('services')" name="search-filter"
+                          id="search-filter-option-3">{{ 'SEARCH.SERVICES' | translate }}</label>
+            <label><input class="cursor-pointer" type="radio" (change)="updateElement('deployments')"
+                          name="search-filter"
+                          id="search-filter-option-4">{{ 'SEARCH.DEPLOYMENTS' | translate }}</label>
+            <label><input class="cursor-pointer" type="radio" (change)="updateElement('configMaps')"
+                          name="search-filter" id="search-filter-option-5">{{ 'SEARCH.CONFIGMAPS' | translate }}</label>
+            <label><input class="cursor-pointer" type="radio" (change)="updateElement('secrets')" name="search-filter"
+                          id="search-filter-option-6">{{ 'SEARCH.SECRETS' | translate }}</label>
+        </article>
+    </section>
+    <section class="search-header-section3">
+        <article class="search-header-article3">
+            <section class="search-dropdown1">
+                <button class="search-dropdown-button cursor-pointer" (click)="toggleDropdown('searchDropdown1')">
+                    {{ 'SEARCH.NODE' | translate }}
+                </button>
+                <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown1']">
+                    <li class="cursor-pointer" [class.active]="selectedNode === 'None'" (click)="selectNode('None')">
+                        None
+                    </li>
+                    <li class="cursor-pointer" [class.active]="selectedNode === 'Node A'"
+                        (click)="selectNode('Node A')">Node A
+                    </li>
+                    <li class="cursor-pointer" [class.active]="selectedNode === 'Node B'"
+                        (click)="selectNode('Node B')">Node B
+                    </li>
+                </ul>
+            </section>
+        </article>
+        <article class="search-header-article3">
+            <section class="search-dropdown2">
+                <button class="search-dropdown-button cursor-pointer" (click)="toggleDropdown('searchDropdown2')">
+                    {{ 'SEARCH.NAMESPACE' | translate }}
+                </button>
+                <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown2']">
+                    <li class="cursor-pointer" [class.active]="selectedNamespace === 'None'"
+                        (click)="selectNamespace('None')">None
+                    </li>
+                    <li class="cursor-pointer" [class.active]="selectedNamespace === 'Webserver001'"
+                        (click)="selectNamespace('Webserver001')">Webserver001
+                    </li>
+                    <li class="cursor-pointer" [class.active]="selectedNamespace === 'Database001'"
+                        (click)="selectNamespace('Database001')">Database001
+                    </li>
+                    <li class="cursor-pointer" [class.active]="selectedNamespace === 'Monitoring001'"
+                        (click)="selectNamespace('Monitoring001')">Monitoring001
+                    </li>
+                </ul>
+            </section>
+        </article>
+    </section>
+</header>
+<app-nav class="nav" id="nav"></app-nav>
+<main class="search-main">
+    @if (isLoading()) {
+        <div class="skeleton-table">
+            <div class="skeleton-header"></div>
+            <div
                     class="skeleton-content"
                     *ngFor="let _ of [].constructor(17); let i = index"
                     [class.odd-row]="i % 2 === 0"
                     [class.even-row]="i % 2 !== 0">
-                </div>
             </div>
-        </ng-container>
-        <ng-template #tableTemplate>
-            <table class="search-table">
-                <thead>
-                    <tr>
-                        <th>{{ 'SEARCH.CLUSTER_NAME' | translate }}</th>
-                        <th>{{ 'SEARCH.NAMESPACE' | translate }}</th>
-                        <th>{{ 'SEARCH.POD_NAME' | translate }}</th>
-                        <th>{{ 'SEARCH.STATUS' | translate }}</th>
-                        <th>{{ 'SEARCH.RESTART_COUNT' | translate }}</th>
-                        <th>{{ 'SEARCH.LAST_UPDATED' | translate }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of searchResults">
-                        <td>{{ item.cluster }}</td>
-                        <td>{{ item.namespace }}</td>
-                        <td>{{ item.podName }}</td>
-                        <td>{{ item.status }}</td>
-                        <td>{{ item.restartCount }}</td>
-                        <td>{{ item.lastUpdated }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </ng-template>
-        <section class="search-main-pagination">
-            <button class="cursor-pointer">20</button>
-            <button class="cursor-pointer">50</button>
-            <button class="cursor-pointer">100</button>
-        </section>
-    </main>
-    <app-footer class="footer" id="footer"></app-footer>
+        </div>
+    } @else if (tableService.element() === "pods" && !isLoading()) {
+        <app-pod-table [pods]="tableService.data().Response"/>
+    }
+    <section class="search-main-pagination">
+        <button class="cursor-pointer">20</button>
+        <button class="cursor-pointer">50</button>
+        <button class="cursor-pointer">100</button>
+    </section>
+</main>
+<app-footer class="footer" id="footer"></app-footer>
 </body>

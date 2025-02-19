@@ -20,6 +20,6 @@ export class StatsService {
     }
 
     getStats(): Observable<Metrics> {
-        return this.http.get<any>(this.apiUrl, {withCredentials: true});
+        return this.http.get<Metrics>(this.apiUrl, {withCredentials: true});
     }
 }

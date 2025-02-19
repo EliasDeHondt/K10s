@@ -40,7 +40,11 @@
         "POD_NAME": "Pod-Name",
         "STATUS": "Status",
         "RESTART_COUNT": "Neustartanzahl",
-        "LAST_UPDATED": "Zuletzt aktualisiert"
+        "LAST_UPDATED": "Zuletzt aktualisiert",
+        "SERVICES_READY": "Dienste bereit",
+        "POD_IP": "Pod IP",
+        "NODE_NAME": "Knotenname",
+        "AGE": "Alter"
     },
     "NOTFOUND": {
         "TITLE": "Es mag Open Source sein, aber bleib verdammt noch mal in deiner Spur ;-)"

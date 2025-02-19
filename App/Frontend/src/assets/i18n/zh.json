@@ -40,7 +40,11 @@
         "POD_NAME": "容器组 名称",
         "STATUS": "状态",
         "RESTART_COUNT": "重启次数",
-        "LAST_UPDATED": "最后更新"
+        "LAST_UPDATED": "最后更新",
+        "SERVICES_READY": "服務就緒",
+        "POD_IP": "花苞 IP位址",
+        "NODE_NAME": "節點名稱",
+        "AGE": "年齡"
     },
     "NOTFOUND": {
         "TITLE": "也许是开源的，但别他妈越界 ;-)"
