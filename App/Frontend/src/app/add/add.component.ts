@@ -15,7 +15,7 @@ import { TranslatePipe } from "@ngx-translate/core";
     templateUrl: './add.component.html',
     styleUrl: './add.component.css',
     imports: [NavComponent, FooterComponent, FormsModule, TranslatePipe],
-    standalone: true
+    standalone: true //todo opzoeken
 })
 
 export class AddComponent {
