@@ -1,13 +1,12 @@
+<!--Author K10s Open Source Team-->
 <table class="search-table">
     <thead>
-    <tr>
-
-        <th>{{ 'SEARCH.NAMESPACE' | translate }}</th>
-        <th>{{ 'SEARCH.CONFIGMAP_NAME' | translate }}</th>
-        <th>{{ 'SEARCH.DATA' | translate }}</th>
-        <th>{{ 'SEARCH.AGE' | translate }}</th>
-
-    </tr>
+        <tr>
+            <th>{{ 'SEARCH.NAMESPACE' | translate }}</th>
+            <th>{{ 'SEARCH.CONFIGMAP_NAME' | translate }}</th>
+            <th>{{ 'SEARCH.DATA' | translate }}</th>
+            <th>{{ 'SEARCH.AGE' | translate }}</th>
+        </tr>
     </thead>
     <tbody>
         @for (configMap of configMaps; track configMap.Name) {
@@ -19,11 +18,9 @@
                         {{ Object.keys(configMap.Data).length }}
                     </div>
                 </td>
-
                 <td>{{ configMap.Age }}</td>
             </tr>
         }
     </tbody>
 </table>
-
 <div id="tooltip" class="tooltip-text"></div>

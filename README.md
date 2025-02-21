@@ -77,15 +77,15 @@ The project's visual identity is defined by the following colors:
 
 ### 🌌Kubernetes
 
-- Step 1 - Create the necessary secrets for the application (replace the values with your own):
+- Step 1 - Deploy the application:
+```bash
+kubectl apply -f https://raw.githubusercontent.com/EliasDeHondt/K10s/refs/heads/main/Kubernetes/k10s.yaml
+```
+
+- Step 2 - Create the necessary secrets for the application (replace the values with your own):
 ```bash
 kubectl create secret generic k10s-secret-user -n k10s-namespaces --from-literal=USERNAME=admin --from-literal=PASSWORD=admin
 kubectl create secret generic k10s-secret-jwt -n k10s-namespaces --from-literal=JWT_SECRET=$(openssl rand -base64 32) # apt install openssl.
-```
-
-- Step 2 - Deploy the application:
-```bash
-kubectl apply -f https://raw.githubusercontent.com/EliasDeHondt/K10s/refs/heads/main/Kubernetes/k10s.yaml
 ```
 
 - Step 3 - Get the external IP of the application:
@@ -98,12 +98,6 @@ kubectl get svc -n k10s-namespaces
 - If you want to delete the application:
 ```bash
 kubectl delete -f https://raw.githubusercontent.com/EliasDeHondt/K10s/refs/heads/main/Kubernetes/k10s.yaml
-```
-
-- If you want to delete the secrets:
-```bash
-kubectl delete secret k10s-secret-user -n k10s-namespaces
-kubectl delete secret k10s-secret-jwt -n k10s-namespaces
 ```
 
 ### 🐳Docker

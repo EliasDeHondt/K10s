@@ -1,3 +1,8 @@
+/**********************************/
+/* @since 01/01/2025              */
+/* @author K10s Open Source Team  */
+/**********************************/
+
 export interface PaginatedResponse {
     Response: Pod[] | Node[] | Service[] | Deployment[] | ConfigMap[] | Secret[]
     PageToken: string

@@ -1,11 +1,17 @@
-import {effect, Injectable, signal} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {environment} from "../../environments/environment";
-import {PaginatedResponse} from "../domain/Kubernetes";
+/**********************************/
+/* @since 01/01/2025              */
+/* @author K10s Open Source Team  */
+/**********************************/
+
+import { effect, Injectable, signal } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { environment } from "../../environments/environment";
+import { PaginatedResponse } from "../domain/Kubernetes";
 
 @Injectable({
     providedIn: 'root'
 })
+
 export class TableService {
     private tableUrl = `${environment.BASE_URL}/secured/table`;
     element = signal('')
@@ -30,5 +36,4 @@ export class TableService {
             this.data.set(data)
         })
     }
-
 }

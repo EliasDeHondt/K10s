@@ -3,11 +3,11 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-import {Component, OnInit} from '@angular/core';
-import {Router, RouterLink} from '@angular/router';
-import {CommonModule} from '@angular/common';
-import {TranslatePipe, TranslateService} from "@ngx-translate/core";
-import {AuthService} from "../services/auth.service";
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
+import { AuthService } from "../services/auth.service";
 
 @Component({
     selector: 'app-nav',
@@ -96,5 +96,4 @@ export class NavComponent implements OnInit {
             }
         )
     }
-
 }

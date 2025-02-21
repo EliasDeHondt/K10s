@@ -3,13 +3,13 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-import {Component, AfterViewInit} from '@angular/core';
-import {Router, RouterModule} from '@angular/router';
-import {FormsModule} from '@angular/forms';
-import {TranslatePipe, TranslateService} from "@ngx-translate/core";
+import { Component, AfterViewInit } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import anime from 'animejs/lib/anime.es.js';
-import {AuthService} from "../services/auth.service";
-import {take, tap} from "rxjs";
+import { AuthService } from "../services/auth.service";
+import { take, tap } from "rxjs";
 
 @Component({
     selector: 'app-login',

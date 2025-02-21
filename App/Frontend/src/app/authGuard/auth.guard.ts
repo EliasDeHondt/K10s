@@ -1,17 +1,18 @@
-import {
-    ActivatedRouteSnapshot,
-    CanActivate,
-    Router,
-    RouterStateSnapshot
-} from '@angular/router';
-import {Injectable} from "@angular/core";
-import {AuthService} from "../services/auth.service";
-import {map} from "rxjs/operators";
-import {Observable} from "rxjs";
+/**********************************/
+/* @since 01/01/2025              */
+/* @author K10s Open Source Team  */
+/**********************************/
+
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { Injectable } from "@angular/core";
+import { AuthService } from "../services/auth.service";
+import { map } from "rxjs/operators";
+import { Observable } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
 })
+
 export class AuthGuard implements CanActivate {
     constructor(private authService: AuthService, private router: Router) {}
 
@@ -26,5 +27,4 @@ export class AuthGuard implements CanActivate {
             })
         )
     }
-
 }
