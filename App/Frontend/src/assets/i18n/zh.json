@@ -48,7 +48,12 @@
         "NODE_ROLE": "節點角色",
         "VERSION": "版本",
         "POD_AMOUNT": "花苞數量",
-        "IP": "IP位址"
+        "IP": "IP位址",
+        "SERVICE_NAME": "服務名稱",
+        "SERVICE_TYPE": "服務類型",
+        "CLUSTER_IP": "叢集 IP",
+        "EXTERNAL_IP": "外部 IP",
+        "PORTS": "連接埠"
     },
     "NOTFOUND": {
         "TITLE": "也许是开源的，但别他妈越界 ;-)"

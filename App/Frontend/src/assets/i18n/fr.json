@@ -48,7 +48,12 @@
         "NODE_ROLE": "Rôle du nœud",
         "VERSION": "Version",
         "POD_AMOUNT": "Quantité de pods",
-        "IP": "IP"
+        "IP": "IP",
+        "SERVICE_NAME": "Nom du service",
+        "SERVICE_TYPE": "Type de service",
+        "CLUSTER_IP": "IP cluster",
+        "EXTERNAL_IP": "IP externe",
+        "PORTS": "Ports"
     },
     "NOTFOUND": {
         "TITLE": "C’est peut-être open source, mais reste bien dans ton foutu couloir ;-)"

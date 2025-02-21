@@ -48,7 +48,12 @@
         "NODE_ROLE": "Node role",
         "VERSION": "Version",
         "POD_AMOUNT": "Pod amount",
-        "IP": "IP"
+        "IP": "IP",
+        "SERVICE_NAME": "Service name",
+        "SERVICE_TYPE": "Service type",
+        "CLUSTER_IP": "Cluster IP",
+        "EXTERNAL_IP": "External IP",
+        "PORTS": "Ports"
     },
     "NOTFOUND": {
         "TITLE": "It may be open source, but stay in your damn lane ;-)"

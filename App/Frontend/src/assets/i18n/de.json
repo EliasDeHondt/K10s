@@ -48,7 +48,12 @@
         "NODE_ROLE": "Rolle des Knotens",
         "VERSION": "Version",
         "POD_AMOUNT": "Menge der pods",
-        "IP": "IP"
+        "IP": "IP",
+        "SERVICE_NAME": "Dienstname",
+        "SERVICE_TYPE": "Diensttyp",
+        "CLUSTER_IP": "Cluster IP",
+        "EXTERNAL_IP": "Externe IP",
+        "PORTS": "Ports"
     },
     "NOTFOUND": {
         "TITLE": "Es mag Open Source sein, aber bleib verdammt noch mal in deiner Spur ;-)"
