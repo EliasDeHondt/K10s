@@ -48,7 +48,20 @@
         "NODE_ROLE": "節點角色",
         "VERSION": "版本",
         "POD_AMOUNT": "花苞數量",
-        "IP": "IP位址"
+        "IP": "IP位址",
+        "SERVICE_NAME": "服務名稱",
+        "SERVICE_TYPE": "服務類型",
+        "CLUSTER_IP": "叢集 IP",
+        "EXTERNAL_IP": "外部 IP",
+        "PORTS": "連接埠",
+        "DEPLOYMENT_NAME": "部署名稱",
+        "READY_PODS": "準備就緒的 Pods",
+        "UPDATED": "已更新",
+        "AVAILABLE": "可用",
+        "CONFIGMAP_NAME": "配置映射名稱",
+        "DATA": "數據",
+        "SECRET_NAME": "秘密名稱",
+        "SECRET_TYPE": "秘密類型"
     },
     "NOTFOUND": {
         "TITLE": "也许是开源的，但别他妈越界 ;-)"

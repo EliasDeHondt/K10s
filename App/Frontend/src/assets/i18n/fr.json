@@ -48,7 +48,20 @@
         "NODE_ROLE": "Rôle du nœud",
         "VERSION": "Version",
         "POD_AMOUNT": "Quantité de pods",
-        "IP": "IP"
+        "IP": "IP",
+        "SERVICE_NAME": "Nom du service",
+        "SERVICE_TYPE": "Type de service",
+        "CLUSTER_IP": "IP cluster",
+        "EXTERNAL_IP": "IP externe",
+        "PORTS": "Ports",
+        "DEPLOYMENT_NAME": "Nom du déploiement",
+        "READY_PODS": "Pods prêts",
+        "UPDATED": "Mis à jour",
+        "AVAILABLE": "Disponible",
+        "CONFIGMAP_NAME": "Nom de la carte de configuration",
+        "DATA": "Données",
+        "SECRET_NAME": "Nom du secret",
+        "SECRET_TYPE": "Type de secret"
     },
     "NOTFOUND": {
         "TITLE": "C’est peut-être open source, mais reste bien dans ton foutu couloir ;-)"

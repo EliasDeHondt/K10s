@@ -48,7 +48,20 @@
         "NODE_ROLE": "Node rol",
         "VERSION": "Versie",
         "POD_AMOUNT": "Pod kwantiteit",
-        "IP": "IP"
+        "IP": "IP",
+        "SERVICE_NAME": "Dienstnaam",
+        "SERVICE_TYPE": "Servicetype",
+        "CLUSTER_IP": "Cluster-IP",
+        "EXTERNAL_IP": "Externe IP",
+        "PORTS": "Poorten",
+        "DEPLOYMENT_NAME": "Deployementnaam",
+        "READY_PODS": "Klaarstaande pods",
+        "UPDATED": "Bijgewerkt",
+        "AVAILABLE": "Beschikbaar",
+        "CONFIGMAP_NAME": "Configmap naam",
+        "DATA": "Gegevens",
+        "SECRET_NAME": "Geheimnaam",
+        "SECRET_TYPE": "Geheimtype"
     },
     "NOTFOUND": {
         "TITLE": "Het mag dan open source zijn, maar blijf verdomme in je eigen baan ;-)"

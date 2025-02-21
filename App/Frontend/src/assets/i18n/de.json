@@ -48,7 +48,20 @@
         "NODE_ROLE": "Rolle des Knotens",
         "VERSION": "Version",
         "POD_AMOUNT": "Menge der pods",
-        "IP": "IP"
+        "IP": "IP",
+        "SERVICE_NAME": "Dienstname",
+        "SERVICE_TYPE": "Diensttyp",
+        "CLUSTER_IP": "Cluster IP",
+        "EXTERNAL_IP": "Externe IP",
+        "PORTS": "Ports",
+        "DEPLOYMENT_NAME": "Bereitstellungsname",
+        "READY_PODS": "Bereite Pods",
+        "UPDATED": "Aktualisiert",
+        "AVAILABLE": "Verfügbar",
+        "CONFIGMAP_NAME": "Konfigurationsmappe Name",
+        "DATA": "Daten",
+        "SECRET_NAME": "Geheimname",
+        "SECRET_TYPE": "Geheimtyp"
     },
     "NOTFOUND": {
         "TITLE": "Es mag Open Source sein, aber bleib verdammt noch mal in deiner Spur ;-)"

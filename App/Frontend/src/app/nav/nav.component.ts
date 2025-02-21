@@ -23,11 +23,12 @@ export class NavComponent implements OnInit {
 
     settingsConfig = {
         languages: [
-            {code: 'en', name: 'English'},
-            {code: 'nl', name: 'Nederlands'},
-            {code: 'fr', name: 'Français'},
-            {code: 'de', name: 'Deutsch'},
-            {code: 'zh', name: '中文'}
+            { code: 'en', name: 'English' },
+            { code: 'nl', name: 'Nederlands' },
+            { code: 'fr', name: 'Français' },
+            { code: 'de', name: 'Deutsch' },
+            { code: 'zh', name: '中文' },
+            { code: 'tlh', name: 'Klingon' }
         ]
     };
 

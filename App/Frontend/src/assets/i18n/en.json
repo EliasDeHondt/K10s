@@ -48,7 +48,20 @@
         "NODE_ROLE": "Node role",
         "VERSION": "Version",
         "POD_AMOUNT": "Pod amount",
-        "IP": "IP"
+        "IP": "IP",
+        "SERVICE_NAME": "Service name",
+        "SERVICE_TYPE": "Service type",
+        "CLUSTER_IP": "Cluster IP",
+        "EXTERNAL_IP": "External IP",
+        "PORTS": "Ports",
+        "DEPLOYMENT_NAME": "Deployment name",
+        "READY_PODS": "Ready pods",
+        "UPDATED": "Updated",
+        "AVAILABLE": "Available",
+        "CONFIGMAP_NAME": "ConfigMap name",
+        "DATA": "Data",
+        "SECRET_NAME": "Secret name",
+        "SECRET_TYPE": "Secret type"
     },
     "NOTFOUND": {
         "TITLE": "It may be open source, but stay in your damn lane ;-)"

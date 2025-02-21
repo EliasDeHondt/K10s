@@ -83,6 +83,14 @@
         <app-pod-search-table [pods]="tableService.data().Response | podCast"/>
     } @else if (tableService.element() === "nodes") {
         <app-node-table [nodes]="tableService.data().Response | nodeCast"/>
+    } @else if (tableService.element() === "services") {
+        <app-service-table [services]="tableService.data().Response | serviceCast"/>
+    } @else if (tableService.element() === "deployments") {
+        <app-deployment-table [deployments]="tableService.data().Response | deploymentCast"/>
+    } @else if (tableService.element() === "configMaps") {
+        <app-config-map-table [configMaps]="tableService.data().Response | configMapCast"/>
+    } @else if (tableService.element() === "secrets") {
+        <app-secret-table [secrets]="tableService.data().Response | secretCast"/>
     }
     <section class="search-main-pagination">
         <button class="cursor-pointer">20</button>
