@@ -103,7 +103,7 @@ kubectl delete -f https://raw.githubusercontent.com/EliasDeHondt/K10s/refs/heads
 - If you want to delete the secrets:
 ```bash
 kubectl delete secret k10s-secret-user -n k10s-namespaces
-kubectl delete secret k10s-secret-discord_webhook -n k10s-namespaces
+kubectl delete secret k10s-secret-jwt -n k10s-namespaces
 ```
 
 ### 🐳Docker
