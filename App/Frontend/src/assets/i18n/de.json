@@ -57,7 +57,9 @@
         "DEPLOYMENT_NAME": "Bereitstellungsname",
         "READY_PODS": "Bereite Pods",
         "UPDATED": "Aktualisiert",
-        "AVAILABLE": "Verfügbar"
+        "AVAILABLE": "Verfügbar",
+        "CONFIGMAP_NAME": "Konfigurationsmappe Name",
+        "DATA": "Daten"
     },
     "NOTFOUND": {
         "TITLE": "Es mag Open Source sein, aber bleib verdammt noch mal in deiner Spur ;-)"

@@ -57,7 +57,9 @@
         "DEPLOYMENT_NAME": "Deployementnaam",
         "READY_PODS": "Klaarstaande pods",
         "UPDATED": "Bijgewerkt",
-        "AVAILABLE": "Beschikbaar"
+        "AVAILABLE": "Beschikbaar",
+        "CONFIGMAP_NAME": "Configmap naam",
+        "DATA": "Gegevens"
     },
     "NOTFOUND": {
         "TITLE": "Het mag dan open source zijn, maar blijf verdomme in je eigen baan ;-)"

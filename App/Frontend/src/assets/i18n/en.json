@@ -57,7 +57,9 @@
         "DEPLOYMENT_NAME": "Deployment name",
         "READY_PODS": "Ready pods",
         "UPDATED": "Updated",
-        "AVAILABLE": "Available"
+        "AVAILABLE": "Available",
+        "CONFIGMAP_NAME": "ConfigMap name",
+        "DATA": "Data"
     },
     "NOTFOUND": {
         "TITLE": "It may be open source, but stay in your damn lane ;-)"

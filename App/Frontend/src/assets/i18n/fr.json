@@ -57,7 +57,9 @@
         "DEPLOYMENT_NAME": "Nom du déploiement",
         "READY_PODS": "Pods prêts",
         "UPDATED": "Mis à jour",
-        "AVAILABLE": "Disponible"
+        "AVAILABLE": "Disponible",
+        "CONFIGMAP_NAME": "Nom de la carte de configuration",
+        "DATA": "Données"
     },
     "NOTFOUND": {
         "TITLE": "C’est peut-être open source, mais reste bien dans ton foutu couloir ;-)"

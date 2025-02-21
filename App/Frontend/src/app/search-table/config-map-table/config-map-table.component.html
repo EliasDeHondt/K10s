@@ -1,0 +1,29 @@
+<table class="search-table">
+    <thead>
+    <tr>
+
+        <th>{{ 'SEARCH.NAMESPACE' | translate }}</th>
+        <th>{{ 'SEARCH.CONFIGMAP_NAME' | translate }}</th>
+        <th>{{ 'SEARCH.DATA' | translate }}</th>
+        <th>{{ 'SEARCH.AGE' | translate }}</th>
+
+    </tr>
+    </thead>
+    <tbody>
+        @for (configMap of configMaps; track configMap.Name) {
+            <tr>
+                <td>{{ configMap.Namespace }}</td>
+                <td>{{ configMap.Name }}</td>
+                <td class="data-length-column"  (mousemove)="showTooltip($event, configMap.Data)" (mouseout)="hideTooltip()">
+                    <div class="tooltip-container">
+                        {{ Object.keys(configMap.Data).length }}
+                    </div>
+                </td>
+
+                <td>{{ configMap.Age }}</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div id="tooltip" class="tooltip-text"></div>
