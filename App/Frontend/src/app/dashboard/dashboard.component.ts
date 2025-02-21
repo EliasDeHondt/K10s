@@ -11,12 +11,13 @@ import { StatsService } from "../services/stats.service";
 import { ByteFormatPipe } from "../byte-format.pipe";
 import { Color, NgxChartsModule, ScaleType } from "@swimlane/ngx-charts";
 import { LoadingComponent } from "../loading/loading.component";
+import { SpiderWebComponent } from "../spider-web/spider-web.component";
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css'],
-    imports: [NavComponent, FooterComponent, TranslatePipe, ByteFormatPipe, NgxChartsModule, LoadingComponent],
+    imports: [NavComponent, FooterComponent, TranslatePipe, ByteFormatPipe, NgxChartsModule, SpiderWebComponent, LoadingComponent],
     standalone: true
 })
 
@@ -83,7 +84,6 @@ export class DashboardComponent implements AfterViewInit, OnInit {
         this.loading = true;
         this.usageService.getStats().subscribe({
             next: (data) => {
-                console.log(data);
                 this.usage = data;
                 this.updateChartData();
                 this.loading = false;
@@ -93,6 +93,9 @@ export class DashboardComponent implements AfterViewInit, OnInit {
                 this.loading = false;
             }
         });
+    }
+    valueFormatting(usage: number): string {
+        return usage+`%`;
     }
 
     updateChartData(): void {
@@ -121,8 +124,8 @@ export class DashboardComponent implements AfterViewInit, OnInit {
         const orange = rootStyles.getPropertyValue('--status-orange').trim();
         const red = rootStyles.getPropertyValue('--status-red').trim();
 
-        if (usage < 50) return green;
-        if (usage < 80) return orange;
+        if (usage < 55) return green;
+        if (usage < 85) return orange;
         return red;
     }
 }

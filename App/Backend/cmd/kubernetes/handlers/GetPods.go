@@ -31,11 +31,11 @@ func GetPodsHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, podList)
 }
 
-func GetPods(c *kubernetes.IClient, namespace string, pageSize int, continueToken string) (*PaginatedResponse[[]kubernetes.Pod], error) {
+func GetPods(c kubernetes.IClient, namespace string, pageSize int, continueToken string) (*PaginatedResponse[[]kubernetes.Pod], error) {
 	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	list, err := (*c).GetPods(namespace).List(ct, metav1.ListOptions{
+	list, err := c.GetPods(namespace).List(ct, metav1.ListOptions{
 		Limit:    int64(pageSize),
 		Continue: continueToken,
 	})

@@ -1,0 +1,36 @@
+---
+apiVersion: v1
+kind: Node
+metadata:
+  name: node-4
+  labels:
+    kubernetes.io/role: worker
+    environment: production
+spec:
+  taints:
+    - key: "dedicated"
+      value: "gpu"
+      effect: "NoSchedule"
+  podCIDR: 192.168.1.0/24
+status:
+  capacity:
+    cpu: "4"
+    memory: "16Gi"
+    pods: "110"
+  allocatable:
+    cpu: "3.5"
+    memory: "14Gi"
+    pods: "100"
+  conditions:
+    - type: Ready
+      status: "True"
+      lastHeartbeatTime: "2024-02-12T10:00:00Z"
+      lastTransitionTime: "2024-02-12T10:00:00Z"
+      reason: "KubeletReady"
+      message: "Node is ready"
+  addresses:
+    - type: InternalIP
+      address: "192.168.1.10"
+    - type: Hostname
+      address: "node-1"
+---
