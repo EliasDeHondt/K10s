@@ -64,6 +64,19 @@
     height: 80%;
     display: flex;
 }
+.hidden-textarea {
+    display: none;
+}
+
+pre {
+    background: var(--background);
+    color: var(--text);
+    font-family: monospace;
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+}
 
 .add-textarea {
     width: 100%;
