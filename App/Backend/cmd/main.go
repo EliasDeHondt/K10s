@@ -9,15 +9,22 @@ import (
 	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes/handlers"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"os"
 	"time"
 )
 
+var envFrontendUrl, frontendUrlOk = os.LookupEnv("FRONTEND_URL")
+
 func main() {
+
+	if !frontendUrlOk {
+		envFrontendUrl = "http://localhost:8080"
+	}
 
 	r := gin.Default()
 
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:4200"},
+		AllowOrigins:     []string{envFrontendUrl},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
