@@ -4,7 +4,7 @@
 #################################
 # Backend build
 # Step 1: Build the Go binary
-FROM golang:1.20-alpine as builder
+FROM golang:1.23-alpine as builder
 
 LABEL maintainer "K10s Open Source Team"
 LABEL version "1.0"
