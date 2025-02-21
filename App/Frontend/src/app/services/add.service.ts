@@ -6,14 +6,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
-import { BASE_URL } from "./stats.service";
+import {environment} from "../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
 })
 
 export class AddService {
-    private uploadUrl = `${BASE_URL}/upload`;
+    private uploadUrl = `${environment.BASE_URL}/upload`;
 
     constructor(private http: HttpClient) {}
 

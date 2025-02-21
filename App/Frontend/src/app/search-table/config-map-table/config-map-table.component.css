@@ -1,0 +1,21 @@
+.tooltip-text {
+    position: fixed;
+    background-color: var(--tertiary);
+    color: var(--text);
+    padding: 8px;
+    border-radius: 5px;
+    white-space: pre-line;
+    min-width: 150px;
+    max-width: 300px;
+    font-size: 16px;
+    z-index: 5;
+    display: none;
+    pointer-events: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.data-length-column {
+    padding: 15px;
+    cursor: pointer;
+    position: relative;
+}
