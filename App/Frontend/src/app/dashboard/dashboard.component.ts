@@ -3,7 +3,7 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { NavComponent } from '../nav/nav.component';
 import { FooterComponent } from "../footer/footer.component";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -21,12 +21,8 @@ import { SpiderWebComponent } from "../spider-web/spider-web.component";
     standalone: true
 })
 
-export class DashboardComponent implements AfterViewInit {
-    onRightClick(event: MouseEvent) {
-        event.preventDefault();
-    }
-
-    // Fullscreen button
+export class DashboardComponent implements AfterViewInit, OnInit {
+// Fullscreen button
     @ViewChild('dashboardMain') dashboardMain!: ElementRef;
     @ViewChild('dashboardTitle') dashboardTitle!: ElementRef;
 
@@ -79,14 +75,7 @@ export class DashboardComponent implements AfterViewInit {
     constructor(private usageService: StatsService) {}
 
     ngOnInit(): void {
-        this.usageService.login().subscribe({
-            next: () => {
-                this.loadUsage();
-            },
-            error: (error) => {
-                console.error(error);
-            }
-        });
+        this.loadUsage();
     }
 
     loading: boolean = false;
