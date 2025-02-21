@@ -100,13 +100,8 @@ spec:
             secretKeyRef:
               name: k10s-secret-user
               key: PASSWORD
-        - name: DISCORD_WEBHOOK
-          valueFrom:
-            secretKeyRef:
-              name: k10s-secret-discord
-              key: discord_webhook
         - name: FRONTEND_URL
-          value: "http://k10s-frontend-service:8080"
+          value: "http://k10s-frontend-service:80"
 ---
 apiVersion: v1
 kind: Service
