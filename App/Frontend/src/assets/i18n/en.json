@@ -53,7 +53,11 @@
         "SERVICE_TYPE": "Service type",
         "CLUSTER_IP": "Cluster IP",
         "EXTERNAL_IP": "External IP",
-        "PORTS": "Ports"
+        "PORTS": "Ports",
+        "DEPLOYMENT_NAME": "Deployment name",
+        "READY_PODS": "Ready pods",
+        "UPDATED": "Updated",
+        "AVAILABLE": "Available"
     },
     "NOTFOUND": {
         "TITLE": "It may be open source, but stay in your damn lane ;-)"

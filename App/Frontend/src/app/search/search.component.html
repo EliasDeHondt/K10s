@@ -85,6 +85,8 @@
         <app-node-table [nodes]="tableService.data().Response | nodeCast"/>
     } @else if (tableService.element() === "services") {
         <app-service-table [services]="tableService.data().Response | serviceCast"/>
+    } @else if (tableService.element() === "deployments") {
+        <app-deployment-table [deployments]="tableService.data().Response | deploymentCast"/>
     }
     <section class="search-main-pagination">
         <button class="cursor-pointer">20</button>

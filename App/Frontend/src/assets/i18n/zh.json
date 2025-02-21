@@ -53,7 +53,11 @@
         "SERVICE_TYPE": "服務類型",
         "CLUSTER_IP": "叢集 IP",
         "EXTERNAL_IP": "外部 IP",
-        "PORTS": "連接埠"
+        "PORTS": "連接埠",
+        "DEPLOYMENT_NAME": "部署名稱",
+        "READY_PODS": "準備就緒的 Pods",
+        "UPDATED": "已更新",
+        "AVAILABLE": "可用"
     },
     "NOTFOUND": {
         "TITLE": "也许是开源的，但别他妈越界 ;-)"
