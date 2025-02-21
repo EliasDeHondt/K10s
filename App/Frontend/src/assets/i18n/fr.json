@@ -44,7 +44,11 @@
         "SERVICES_READY": "Services prêts",
         "POD_IP": "Pod IP",
         "NODE_NAME": "Nom du nœud",
-        "AGE": "L'âge"
+        "AGE": "L'âge",
+        "NODE_ROLE": "Rôle du nœud",
+        "VERSION": "Version",
+        "POD_AMOUNT": "Quantité de pods",
+        "IP": "IP"
     },
     "NOTFOUND": {
         "TITLE": "C’est peut-être open source, mais reste bien dans ton foutu couloir ;-)"

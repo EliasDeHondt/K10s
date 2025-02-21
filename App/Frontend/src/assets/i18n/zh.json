@@ -44,7 +44,11 @@
         "SERVICES_READY": "服務就緒",
         "POD_IP": "花苞 IP位址",
         "NODE_NAME": "節點名稱",
-        "AGE": "年齡"
+        "AGE": "年齡",
+        "NODE_ROLE": "節點角色",
+        "VERSION": "版本",
+        "POD_AMOUNT": "花苞數量",
+        "IP": "IP位址"
     },
     "NOTFOUND": {
         "TITLE": "也许是开源的，但别他妈越界 ;-)"

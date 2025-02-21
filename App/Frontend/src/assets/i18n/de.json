@@ -44,7 +44,11 @@
         "SERVICES_READY": "Dienste bereit",
         "POD_IP": "Pod IP",
         "NODE_NAME": "Knotenname",
-        "AGE": "Alter"
+        "AGE": "Alter",
+        "NODE_ROLE": "Rolle des Knotens",
+        "VERSION": "Version",
+        "POD_AMOUNT": "Menge der pods",
+        "IP": "IP"
     },
     "NOTFOUND": {
         "TITLE": "Es mag Open Source sein, aber bleib verdammt noch mal in deiner Spur ;-)"
