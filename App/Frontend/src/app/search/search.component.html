@@ -83,6 +83,8 @@
         <app-pod-search-table [pods]="tableService.data().Response | podCast"/>
     } @else if (tableService.element() === "nodes") {
         <app-node-table [nodes]="tableService.data().Response | nodeCast"/>
+    } @else if (tableService.element() === "services") {
+        <app-service-table [services]="tableService.data().Response | serviceCast"/>
     }
     <section class="search-main-pagination">
         <button class="cursor-pointer">20</button>

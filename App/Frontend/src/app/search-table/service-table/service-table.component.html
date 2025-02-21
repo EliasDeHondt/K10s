@@ -1,0 +1,28 @@
+<table class="search-table">
+    <thead>
+    <tr>
+
+        <th>{{ 'SEARCH.NAMESPACE' | translate }}</th>
+        <th>{{ 'SEARCH.SERVICE_NAME' | translate }}</th>
+        <th>{{ 'SEARCH.SERVICE_TYPE' | translate }}</th>
+        <th>{{ 'SEARCH.CLUSTER_IP' | translate }}</th>
+        <th>{{ 'SEARCH.EXTERNAL_IP' | translate }}</th>
+        <th>{{ 'SEARCH.PORTS' | translate }}</th>
+        <th>{{ 'SEARCH.AGE' | translate }}</th>
+
+    </tr>
+    </thead>
+    <tbody>
+        @for (service of services; track service.Name){
+            <tr>
+                <td>{{ service.Namespace }}</td>
+                <td>{{ service.Name }}</td>
+                <td>{{ service.Type }}</td>
+                <td>{{ service.ClusterIp }}</td>
+                <td>{{ service.ExternalIp }}</td>
+                <td>{{ service.Ports }}</td>
+                <td>{{ service.Age }}</td>
+            </tr>
+        }
+    </tbody>
+</table>
