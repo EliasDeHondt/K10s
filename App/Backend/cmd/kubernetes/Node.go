@@ -1,3 +1,7 @@
+/**********************************/
+/* @since 01/01/2025              */
+/* @author K10s Open Source Team  */
+/**********************************/
 package kubernetes
 
 import (
@@ -17,8 +21,6 @@ type Node struct {
 	NodeAge    string
 	IP         string
 }
-
-//TODO: remove fake clientset and use a real clientset
 
 func NewNode(node v1.Node, clientset IClient) Node {
 	return Node{

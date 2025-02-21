@@ -1,3 +1,7 @@
+/**********************************/
+/* @since 01/01/2025              */
+/* @author K10s Open Source Team  */
+/**********************************/
 package handlers
 
 import (
@@ -17,8 +21,6 @@ func GetPageSizeAndPageToken(ctx *gin.Context) (int, string) {
 	pageSizeString, _ := ctx.GetQuery("pageSize")
 	pageToken, _ := ctx.GetQuery("pageToken")
 	pageSize, err := strconv.Atoi(pageSizeString)
-	if err != nil {
-		pageSize = 20
-	}
+	if err != nil pageSize = 20
 	return pageSize, pageToken
 }
