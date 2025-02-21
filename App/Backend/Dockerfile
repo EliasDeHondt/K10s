@@ -3,8 +3,8 @@
 # @since 01/01/2025             #
 #################################
 # Backend build
-# Stage 1: Build the GO app
-FROM golang:1.23 AS builder
+# Step 1: Build the Go binary
+FROM golang:1.20-alpine as builder
 
 LABEL maintainer "K10s Open Source Team"
 LABEL version "1.0"
@@ -12,22 +12,15 @@ LABEL description "This is the backend image for the app."
 LABEL org.opencontainers.image.description "This is the backend image for the app."
 
 WORKDIR /app
-
-COPY go.mod go.sum ./
-
-RUN go mod download
-
 COPY . .
+RUN go mod tidy
+RUN go build -o main .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main cmd/main.go
+# Step 2: Create a smaller image for running the app
+FROM alpine:latest
 
-# Stage 2: Copy the GO app to a smaller image and run it
-FROM alpine:3.12 AS production
-
-WORKDIR /app
-
-COPY --from=builder /app/main /app/
+WORKDIR /root/
+COPY --from=builder /app/main .
 
 EXPOSE 8080
-
 CMD ["./main"]
