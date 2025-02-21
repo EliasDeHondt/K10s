@@ -3,7 +3,7 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-import { Component } from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import * as Prism from 'prismjs';
 import 'prismjs/components/prism-yaml';
 
@@ -27,11 +27,15 @@ export class AddComponent {
     fileContent: string | null = null;
     fileUploaded: boolean = false;
     textAreaActive: boolean = false;
+    @ViewChild('yamlTextArea') yamlTextArea: ElementRef | undefined;
 
     constructor(private addService: AddService) {}
 
     onFileUpload(event: Event) {
         const input = event.target as HTMLInputElement;
+        if (this.yamlText.trim().length > 0) {
+            return;
+        }
         if (input.files && input.files.length > 0) {
             const file = input.files[0];
 
@@ -46,13 +50,6 @@ export class AddComponent {
         }
     }
 
-    onTextInput() {
-        this.fileUploaded = false;
-        this.fileContent = null;
-        this.textAreaActive = true;
-        this.highlightYaml();
-    }
-
     highlightYaml() {
         this.highlightedYaml = Prism.highlight(this.yamlText, Prism.languages['yaml'], 'yaml');
     }
@@ -61,6 +58,11 @@ export class AddComponent {
         const target = event.target as HTMLElement;
         this.yamlText = target.innerText;
         this.highlightYaml();
+        if ( this.yamlTextArea && this.yamlText.trim().length > 0 ) {
+            this.yamlTextArea.nativeElement.contentEditable = 'false';
+            this.textAreaActive = true
+
+        }
     }
 
     sendData() {
@@ -72,7 +74,7 @@ export class AddComponent {
         }
 
         this.addService.uploadYaml(yamlData).subscribe({
-            next: (response) => { console.log('YAML upload success', response); this.clearTextarea(); },
+            next: () => {this.clearTextarea(); },
             error: (error) => console.error('Upload failed', error),
         });
     }
@@ -83,5 +85,8 @@ export class AddComponent {
         this.fileUploaded = true;
         this.fileContent = null;
         this.textAreaActive = false;
+        if ( this.yamlTextArea ) {
+            this.yamlTextArea.nativeElement.contentEditable = 'true';
+        }
     }
 }
