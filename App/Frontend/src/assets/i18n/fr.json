@@ -67,6 +67,7 @@
         "TITLE": "C’est peut-être open source, mais reste bien dans ton foutu couloir ;-)"
     },
     "ADD_DEPLOYMENT": {
+        "YAML_FILE": "Téléverser YAML",
         "YAML_PLACEHOLDER": "Saisir YAML ici...",
         "DEPLOY" : "Déployer"
     }

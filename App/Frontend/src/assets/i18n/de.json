@@ -67,6 +67,7 @@
         "TITLE": "Es mag Open Source sein, aber bleib verdammt noch mal in deiner Spur ;-)"
     },
     "ADD_DEPLOYMENT": {
+        "YAML_FILE": "YAML hochladen",
         "YAML_PLACEHOLDER": "Geben Sie die YAML hier ein...",
         "DEPLOY" : "Bereitstellen"
     }
