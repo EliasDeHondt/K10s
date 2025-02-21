@@ -19,12 +19,14 @@ import {DeploymentTableComponent} from "../search-table/deployment-table/deploym
 import {DeploymentCastPipe} from "../pipes/deployment-cast.pipe";
 import {ConfigMapTableComponent} from "../search-table/config-map-table/config-map-table.component";
 import {ConfigMapCastPipe} from "../pipes/config-map-cast.pipe";
+import {SecretTableComponent} from "../search-table/secret-table/secret-table.component";
+import {SecretCastPipe} from "../pipes/secret-cast.pipe";
 
 @Component({
     selector: 'app-search',
     templateUrl: './search.component.html',
     styleUrls: ['./search.component.css'],
-    imports: [NavComponent, FooterComponent, CommonModule, TranslatePipe, PodCastPipe, PodTableComponent, NodeTableComponent, NodeCastPipe, ServiceTableComponent, ServiceCastPipe, DeploymentTableComponent, DeploymentCastPipe, ConfigMapTableComponent, ConfigMapCastPipe],
+    imports: [NavComponent, FooterComponent, CommonModule, TranslatePipe, PodCastPipe, PodTableComponent, NodeTableComponent, NodeCastPipe, ServiceTableComponent, ServiceCastPipe, DeploymentTableComponent, DeploymentCastPipe, ConfigMapTableComponent, ConfigMapCastPipe, SecretTableComponent, SecretCastPipe],
     standalone: true
 })
 

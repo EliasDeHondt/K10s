@@ -59,7 +59,9 @@
         "UPDATED": "Updated",
         "AVAILABLE": "Available",
         "CONFIGMAP_NAME": "ConfigMap name",
-        "DATA": "Data"
+        "DATA": "Data",
+        "SECRET_NAME": "Secret name",
+        "SECRET_TYPE": "Secret type"
     },
     "NOTFOUND": {
         "TITLE": "It may be open source, but stay in your damn lane ;-)"

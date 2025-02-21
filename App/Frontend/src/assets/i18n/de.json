@@ -59,7 +59,9 @@
         "UPDATED": "Aktualisiert",
         "AVAILABLE": "Verfügbar",
         "CONFIGMAP_NAME": "Konfigurationsmappe Name",
-        "DATA": "Daten"
+        "DATA": "Daten",
+        "SECRET_NAME": "Geheimname",
+        "SECRET_TYPE": "Geheimtyp"
     },
     "NOTFOUND": {
         "TITLE": "Es mag Open Source sein, aber bleib verdammt noch mal in deiner Spur ;-)"

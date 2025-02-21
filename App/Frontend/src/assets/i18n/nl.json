@@ -59,7 +59,9 @@
         "UPDATED": "Bijgewerkt",
         "AVAILABLE": "Beschikbaar",
         "CONFIGMAP_NAME": "Configmap naam",
-        "DATA": "Gegevens"
+        "DATA": "Gegevens",
+        "SECRET_NAME": "Geheimnaam",
+        "SECRET_TYPE": "Geheimtype"
     },
     "NOTFOUND": {
         "TITLE": "Het mag dan open source zijn, maar blijf verdomme in je eigen baan ;-)"

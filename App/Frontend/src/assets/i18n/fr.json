@@ -59,7 +59,9 @@
         "UPDATED": "Mis à jour",
         "AVAILABLE": "Disponible",
         "CONFIGMAP_NAME": "Nom de la carte de configuration",
-        "DATA": "Données"
+        "DATA": "Données",
+        "SECRET_NAME": "Nom du secret",
+        "SECRET_TYPE": "Type de secret"
     },
     "NOTFOUND": {
         "TITLE": "C’est peut-être open source, mais reste bien dans ton foutu couloir ;-)"

@@ -59,7 +59,9 @@
         "UPDATED": "已更新",
         "AVAILABLE": "可用",
         "CONFIGMAP_NAME": "配置映射名稱",
-        "DATA": "數據"
+        "DATA": "數據",
+        "SECRET_NAME": "秘密名稱",
+        "SECRET_TYPE": "秘密類型"
     },
     "NOTFOUND": {
         "TITLE": "也许是开源的，但别他妈越界 ;-)"
