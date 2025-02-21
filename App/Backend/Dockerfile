@@ -12,9 +12,14 @@ LABEL description "This is the backend image for the app."
 LABEL org.opencontainers.image.description "This is the backend image for the app."
 
 WORKDIR /app
-COPY . .
+
+COPY go.mod go.sum ./
+
 RUN go mod tidy
-RUN go build -o main .
+
+COPY . .
+
+RUN go build -o main ./cmd
 
 # Step 2: Create a smaller image for running the app
 FROM alpine:latest
