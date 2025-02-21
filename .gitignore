@@ -7,3 +7,4 @@
 App/Frontend/node_modules
 App/Frontend/.angular
 App/Frontend/dist
+App/Backend/cmd/main
