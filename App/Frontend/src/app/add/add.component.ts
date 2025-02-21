@@ -61,8 +61,22 @@ export class AddComponent {
         if ( this.yamlTextArea && this.yamlText.trim().length > 0 ) {
             this.yamlTextArea.nativeElement.contentEditable = 'false';
             this.textAreaActive = true
-
         }
+    }
+    preventTyping(event: KeyboardEvent): void {
+        if (event.ctrlKey && event.key === 'v') {
+            return;
+        }
+        if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
+            event.preventDefault();
+        }
+    }
+
+    onPaste(event: ClipboardEvent): void {
+        event.preventDefault();
+        const clipboardData = event.clipboardData || (window as any).clipboardData;
+        const pastedText = clipboardData.getData('text');
+        document.execCommand('insertText', false, pastedText);
     }
 
     sendData() {

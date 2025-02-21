@@ -13,11 +13,14 @@
     <main class="add-main">
         <section class="add-textarea-container">
             <button class="add-clear-button" (click)="clearTextarea()">✖</button>
-            <pre #yamlTextArea
-                    class="add-pre add-textarea language-yaml"
-                    contenteditable="true"
-                    (input)="updateYamlText($event)"
-                    [innerHTML]="highlightedYaml">
+            <pre
+                #yamlTextArea
+                class="add-pre add-textarea language-yaml"
+                contenteditable="true"
+                (input)="updateYamlText($event)"
+                [innerHTML]="highlightedYaml"
+                (keydown)="preventTyping($event)"
+                (paste)="onPaste($event)">
             </pre>
             @if(!textAreaActive){
                 <span  class="add-placeholder-text">{{'ADD_DEPLOYMENT.YAML_PLACEHOLDER' | translate}}</span>
