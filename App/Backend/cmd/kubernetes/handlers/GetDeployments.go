@@ -31,11 +31,11 @@ func GetDeploymentsHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, deploymentList)
 }
 
-func GetDeployments(c *kubernetes.IClient, namespace string, pageSize int, pageToken string) (*PaginatedResponse[[]kubernetes.Deployment], error) {
+func GetDeployments(c kubernetes.IClient, namespace string, pageSize int, pageToken string) (*PaginatedResponse[[]kubernetes.Deployment], error) {
 	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	list, err := (*c).GetDeployments(namespace).List(ct, metav1.ListOptions{
+	list, err := c.GetDeployments(namespace).List(ct, metav1.ListOptions{
 		Limit:    int64(pageSize),
 		Continue: pageToken,
 	})

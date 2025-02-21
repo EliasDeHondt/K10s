@@ -7,10 +7,10 @@ import (
 	"testing"
 )
 
-var client = kubernetes.TestFakeClient()
+var getClient = kubernetes.TestFakeClient()
 
 func TestGetNodes(t *testing.T) {
-	nodes, err := handlers.GetNodes(&client, 20, "")
+	nodes, err := handlers.GetNodes(getClient, 20, "")
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, nodes)
@@ -19,7 +19,7 @@ func TestGetNodes(t *testing.T) {
 }
 
 func TestGetPods(t *testing.T) {
-	pods, err := handlers.GetPods(&client, "", 20, "")
+	pods, err := handlers.GetPods(getClient, "", 20, "")
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, pods)
@@ -28,7 +28,7 @@ func TestGetPods(t *testing.T) {
 }
 
 func TestGetPodsWithNamespace(t *testing.T) {
-	pods, err := handlers.GetPods(&client, "test", 20, "")
+	pods, err := handlers.GetPods(getClient, "test", 20, "")
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, pods)
@@ -36,7 +36,7 @@ func TestGetPodsWithNamespace(t *testing.T) {
 }
 
 func TestGetServices(t *testing.T) {
-	services, err := handlers.GetServices(&client, "", 20, "")
+	services, err := handlers.GetServices(getClient, "", 20, "")
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, services)
@@ -44,7 +44,7 @@ func TestGetServices(t *testing.T) {
 }
 
 func TestGetServicesWithNamespace(t *testing.T) {
-	services, err := handlers.GetServices(&client, "test", 20, "")
+	services, err := handlers.GetServices(getClient, "test", 20, "")
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, services)
@@ -52,7 +52,7 @@ func TestGetServicesWithNamespace(t *testing.T) {
 }
 
 func TestGetDeployments(t *testing.T) {
-	deployments, err := handlers.GetDeployments(&client, "", 20, "")
+	deployments, err := handlers.GetDeployments(getClient, "", 20, "")
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, deployments)
@@ -60,7 +60,7 @@ func TestGetDeployments(t *testing.T) {
 }
 
 func TestGetDeploymentsWithNamespace(t *testing.T) {
-	deployments, err := handlers.GetDeployments(&client, "test", 20, "")
+	deployments, err := handlers.GetDeployments(getClient, "test", 20, "")
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, deployments)
@@ -68,7 +68,7 @@ func TestGetDeploymentsWithNamespace(t *testing.T) {
 }
 
 func TestGetConfigMaps(t *testing.T) {
-	maps, err := handlers.GetConfigMaps(&client, "", 20, "")
+	maps, err := handlers.GetConfigMaps(getClient, "", 20, "")
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, maps)
@@ -76,7 +76,7 @@ func TestGetConfigMaps(t *testing.T) {
 }
 
 func TestGetConfigMapsWithNamespace(t *testing.T) {
-	maps, err := handlers.GetConfigMaps(&client, "test", 20, "")
+	maps, err := handlers.GetConfigMaps(getClient, "test", 20, "")
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, maps)
@@ -84,7 +84,7 @@ func TestGetConfigMapsWithNamespace(t *testing.T) {
 }
 
 func TestGetSecrets(t *testing.T) {
-	secrets, err := handlers.GetSecrets(&client, "", 20, "")
+	secrets, err := handlers.GetSecrets(getClient, "", 20, "")
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, secrets)
@@ -92,7 +92,7 @@ func TestGetSecrets(t *testing.T) {
 }
 
 func TestGetSecretsWithNamespace(t *testing.T) {
-	secrets, err := handlers.GetSecrets(&client, "test", 20, "")
+	secrets, err := handlers.GetSecrets(getClient, "test", 20, "")
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, secrets)
@@ -100,21 +100,21 @@ func TestGetSecretsWithNamespace(t *testing.T) {
 }
 
 func TestGetTotalUsage(t *testing.T) {
-	metrics, err := client.GetTotalUsage()
+	metrics, err := getClient.GetTotalUsage()
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, metrics)
 }
 
 func TestGetUsageForNode(t *testing.T) {
-	metrics, err := client.GetUsageForNode("node-1")
+	metrics, err := getClient.GetUsageForNode("node-1")
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, metrics)
 }
 
 func TestGetUsageForNonExistingNode(t *testing.T) {
-	metrics, err := client.GetUsageForNode("node-123")
+	metrics, err := getClient.GetUsageForNode("node-123")
 
 	assert.Error(t, err)
 	assert.Empty(t, metrics)

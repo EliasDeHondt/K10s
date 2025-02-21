@@ -14,28 +14,28 @@ import (
 	"time"
 )
 
-func GetClients() *IClient {
+func GetClients() IClient {
 	config, err := rest.InClusterConfig()
 
 	if err != nil {
 		client := TestFakeClient()
-		return &client
+		return client
 	}
 
 	c, err := kubernetes.NewForConfig(config)
 	if err != nil {
 		client := TestFakeClient()
-		return &client
+		return client
 	}
 
 	mc, err := metricsv.NewForConfig(config)
 	if err != nil {
 		client := TestFakeClient()
-		return &client
+		return client
 	}
 
 	var client IClient = &Client{c, mc}
-	return &client
+	return client
 }
 
 func TestFakeClient() IClient {
