@@ -118,3 +118,33 @@ sudo docker stop k10s-frontend-container
 sudo docker rm k10s-frontend-container
 sudo docker rmi ghcr.io/eliasdehondt/k10s-frontend:latest
 ```
+
+
+## 📚How to run K10s locally for development purposes
+
+- Step 1 - Clone the repository:
+```bash
+git clone https://github.com/EliasDeHondt/K10s.git
+```
+
+- Step 2 - Install the necessary dependencies for the frontend:
+```bash
+cd /K10sApp/Frontend
+npm install
+```
+
+- Step 3 - Run the frontend:
+```bash
+ng serve
+```
+
+- Step 4 - Install the necessary dependencies for the backend:
+```bash
+cd /K10sApp/Backend/cmd
+go build main.go
+```
+
+- Step 5 - Run the backend:
+```bash
+go run main.go
+```
