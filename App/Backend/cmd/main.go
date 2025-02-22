@@ -18,7 +18,7 @@ var envFrontendUrl, frontendUrlOk = os.LookupEnv("FRONTEND_URL")
 func main() {
 
 	if !frontendUrlOk {
-		envFrontendUrl = "http://localhost:8080"
+		envFrontendUrl = "http://localhost:4200"
 	}
 
 	r := gin.Default()
