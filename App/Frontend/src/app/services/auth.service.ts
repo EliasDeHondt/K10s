@@ -3,11 +3,11 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, Observable, of, throwError } from 'rxjs';
-import { environment } from "../../environments/environment";
-import { map } from "rxjs/operators";
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {catchError, Observable, of, throwError} from 'rxjs';
+import {environment} from "../../environments/environment";
+import {map} from "rxjs/operators";
 
 @Injectable({
     providedIn: 'root'
@@ -22,12 +22,11 @@ export class AuthService {
     }
 
     isLoggedIn(): Observable<boolean> {
-        return this.http.get<string>(this.isloggedInUrl, {withCredentials: true, observe: 'response'}).pipe(
+        return this.http.get<boolean>(this.isloggedInUrl, {withCredentials: true, observe: 'response'}).pipe(
             map(response => {
-                return response.status === 200;
+                return response.body!;
             }),
             catchError((error: HttpErrorResponse) => {
-                console.error('Error:', error.status);
                 return of(false);
             })
         )

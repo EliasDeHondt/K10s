@@ -57,7 +57,7 @@ func HandleLogout(ctx *gin.Context) {
 func IsLoggedIn(ctx *gin.Context) {
 	jwtTokenString, err := ctx.Cookie("jwt")
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+		ctx.JSON(http.StatusOK, false)
 		return
 	}
 
@@ -70,5 +70,5 @@ func IsLoggedIn(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"message": "Login successful"})
+	ctx.JSON(http.StatusOK, true)
 }
