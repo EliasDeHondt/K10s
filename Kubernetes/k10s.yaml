@@ -179,8 +179,8 @@ spec:
         - containerPort: 80
         volumeMounts:
         - name: ingress-config
-          mountPath: /etc/nginx/ingress.conf
-          subPath: ingress.conf
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
       volumes:
       - name: ingress-config
         configMap:
@@ -206,7 +206,7 @@ metadata:
   name: k10s-ingress-config
   namespace: k10s-namespaces
 data:
-  ingress.conf: |
+  nginx.conf: |
     events {
       worker_connections 1024;
     }
