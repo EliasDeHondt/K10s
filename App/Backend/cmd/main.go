@@ -44,7 +44,7 @@ func main() {
 	secured.GET("/stats", handlers.GetStatsHandler)
 	secured.POST("/createresources", handlers.CreateResourcesHandler)
 
-	err := r.Run(":8080")
+	err := r.Run(":8082")
 	if err != nil {
 		panic(err)
 	}
