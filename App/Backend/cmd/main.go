@@ -13,7 +13,6 @@ import (
 )
 
 func main() {
-
 	frontendUrl := handlers.GetFrontendIP()
 
 	r := gin.Default()
@@ -28,11 +27,11 @@ func main() {
 	}))
 
 	auth.Init()
-	r.POST("/login", auth.HandleLogin)
-	r.GET("/logout", auth.HandleLogout)
-	r.GET("/isloggedin", auth.IsLoggedIn)
+	r.POST("/api/login", auth.HandleLogin)
+	r.GET("/api/logout", auth.HandleLogout)
+	r.GET("/api/isloggedin", auth.IsLoggedIn)
 
-	secured := r.Group("/secured")
+	secured := r.Group("/api/secured")
 	secured.Use(auth.AuthMiddleware())
 	secured.GET("/table", handlers.GetTableHandler)
 	secured.GET("/nodes", handlers.GetNodesHandler)
