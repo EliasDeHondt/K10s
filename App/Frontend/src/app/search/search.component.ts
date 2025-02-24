@@ -44,9 +44,11 @@ export class SearchComponent implements OnInit {
     selectedNode: string = 'None';
     selectedNamespace: string = 'None';
     namespaces: Namespace[] = [];
+    nodeNames: string[] = [];
 
     ngOnInit(): void {
         this.getNamespaces()
+        this.getNodeNames()
     }
 
     updateElement(filter: string) {
@@ -77,6 +79,12 @@ export class SearchComponent implements OnInit {
     getNamespaces() {
         this.filterDataService.getNamespaces().subscribe(response => {
             this.namespaces = response;
+        })
+    }
+
+    getNodeNames() {
+        this.filterDataService.getNodeNames().subscribe(response => {
+            this.nodeNames = response;
         })
     }
 

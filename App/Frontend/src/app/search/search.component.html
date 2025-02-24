@@ -32,15 +32,14 @@
                     {{ 'SEARCH.NODE' | translate }}
                 </button>
                 <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown1']">
-                    <li class="cursor-pointer" [class.active]="selectedNode === 'None'" (click)="selectNode('None')">
+                    <li class="cursor-pointer" [class.active]="selectedNode === ''" (click)="selectNode('')">
                         None
                     </li>
-                    <li class="cursor-pointer" [class.active]="selectedNode === 'Node A'"
-                        (click)="selectNode('Node A')">Node A
-                    </li>
-                    <li class="cursor-pointer" [class.active]="selectedNode === 'Node B'"
-                        (click)="selectNode('Node B')">Node B
-                    </li>
+                    @for (name of nodeNames; track name) {
+                        <li class="cursor-pointer" [class.active]="selectedNode === name"
+                            (click)="selectNode(name)">{{ name }}
+                        </li>
+                    }
                 </ul>
             </section>
         </article>

@@ -15,6 +15,7 @@ import {Namespace} from "../domain/Kubernetes";
 
 export class FilterDataService {
     private namespacesUrl = `${environment.BASE_URL}/secured/namespaces`;
+    private nodeNameUrl = `${environment.BASE_URL}/secured/nodenames`;
 
     constructor(private http: HttpClient) {
     }
@@ -22,4 +23,9 @@ export class FilterDataService {
     getNamespaces(): Observable<Namespace[]> {
         return this.http.get<Namespace[]>(this.namespacesUrl, {withCredentials: true});
     }
+
+    getNodeNames(): Observable<string[]> {
+        return this.http.get<string[]>(this.nodeNameUrl, {withCredentials: true});
+    }
+
 }
