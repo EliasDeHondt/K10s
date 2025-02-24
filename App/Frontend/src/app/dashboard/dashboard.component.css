@@ -63,12 +63,15 @@
 }
 
 #dashboard-header-4 {
-    margin: 10%;
-    padding: 20%;
+    margin-top: 5%;
+    align-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 #dashboard-header-2,#dashboard-header-3 {
     float: left;
-    margin-left: -2.5rem;
 }
 
 .progress-container {
@@ -80,9 +83,7 @@
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
     margin-left: 0.5rem;
 }
-.progress-text {
-    margin-left: 1rem;
-}
+
 .progress-bar {
     height: 100%;
     box-sizing: border-box;
@@ -90,7 +91,7 @@
 }
 
 .dashboard-header-article p {
-    padding-left: 4.5rem !important;
+    align-self: center;
 }
 /* Dashboard Header */
 
