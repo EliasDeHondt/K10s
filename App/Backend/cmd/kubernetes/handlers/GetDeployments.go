@@ -64,7 +64,7 @@ func transformDeployments(list *[]v1.Deployment) []kubernetes.Deployment {
 		wg.Add(1)
 		semaphore <- struct{}{}
 
-		go func(i int, node v1.Deployment) {
+		go func(i int, deployment v1.Deployment) {
 			defer wg.Done()
 			deploymentList[i] = kubernetes.NewDeployment(deployment)
 			<-semaphore

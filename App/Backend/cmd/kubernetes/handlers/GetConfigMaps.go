@@ -64,7 +64,7 @@ func transformConfigMaps(list *[]v1.ConfigMap) []kubernetes.ConfigMap {
 		wg.Add(1)
 		semaphore <- struct{}{}
 
-		go func(i int, node v1.ConfigMap) {
+		go func(i int, config v1.ConfigMap) {
 			defer wg.Done()
 			configList[i] = kubernetes.NewConfigMap(config)
 			<-semaphore
