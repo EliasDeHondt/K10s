@@ -17,8 +17,7 @@ import (
 
 func GetDeploymentsHandler(ctx *gin.Context) {
 	namespace, ok := ctx.GetQuery("namespace")
-	pageSize, pageToken := Get
-	PageSizeAndPageToken(ctx)
+	pageSize, pageToken := GetPageSizeAndPageToken(ctx)
 
 	var deploymentList *PaginatedResponse[[]kubernetes.Deployment]
 	var err error
