@@ -32,6 +32,7 @@ spec:
       containers:
       - name: k10s-frontend
         image: "ghcr.io/eliasdehondt/k10s-frontend:latest"
+        imagePullPolicy: Always # Always pull the latest image
         ports:
         - containerPort: 8081
         resources:
@@ -75,6 +76,7 @@ spec:
       containers:
       - name: k10s-backend
         image: "ghcr.io/eliasdehondt/k10s-backend:latest"
+        imagePullPolicy: Always # Always pull the latest image
         ports:
         - containerPort: 8082
         resources:
@@ -100,8 +102,6 @@ spec:
             secretKeyRef:
               name: k10s-secret-user
               key: PASSWORD
-        - name: FRONTEND_URL
-          value: "http://k10s-frontend-service.k10s-namespaces.svc.cluster.local:8081"
 ---
 apiVersion: v1
 kind: Service
