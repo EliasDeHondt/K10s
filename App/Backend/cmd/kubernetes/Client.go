@@ -49,6 +49,7 @@ type IClient interface {
 	CreateConfigMap(configMap *cv1.ConfigMap) (ConfigMap, error)
 	CreateSecret(secret *cv1.Secret) (Secret, error)
 	GetFilteredPods(namespace string, nodeName string, pageSize int, continueToken string) (*[]cv1.Pod, string, error)
+	GetFilteredServices(namespace string, nodeName string, pageSize int, continueToken string) (*[]cv1.Service, string, error)
 }
 
 type FakeClient struct {
@@ -479,4 +480,45 @@ func (client *Client) GetFilteredPods(namespace string, nodeName string, pageSiz
 	filteredPods = list.Items
 	newContinueToken = list.Continue
 	return &filteredPods, newContinueToken, nil
+}
+
+func (client *FakeClient) GetFilteredServices(namespace string, nodeName string, pageSize int, continueToken string) (*[]cv1.Service, string, error) {
+	ct, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	var filteredServices []cv1.Service
+	var newContinueToken string
+
+	services, err := client.GetServices(namespace).List(ct, metav1.ListOptions{
+		Limit:    int64(pageSize),
+		Continue: continueToken,
+	})
+	if err != nil {
+		return nil, "", err
+	}
+
+	if nodeName != "" {
+		pods, _, err := client.GetFilteredPods(namespace, nodeName, 0, "")
+		if err != nil {
+			return nil, "", err
+		}
+		for _, pod := range *pods {
+			for _, svc := range services.Items {
+				if isPodMatchingService(pod, svc) {
+					filteredServices = append(filteredServices, svc)
+				}
+			}
+		}
+	} else {
+		filteredServices = services.Items
+	}
+
+	return &filteredServices, newContinueToken, nil
+}
+
+func (client *Client) GetFilteredServices(namespace string, nodeName string, pageSize int, continueToken string) (*[]cv1.Service, string, error) {
+	_, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	return nil, "", nil
 }
