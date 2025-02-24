@@ -32,11 +32,12 @@
                     {{ 'SEARCH.NODE' | translate }}
                 </button>
                 <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown1']">
-                    <li class="cursor-pointer" [class.active]="selectedNode === ''" (click)="selectNode('')">
+                    <li class="cursor-pointer" [class.active]="this.tableService.node() === ''"
+                        (click)="selectNode('')">
                         None
                     </li>
                     @for (name of nodeNames; track name) {
-                        <li class="cursor-pointer" [class.active]="selectedNode === name"
+                        <li class="cursor-pointer" [class.active]="this.tableService.node() === name"
                             (click)="selectNode(name)">{{ name }}
                         </li>
                     }
@@ -49,14 +50,14 @@
                     {{ 'SEARCH.NAMESPACE' | translate }}
                 </button>
                 <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown2']">
-                    <li class="cursor-pointer" [class.active]="selectedNamespace === ''"
+                    <li class="cursor-pointer" [class.active]="this.tableService.namespace() === ''"
                         (click)="selectNamespace('')">None
                     </li>
-                    <li class="cursor-pointer" [class.active]="selectedNamespace === 'default'"
+                    <li class="cursor-pointer" [class.active]="this.tableService.namespace() === 'default'"
                         (click)="selectNamespace('default')">Default
                     </li>
                     @for (namespace of namespaces; track namespace) {
-                        <li class="cursor-pointer" [class.active]="selectedNamespace === namespace.Name"
+                        <li class="cursor-pointer" [class.active]="this.tableService.namespace() === namespace.Name"
                             (click)="selectNamespace(namespace.Name)">{{ namespace.Name }}
                         </li>
                     }

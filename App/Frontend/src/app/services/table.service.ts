@@ -38,6 +38,7 @@ export class TableService {
     }
 
     private getTable(element: string, namespace: string, node: string) {
+        this.data.set({Response: [], PageToken: ''})
         if (!element) {
             return
         }

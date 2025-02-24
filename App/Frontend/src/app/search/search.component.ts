@@ -41,8 +41,6 @@ export class SearchComponent implements OnInit {
         searchDropdown2: false,
         searchDropdown3: false
     };
-    selectedNode: string = 'None';
-    selectedNamespace: string = 'None';
     namespaces: Namespace[] = [];
     nodeNames: string[] = [];
 
@@ -66,7 +64,6 @@ export class SearchComponent implements OnInit {
     selectNode(node: string) {
         this.isLoading.set(true);
         this.tableService.setNodeName(node)
-        this.selectedNode = node;
         this.isLoading.set(false);
         this.toggleDropdown('searchDropdown1');
     }
@@ -74,7 +71,6 @@ export class SearchComponent implements OnInit {
     selectNamespace(namespace: string) {
         this.isLoading.set(true);
         this.tableService.setNamespace(namespace)
-        this.selectedNamespace = namespace;
         this.isLoading.set(false);
         this.toggleDropdown('searchDropdown2');
     }
