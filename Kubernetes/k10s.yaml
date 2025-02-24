@@ -157,3 +157,78 @@ roleRef:
   name: k10s-backend-clusterrole
   apiGroup: rbac.authorization.k8s.io
 ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k10s-ingress-deployment
+  namespace: k10s-namespaces
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k10s-ingress
+  template:
+    metadata:
+      labels:
+        app: k10s-nginx
+    spec:
+      containers:
+      - name: k10s-ingress
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: ingress-config
+          mountPath: /etc/nginx/ingress.conf
+          subPath: ingress.conf
+      volumes:
+      - name: ingress-config
+        configMap:
+          name: k10s-ingress-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: k10s-ingress-service
+  namespace: k10s-namespaces
+spec:
+  selector:
+    app: k10s-ingress
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: k10s-ingress-config
+  namespace: k10s-namespaces
+data:
+  ingress.conf: |
+    events {
+      worker_connections 1024;
+    }
+    http {
+      server {
+        listen 80;
+
+        location / {
+          proxy_pass http://k10s-frontend-service:80;
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
+        location /api {
+          proxy_pass http://k10s-backend-service:8080;
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+        }
+      }
+    }
+---
