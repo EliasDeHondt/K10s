@@ -33,7 +33,7 @@ spec:
       - name: k10s-frontend
         image: "ghcr.io/eliasdehondt/k10s-frontend:latest"
         ports:
-        - containerPort: 80
+        - containerPort: 8081
         resources:
           limits:
             memory: "512Mi"
@@ -52,9 +52,9 @@ spec:
     app: k10s-frontend
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
-  type: LoadBalancer
+      port: 8081
+      targetPort: 8081
+  type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -76,7 +76,7 @@ spec:
       - name: k10s-backend
         image: "ghcr.io/eliasdehondt/k10s-backend:latest"
         ports:
-        - containerPort: 8080
+        - containerPort: 8082
         resources:
           limits:
             memory: "512Mi"
@@ -101,7 +101,7 @@ spec:
               name: k10s-secret-user
               key: PASSWORD
         - name: FRONTEND_URL
-          value: "http://k10s-frontend-service:80"
+          value: "http://k10s-frontend-service.k10s-namespaces.svc.cluster.local:8081"
 ---
 apiVersion: v1
 kind: Service
@@ -113,8 +113,8 @@ spec:
     app: k10s-backend
   ports:
     - protocol: TCP
-      port: 8080
-      targetPort: 8080
+      port: 8082
+      targetPort: 8082
   type: ClusterIP
 ---
 apiVersion: v1
@@ -215,7 +215,7 @@ data:
         listen 80;
 
         location / {
-          proxy_pass http://k10s-frontend-service:80;
+          proxy_pass http://k10s-frontend-service:8081;
           proxy_set_header Host $host;
           proxy_set_header X-Real-IP $remote_addr;
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -223,7 +223,7 @@ data:
         }
 
         location /api {
-          proxy_pass http://k10s-backend-service:8080;
+          proxy_pass http://k10s-backend-service:8082;
           proxy_set_header Host $host;
           proxy_set_header X-Real-IP $remote_addr;
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
