@@ -43,7 +43,18 @@ func GetFrontendIP() string {
 	}
 
 	if len(svc.Status.LoadBalancer.Ingress) > 0 {
-		return svc.Status.LoadBalancer.Ingress[0].IP
+
+		protocol := "http"
+		if svc.Status.LoadBalancer.Ingress[0].Hostname != "" {
+			protocol = "https"
+		}
+
+		url := protocol + "://" + svc.Status.LoadBalancer.Ingress[0].IP
+		if svc.Spec.Ports[0].Port != 80 && svc.Spec.Ports[0].Port != 443 {
+			url += ":" + strconv.Itoa(int(svc.Spec.Ports[0].Port))
+		}
+
+		return url
 	}
 
 	return "http://localhost:4200"
