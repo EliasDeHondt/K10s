@@ -48,6 +48,7 @@ type IClient interface {
 	CreateService(service *cv1.Service) (Service, error)
 	CreateConfigMap(configMap *cv1.ConfigMap) (ConfigMap, error)
 	CreateSecret(secret *cv1.Secret) (Secret, error)
+	GetFilteredPods(namespace string, nodeName string, pageSize int, continueToken string) (*[]cv1.Pod, string, error)
 }
 
 type FakeClient struct {
@@ -428,4 +429,54 @@ func (client *Client) CreateSecret(secret *cv1.Secret) (Secret, error) {
 	}
 
 	return NewSecret(*secret), err
+}
+
+func (client *FakeClient) GetFilteredPods(namespace string, nodeName string, pageSize int, continueToken string) (*[]cv1.Pod, string, error) {
+	ct, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	var filteredPods []cv1.Pod
+	var newContinueToken string
+
+	list, err := client.Client.CoreV1().Pods(namespace).List(ct, metav1.ListOptions{
+		Limit:    int64(pageSize),
+		Continue: continueToken,
+	})
+	if err != nil {
+		return nil, "", err
+	}
+
+	for _, pod := range list.Items {
+		if nodeName == "" || pod.Spec.NodeName == nodeName {
+			filteredPods = append(filteredPods, pod)
+		}
+	}
+	newContinueToken = list.Continue
+	return &filteredPods, newContinueToken, nil
+}
+
+func (client *Client) GetFilteredPods(namespace string, nodeName string, pageSize int, continueToken string) (*[]cv1.Pod, string, error) {
+	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	var filteredPods []cv1.Pod
+	var newContinueToken string
+
+	fieldSelector := ""
+	if nodeName != "" {
+		fieldSelector = "spec.nodeName=" + nodeName
+	}
+
+	list, err := client.GetPods(namespace).List(ct, metav1.ListOptions{
+		Limit:         int64(pageSize),
+		Continue:      continueToken,
+		FieldSelector: fieldSelector,
+	})
+	if err != nil {
+		return nil, "", err
+	}
+
+	filteredPods = list.Items
+	newContinueToken = list.Continue
+	return &filteredPods, newContinueToken, nil
 }
