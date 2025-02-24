@@ -64,7 +64,10 @@ export class SearchComponent implements OnInit {
     }
 
     selectNode(node: string) {
+        this.isLoading.set(true);
+        this.tableService.setNodeName(node)
         this.selectedNode = node;
+        this.isLoading.set(false);
         this.toggleDropdown('searchDropdown1');
     }
 

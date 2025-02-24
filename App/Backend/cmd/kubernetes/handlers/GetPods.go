@@ -16,17 +16,14 @@ import (
 )
 
 func GetPodsHandler(ctx *gin.Context) {
-	namespace, ok := ctx.GetQuery("namespace")
+	namespace, _ := ctx.GetQuery("namespace")
+	nodeName, _ := ctx.GetQuery("node")
 	pageSize, pageToken := GetPageSizeAndPageToken(ctx)
 
 	var podList *PaginatedResponse[[]kubernetes.Pod]
 	var err error
 
-	if ok {
-		podList, err = GetPods(c, namespace, pageSize, pageToken)
-	} else {
-		podList, err = GetPods(c, "", pageSize, pageToken)
-	}
+	podList, err = GetPods(c, namespace, nodeName, pageSize, pageToken)
 
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error has occurred or the request has been timed out."})
@@ -35,22 +32,72 @@ func GetPodsHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, podList)
 }
 
-func GetPods(c kubernetes.IClient, namespace string, pageSize int, continueToken string) (*PaginatedResponse[[]kubernetes.Pod], error) {
-	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
+func GetPods(c kubernetes.IClient, namespace string, nodeName string, pageSize int, continueToken string) (*PaginatedResponse[[]kubernetes.Pod], error) {
+	var filteredPods *[]v1.Pod
+	var newContinueToken string
+	var err error
 
-	list, err := c.GetPods(namespace).List(ct, metav1.ListOptions{
-		Limit:    int64(pageSize),
-		Continue: continueToken,
-	})
-	if err != nil {
-		return nil, err
+	if fakeClient, ok := c.(*kubernetes.FakeClient); ok {
+		filteredPods, newContinueToken, err = getFilteredPodsForFakeClient(fakeClient, namespace, nodeName)
+		if err != nil {
+			return nil, err
+		}
+
+	} else {
+		filteredPods, newContinueToken, err = getFilteredPodsForRealClient(c, namespace, nodeName, pageSize, continueToken)
 	}
 
 	return &PaginatedResponse[[]kubernetes.Pod]{
-		Response:  transformPods(&list.Items),
-		PageToken: list.Continue,
+		Response:  transformPods(filteredPods),
+		PageToken: newContinueToken,
 	}, nil
+}
+
+func getFilteredPodsForRealClient(client kubernetes.IClient, namespace string, nodeName string, pageSize int, continueToken string) (*[]v1.Pod, string, error) {
+	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	var filteredPods []v1.Pod
+	var newContinueToken string
+
+	fieldSelector := ""
+	if nodeName != "" {
+		fieldSelector = "spec.nodeName=" + nodeName
+	}
+
+	list, err := client.GetPods(namespace).List(ct, metav1.ListOptions{
+		Limit:         int64(pageSize),
+		Continue:      continueToken,
+		FieldSelector: fieldSelector,
+	})
+	if err != nil {
+		return nil, "", err
+	}
+
+	filteredPods = list.Items
+	newContinueToken = list.Continue
+	return &filteredPods, newContinueToken, nil
+}
+
+func getFilteredPodsForFakeClient(fakeClient *kubernetes.FakeClient, namespace string, nodeName string) (*[]v1.Pod, string, error) {
+	ct, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	var filteredPods []v1.Pod
+	var newContinueToken string
+
+	list, err := fakeClient.Client.CoreV1().Pods(namespace).List(ct, metav1.ListOptions{})
+	if err != nil {
+		return nil, "", err
+	}
+
+	for _, pod := range list.Items {
+		if nodeName == "" || pod.Spec.NodeName == nodeName {
+			filteredPods = append(filteredPods, pod)
+		}
+	}
+	newContinueToken = list.Continue
+	return &filteredPods, newContinueToken, nil
 }
 
 func transformPods(list *[]v1.Pod) []kubernetes.Pod {

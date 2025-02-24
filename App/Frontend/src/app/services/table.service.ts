@@ -16,11 +16,12 @@ export class TableService {
     private tableUrl = `${environment.BASE_URL}/secured/table`;
     element = signal('')
     namespace = signal('')
+    node = signal('')
     data = signal<PaginatedResponse>({Response: [], PageToken: ''})
 
     constructor(private http: HttpClient) {
         effect(() => {
-            this.getTable(this.element(), this.namespace())
+            this.getTable(this.element(), this.namespace(), this.node())
         });
     }
 
@@ -32,12 +33,16 @@ export class TableService {
         this.namespace.set(name);
     }
 
-    private getTable(element: string, namespace: string) {
+    setNodeName(name: string) {
+        this.node.set(name);
+    }
+
+    private getTable(element: string, namespace: string, node: string) {
         if (!element) {
             return
         }
 
-        this.http.get<PaginatedResponse>(this.tableUrl + `?element=${element}&namespace=${namespace}`, {withCredentials: true}).subscribe(data => {
+        this.http.get<PaginatedResponse>(this.tableUrl + `?element=${element}&namespace=${namespace}&node=${node}`, {withCredentials: true}).subscribe(data => {
             this.data.set(data)
         })
     }
