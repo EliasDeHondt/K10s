@@ -170,7 +170,7 @@ spec:
   template:
     metadata:
       labels:
-        app: k10s-nginx
+        app: k10s-ingress
     spec:
       containers:
       - name: k10s-ingress
