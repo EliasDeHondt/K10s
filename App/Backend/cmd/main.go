@@ -43,6 +43,7 @@ func main() {
 	secured.GET("/deployments", handlers.GetDeploymentsHandler)
 	secured.GET("/stats", handlers.GetStatsHandler)
 	secured.POST("/createresources", handlers.CreateResourcesHandler)
+	secured.GET("/namespaces", handlers.GetNamespacesHandler)
 
 	err := r.Run(":8080")
 	if err != nil {
