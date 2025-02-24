@@ -5,9 +5,13 @@
 package handlers
 
 import (
+	"context"
 	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes"
 	"github.com/gin-gonic/gin"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"log"
 	"strconv"
+	"time"
 )
 
 var c = kubernetes.GetClients()
@@ -25,4 +29,22 @@ func GetPageSizeAndPageToken(ctx *gin.Context) (int, string) {
 		pageSize = 20
 	}
 	return pageSize, pageToken
+}
+
+func GetFrontendIP() string {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	svc, err := c.GetServices("k10s-namespaces").Get(ctx, "k10s-ingress-service", metav1.GetOptions{})
+
+	if err != nil {
+		log.Printf("Failed to get k10s-ingress-service: %v, using default development url", err)
+		return "http://localhost:4200"
+	}
+
+	if len(svc.Status.LoadBalancer.Ingress) > 0 {
+		return svc.Status.LoadBalancer.Ingress[0].IP
+	}
+
+	return "http://localhost:4200"
 }
