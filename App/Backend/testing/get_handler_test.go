@@ -23,7 +23,7 @@ func TestGetNodes(t *testing.T) {
 }
 
 func TestGetPods(t *testing.T) {
-	pods, err := handlers.GetPods(getClient, "", 20, "")
+	pods, err := handlers.GetPods(getClient, "", "", 20, "")
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, pods)
@@ -32,11 +32,27 @@ func TestGetPods(t *testing.T) {
 }
 
 func TestGetPodsWithNamespace(t *testing.T) {
-	pods, err := handlers.GetPods(getClient, "test", 20, "")
+	pods, err := handlers.GetPods(getClient, "test", "", 20, "")
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, pods)
 	assert.Equal(t, "pod-3", (*pods).Response[0].Name)
+}
+
+func TestGetPodsWithNode(t *testing.T) {
+	pods, err := handlers.GetPods(getClient, "", "node-1", 20, "")
+
+	assert.NoError(t, err)
+	assert.NotEmpty(t, pods)
+	assert.Equal(t, "pod-1", (*pods).Response[0].Name)
+}
+
+func TestGetPodsWithNodeAndNamespace(t *testing.T) {
+	pods, err := handlers.GetPods(getClient, "default", "node-1", 20, "")
+
+	assert.NoError(t, err)
+	assert.NotEmpty(t, pods)
+	assert.Equal(t, "pod-1", (*pods).Response[0].Name)
 }
 
 func TestGetServices(t *testing.T) {
