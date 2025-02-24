@@ -1,0 +1,24 @@
+/**********************************/
+/* @since 01/01/2025              */
+/* @author K10s Open Source Team  */
+/**********************************/
+
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {environment} from "../../environments/environment";
+
+@Injectable({
+    providedIn: 'root'
+})
+
+export class FilterDataService {
+    private namespacesUrl = `${environment.BASE_URL}/secured/namespaces`;
+
+    constructor(private http: HttpClient) {
+    }
+
+    getNamespaces(): Observable<string[]> {
+        return this.http.get<string[]>(this.namespacesUrl, {withCredentials: true});
+    }
+}
