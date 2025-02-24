@@ -68,7 +68,7 @@
     },
     "ADD_DEPLOYMENT": {
         "YAML_FILE": "Téléverser YAML",
-        "YAML_PLACEHOLDER": "Saisir YAML ici...",
+        "YAML_PLACEHOLDER": "Copiez et collez votre fichier YAML...",
         "DEPLOY" : "Déployer"
     }
 }

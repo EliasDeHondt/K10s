@@ -129,7 +129,7 @@ git clone https://github.com/EliasDeHondt/K10s.git
 
 - Step 2 - Install the necessary dependencies for the frontend:
 ```bash
-cd /K10sApp/Frontend
+cd /K10s/App/Frontend
 npm install
 ```
 
@@ -140,7 +140,7 @@ ng serve
 
 - Step 4 - Install the necessary dependencies for the backend:
 ```bash
-cd /K10sApp/Backend/cmd
+cd /K10s/App/Backend/cmd
 go build main.go
 ```
 

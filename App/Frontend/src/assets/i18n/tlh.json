@@ -46,7 +46,7 @@
         "TITLE": "tlhIngan maH! Daq ghoSbe'!"
     },
     "ADD_DEPLOYMENT": {
-        "YAML_PLACEHOLDER": "YAML yIghItlh...",
+        "YAML_PLACEHOLDER": "yIchel 'ej ghItlh YAML ngaQHa'!",
         "DEPLOY": "lanchu'"
     }
 }

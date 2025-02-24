@@ -68,7 +68,7 @@
     },
     "ADD_DEPLOYMENT": {
         "YAML_FILE": "上傳 YAML",
-        "YAML_PLACEHOLDER": "在此处键入 YAML...",
+        "YAML_PLACEHOLDER": "複製並貼上您的 YAML 文件...",
         "DEPLOY" : "部署"
     }
 }

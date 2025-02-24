@@ -33,7 +33,7 @@ spec:
       - name: k10s-frontend
         image: "ghcr.io/eliasdehondt/k10s-frontend:latest"
         ports:
-        - containerPort: 80
+        - containerPort: 8081
         resources:
           limits:
             memory: "512Mi"
@@ -52,9 +52,9 @@ spec:
     app: k10s-frontend
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
-  type: LoadBalancer
+      port: 8081
+      targetPort: 8081
+  type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -76,7 +76,7 @@ spec:
       - name: k10s-backend
         image: "ghcr.io/eliasdehondt/k10s-backend:latest"
         ports:
-        - containerPort: 8080
+        - containerPort: 8082
         resources:
           limits:
             memory: "512Mi"
@@ -101,7 +101,7 @@ spec:
               name: k10s-secret-user
               key: PASSWORD
         - name: FRONTEND_URL
-          value: "http://k10s-frontend-service:80"
+          value: "http://k10s-frontend-service.k10s-namespaces.svc.cluster.local:8081"
 ---
 apiVersion: v1
 kind: Service
@@ -113,8 +113,8 @@ spec:
     app: k10s-backend
   ports:
     - protocol: TCP
-      port: 8080
-      targetPort: 8080
+      port: 8082
+      targetPort: 8082
   type: ClusterIP
 ---
 apiVersion: v1
@@ -156,4 +156,79 @@ roleRef:
   kind: ClusterRole
   name: k10s-backend-clusterrole
   apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k10s-ingress-deployment
+  namespace: k10s-namespaces
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k10s-ingress
+  template:
+    metadata:
+      labels:
+        app: k10s-nginx
+    spec:
+      containers:
+      - name: k10s-ingress
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: ingress-config
+          mountPath: /etc/nginx/ingress.conf
+          subPath: ingress.conf
+      volumes:
+      - name: ingress-config
+        configMap:
+          name: k10s-ingress-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: k10s-ingress-service
+  namespace: k10s-namespaces
+spec:
+  selector:
+    app: k10s-ingress
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: k10s-ingress-config
+  namespace: k10s-namespaces
+data:
+  ingress.conf: |
+    events {
+      worker_connections 1024;
+    }
+    http {
+      server {
+        listen 80;
+
+        location / {
+          proxy_pass http://k10s-frontend-service:8081;
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
+        location /api {
+          proxy_pass http://k10s-backend-service:8082;
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+        }
+      }
+    }
 ---
