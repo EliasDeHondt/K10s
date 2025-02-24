@@ -3,7 +3,7 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-import {Component, inject, signal} from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import {NavComponent} from '../nav/nav.component';
 import {FooterComponent} from "../footer/footer.component";
 import {CommonModule} from "@angular/common";
@@ -22,6 +22,7 @@ import {ConfigMapCastPipe} from "../pipes/config-map-cast.pipe";
 import {SecretTableComponent} from "../search-table/secret-table/secret-table.component";
 import {SecretCastPipe} from "../pipes/secret-cast.pipe";
 import {FilterDataService} from "../services/filterdata.service";
+import {Namespace} from "../domain/Kubernetes";
 
 @Component({
     selector: 'app-search',
@@ -31,7 +32,7 @@ import {FilterDataService} from "../services/filterdata.service";
     standalone: true
 })
 
-export class SearchComponent {
+export class SearchComponent implements OnInit {
     tableService = inject(TableService);
     filterDataService = inject(FilterDataService);
     isLoading = signal(false)
@@ -42,6 +43,11 @@ export class SearchComponent {
     };
     selectedNode: string = 'None';
     selectedNamespace: string = 'None';
+    namespaces: Namespace[] = [];
+
+    ngOnInit(): void {
+        this.getNamespaces()
+    }
 
     updateElement(filter: string) {
         this.isLoading.set(true);
@@ -61,8 +67,17 @@ export class SearchComponent {
     }
 
     selectNamespace(namespace: string) {
+        this.isLoading.set(true);
+        this.tableService.setNamespace(namespace)
         this.selectedNamespace = namespace;
+        this.isLoading.set(false);
         this.toggleDropdown('searchDropdown2');
+    }
+
+    getNamespaces() {
+        this.filterDataService.getNamespaces().subscribe(response => {
+            this.namespaces = response;
+        })
     }
 
 }

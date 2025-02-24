@@ -50,21 +50,17 @@
                     {{ 'SEARCH.NAMESPACE' | translate }}
                 </button>
                 <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown2']">
-                    @for (namespace of filterDataService.getNamespaces(); track namespace.id) {
-
+                    <li class="cursor-pointer" [class.active]="selectedNamespace === ''"
+                        (click)="selectNamespace('')">None
+                    </li>
+                    <li class="cursor-pointer" [class.active]="selectedNamespace === 'default'"
+                        (click)="selectNamespace('default')">Default
+                    </li>
+                    @for (namespace of namespaces; track namespace) {
+                        <li class="cursor-pointer" [class.active]="selectedNamespace === namespace.Name"
+                            (click)="selectNamespace(namespace.Name)">{{ namespace.Name }}
+                        </li>
                     }
-                    <li class="cursor-pointer" [class.active]="selectedNamespace === 'None'"
-                        (click)="selectNamespace('None')">None
-                    </li>
-                    <li class="cursor-pointer" [class.active]="selectedNamespace === 'Webserver001'"
-                        (click)="selectNamespace('Webserver001')">Webserver001
-                    </li>
-                    <li class="cursor-pointer" [class.active]="selectedNamespace === 'Database001'"
-                        (click)="selectNamespace('Database001')">Database001
-                    </li>
-                    <li class="cursor-pointer" [class.active]="selectedNamespace === 'Monitoring001'"
-                        (click)="selectNamespace('Monitoring001')">Monitoring001
-                    </li>
                 </ul>
             </section>
         </article>

@@ -7,6 +7,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from "../../environments/environment";
+import {Namespace} from "../domain/Kubernetes";
 
 @Injectable({
     providedIn: 'root'
@@ -18,7 +19,7 @@ export class FilterDataService {
     constructor(private http: HttpClient) {
     }
 
-    getNamespaces(): Observable<string[]> {
-        return this.http.get<string[]>(this.namespacesUrl, {withCredentials: true});
+    getNamespaces(): Observable<Namespace[]> {
+        return this.http.get<Namespace[]>(this.namespacesUrl, {withCredentials: true});
     }
 }
