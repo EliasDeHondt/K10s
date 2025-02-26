@@ -21,7 +21,6 @@
         "LOGIN_BUTTON": "登录"
     },
     "DASHBOARD": {
-        "NODES": "节点",
         "CPU": "中央处理器 使用率",
         "RAM": "内存使用率",
         "DISK": "磁盘使用率"

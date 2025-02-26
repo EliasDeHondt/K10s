@@ -21,7 +21,6 @@
         "LOGIN_BUTTON": "Inloggen"
     },
     "DASHBOARD": {
-        "NODES": "Knooppunten",
         "CPU": "CPU-gebruik",
         "RAM": "RAM-gebruik",
         "DISK": "Schijfgebruik"

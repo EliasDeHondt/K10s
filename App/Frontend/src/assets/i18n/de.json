@@ -21,7 +21,6 @@
         "LOGIN_BUTTON": "Anmelden"
     },
     "DASHBOARD": {
-        "NODES": "Knoten",
         "CPU": "CPU-Nutzung",
         "RAM": "RAM-Nutzung",
         "DISK": "Festplattennutzung"

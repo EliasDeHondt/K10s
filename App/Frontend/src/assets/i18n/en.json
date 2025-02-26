@@ -21,7 +21,6 @@
         "LOGIN_BUTTON": "Log in"
     },
     "DASHBOARD": {
-        "NODES": "Nodes",
         "CPU": "CPU Usage",
         "RAM": "RAM Usage",
         "DISK": "Disk Usage"
