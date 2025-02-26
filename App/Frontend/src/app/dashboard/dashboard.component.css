@@ -60,7 +60,7 @@
     padding: 0;
 }
 
-#dashboard-header-4 {
+.dashboard-header-3 {
     margin-top: 5%;
     align-content: center;
     align-items: center;
@@ -68,8 +68,8 @@
     flex-direction: column;
     justify-content: center;
 }
-#dashboard-header-2,#dashboard-header-3 {
-    float: left;
+.dashboard-header-1, .dashboard-header-2 {
+    float: right;
 }
 
 .progress-container {
