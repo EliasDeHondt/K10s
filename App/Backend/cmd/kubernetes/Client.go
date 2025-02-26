@@ -294,6 +294,7 @@ func (client *Client) GetTotalUsage() (*Metrics, error) {
 		totalCpu += node.Status.Capacity.Cpu().MilliValue()
 		totalMem += node.Status.Capacity.Memory().Value()
 		totalDisk += node.Status.Capacity.Storage().Value()
+		totalDisk += node.Status.Capacity.StorageEphemeral().Value()
 
 		nodeMetrics, err := client.MetricsClient.MetricsV1beta1().NodeMetricses().Get(ctx, node.Name, metav1.GetOptions{})
 		if err != nil {
@@ -303,6 +304,7 @@ func (client *Client) GetTotalUsage() (*Metrics, error) {
 		totalCpuUsage += nodeMetrics.Usage.Cpu().MilliValue()
 		totalMemUsage += nodeMetrics.Usage.Memory().Value()
 		totalDiskUsage += nodeMetrics.Usage.Storage().Value()
+		totalDiskUsage += nodeMetrics.Usage.StorageEphemeral().Value()
 	}
 
 	cpuUsagePercent := float64(totalCpuUsage) / float64(totalCpu) * 100
