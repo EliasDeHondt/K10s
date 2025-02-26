@@ -14,8 +14,20 @@ import (
 
 func main() {
 	frontendUrl := handlers.GetFrontendIP()
+	trustedProxies := []string{"10.0.0.0/8"}
+
+	if frontendUrl == "http://localhost:4200" {
+		gin.SetMode(gin.DebugMode)
+	} else {
+		gin.SetMode(gin.ReleaseMode)
+	}
 
 	r := gin.Default()
+
+	err := r.SetTrustedProxies(trustedProxies)
+	if err != nil {
+		panic(err)
+	}
 
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{frontendUrl},
@@ -43,7 +55,7 @@ func main() {
 	secured.GET("/stats", handlers.GetStatsHandler)
 	secured.POST("/createresources", handlers.CreateResourcesHandler)
 
-	err := r.Run(":8082")
+	err = r.Run(":8082")
 	if err != nil {
 		panic(err)
 	}
