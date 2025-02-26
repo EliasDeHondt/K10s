@@ -22,7 +22,7 @@ import { SpiderWebComponent } from "../spider-web/spider-web.component";
 })
 
 export class DashboardComponent implements AfterViewInit, OnInit {
-// Fullscreen button
+    // Fullscreen button
     @ViewChild('dashboardMain') dashboardMain!: ElementRef;
     @ViewChild('dashboardTitle') dashboardTitle!: ElementRef;
 
@@ -100,10 +100,10 @@ export class DashboardComponent implements AfterViewInit, OnInit {
 
     updateChartData(): void {
         this.memoryChartData = [
-            { name: 'Used', value: this.usage.MemUsage },
+            { name: 'Used', value: parseFloat(this.usage.MemUsage.toFixed(2)) },
         ];
         this.cpuChartData = [
-            { name: 'Used', value: this.usage?.CpuUsage || 0 },
+            { name: 'Used', value: parseFloat((this.usage?.CpuUsage || 0).toFixed(2)) },
         ];
         this.diskUsagePercentage = (this.usage.DiskUsage / this.usage.DiskCapacity) * 100;
 
