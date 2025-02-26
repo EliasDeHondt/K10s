@@ -4,5 +4,5 @@
 /**********************************/
 
 export const environment = {
-    BASE_URL: 'http://localhost:8082'
+    BASE_URL: 'http://localhost:8082/api'
 };

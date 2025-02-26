@@ -30,18 +30,18 @@ spec:
         app: k10s-frontend
     spec:
       containers:
-      - name: k10s-frontend
-        image: "ghcr.io/eliasdehondt/k10s-frontend:latest"
-        imagePullPolicy: Always # Always pull the latest image
-        ports:
-        - containerPort: 8081
-        resources:
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
+        - name: k10s-frontend
+          image: "ghcr.io/eliasdehondt/k10s-frontend:latest"
+          imagePullPolicy: Always # Always pull the latest image
+          ports:
+            - containerPort: 8081
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
 ---
 apiVersion: v1
 kind: Service
@@ -74,34 +74,34 @@ spec:
     spec:
       serviceAccountName: k10s-backend-serviceaccount
       containers:
-      - name: k10s-backend
-        image: "ghcr.io/eliasdehondt/k10s-backend:latest"
-        imagePullPolicy: Always # Always pull the latest image
-        ports:
-        - containerPort: 8082
-        resources:
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
-        env:
-        - name: JWT_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: k10s-secret-jwt
-              key: JWT_SECRET
-        - name: USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: k10s-secret-user
-              key: USERNAME
-        - name: PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: k10s-secret-user
-              key: PASSWORD
+        - name: k10s-backend
+          image: "ghcr.io/eliasdehondt/k10s-backend:latest"
+          imagePullPolicy: Always # Always pull the latest image
+          ports:
+            - containerPort: 8082
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+          env:
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: k10s-secret-jwt
+                  key: JWT_SECRET
+            - name: USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: k10s-secret-user
+                  key: USERNAME
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: k10s-secret-user
+                  key: PASSWORD
 ---
 apiVersion: v1
 kind: Service
@@ -128,30 +128,30 @@ kind: ClusterRole
 metadata:
   name: k10s-backend-clusterrole
 rules:
-- apiGroups: [""]
-  resources: ["pods", "services", "endpoints", "nodes", "namespaces", "configmaps", "secrets"]
-  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-- apiGroups: ["apps"]
-  resources: ["deployments", "replicasets", "statefulsets"]
-  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-- apiGroups: ["batch"]
-  resources: ["jobs", "cronjobs"]
-  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-- apiGroups: ["extensions"]
-  resources: ["ingresses"]
-  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-- apiGroups: ["networking.k8s.io"]
-  resources: ["networkpolicies"]
-  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: [""]
+    resources: ["pods", "services", "endpoints", "nodes", "namespaces", "configmaps", "secrets"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ["apps"]
+    resources: ["deployments", "replicasets", "statefulsets"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ["batch"]
+    resources: ["jobs", "cronjobs"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ["extensions"]
+    resources: ["ingresses"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ["networking.k8s.io"]
+    resources: ["networkpolicies"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: k10s-backend-clusterrole-binding
 subjects:
-- kind: ServiceAccount
-  name: k10s-backend-serviceaccount
-  namespace: k10s-namespaces
+  - kind: ServiceAccount
+    name: k10s-backend-serviceaccount
+    namespace: k10s-namespaces
 roleRef:
   kind: ClusterRole
   name: k10s-backend-clusterrole
@@ -173,18 +173,18 @@ spec:
         app: k10s-ingress
     spec:
       containers:
-      - name: k10s-ingress
-        image: nginx:alpine
-        ports:
-        - containerPort: 80
-        volumeMounts:
-        - name: ingress-config
-          mountPath: /etc/nginx/nginx.conf
-          subPath: nginx.conf
+        - name: k10s-ingress
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: ingress-config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
       volumes:
-      - name: ingress-config
-        configMap:
-          name: k10s-ingress-config
+        - name: ingress-config
+          configMap:
+            name: k10s-ingress-config
 ---
 apiVersion: v1
 kind: Service
@@ -223,7 +223,7 @@ data:
           proxy_set_header X-Forwarded-Proto $scheme;
         }
 
-        location /api {
+        location /api/ {
           proxy_pass http://k10s-backend-service.k10s-namespaces.svc.cluster.local:8082;
           proxy_set_header Host $host;
           proxy_set_header X-Real-IP $remote_addr;
