@@ -28,7 +28,7 @@
     "SEARCH": {
         "SEARCH_PLACEHOLDER": "Cluster suchen...",
         "SEARCH": "Suche",
-        "NODE": "Knoten",
+        "NODES": "Knoten",
         "PODS": "Pods",
         "SERVICES": "Dienste",
         "DEPLOYMENTS": "Bereitstellungen",

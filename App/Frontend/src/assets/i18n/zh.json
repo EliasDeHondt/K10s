@@ -28,7 +28,7 @@
     "SEARCH": {
         "SEARCH_PLACEHOLDER": "搜索集群...",
         "SEARCH": "搜索",
-        "NODE": "节点",
+        "NODES": "节点",
         "PODS": "容器组",
         "SERVICES": "服务",
         "DEPLOYMENTS": "部署",

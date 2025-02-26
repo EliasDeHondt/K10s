@@ -28,7 +28,7 @@
     "SEARCH": {
         "SEARCH_PLACEHOLDER": "Search Cluster...",
         "SEARCH": "Search",
-        "NODE": "Node",
+        "NODES": "Node",
         "PODS": "Pods",
         "SERVICES": "Services",
         "DEPLOYMENTS": "Deployments",

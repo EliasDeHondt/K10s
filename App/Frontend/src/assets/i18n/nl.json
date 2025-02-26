@@ -28,7 +28,7 @@
     "SEARCH": {
         "SEARCH_PLACEHOLDER": "Zoek Cluster...",
         "SEARCH": "Zoek",
-        "NODE": "Knooppunt",
+        "NODES": "Knooppunt",
         "PODS": "Pods",
         "SERVICES": "Diensten",
         "DEPLOYMENTS": "Deployments",
