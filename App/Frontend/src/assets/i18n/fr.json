@@ -21,7 +21,6 @@
         "LOGIN_BUTTON": "Se connecter"
     },
     "DASHBOARD": {
-        "NODES": "Nœuds",
         "CPU": "Utilisation du CPU",
         "RAM": "Utilisation de la RAM",
         "DISK": "Utilisation du disque"
@@ -29,7 +28,7 @@
     "SEARCH": {
         "SEARCH_PLACEHOLDER": "Rechercher un cluster...",
         "SEARCH": "Rechercher",
-        "NODE": "Nœud",
+        "NODES": "Nœud",
         "PODS": "Pods",
         "SERVICES": "Services",
         "DEPLOYMENTS": "Déploiements",
