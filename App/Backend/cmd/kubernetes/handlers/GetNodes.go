@@ -44,6 +44,51 @@ func GetNodes(c kubernetes.IClient, pageSize int, pageToken string) (*PaginatedR
 	}, nil
 }
 
+func GetNodeNamesHandler(ctx *gin.Context) {
+	names, err := GetNodeNames(c)
+
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error has occurred or the request has been timed out."})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, names)
+}
+
+func GetNodeNames(c kubernetes.IClient) ([]string, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	list, err := c.GetNodes().List(ctx, metav1.ListOptions{})
+	if err != nil {
+		return nil, err
+	}
+
+	return transformNodesToName(&list.Items), nil
+}
+
+func transformNodesToName(list *[]v1.Node) []string {
+	result := make([]string, len(*list))
+
+	var wg sync.WaitGroup
+	concurrency := 20
+	semaphore := make(chan struct{}, concurrency)
+
+	for i, node := range *list {
+		wg.Add(1)
+		semaphore <- struct{}{}
+
+		go func(i int, node v1.Node) {
+			defer wg.Done()
+			result[i] = node.Name
+			<-semaphore
+		}(i, node)
+	}
+
+	wg.Wait()
+	return result
+}
+
 func transformNodes(list *[]v1.Node) []kubernetes.Node {
 	var nodeList = make([]kubernetes.Node, len(*list))
 

@@ -24,8 +24,6 @@ type Pod struct {
 	Age           string
 }
 
-//TODO: remove fake clientset and use a real clientset
-
 func NewPod(pod v1.Pod, clientset IClient) Pod {
 
 	runningServices, totalServices := getServiceHealthForPod(pod, clientset)

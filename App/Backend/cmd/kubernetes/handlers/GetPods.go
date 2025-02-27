@@ -5,28 +5,22 @@
 package handlers
 
 import (
-	"context"
 	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes"
 	"github.com/gin-gonic/gin"
 	v1 "k8s.io/api/core/v1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"net/http"
 	"sync"
-	"time"
 )
 
 func GetPodsHandler(ctx *gin.Context) {
-	namespace, ok := ctx.GetQuery("namespace")
+	namespace, _ := ctx.GetQuery("namespace")
+	nodeName, _ := ctx.GetQuery("node")
 	pageSize, pageToken := GetPageSizeAndPageToken(ctx)
 
 	var podList *PaginatedResponse[[]kubernetes.Pod]
 	var err error
 
-	if ok {
-		podList, err = GetPods(c, namespace, pageSize, pageToken)
-	} else {
-		podList, err = GetPods(c, "", pageSize, pageToken)
-	}
+	podList, err = GetPods(c, namespace, nodeName, pageSize, pageToken)
 
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error has occurred or the request has been timed out."})
@@ -35,21 +29,16 @@ func GetPodsHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, podList)
 }
 
-func GetPods(c kubernetes.IClient, namespace string, pageSize int, continueToken string) (*PaginatedResponse[[]kubernetes.Pod], error) {
-	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
+func GetPods(c kubernetes.IClient, namespace string, nodeName string, pageSize int, continueToken string) (*PaginatedResponse[[]kubernetes.Pod], error) {
 
-	list, err := c.GetPods(namespace).List(ct, metav1.ListOptions{
-		Limit:    int64(pageSize),
-		Continue: continueToken,
-	})
+	filteredPods, newContinueToken, err := c.GetFilteredPods(namespace, nodeName, pageSize, continueToken)
 	if err != nil {
 		return nil, err
 	}
 
 	return &PaginatedResponse[[]kubernetes.Pod]{
-		Response:  transformPods(&list.Items),
-		PageToken: list.Continue,
+		Response:  transformPods(filteredPods),
+		PageToken: newContinueToken,
 	}, nil
 }
 

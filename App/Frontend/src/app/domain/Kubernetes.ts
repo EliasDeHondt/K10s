@@ -1,6 +1,7 @@
 /**********************************/
 /* @since 01/01/2025              */
 /* @author K10s Open Source Team  */
+
 /**********************************/
 
 export interface PaginatedResponse {
@@ -51,7 +52,7 @@ export interface Deployment {
 export interface ConfigMap {
     Namespace: string
     Name: string
-    Data: { [key: string]: string}
+    Data: { [key: string]: string }
     Age: string
 }
 
@@ -61,4 +62,8 @@ export interface Secret {
     Type: string
     Data: { [key: string]: string }
     Age: string
+}
+
+export interface Namespace {
+    Name: string
 }

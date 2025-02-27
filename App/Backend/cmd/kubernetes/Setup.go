@@ -171,6 +171,18 @@ func TestFakeClient() IClient {
 		clientset.GetNodes().Create(context.TODO(), node, metav1.CreateOptions{})
 	}
 
+	namespaces := []*corev1.Namespace{
+		{
+			ObjectMeta: metav1.ObjectMeta{
+				Name: "test",
+			},
+		},
+	}
+
+	for _, namespace := range namespaces {
+		clientset.GetNamespaces().Create(context.TODO(), namespace, metav1.CreateOptions{})
+	}
+
 	pods := []*corev1.Pod{
 		{
 			ObjectMeta: metav1.ObjectMeta{

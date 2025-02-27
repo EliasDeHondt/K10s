@@ -44,16 +44,14 @@
                 <h2>{{ 'DASHBOARD.DISK' | translate }}</h2>
                 <span class="dashboard-header-3">
                     <div class="progress-container">
-                        <div class="progress-bar" [style.width.%]="diskUsagePercentage" [style.background-color]="diskColor"></div>
+                        <div class="progress-bar" [style.width.%]="diskUsagePercentage"
+                             [style.background-color]="diskColor"></div>
                     </div>
                     <p class="progress-text">
-                        <ng-container *ngIf="usage; else loadingTemplate">
-                            {{ usage.DiskUsage | byteFormat }} / {{ usage.DiskCapacity | byteFormat }}
+                        <ng-container>
+                            {{ diskUsage | byteFormat }} / {{ diskCapacity | byteFormat }}
                         </ng-container>
                     </p>
-                    <ng-template #loadingTemplate>
-                        <app-loading [size]="30"></app-loading>
-                    </ng-template>
                 </span>
             </article>
         </section>

@@ -12,9 +12,11 @@ import (
 	"time"
 )
 
+var frontendUrl = handlers.GetFrontendIP()
+
 func main() {
-	frontendUrl := handlers.GetFrontendIP()
-	trustedProxies := []string{"10.0.0.0/8"}
+	frontendUrl = handlers.GetFrontendIP()
+    trustedProxies := []string{"10.0.0.0/8"}
 
 	if frontendUrl == "http://localhost:4200" {
 		gin.SetMode(gin.DebugMode)
@@ -54,6 +56,9 @@ func main() {
 	secured.GET("/deployments", handlers.GetDeploymentsHandler)
 	secured.GET("/stats", handlers.GetStatsHandler)
 	secured.POST("/createresources", handlers.CreateResourcesHandler)
+	secured.GET("/namespaces", handlers.GetNamespacesHandler)
+	secured.GET("/nodenames", handlers.GetNodeNamesHandler)
+	secured.GET("/statsocket", handlers.HandleMetricsSocket)
 
 	err = r.Run(":8082")
 	if err != nil {
