@@ -12,9 +12,11 @@ import (
 	"time"
 )
 
+var frontendUrl = handlers.GetFrontendIP()
+
 func main() {
 
-	frontendUrl := handlers.GetFrontendIP()
+	frontendUrl = handlers.GetFrontendIP()
 
 	r := gin.Default()
 
@@ -45,6 +47,7 @@ func main() {
 	secured.POST("/createresources", handlers.CreateResourcesHandler)
 	secured.GET("/namespaces", handlers.GetNamespacesHandler)
 	secured.GET("/nodenames", handlers.GetNodeNamesHandler)
+	secured.GET("/statsocket", handlers.HandleMetricsSocket)
 
 	err := r.Run(":8080")
 	if err != nil {
