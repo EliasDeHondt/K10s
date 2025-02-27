@@ -15,7 +15,7 @@
                 <td>{{ configMap.Name }}</td>
                 <td class="data-length-column"  (mousemove)="showTooltip($event, configMap.Data)" (mouseout)="hideTooltip()">
                     <div class="tooltip-container">
-                        {{ Object.keys(configMap.Data).length }}
+                        {{ configMap.Data ? Object.keys(configMap.Data).length : 0 }}
                     </div>
                 </td>
                 <td>{{ configMap.Age }}</td>
