@@ -54,6 +54,8 @@ func main() {
 	secured.GET("/deployments", handlers.GetDeploymentsHandler)
 	secured.GET("/stats", handlers.GetStatsHandler)
 	secured.POST("/createresources", handlers.CreateResourcesHandler)
+	secured.GET("/namespaces", handlers.GetNamespacesHandler)
+	secured.GET("/nodenames", handlers.GetNodeNamesHandler)
 
 	err = r.Run(":8082")
 	if err != nil {

@@ -63,7 +63,7 @@ func transformSecrets(list *[]v1.Secret) []kubernetes.Secret {
 		wg.Add(1)
 		semaphore <- struct{}{}
 
-		go func(i int, node v1.Secret) {
+		go func(i int, secret v1.Secret) {
 			defer wg.Done()
 			secretList[i] = kubernetes.NewSecret(secret)
 			<-semaphore

@@ -48,6 +48,9 @@ type IClient interface {
 	CreateService(service *cv1.Service) (Service, error)
 	CreateConfigMap(configMap *cv1.ConfigMap) (ConfigMap, error)
 	CreateSecret(secret *cv1.Secret) (Secret, error)
+	GetFilteredPods(namespace string, nodeName string, pageSize int, continueToken string) (*[]cv1.Pod, string, error)
+	GetFilteredServices(namespace string, nodeName string, pageSize int, continueToken string) (*[]cv1.Service, string, error)
+	GetFilteredDeployments(namespace string, nodeName string, pageSize int, continueToken string) (*[]av1.Deployment, string, error)
 }
 
 type FakeClient struct {
@@ -430,4 +433,215 @@ func (client *Client) CreateSecret(secret *cv1.Secret) (Secret, error) {
 	}
 
 	return NewSecret(*secret), err
+}
+
+func (client *FakeClient) GetFilteredPods(namespace string, nodeName string, pageSize int, continueToken string) (*[]cv1.Pod, string, error) {
+	ct, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	var filteredPods []cv1.Pod
+	var newContinueToken string
+
+	list, err := client.Client.CoreV1().Pods(namespace).List(ct, metav1.ListOptions{
+		Limit:    int64(pageSize),
+		Continue: continueToken,
+	})
+	if err != nil {
+		return nil, "", err
+	}
+
+	for _, pod := range list.Items {
+		if nodeName == "" || pod.Spec.NodeName == nodeName {
+			filteredPods = append(filteredPods, pod)
+		}
+	}
+	newContinueToken = list.Continue
+	return &filteredPods, newContinueToken, nil
+}
+
+func (client *Client) GetFilteredPods(namespace string, nodeName string, pageSize int, continueToken string) (*[]cv1.Pod, string, error) {
+	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	var filteredPods []cv1.Pod
+	var newContinueToken string
+
+	fieldSelector := ""
+	if nodeName != "" {
+		fieldSelector = "spec.nodeName=" + nodeName
+	}
+
+	list, err := client.GetPods(namespace).List(ct, metav1.ListOptions{
+		Limit:         int64(pageSize),
+		Continue:      continueToken,
+		FieldSelector: fieldSelector,
+	})
+	if err != nil {
+		return nil, "", err
+	}
+
+	filteredPods = list.Items
+	newContinueToken = list.Continue
+	return &filteredPods, newContinueToken, nil
+}
+
+func (client *FakeClient) GetFilteredServices(namespace string, nodeName string, pageSize int, continueToken string) (*[]cv1.Service, string, error) {
+	ct, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	var filteredServices []cv1.Service
+	var newContinueToken string
+
+	services, err := client.GetServices(namespace).List(ct, metav1.ListOptions{
+		Limit:    int64(pageSize),
+		Continue: continueToken,
+	})
+	if err != nil {
+		return nil, "", err
+	}
+
+	if nodeName != "" {
+		pods, _, err := client.GetFilteredPods(namespace, nodeName, 0, "")
+		if err != nil {
+			return nil, "", err
+		}
+		for _, pod := range *pods {
+			for _, svc := range services.Items {
+				if isPodMatchingService(pod, svc) {
+					filteredServices = append(filteredServices, svc)
+				}
+			}
+		}
+	} else {
+		filteredServices = services.Items
+	}
+
+	return &filteredServices, newContinueToken, nil
+}
+
+func (client *Client) GetFilteredServices(namespace string, nodeName string, pageSize int, continueToken string) (*[]cv1.Service, string, error) {
+	_, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	ct, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	var filteredServices []cv1.Service
+	var newContinueToken string
+
+	services, err := client.GetServices(namespace).List(ct, metav1.ListOptions{
+		Limit:    int64(pageSize),
+		Continue: continueToken,
+	})
+	if err != nil {
+		return nil, "", err
+	}
+
+	if nodeName != "" {
+		pods, _, err := client.GetFilteredPods(namespace, nodeName, 0, "")
+		if err != nil {
+			return nil, "", err
+		}
+		for _, pod := range *pods {
+			for _, svc := range services.Items {
+				if isPodMatchingService(pod, svc) {
+					filteredServices = append(filteredServices, svc)
+				}
+			}
+		}
+	} else {
+		filteredServices = services.Items
+	}
+
+	return &filteredServices, newContinueToken, nil
+}
+
+func (client *FakeClient) GetFilteredDeployments(namespace string, nodeName string, pageSize int, continueToken string) (*[]av1.Deployment, string, error) {
+	ct, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	var filteredDeployments []av1.Deployment
+	var newContinueToken string
+
+	if nodeName != "" {
+		pods, _, err := client.GetFilteredPods(namespace, nodeName, 0, "")
+		if err != nil {
+			return nil, "", err
+		}
+		for _, pod := range *pods {
+			for _, owner := range pod.OwnerReferences {
+				if owner.Kind == "ReplicaSet" {
+					rs, err := client.Client.AppsV1().ReplicaSets(namespace).Get(ct, owner.Name, metav1.GetOptions{})
+					if err != nil {
+						continue
+					}
+
+					for _, rsOwner := range rs.OwnerReferences {
+						if rsOwner.Kind == "Deployment" {
+							deployment, err := client.GetDeployments(namespace).Get(ct, rsOwner.Name, metav1.GetOptions{})
+							if err == nil {
+								filteredDeployments = append(filteredDeployments, *deployment)
+							}
+						}
+					}
+				}
+			}
+		}
+	} else {
+		deployments, err := client.GetDeployments(namespace).List(ct, metav1.ListOptions{
+			Limit:    int64(pageSize),
+			Continue: continueToken,
+		})
+		if err != nil {
+			return nil, "", err
+		}
+		filteredDeployments = deployments.Items
+	}
+
+	return &filteredDeployments, newContinueToken, nil
+}
+
+func (client *Client) GetFilteredDeployments(namespace string, nodeName string, pageSize int, continueToken string) (*[]av1.Deployment, string, error) {
+	ct, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	var filteredDeployments []av1.Deployment
+	var newContinueToken string
+
+	if nodeName != "" {
+		pods, _, err := client.GetFilteredPods(namespace, nodeName, 0, "")
+		if err != nil {
+			return nil, "", err
+		}
+		for _, pod := range *pods {
+			for _, owner := range pod.OwnerReferences {
+				if owner.Kind == "ReplicaSet" {
+					rs, err := client.Client.AppsV1().ReplicaSets(namespace).Get(ct, owner.Name, metav1.GetOptions{})
+					if err != nil {
+						continue
+					}
+
+					for _, rsOwner := range rs.OwnerReferences {
+						if rsOwner.Kind == "Deployment" {
+							deployment, err := client.GetDeployments(namespace).Get(ct, rsOwner.Name, metav1.GetOptions{})
+							if err == nil {
+								filteredDeployments = append(filteredDeployments, *deployment)
+							}
+						}
+					}
+				}
+			}
+		}
+	} else {
+		deployments, err := client.GetDeployments(namespace).List(ct, metav1.ListOptions{
+			Limit:    int64(pageSize),
+			Continue: continueToken,
+		})
+		if err != nil {
+			return nil, "", err
+		}
+		filteredDeployments = deployments.Items
+	}
+
+	return &filteredDeployments, newContinueToken, nil
 }
