@@ -69,5 +69,12 @@
         "YAML_FILE": "YAML hochladen",
         "YAML_PLACEHOLDER": "Kopiere und füge deine YAML-Datei ein...",
         "DEPLOY" : "Bereitstellen"
+    },
+    "NOTIF" : {
+        "ADD" : {
+            "NODATA": "Keine YAML-Daten zum Hochladen :(",
+            "SUCCESS": "Dein YAML wird bereitgestellt!",
+            "ERROR": "Bereitstellung fehlgeschlagen!"
+        }
     }
 }

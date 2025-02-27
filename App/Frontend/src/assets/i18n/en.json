@@ -69,5 +69,12 @@
         "YAML_FILE": "Upload YAML",
         "YAML_PLACEHOLDER": "Copy paste your YAML file...",
         "DEPLOY" : "Deploy"
+    },
+    "NOTIF" : {
+        "ADD" : {
+            "NODATA": "No YAML data to upload :(",
+            "SUCCESS": "Your YAML is deploying!",
+            "ERROR": "Deployment failed!"
+        }
     }
 }

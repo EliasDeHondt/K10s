@@ -11,7 +11,7 @@ import { NavComponent } from "../nav/nav.component";
 import { FooterComponent } from "../footer/footer.component";
 import { FormsModule } from "@angular/forms";
 import { AddService } from "../services/add.service";
-import { TranslatePipe } from "@ngx-translate/core";
+import {TranslatePipe, TranslateService} from "@ngx-translate/core";
 import { NotificationService } from "../services/notification.service";
 
 @Component({
@@ -30,7 +30,7 @@ export class AddComponent {
     textAreaActive: boolean = false;
     @ViewChild('yamlTextArea') yamlTextArea: ElementRef | undefined;
 
-    constructor(private addService: AddService, private notificationService: NotificationService) {}
+    constructor(private addService: AddService, private notificationService: NotificationService,private translate: TranslateService) {}
 
     onFileUpload(event: Event) {
         const input = event.target as HTMLInputElement;
@@ -84,19 +84,17 @@ export class AddComponent {
         const yamlData = this.fileContent || this.yamlText;
 
         if (!yamlData) {
-            this.notificationService.showNotification('No YAML data to deploy!', 'error');
-            console.warn('No YAML data to upload');
+            this.notificationService.showNotification(this.translate.instant('NOTIF.ADD.NODATA'), 'error');
             return;
         }
 
         this.addService.uploadYaml(yamlData).subscribe({
             next: () => {
                 this.clearTextarea();
-                this.notificationService.showNotification('Your YAML was deployed!', 'success');
+                this.notificationService.showNotification(this.translate.instant('NOTIF.ADD.SUCCESS'), 'success');
             },
-            error: (error) => {
-                console.error('Upload failed', error);
-                this.notificationService.showNotification('Deployment failed!', 'error');
+            error: () => {
+                this.notificationService.showNotification(this.translate.instant('NOTIF.ADD.ERROR'), 'error');
             },
         });
     }
