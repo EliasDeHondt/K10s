@@ -27,17 +27,6 @@ func GetServicesHandler(ctx *gin.Context) {
 }
 
 func GetServices(c kubernetes.IClient, namespace string, nodeName string, pageSize int, pageToken string) (*PaginatedResponse[[]kubernetes.Service], error) {
-	/*ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-
-	list, err := c.GetServices(namespace).List(ct, metav1.ListOptions{
-		Limit:    int64(pageSize),
-		Continue: pageToken,
-	})
-	if err != nil {
-		return nil, err
-	}*/
-
 	list, token, err := c.GetFilteredServices(namespace, nodeName, pageSize, pageToken)
 	if err != nil {
 		return nil, err

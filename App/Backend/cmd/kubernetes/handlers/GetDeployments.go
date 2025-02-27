@@ -5,28 +5,22 @@
 package handlers
 
 import (
-	"context"
 	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes"
 	"github.com/gin-gonic/gin"
 	v1 "k8s.io/api/apps/v1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"net/http"
 	"sync"
-	"time"
 )
 
 func GetDeploymentsHandler(ctx *gin.Context) {
-	namespace, ok := ctx.GetQuery("namespace")
+	namespace, _ := ctx.GetQuery("namespace")
+	nodeName, _ := ctx.GetQuery("node")
 	pageSize, pageToken := GetPageSizeAndPageToken(ctx)
 
 	var deploymentList *PaginatedResponse[[]kubernetes.Deployment]
 	var err error
 
-	if ok {
-		deploymentList, err = GetDeployments(c, namespace, pageSize, pageToken)
-	} else {
-		deploymentList, err = GetDeployments(c, "", pageSize, pageToken)
-	}
+	deploymentList, err = GetDeployments(c, namespace, nodeName, pageSize, pageToken)
 
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error has occurred or the request has been timed out."})
@@ -35,21 +29,15 @@ func GetDeploymentsHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, deploymentList)
 }
 
-func GetDeployments(c kubernetes.IClient, namespace string, pageSize int, pageToken string) (*PaginatedResponse[[]kubernetes.Deployment], error) {
-	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-
-	list, err := c.GetDeployments(namespace).List(ct, metav1.ListOptions{
-		Limit:    int64(pageSize),
-		Continue: pageToken,
-	})
+func GetDeployments(c kubernetes.IClient, namespace string, nodeName string, pageSize int, pageToken string) (*PaginatedResponse[[]kubernetes.Deployment], error) {
+	list, token, err := c.GetFilteredDeployments(namespace, nodeName, pageSize, pageToken)
 	if err != nil {
 		return nil, err
 	}
 
 	return &PaginatedResponse[[]kubernetes.Deployment]{
-		Response:  transformDeployments(&list.Items),
-		PageToken: list.Continue,
+		Response:  transformDeployments(list),
+		PageToken: token,
 	}, nil
 }
 
