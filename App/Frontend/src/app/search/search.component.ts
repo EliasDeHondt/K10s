@@ -41,6 +41,9 @@ export class SearchComponent {
     selectedNode: string = 'None';
     selectedNamespace: string = 'None';
 
+    constructor() {
+        this.tableService.setElement('nodes');
+    }
     updateElement(filter: string) {
         this.isLoading.set(true);
         this.tableService.setElement(filter)
@@ -61,6 +64,10 @@ export class SearchComponent {
     selectNamespace(namespace: string) {
         this.selectedNamespace = namespace;
         this.toggleDropdown('searchDropdown2');
+    }
+
+    isDefaultNodeSelected(): boolean {
+        return this.tableService.element() === 'nodes';
     }
 
 }

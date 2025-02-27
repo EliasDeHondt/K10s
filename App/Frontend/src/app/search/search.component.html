@@ -10,7 +10,7 @@
         </section>
         <section class="search-header-section2">
             <article class="search-header-article2">
-                <label><input class="cursor-pointer" type="radio" (change)="updateElement('nodes')" name="search-filter" id="search-filter-option-1">{{ 'SEARCH.NODES' | translate }}</label>
+                <label><input class="cursor-pointer" type="radio" (change)="updateElement('nodes')" name="search-filter" id="search-filter-option-1" [checked]="isDefaultNodeSelected()">{{ 'SEARCH.NODES' | translate }}</label>
                 <label><input class="cursor-pointer" type="radio" (change)="updateElement('pods')" name="search-filter" id="search-filter-option-2">{{ 'SEARCH.PODS' | translate }}</label>
                 <label><input class="cursor-pointer" type="radio" (change)="updateElement('services')" name="search-filter" id="search-filter-option-3">{{ 'SEARCH.SERVICES' | translate }}</label>
                 <label><input class="cursor-pointer" type="radio" (change)="updateElement('deployments')" name="search-filter" id="search-filter-option-4">{{ 'SEARCH.DEPLOYMENTS' | translate }}</label>
