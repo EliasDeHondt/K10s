@@ -6,7 +6,7 @@
 import {Component, Input} from '@angular/core';
 import {TranslatePipe} from "@ngx-translate/core";
 import {ConfigMap} from "../../domain/Kubernetes";
-import {hideTooltip, showTooltip} from "../search-table-util";
+import { SearchTooltipService } from "../../services/tooltip.service";
 
 @Component({
     selector: 'app-config-map-table',
@@ -21,13 +21,15 @@ import {hideTooltip, showTooltip} from "../search-table-util";
 export class ConfigMapTableComponent {
     @Input({ required: true }) configMaps!: ConfigMap[];
 
+    constructor(private tooltipService: SearchTooltipService) {}
+
     protected readonly Object = Object;
 
     showTooltip(event: MouseEvent, data: Record<string, any> | undefined) {
-        showTooltip(event, data);
+        this.tooltipService.showTooltip(event, data);
     }
 
     hideTooltip() {
-        hideTooltip();
+        this.tooltipService.hideTooltip();
     }
 }
