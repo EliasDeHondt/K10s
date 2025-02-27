@@ -12,6 +12,7 @@ import { FooterComponent } from "../footer/footer.component";
 import { FormsModule } from "@angular/forms";
 import { AddService } from "../services/add.service";
 import { TranslatePipe } from "@ngx-translate/core";
+import { NotificationService } from "../services/notification.service";
 
 @Component({
     selector: 'app-add',
@@ -29,7 +30,7 @@ export class AddComponent {
     textAreaActive: boolean = false;
     @ViewChild('yamlTextArea') yamlTextArea: ElementRef | undefined;
 
-    constructor(private addService: AddService) {}
+    constructor(private addService: AddService, private notificationService: NotificationService) {}
 
     onFileUpload(event: Event) {
         const input = event.target as HTMLInputElement;
@@ -83,13 +84,20 @@ export class AddComponent {
         const yamlData = this.fileContent || this.yamlText;
 
         if (!yamlData) {
+            this.notificationService.showNotification('No YAML data to deploy!', 'error');
             console.warn('No YAML data to upload');
             return;
         }
 
         this.addService.uploadYaml(yamlData).subscribe({
-            next: () => {this.clearTextarea(); },
-            error: (error) => console.error('Upload failed', error),
+            next: () => {
+                this.clearTextarea();
+                this.notificationService.showNotification('Your YAML was deployed!', 'success');
+            },
+            error: (error) => {
+                console.error('Upload failed', error);
+                this.notificationService.showNotification('Deployment failed!', 'error');
+            },
         });
     }
 

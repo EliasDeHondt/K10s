@@ -8,12 +8,13 @@ import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { filter, map } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
+import { NotificationComponent } from "./notification/notification.component";
 
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [RouterModule,CommonModule],
-    template: `<router-outlet></router-outlet>`,
+    imports: [RouterModule, CommonModule, NotificationComponent],
+    template: `<app-notification></app-notification> <router-outlet></router-outlet>`,
     providers: [Title]
 })
 
