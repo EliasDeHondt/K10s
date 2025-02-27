@@ -21,7 +21,6 @@
         "LOGIN_BUTTON": "Anmelden"
     },
     "DASHBOARD": {
-        "NODES": "Knoten",
         "CPU": "CPU-Nutzung",
         "RAM": "RAM-Nutzung",
         "DISK": "Festplattennutzung"
@@ -29,7 +28,7 @@
     "SEARCH": {
         "SEARCH_PLACEHOLDER": "Cluster suchen...",
         "SEARCH": "Suche",
-        "NODE": "Knoten",
+        "NODES": "Knoten",
         "PODS": "Pods",
         "SERVICES": "Dienste",
         "DEPLOYMENTS": "Bereitstellungen",

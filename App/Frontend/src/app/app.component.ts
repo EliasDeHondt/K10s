@@ -16,6 +16,7 @@ import { CommonModule } from '@angular/common';
     template: `<router-outlet></router-outlet>`,
     providers: [Title]
 })
+
 export class AppComponent {
     private router = inject(Router);
     private titleService = inject(Title);
@@ -29,7 +30,7 @@ export class AppComponent {
                     while (route.firstChild) {
                         route = route.firstChild;
                     }
-                    return route.snapshot.data['title'] || 'Standaard Titel';
+                    return route.snapshot.data['title'] || 'K10s';
                 })
             ).subscribe(title => {
                 this.titleService.setTitle(title);

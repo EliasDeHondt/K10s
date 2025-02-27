@@ -22,7 +22,7 @@ import {Metrics} from "../domain/Metrics";
 })
 
 export class DashboardComponent implements AfterViewInit, OnInit, OnDestroy {
-// Fullscreen button
+    // Fullscreen button
     @ViewChild('dashboardMain') dashboardMain!: ElementRef;
     @ViewChild('dashboardTitle') dashboardTitle!: ElementRef;
 
@@ -100,10 +100,10 @@ export class DashboardComponent implements AfterViewInit, OnInit, OnDestroy {
 
     updateChartData(metrics: Metrics): void {
         this.memoryChartData = [
-            {name: 'Used', value: metrics.MemUsage},
+            {name: 'Used', value: parseFloat(metrics.MemUsage.toFixed(2))},
         ];
         this.cpuChartData = [
-            {name: 'Used', value: metrics.CpuUsage},
+            {name: 'Used', value: parseFloat(metrics.CpuUsage.toFixed(2))},
         ];
         this.diskUsage = metrics.DiskUsage;
         this.diskCapacity = metrics.DiskCapacity;

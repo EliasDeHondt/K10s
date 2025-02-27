@@ -49,6 +49,9 @@ export class SearchComponent implements OnInit {
         this.getNodeNames()
     }
 
+    constructor() {
+        this.tableService.setElement('nodes');
+    }
     updateElement(filter: string) {
         this.isLoading.set(true);
         this.tableService.setElement(filter)
@@ -85,6 +88,10 @@ export class SearchComponent implements OnInit {
         this.filterDataService.getNodeNames().subscribe(response => {
             this.nodeNames = response;
         })
+    }
+
+    isDefaultNodeSelected(): boolean {
+        return this.tableService.element() === 'nodes';
     }
 
 }

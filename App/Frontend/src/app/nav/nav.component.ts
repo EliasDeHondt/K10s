@@ -16,6 +16,7 @@ import { AuthService } from "../services/auth.service";
     imports: [RouterLink, CommonModule, TranslatePipe],
     styleUrls: ['./nav.component.css']
 })
+
 export class NavComponent implements OnInit {
     githubStars: string = '⭐ Loading...';
     dropdownOpen: boolean = false;

@@ -15,10 +15,21 @@ import (
 var frontendUrl = handlers.GetFrontendIP()
 
 func main() {
-
 	frontendUrl = handlers.GetFrontendIP()
+    trustedProxies := []string{"10.0.0.0/8"}
+
+	if frontendUrl == "http://localhost:4200" {
+		gin.SetMode(gin.DebugMode)
+	} else {
+		gin.SetMode(gin.ReleaseMode)
+	}
 
 	r := gin.Default()
+
+	err := r.SetTrustedProxies(trustedProxies)
+	if err != nil {
+		panic(err)
+	}
 
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{frontendUrl},
@@ -30,11 +41,11 @@ func main() {
 	}))
 
 	auth.Init()
-	r.POST("/login", auth.HandleLogin)
-	r.GET("/logout", auth.HandleLogout)
-	r.GET("/isloggedin", auth.IsLoggedIn)
+	r.POST("/api/login", auth.HandleLogin)
+	r.GET("/api/logout", auth.HandleLogout)
+	r.GET("/api/isloggedin", auth.IsLoggedIn)
 
-	secured := r.Group("/secured")
+	secured := r.Group("/api/secured")
 	secured.Use(auth.AuthMiddleware())
 	secured.GET("/table", handlers.GetTableHandler)
 	secured.GET("/nodes", handlers.GetNodesHandler)
@@ -49,7 +60,7 @@ func main() {
 	secured.GET("/nodenames", handlers.GetNodeNamesHandler)
 	secured.GET("/statsocket", handlers.HandleMetricsSocket)
 
-	err := r.Run(":8080")
+	err = r.Run(":8082")
 	if err != nil {
 		panic(err)
 	}
