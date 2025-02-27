@@ -111,24 +111,38 @@
     pointer-events: none;
 }
 
-.dashboard-fullscreen-button {
+.dashboard-fullscreen-button,
+.dashboard-download-button {
     position: absolute;
     top: 10px;
-    right: 10px;
     border: none;
     padding: 8px 12px;
     font-size: 0.9rem;
     z-index: 2;
 }
 
-.dashboard-fullscreen-button svg {
+.dashboard-fullscreen-button {
+    right: 10px;
+}
+
+.dashboard-download-button {
+    right: 50px;
+}
+
+.dashboard-fullscreen-button svg,
+.dashboard-download-button svg {
     fill: var(--secondary);
     width: 20px;
     height: 20px;
     pointer-events: auto;
 }
 
-.dashboard-fullscreen-button:hover {
+.dashboard-download-button svg {
+    stroke: var(--secondary);
+}
+
+.dashboard-fullscreen-button:hover,
+.dashboard-download-button:hover {
     color: var(--accent);
 }
 

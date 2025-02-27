@@ -57,7 +57,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
         }
     }
 
-    // get stats
+    // Get stats
     usage: any = null;
     memoryChartData: any[] = [];
     cpuChartData: any[] = [];
@@ -94,6 +94,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
             }
         });
     }
+
     valueFormatting(usage: number): string {
         return usage+`%`;
     }
