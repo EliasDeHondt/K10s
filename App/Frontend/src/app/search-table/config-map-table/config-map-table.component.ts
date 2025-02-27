@@ -3,9 +3,9 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-import { Component, Input } from '@angular/core';
-import { TranslatePipe } from "@ngx-translate/core";
-import { ConfigMap } from "../../domain/Kubernetes";
+import {Component, Input} from '@angular/core';
+import {TranslatePipe} from "@ngx-translate/core";
+import {ConfigMap} from "../../domain/Kubernetes";
 
 @Component({
     selector: 'app-config-map-table',
@@ -25,20 +25,22 @@ export class ConfigMapTableComponent {
     showTooltip(event: MouseEvent, data: Record<string, any>) {
         const tooltip = document.getElementById('tooltip');
         if (tooltip) {
-        tooltip.textContent = Object.entries(data)
-            .map(([key, value]) => `${key}: ${value}`)
-            .join('\n');
+            tooltip.textContent = data && typeof data === 'object'
+                ? Object.entries(data)
+                    .map(([key, value]) => `${key}: ${value}`)
+                    .join('\n')
+                : 'No data available';
 
-        tooltip.style.display = 'block';
-        tooltip.style.left = `${event.pageX + 10}px`;
-        tooltip.style.top = `${event.pageY + 10}px`;
+            tooltip.style.display = 'block';
+            tooltip.style.left = `${event.pageX + 10}px`;
+            tooltip.style.top = `${event.pageY + 10}px`;
         }
     }
 
     hideTooltip() {
         const tooltip = document.getElementById('tooltip');
         if (tooltip) {
-        tooltip.style.display = 'none';
+            tooltip.style.display = 'none';
         }
     }
 }
