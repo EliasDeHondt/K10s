@@ -21,7 +21,6 @@
         "LOGIN_BUTTON": "'el"
     },
     "DASHBOARD": {
-        "NODES": "tetlh",
         "CPU": "Qapchu' lo'",
         "RAM": "qawHaq lo'",
         "DISK": "naw' lo'"
@@ -29,7 +28,7 @@
     "SEARCH": {
         "SEARCH_PLACEHOLDER": "nej yugh...",
         "SEARCH": "nej",
-        "NODE": "tetlh",
+        "NODES": "tetlh",
         "PODS": "pa'mey",
         "SERVICES": "vummeH mIw",
         "DEPLOYMENTS": "lanchu'ghach",

@@ -21,7 +21,6 @@
         "LOGIN_BUTTON": "Inloggen"
     },
     "DASHBOARD": {
-        "NODES": "Knooppunten",
         "CPU": "CPU-gebruik",
         "RAM": "RAM-gebruik",
         "DISK": "Schijfgebruik"
@@ -29,7 +28,7 @@
     "SEARCH": {
         "SEARCH_PLACEHOLDER": "Zoek Cluster...",
         "SEARCH": "Zoek",
-        "NODE": "Knooppunt",
+        "NODES": "Knooppunt",
         "PODS": "Pods",
         "SERVICES": "Diensten",
         "DEPLOYMENTS": "Deployments",

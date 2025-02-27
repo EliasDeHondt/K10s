@@ -66,7 +66,7 @@ func IsLoggedIn(ctx *gin.Context) {
 	})
 
 	if err != nil || !token.Valid {
-		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
+		ctx.JSON(http.StatusOK, false)
 		return
 	}
 

@@ -21,7 +21,6 @@
         "LOGIN_BUTTON": "登录"
     },
     "DASHBOARD": {
-        "NODES": "节点",
         "CPU": "中央处理器 使用率",
         "RAM": "内存使用率",
         "DISK": "磁盘使用率"
@@ -29,7 +28,7 @@
     "SEARCH": {
         "SEARCH_PLACEHOLDER": "搜索集群...",
         "SEARCH": "搜索",
-        "NODE": "节点",
+        "NODES": "节点",
         "PODS": "容器组",
         "SERVICES": "服务",
         "DEPLOYMENTS": "部署",
