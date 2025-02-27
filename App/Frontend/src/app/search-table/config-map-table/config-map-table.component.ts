@@ -6,6 +6,7 @@
 import {Component, Input} from '@angular/core';
 import {TranslatePipe} from "@ngx-translate/core";
 import {ConfigMap} from "../../domain/Kubernetes";
+import {hideTooltip, showTooltip} from "../search-table-util";
 
 @Component({
     selector: 'app-config-map-table',
@@ -22,25 +23,11 @@ export class ConfigMapTableComponent {
 
     protected readonly Object = Object;
 
-    showTooltip(event: MouseEvent, data: Record<string, any>) {
-        const tooltip = document.getElementById('tooltip');
-        if (tooltip) {
-            tooltip.textContent = data && typeof data === 'object'
-                ? Object.entries(data)
-                    .map(([key, value]) => `${key}: ${value}`)
-                    .join('\n')
-                : 'No data available';
-
-            tooltip.style.display = 'block';
-            tooltip.style.left = `${event.pageX + 10}px`;
-            tooltip.style.top = `${event.pageY + 10}px`;
-        }
+    showTooltip(event: MouseEvent, data: Record<string, any> | undefined) {
+        showTooltip(event, data);
     }
 
     hideTooltip() {
-        const tooltip = document.getElementById('tooltip');
-        if (tooltip) {
-            tooltip.style.display = 'none';
-        }
+        hideTooltip();
     }
 }
