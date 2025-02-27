@@ -5,6 +5,7 @@ import (
 	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
+	"time"
 )
 
 var upgrader = websocket.Upgrader{
@@ -37,6 +38,11 @@ func HandleMetricsSocket(ctx *gin.Context) {
 		err = conn.WriteJSON(stats)
 		if err != nil {
 			log.Println("Error writing metrics stats:", err)
+			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
+				log.Println("WebSocket connection closed by client.")
+			}
+			break
 		}
+		time.Sleep(500 * time.Millisecond)
 	}
 }

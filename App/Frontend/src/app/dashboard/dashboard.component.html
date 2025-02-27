@@ -1,35 +1,35 @@
 <!--Author K10s Open Source Team-->
 <body class="dashboard-body">
-    <header class="dashboard-header">
-        <section class="dashboard-header-section1">
-            <article class="dashboard-header-article">
-                <h2>{{ 'DASHBOARD.NODES' | translate }}</h2>
-                <span id="dashboard-header-1"></span> <!-- TODO -->
-            </article>
-        </section>
-        <section class="dashboard-header-section2">
-            <article class="dashboard-header-article">
-                <h2>{{ 'DASHBOARD.CPU' | translate }}</h2>
-                <span id="dashboard-header-2">
+<header class="dashboard-header">
+    <section class="dashboard-header-section1">
+        <article class="dashboard-header-article">
+            <h2>{{ 'DASHBOARD.NODES' | translate }}</h2>
+            <span id="dashboard-header-1"></span> <!-- TODO -->
+        </article>
+    </section>
+    <section class="dashboard-header-section2">
+        <article class="dashboard-header-article">
+            <h2>{{ 'DASHBOARD.CPU' | translate }}</h2>
+            <span id="dashboard-header-2">
                     <ngx-charts-gauge
-                    [view]="[450, 200]"
-                    [min]="0"
-                    [results]="cpuChartData"
-                    [max]="100"
-                    [angleSpan]="180"
-                    [startAngle]="-90"
-                    [valueFormatting]="valueFormatting"
-                    [showAxis]="false"
-                    [legend]="false"
-                    [scheme]="colorSchemeCpu">
+                            [view]="[450, 200]"
+                            [min]="0"
+                            [results]="cpuChartData"
+                            [max]="100"
+                            [angleSpan]="180"
+                            [startAngle]="-90"
+                            [valueFormatting]="valueFormatting"
+                            [showAxis]="false"
+                            [legend]="false"
+                            [scheme]="colorSchemeCpu">
                     </ngx-charts-gauge>
                 </span>
-            </article>
-        </section>
-        <section class="dashboard-header-section3">
-            <article class="dashboard-header-article">
-                <h2>{{ 'DASHBOARD.RAM' | translate }}</h2>
-                    <span id="dashboard-header-3">
+        </article>
+    </section>
+    <section class="dashboard-header-section3">
+        <article class="dashboard-header-article">
+            <h2>{{ 'DASHBOARD.RAM' | translate }}</h2>
+            <span id="dashboard-header-3">
                     <ngx-charts-gauge
                             [view]="[450, 200]"
                             [min]="0"
@@ -43,40 +43,38 @@
                             [scheme]="colorScheme">
                     </ngx-charts-gauge>
                 </span>
-            </article>
-        </section>
-        <section class="dashboard-header-section4">
-            <article class="dashboard-header-article">
-                <h2>{{ 'DASHBOARD.DISK' | translate }}</h2>
-                <span id="dashboard-header-4">
+        </article>
+    </section>
+    <section class="dashboard-header-section4">
+        <article class="dashboard-header-article">
+            <h2>{{ 'DASHBOARD.DISK' | translate }}</h2>
+            <span id="dashboard-header-4">
                     <div class="progress-container">
-                        <div class="progress-bar" [style.width.%]="diskUsagePercentage" [style.background-color]="diskColor"></div>
+                        <div class="progress-bar" [style.width.%]="diskUsagePercentage"
+                             [style.background-color]="diskColor"></div>
                     </div>
                     <p class="progress-text">
-                        <ng-container *ngIf="usage; else loadingTemplate">
-                            {{ usage.DiskUsage | byteFormat }} / {{ usage.DiskCapacity | byteFormat }}
+                        <ng-container>
+                            {{ diskUsage | byteFormat }} / {{ diskCapacity | byteFormat }}
                         </ng-container>
                     </p>
-                    <ng-template #loadingTemplate>
-                        <app-loading [size]="30"></app-loading>
-                    </ng-template>
                 </span>
-            </article>
-        </section>
-    </header>
-    <app-nav class="nav" id="nav"></app-nav>
-    <main class="dashboard-main" id="dashboard-main" #dashboardMain>
-        <section class="dashboard-title" id="dashboard-title" #dashboardTitle>K10s</section>
-        <section class="dashboard-main-section" >
-            <article class="cursor-move" id="dashboard-main-chart">
-                <app-spider-web class="spider-web" id="spider-web"></app-spider-web>
-            </article>
-        </section>
-        <section class="dashboard-fullscreen-button cursor-pointer" id="dashboard-fullscreen-button">
-            <svg class="cursor-pointer" viewBox="0 0 16 16">
-                <path d="M14 3.414L9.414 8 14 12.586v-2.583h2V16h-6v-1.996h2.59L8 9.414l-4.59 4.59H6V16H0v-5.997h2v2.583L6.586 8 2 3.414v2.588H0V0h16v6.002h-2V3.414zm-1.415-1.413H10V0H6v2H3.415L8 6.586 12.585 2z" />
-            </svg>
-        </section>
-    </main>
-    <app-footer class="footer" id="footer"></app-footer>
+        </article>
+    </section>
+</header>
+<app-nav class="nav" id="nav"></app-nav>
+<main class="dashboard-main" id="dashboard-main" #dashboardMain>
+    <section class="dashboard-title" id="dashboard-title" #dashboardTitle>K10s</section>
+    <section class="dashboard-main-section">
+        <article class="cursor-move" id="dashboard-main-chart">
+            <app-spider-web class="spider-web" id="spider-web"></app-spider-web>
+        </article>
+    </section>
+    <section class="dashboard-fullscreen-button cursor-pointer" id="dashboard-fullscreen-button">
+        <svg class="cursor-pointer" viewBox="0 0 16 16">
+            <path d="M14 3.414L9.414 8 14 12.586v-2.583h2V16h-6v-1.996h2.59L8 9.414l-4.59 4.59H6V16H0v-5.997h2v2.583L6.586 8 2 3.414v2.588H0V0h16v6.002h-2V3.414zm-1.415-1.413H10V0H6v2H3.415L8 6.586 12.585 2z"/>
+        </svg>
+    </section>
+</main>
+<app-footer class="footer" id="footer"></app-footer>
 </body>
