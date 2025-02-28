@@ -16,7 +16,7 @@ var frontendUrl = handlers.GetFrontendIP()
 
 func main() {
 	frontendUrl = handlers.GetFrontendIP()
-    trustedProxies := []string{"10.0.0.0/8"}
+	//trustedProxies := []string{"10.0.0.0/8"}
 
 	if frontendUrl == "http://localhost:4200" {
 		gin.SetMode(gin.DebugMode)
@@ -26,7 +26,7 @@ func main() {
 
 	r := gin.Default()
 
-	err := r.SetTrustedProxies(trustedProxies)
+	err := r.SetTrustedProxies(nil)
 	if err != nil {
 		panic(err)
 	}
