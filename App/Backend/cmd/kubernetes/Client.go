@@ -501,11 +501,22 @@ func (client *FakeClient) GetFilteredServices(namespace string, nodeName string,
 	}
 
 	if nodeName != "" {
-		pods, _, err := client.GetFilteredPods(namespace, nodeName, 0, "")
+		pods, podToken, err := client.GetFilteredPods(namespace, nodeName, 0, "")
 		if err != nil {
 			return nil, "", err
 		}
-		for _, pod := range *pods {
+		allPods := *pods
+		for podToken != "" {
+			extraPods, nextPodToken, err := client.GetFilteredPods(namespace, nodeName, 0, podToken)
+			if err != nil {
+				return nil, "", err
+			}
+			allPods = append(allPods, *extraPods...)
+
+			podToken = nextPodToken
+		}
+
+		for _, pod := range allPods {
 			for _, svc := range services.Items {
 				if isPodMatchingService(pod, svc) {
 					filteredServices = append(filteredServices, svc)
@@ -520,9 +531,6 @@ func (client *FakeClient) GetFilteredServices(namespace string, nodeName string,
 }
 
 func (client *Client) GetFilteredServices(namespace string, nodeName string, pageSize int, continueToken string) (*[]cv1.Service, string, error) {
-	_, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-
 	ct, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -538,11 +546,22 @@ func (client *Client) GetFilteredServices(namespace string, nodeName string, pag
 	}
 
 	if nodeName != "" {
-		pods, _, err := client.GetFilteredPods(namespace, nodeName, 0, "")
+		pods, podToken, err := client.GetFilteredPods(namespace, nodeName, 0, "")
 		if err != nil {
 			return nil, "", err
 		}
-		for _, pod := range *pods {
+		allPods := *pods
+		for podToken != "" {
+			extraPods, nextPodToken, err := client.GetFilteredPods(namespace, nodeName, 0, podToken)
+			if err != nil {
+				return nil, "", err
+			}
+			allPods = append(allPods, *extraPods...)
+
+			podToken = nextPodToken
+		}
+
+		for _, pod := range allPods {
 			for _, svc := range services.Items {
 				if isPodMatchingService(pod, svc) {
 					filteredServices = append(filteredServices, svc)
@@ -564,11 +583,21 @@ func (client *FakeClient) GetFilteredDeployments(namespace string, nodeName stri
 	var newContinueToken string
 
 	if nodeName != "" {
-		pods, _, err := client.GetFilteredPods(namespace, nodeName, 0, "")
+		pods, podToken, err := client.GetFilteredPods(namespace, nodeName, 0, "")
 		if err != nil {
 			return nil, "", err
 		}
-		for _, pod := range *pods {
+		allPods := *pods
+		for podToken != "" {
+			extraPods, nextPodToken, err := client.GetFilteredPods(namespace, nodeName, 0, podToken)
+			if err != nil {
+				return nil, "", err
+			}
+			allPods = append(allPods, *extraPods...)
+
+			podToken = nextPodToken
+		}
+		for _, pod := range allPods {
 			for _, owner := range pod.OwnerReferences {
 				if owner.Kind == "ReplicaSet" {
 					rs, err := client.Client.AppsV1().ReplicaSets(namespace).Get(ct, owner.Name, metav1.GetOptions{})
@@ -609,11 +638,21 @@ func (client *Client) GetFilteredDeployments(namespace string, nodeName string, 
 	var newContinueToken string
 
 	if nodeName != "" {
-		pods, _, err := client.GetFilteredPods(namespace, nodeName, 0, "")
+		pods, podToken, err := client.GetFilteredPods(namespace, nodeName, 0, "")
 		if err != nil {
 			return nil, "", err
 		}
-		for _, pod := range *pods {
+		allPods := *pods
+		for podToken != "" {
+			extraPods, nextPodToken, err := client.GetFilteredPods(namespace, nodeName, 0, podToken)
+			if err != nil {
+				return nil, "", err
+			}
+			allPods = append(allPods, *extraPods...)
+
+			podToken = nextPodToken
+		}
+		for _, pod := range allPods {
 			for _, owner := range pod.OwnerReferences {
 				if owner.Kind == "ReplicaSet" {
 					rs, err := client.Client.AppsV1().ReplicaSets(namespace).Get(ct, owner.Name, metav1.GetOptions{})

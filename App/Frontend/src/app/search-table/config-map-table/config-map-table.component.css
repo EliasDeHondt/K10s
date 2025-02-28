@@ -17,7 +17,10 @@
     display: none;
     pointer-events: none;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
+
 
 .data-length-column {
     padding: 15px;

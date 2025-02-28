@@ -3,10 +3,10 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-import { Component, Input } from '@angular/core';
-import { TranslatePipe } from "@ngx-translate/core";
-import { Secret } from "../../domain/Kubernetes";
-import { SearchTooltipService } from "../../services/tooltip.service";
+import {Component, Input} from '@angular/core';
+import {TranslatePipe} from "@ngx-translate/core";
+import {Secret} from "../../domain/Kubernetes";
+import {SearchTooltipService} from "../../services/tooltip.service";
 
 @Component({
     selector: 'app-secret-table',
@@ -15,13 +15,14 @@ import { SearchTooltipService } from "../../services/tooltip.service";
     ],
     templateUrl: './secret-table.component.html',
     standalone: true,
-    styleUrls: ['../../search/search.component.css', './secret-table.component.css']
+    styleUrls: ['../../search/search.component.css', '../config-map-table/config-map-table.component.css'],
 })
 
 export class SecretTableComponent {
     @Input({required: true}) secrets!: Secret[];
 
-    constructor(private tooltipService: SearchTooltipService) {}
+    constructor(private tooltipService: SearchTooltipService) {
+    }
 
     protected readonly Object = Object;
 

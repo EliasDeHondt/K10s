@@ -1,13 +1,6 @@
 <!--Author K10s Open Source Team-->
 <body class="search-body">
 <header class="search-header">
-    <section class="search-header-section1">
-        <article class="search-header-article1">
-            <input class="cursor-text" type="text" id="search-input"
-                   [placeholder]="'SEARCH.SEARCH_PLACEHOLDER' | translate">
-            <button class="cursor-pointer" id="search-button">{{ 'SEARCH.SEARCH' | translate }}</button>
-        </article>
-    </section>
     <section class="search-header-section2">
         <article class="search-header-article2">
             <label><input class="cursor-pointer" type="radio" (change)="updateElement('nodes')" name="search-filter"
@@ -30,7 +23,11 @@
         <article class="search-header-article3">
             <section class="search-dropdown1">
                 <button class="search-dropdown-button cursor-pointer" (click)="toggleDropdown('searchDropdown1')">
-                    {{ 'SEARCH.NODES' | translate }}
+                    @if (this.tableService.node() === '') {
+                        {{ 'SEARCH.NODES' | translate }}
+                    } @else {
+                        {{ this.tableService.node() }}
+                    }
                 </button>
                 <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown1']">
                     <li class="cursor-pointer" [class.active]="this.tableService.node() === ''"
@@ -48,7 +45,11 @@
         <article class="search-header-article3">
             <section class="search-dropdown2">
                 <button class="search-dropdown-button cursor-pointer" (click)="toggleDropdown('searchDropdown2')">
-                    {{ 'SEARCH.NAMESPACE' | translate }}
+                    @if (this.tableService.namespace() === '') {
+                        {{ 'SEARCH.NAMESPACE' | translate }}
+                    } @else {
+                        {{ this.tableService.namespace() }}
+                    }
                 </button>
                 <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown2']">
                     <li class="cursor-pointer" [class.active]="this.tableService.namespace() === ''"
@@ -69,7 +70,7 @@
 </header>
 <app-nav class="nav" id="nav"></app-nav>
 <main class="search-main">
-    @if (isLoading()) {
+    @if (this.loadingService.isLoading()) {
         <div class="skeleton-table">
             <div class="skeleton-header"></div>
             <div class="skeleton-content"
