@@ -3,15 +3,15 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {NavComponent} from '../nav/nav.component';
-import {FooterComponent} from "../footer/footer.component";
-import {TranslatePipe} from "@ngx-translate/core";
-import {ByteFormatPipe} from "../byte-format.pipe";
-import {Color, NgxChartsModule, ScaleType} from "@swimlane/ngx-charts";
-import {SpiderWebComponent} from "../spider-web/spider-web.component";
-import {StatWebSocketService} from "../services/statWebsocket.service";
-import {Metrics} from "../domain/Metrics";
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { NavComponent } from '../nav/nav.component';
+import { FooterComponent } from "../footer/footer.component";
+import { TranslatePipe } from "@ngx-translate/core";
+import { ByteFormatPipe } from "../byte-format.pipe";
+import { Color, NgxChartsModule, ScaleType } from "@swimlane/ngx-charts";
+import { SpiderWebComponent } from "../spider-web/spider-web.component";
+import { StatWebSocketService } from "../services/statWebsocket.service";
+import { Metrics } from "../domain/Metrics";
 
 @Component({
     selector: 'app-dashboard',
@@ -57,7 +57,7 @@ export class DashboardComponent implements AfterViewInit, OnInit, OnDestroy {
         }
     }
 
-    // get stats
+    // Get stats
     usage: Metrics | undefined = undefined;
     memoryChartData: any[] = [];
     cpuChartData: any[] = [];
@@ -74,8 +74,7 @@ export class DashboardComponent implements AfterViewInit, OnInit, OnDestroy {
     colorSchemeCpu: Color = {...this.colorScheme}
     diskColor = "";
 
-    constructor(private usageService: StatWebSocketService) {
-    }
+    constructor(private usageService: StatWebSocketService) { }
 
     ngOnInit(): void {
         this.usageService.connect()
@@ -134,5 +133,4 @@ export class DashboardComponent implements AfterViewInit, OnInit, OnDestroy {
     ngOnDestroy() {
         this.usageService.disconnect();
     }
-
 }

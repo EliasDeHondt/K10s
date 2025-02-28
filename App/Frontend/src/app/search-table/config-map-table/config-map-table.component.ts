@@ -3,9 +3,9 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-import {Component, Input} from '@angular/core';
-import {TranslatePipe} from "@ngx-translate/core";
-import {ConfigMap} from "../../domain/Kubernetes";
+import { Component, Input } from '@angular/core';
+import { TranslatePipe } from "@ngx-translate/core";
+import { ConfigMap } from "../../domain/Kubernetes";
 import { SearchTooltipService } from "../../services/tooltip.service";
 
 @Component({

@@ -3,10 +3,10 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-import {effect, Injectable, signal} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {environment} from "../../environments/environment";
-import {PaginatedResponse} from "../domain/Kubernetes";
+import { effect, Injectable, signal } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { environment } from "../../environments/environment";
+import { PaginatedResponse } from "../domain/Kubernetes";
 
 @Injectable({
     providedIn: 'root'
@@ -39,9 +39,7 @@ export class TableService {
 
     private getTable(element: string, namespace: string, node: string) {
         this.data.set({Response: [], PageToken: ''})
-        if (!element) {
-            return
-        }
+        if (!element) return
 
         this.http.get<PaginatedResponse>(this.tableUrl + `?element=${element}&namespace=${namespace}&node=${node}`, {withCredentials: true}).subscribe(data => {
             this.data.set(data)

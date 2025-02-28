@@ -3,7 +3,7 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import * as Prism from 'prismjs';
 import 'prismjs/components/prism-yaml';
 
@@ -11,7 +11,7 @@ import { NavComponent } from "../nav/nav.component";
 import { FooterComponent } from "../footer/footer.component";
 import { FormsModule } from "@angular/forms";
 import { AddService } from "../services/add.service";
-import {TranslatePipe, TranslateService} from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { NotificationService } from "../services/notification.service";
 
 @Component({
@@ -34,9 +34,7 @@ export class AddComponent {
 
     onFileUpload(event: Event) {
         const input = event.target as HTMLInputElement;
-        if (this.yamlText.trim().length > 0) {
-            return;
-        }
+        if (this.yamlText.trim().length > 0) return;
         if (input.files && input.files.length > 0) {
             const file = input.files[0];
 
@@ -64,10 +62,9 @@ export class AddComponent {
             this.textAreaActive = true
         }
     }
+
     preventTyping(event: KeyboardEvent): void {
-        if (event.ctrlKey && event.key === 'v') {
-            return;
-        }
+        if (event.ctrlKey && event.key === 'v') return;
         if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
             event.preventDefault();
         }
