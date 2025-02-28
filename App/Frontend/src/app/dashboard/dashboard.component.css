@@ -68,6 +68,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    color: var(--text);
 }
 
 .dashboard-header-1,
@@ -79,7 +80,11 @@
     margin-top: 5%;
 }
 
-.progress-container {
+:host ::ng-deep ngx-charts-gauge text {
+    fill: var(--text);
+}
+
+.dashboard-progress-container {
     width: 95%;
     height: 20px;
     background-color: rgba(212, 212, 212, 0);
@@ -89,7 +94,7 @@
     margin-left: 0.5rem;
 }
 
-.progress-bar {
+.dashboard-progress-bar {
     height: 100%;
     box-sizing: border-box;
     transition: width 0.5s ease-in-out;

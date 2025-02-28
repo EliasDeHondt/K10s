@@ -3,11 +3,11 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {catchError, Observable, of, throwError} from 'rxjs';
-import {environment} from "../../environments/environment";
-import {map} from "rxjs/operators";
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError, Observable, of, throwError } from 'rxjs';
+import { environment } from "../../environments/environment";
+import { map } from "rxjs/operators";
 
 @Injectable({
     providedIn: 'root'
@@ -18,8 +18,7 @@ export class AuthService {
     private logoutUrl = `${environment.BASE_URL}/logout`;
     private isloggedInUrl = `${environment.BASE_URL}/isloggedin`;
 
-    constructor(private http: HttpClient) {
-    }
+    constructor(private http: HttpClient) { }
 
     isLoggedIn(): Observable<boolean> {
         return this.http.get<boolean>(this.isloggedInUrl, {withCredentials: true, observe: 'response'}).pipe(
@@ -38,9 +37,7 @@ export class AuthService {
         return this.http.post<string>(this.loginUrl, loginData, {withCredentials: true}).pipe(
             catchError(error => {
                 const statusCode = error.status;
-                if (statusCode === 401) {
-                    alert("Please enter valid credentials")
-                }
+                if (statusCode === 401) alert("Please enter valid credentials")
 
                 return throwError(() => error);
             })

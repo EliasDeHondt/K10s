@@ -25,9 +25,5 @@ document.addEventListener('DOMContentLoaded', () => {
     document.documentElement.setAttribute('data-theme', savedTheme);
 });
 
-if (environment.BASE_URL === 'http://localhost:8080') {
-    console.log('You are running in development mode');
-} else if (environment.BASE_URL === '') {
-    environment.BASE_URL = `${window.location.origin}/api`;
-    window.location.reload(); // Refresh the page to apply the new BASE_URL
-}
+if (environment.BASE_URL === 'http://localhost:8080') console.log('You are running K10s in development mode!');
+else if (environment.BASE_URL === '')  environment.BASE_URL = `${window.location.origin}/api`;

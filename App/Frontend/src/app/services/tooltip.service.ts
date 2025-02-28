@@ -8,6 +8,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
     providedIn: 'root'
 })
+
 export class SearchTooltipService {
     showTooltip(event: MouseEvent, data: Record<string, any> | undefined, tooltipId = 'tooltip') {
         const tooltip = document.getElementById(tooltipId);
@@ -26,8 +27,6 @@ export class SearchTooltipService {
 
     hideTooltip(tooltipId = 'tooltip') {
         const tooltip = document.getElementById(tooltipId);
-        if (tooltip) {
-            tooltip.style.display = 'none';
-        }
+        if (tooltip) tooltip.style.display = 'none';
     }
 }
