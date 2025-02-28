@@ -23,6 +23,7 @@
 }
 /* SetUp Grid */
 
+/* Add Aeader */
 .add-header {
     background-color: var(--quaternary);
     color: var(--text);
@@ -36,6 +37,7 @@
     align-items: center;
     justify-content: center;
 }
+/* Add Aeader */
 
 /* Add Main */
 .add-main {
@@ -64,11 +66,12 @@
     height: 80%;
     display: flex;
 }
+
 .hidden-textarea {
     display: none;
 }
 
-add-pre {
+.add-pre {
     background: var(--background);
     color: var(--text);
     font-family: monospace;
@@ -76,6 +79,7 @@ add-pre {
     overflow-x: auto;
     white-space: pre-wrap;
 }
+
 .add-pre:focus {
     outline: none;
     border: none;
@@ -90,6 +94,7 @@ add-pre {
     color: var(--text);
     border: none;
 }
+
 .add-placeholder-text {
     position: absolute;
     top: 1.7rem;
@@ -98,6 +103,7 @@ add-pre {
     color: var(--text);
     pointer-events: none;
 }
+
 .add-clear-button {
     position: absolute;
     top: 10px;
@@ -205,3 +211,4 @@ add-pre {
         display: none;
     }
 }
+/* Media Queries */

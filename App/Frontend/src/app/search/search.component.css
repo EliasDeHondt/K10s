@@ -173,7 +173,6 @@
     list-style: none;
     z-index: 4;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
@@ -203,7 +202,6 @@
     padding: 2px;
     margin: 10px;
 }
-
 /* Search Header */
 
 /* Search Main */

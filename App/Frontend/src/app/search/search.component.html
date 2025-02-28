@@ -1,101 +1,101 @@
 <!--Author K10s Open Source Team-->
 <body class="search-body">
-<header class="search-header">
-    <section class="search-header-section1">
-        <article class="search-header-article1">
-            <input class="cursor-text" type="text" id="search-input"
-                   [placeholder]="'SEARCH.SEARCH_PLACEHOLDER' | translate">
-            <button class="cursor-pointer" id="search-button">{{ 'SEARCH.SEARCH' | translate }}</button>
-        </article>
-    </section>
-    <section class="search-header-section2">
-        <article class="search-header-article2">
-            <label><input class="cursor-pointer" type="radio" (change)="updateElement('nodes')" name="search-filter"
-                          id="search-filter-option-1"
-                          [checked]="isDefaultNodeSelected()">{{ 'SEARCH.NODES' | translate }}</label>
-            <label><input class="cursor-pointer" type="radio" (change)="updateElement('pods')" name="search-filter"
-                          id="search-filter-option-2">{{ 'SEARCH.PODS' | translate }}</label>
-            <label><input class="cursor-pointer" type="radio" (change)="updateElement('services')" name="search-filter"
-                          id="search-filter-option-3">{{ 'SEARCH.SERVICES' | translate }}</label>
-            <label><input class="cursor-pointer" type="radio" (change)="updateElement('deployments')"
-                          name="search-filter"
-                          id="search-filter-option-4">{{ 'SEARCH.DEPLOYMENTS' | translate }}</label>
-            <label><input class="cursor-pointer" type="radio" (change)="updateElement('configMaps')"
-                          name="search-filter" id="search-filter-option-5">{{ 'SEARCH.CONFIGMAPS' | translate }}</label>
-            <label><input class="cursor-pointer" type="radio" (change)="updateElement('secrets')" name="search-filter"
-                          id="search-filter-option-6">{{ 'SEARCH.SECRETS' | translate }}</label>
-        </article>
-    </section>
-    <section class="search-header-section3">
-        <article class="search-header-article3">
-            <section class="search-dropdown1">
-                <button class="search-dropdown-button cursor-pointer" (click)="toggleDropdown('searchDropdown1')">
-                    {{ 'SEARCH.NODE' | translate }}
-                </button>
-                <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown1']">
-                    <li class="cursor-pointer" [class.active]="this.tableService.node() === ''"
-                        (click)="selectNode('')">
-                        None
-                    </li>
-                    @for (name of nodeNames; track name) {
-                        <li class="cursor-pointer" [class.active]="this.tableService.node() === name"
-                            (click)="selectNode(name)">{{ name }}
+    <header class="search-header">
+        <section class="search-header-section1">
+            <article class="search-header-article1">
+                <input class="cursor-text" type="text" id="search-input"
+                        [placeholder]="'SEARCH.SEARCH_PLACEHOLDER' | translate">
+                <button class="cursor-pointer" id="search-button">{{ 'SEARCH.SEARCH' | translate }}</button>
+            </article>
+        </section>
+        <section class="search-header-section2">
+            <article class="search-header-article2">
+                <label><input class="cursor-pointer" type="radio" (change)="updateElement('nodes')" name="search-filter"
+                                id="search-filter-option-1"
+                                [checked]="isDefaultNodeSelected()">{{ 'SEARCH.NODES' | translate }}</label>
+                <label><input class="cursor-pointer" type="radio" (change)="updateElement('pods')" name="search-filter"
+                                id="search-filter-option-2">{{ 'SEARCH.PODS' | translate }}</label>
+                <label><input class="cursor-pointer" type="radio" (change)="updateElement('services')" name="search-filter"
+                                id="search-filter-option-3">{{ 'SEARCH.SERVICES' | translate }}</label>
+                <label><input class="cursor-pointer" type="radio" (change)="updateElement('deployments')"
+                                name="search-filter"
+                                id="search-filter-option-4">{{ 'SEARCH.DEPLOYMENTS' | translate }}</label>
+                <label><input class="cursor-pointer" type="radio" (change)="updateElement('configMaps')"
+                                name="search-filter" id="search-filter-option-5">{{ 'SEARCH.CONFIGMAPS' | translate }}</label>
+                <label><input class="cursor-pointer" type="radio" (change)="updateElement('secrets')" name="search-filter"
+                                id="search-filter-option-6">{{ 'SEARCH.SECRETS' | translate }}</label>
+            </article>
+        </section>
+        <section class="search-header-section3">
+            <article class="search-header-article3">
+                <section class="search-dropdown1">
+                    <button class="search-dropdown-button cursor-pointer" (click)="toggleDropdown('searchDropdown1')">
+                        {{ 'SEARCH.NODES' | translate }}
+                    </button>
+                    <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown1']">
+                        <li class="cursor-pointer" [class.active]="this.tableService.node() === ''"
+                            (click)="selectNode('')">
+                            None
                         </li>
-                    }
-                </ul>
-            </section>
-        </article>
-        <article class="search-header-article3">
-            <section class="search-dropdown2">
-                <button class="search-dropdown-button cursor-pointer" (click)="toggleDropdown('searchDropdown2')">
-                    {{ 'SEARCH.NAMESPACE' | translate }}
-                </button>
-                <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown2']">
-                    <li class="cursor-pointer" [class.active]="this.tableService.namespace() === ''"
-                        (click)="selectNamespace('')">None
-                    </li>
-                    <li class="cursor-pointer" [class.active]="this.tableService.namespace() === 'default'"
-                        (click)="selectNamespace('default')">Default
-                    </li>
-                    @for (namespace of namespaces; track namespace) {
-                        <li class="cursor-pointer" [class.active]="this.tableService.namespace() === namespace.Name"
-                            (click)="selectNamespace(namespace.Name)">{{ namespace.Name }}
+                        @for (name of nodeNames; track name) {
+                            <li class="cursor-pointer" [class.active]="this.tableService.node() === name"
+                                (click)="selectNode(name)">{{ name }}
+                            </li>
+                        }
+                    </ul>
+                </section>
+            </article>
+            <article class="search-header-article3">
+                <section class="search-dropdown2">
+                    <button class="search-dropdown-button cursor-pointer" (click)="toggleDropdown('searchDropdown2')">
+                        {{ 'SEARCH.NAMESPACE' | translate }}
+                    </button>
+                    <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown2']">
+                        <li class="cursor-pointer" [class.active]="this.tableService.namespace() === ''"
+                            (click)="selectNamespace('')">None
                         </li>
-                    }
-                </ul>
-            </section>
-        </article>
-    </section>
-</header>
-<app-nav class="nav" id="nav"></app-nav>
-<main class="search-main">
-    @if (isLoading()) {
-        <div class="skeleton-table">
-            <div class="skeleton-header"></div>
-            <div class="skeleton-content"
-                 *ngFor="let _ of [].constructor(15); let i = index"
-                 [class.odd-row]="i % 2 === 0"
-                 [class.even-row]="i % 2 !== 0">
+                        <li class="cursor-pointer" [class.active]="this.tableService.namespace() === 'default'"
+                            (click)="selectNamespace('default')">Default
+                        </li>
+                        @for (namespace of namespaces; track namespace) {
+                            <li class="cursor-pointer" [class.active]="this.tableService.namespace() === namespace.Name"
+                                (click)="selectNamespace(namespace.Name)">{{ namespace.Name }}
+                            </li>
+                        }
+                    </ul>
+                </section>
+            </article>
+        </section>
+    </header>
+    <app-nav class="nav" id="nav"></app-nav>
+    <main class="search-main">
+        @if (isLoading()) {
+            <div class="skeleton-table">
+                <div class="skeleton-header"></div>
+                <div class="skeleton-content"
+                        *ngFor="let _ of [].constructor(15); let i = index"
+                        [class.odd-row]="i % 2 === 0"
+                        [class.even-row]="i % 2 !== 0">
+                </div>
             </div>
-        </div>
-    } @else if (tableService.element() === "pods") {
-        <app-pod-search-table [pods]="tableService.data().Response | podCast"/>
-    } @else if (tableService.element() === "nodes") {
-        <app-node-table [nodes]="tableService.data().Response | nodeCast"/>
-    } @else if (tableService.element() === "services") {
-        <app-service-table [services]="tableService.data().Response | serviceCast"/>
-    } @else if (tableService.element() === "deployments") {
-        <app-deployment-table [deployments]="tableService.data().Response | deploymentCast"/>
-    } @else if (tableService.element() === "configMaps") {
-        <app-config-map-table [configMaps]="tableService.data().Response | configMapCast"/>
-    } @else if (tableService.element() === "secrets") {
-        <app-secret-table [secrets]="tableService.data().Response | secretCast"/>
-    }
-    <section class="search-main-pagination">
-        <button class="cursor-pointer">20</button>
-        <button class="cursor-pointer">50</button>
-        <button class="cursor-pointer">100</button>
-    </section>
-</main>
-<app-footer class="footer" id="footer"></app-footer>
+        } @else if (tableService.element() === "pods") {
+            <app-pod-search-table [pods]="tableService.data().Response | podCast"/>
+        } @else if (tableService.element() === "nodes") {
+            <app-node-table [nodes]="tableService.data().Response | nodeCast"/>
+        } @else if (tableService.element() === "services") {
+            <app-service-table [services]="tableService.data().Response | serviceCast"/>
+        } @else if (tableService.element() === "deployments") {
+            <app-deployment-table [deployments]="tableService.data().Response | deploymentCast"/>
+        } @else if (tableService.element() === "configMaps") {
+            <app-config-map-table [configMaps]="tableService.data().Response | configMapCast"/>
+        } @else if (tableService.element() === "secrets") {
+            <app-secret-table [secrets]="tableService.data().Response | secretCast"/>
+        }
+        <section class="search-main-pagination">
+            <button class="cursor-pointer">20</button>
+            <button class="cursor-pointer">50</button>
+            <button class="cursor-pointer">100</button>
+        </section>
+    </main>
+    <app-footer class="footer" id="footer"></app-footer>
 </body>

@@ -1,18 +1,23 @@
-import {Injectable, OnDestroy} from "@angular/core";
-import {Subject} from "rxjs";
-import {Metrics} from "../domain/Metrics";
-import {environment} from "../../environments/environment";
+/**********************************/
+/* @since 01/01/2025              */
+/* @author K10s Open Source Team  */
+/**********************************/
+
+import { Injectable, OnDestroy } from "@angular/core";
+import { Subject } from "rxjs";
+import { Metrics } from "../domain/Metrics";
+import { environment } from "../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
 })
+
 export class StatWebSocketService implements OnDestroy {
     private url = `${environment.BASE_URL}/secured/statsocket`;
     private socket!: WebSocket;
     private messagesSubject: Subject<Metrics> = new Subject()
 
-    constructor() {
-    }
+    constructor() { }
 
     connect(): void {
         this.socket = new WebSocket(this.url);
@@ -50,5 +55,4 @@ export class StatWebSocketService implements OnDestroy {
     ngOnDestroy() {
         this.disconnect();
     }
-
 }

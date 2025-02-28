@@ -66,8 +66,6 @@ export class LoginComponent implements AfterViewInit {
                     this.router.navigate(['/dashboard']);
                 }
             })
-        } else {
-            alert('Please enter valid credentials.');
-        }
+        } else alert('Please enter valid credentials.');
     }
 }
