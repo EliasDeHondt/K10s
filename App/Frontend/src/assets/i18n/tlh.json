@@ -47,5 +47,12 @@
     "ADD_DEPLOYMENT": {
         "YAML_PLACEHOLDER": "yIchel 'ej ghItlh YAML ngaQHa'!",
         "DEPLOY": "lanchu'"
+    },
+    "NOTIF" : {
+        "ADD" : {
+            "NODATA": "YAML tu'lu'be' :(",
+            "SUCCESS": "Yaj YAML vItlhob!",
+            "ERROR": "Deplorment Qapbe'!"
+        }
     }
 }

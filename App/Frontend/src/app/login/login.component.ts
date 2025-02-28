@@ -48,9 +48,9 @@ export class LoginComponent implements AfterViewInit {
             anime({
                 targets: cube,
                 translateY: [currentTranslateY, currentTranslateY - 150],
-                translateX: [currentTranslateX, currentTranslateX], // No animation
-                scale: [scale, scale], // No animation
-                duration: 1500, // 1.5 seconds
+                translateX: [currentTranslateX, currentTranslateX],
+                scale: [scale, scale],
+                duration: 1500,
                 direction: 'alternate',
                 loop: true,
                 delay: index * 100,

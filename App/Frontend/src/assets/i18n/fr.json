@@ -69,5 +69,12 @@
         "YAML_FILE": "Téléverser YAML",
         "YAML_PLACEHOLDER": "Copiez et collez votre fichier YAML...",
         "DEPLOY" : "Déployer"
+    },
+    "NOTIF" : {
+        "ADD" : {
+            "NODATA": "Aucune donnée YAML à télécharger :(",
+            "SUCCESS": "Votre YAML est en cours de déploiement !",
+            "ERROR": "Le déploiement a échoué !"
+        }
     }
 }

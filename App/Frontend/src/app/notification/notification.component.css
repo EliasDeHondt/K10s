@@ -1,0 +1,53 @@
+/**********************************/
+/* @since 01/01/2025              */
+/* @author K10s Open Source Team  */
+/**********************************/
+
+.notification {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--tertiary);
+    padding: var(--spacing);
+    border: 1px solid var(--primary);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    color: var(--text);
+    z-index: 9999;
+    min-width: 200px;
+    text-align: center;
+    opacity: 0;
+    animation: slideIn 0.5s ease-out forwards, fadeOut 0.5s ease-in 2s forwards;
+}
+
+.notification.success {
+    background-color: var(--tertiary);
+    border-color: var(--primary);
+}
+
+.notification.error {
+    background-color: var(--tertiary);
+    border-color: #f44336;
+    color: #f44336;
+}
+
+@keyframes slideIn {
+    from {
+        top: -50px;
+        opacity: 0;
+    }
+    to {
+        top: 20px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}

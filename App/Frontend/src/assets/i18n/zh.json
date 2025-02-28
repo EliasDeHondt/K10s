@@ -69,5 +69,12 @@
         "YAML_FILE": "上傳 YAML",
         "YAML_PLACEHOLDER": "複製並貼上您的 YAML 文件...",
         "DEPLOY" : "部署"
+    },
+    "NOTIF" : {
+        "ADD" : {
+            "NODATA": "沒有要上傳的 YAML 資料 :(",
+            "SUCCESS": "您的 YAML 正在部署中！",
+            "ERROR": "部署失敗！"
+        }
     }
 }
