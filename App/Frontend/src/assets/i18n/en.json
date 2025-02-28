@@ -1,80 +1,81 @@
 {
-    "NAV": {
-        "LANGUAGE": "Change Language",
-        "DASHBOARD": "Dashboard",
-        "SEARCH": "Search",
-        "ADD": "Add",
-        "SETTINGS": "Settings",
-        "LOGOUT": "Logout",
-        "DESCRIPTION": "Description",
-        "REPOSITORY": "Repository",
-        "CLOSE": "Close",
-        "THEME": "Theme"
-    },
-    "FOOTER": {
-        "PART1": "Designed by the",
-        "PART2": "open source team"
-    },
-    "LOGIN": {
-        "USERNAME_PLACEHOLDER": "Username",
-        "PASSWORD_PLACEHOLDER": "password",
-        "LOGIN_BUTTON": "Log in"
-    },
-    "DASHBOARD": {
-        "CPU": "CPU Usage",
-        "RAM": "RAM Usage",
-        "DISK": "Disk Usage"
-    },
-    "SEARCH": {
-        "SEARCH_PLACEHOLDER": "Search Cluster...",
-        "SEARCH": "Search",
-        "NODES": "Node",
-        "PODS": "Pods",
-        "SERVICES": "Services",
-        "DEPLOYMENTS": "Deployments",
-        "CONFIGMAPS": "ConfigMaps",
-        "SECRETS": "Secrets",
-        "NAMESPACE": "Namespace",
-        "CLUSTER_NAME": "Cluster Name",
-        "POD_NAME": "Pod Name",
-        "STATUS": "Status",
-        "RESTART_COUNT": "Restart Count",
-        "LAST_UPDATED": "Last Updated",
-        "SERVICES_READY": "Services ready",
-        "POD_IP": "Pod IP",
-        "NODE_NAME": "Node name",
-        "AGE": "Age",
-        "NODE_ROLE": "Node role",
-        "VERSION": "Version",
-        "POD_AMOUNT": "Pod amount",
-        "IP": "IP",
-        "SERVICE_NAME": "Service name",
-        "SERVICE_TYPE": "Service type",
-        "CLUSTER_IP": "Cluster IP",
-        "EXTERNAL_IP": "External IP",
-        "PORTS": "Ports",
-        "DEPLOYMENT_NAME": "Deployment name",
-        "READY_PODS": "Ready pods",
-        "UPDATED": "Updated",
-        "AVAILABLE": "Available",
-        "CONFIGMAP_NAME": "ConfigMap name",
-        "DATA": "Data",
-        "SECRET_NAME": "Secret name",
-        "SECRET_TYPE": "Secret type"
-    },
-    "NOTFOUND": {
-        "TITLE": "It may be open source, but stay in your damn lane ;-)"
-    },
-    "ADD_DEPLOYMENT": {
-        "YAML_FILE": "Upload YAML",
-        "YAML_PLACEHOLDER": "Copy paste your YAML file...",
-        "DEPLOY" : "Deploy"
-    },
-    "NOTIF" : {
-        "ADD" : {
-            "NODATA": "No YAML data to upload :(",
-            "SUCCESS": "Your YAML is deploying!",
-            "ERROR": "Deployment failed!"
-        }
+  "NAV": {
+    "LANGUAGE": "Change Language",
+    "DASHBOARD": "Dashboard",
+    "SEARCH": "Search",
+    "ADD": "Add",
+    "SETTINGS": "Settings",
+    "LOGOUT": "Logout",
+    "DESCRIPTION": "Description",
+    "REPOSITORY": "Repository",
+    "CLOSE": "Close",
+    "THEME": "Theme"
+  },
+  "FOOTER": {
+    "PART1": "Designed by the",
+    "PART2": "open source team"
+  },
+  "LOGIN": {
+    "USERNAME_PLACEHOLDER": "Username",
+    "PASSWORD_PLACEHOLDER": "password",
+    "LOGIN_BUTTON": "Log in"
+  },
+  "DASHBOARD": {
+    "CPU": "CPU Usage",
+    "RAM": "RAM Usage",
+    "DISK": "Disk Usage"
+  },
+  "SEARCH": {
+    "SEARCH_PLACEHOLDER": "Search Cluster...",
+    "SEARCH": "Search",
+    "NODES": "Node",
+    "PODS": "Pods",
+    "SERVICES": "Services",
+    "DEPLOYMENTS": "Deployments",
+    "CONFIGMAPS": "ConfigMaps",
+    "SECRETS": "Secrets",
+    "NAMESPACE": "Namespace",
+    "CLUSTER_NAME": "Cluster Name",
+    "POD_NAME": "Pod Name",
+    "STATUS": "Status",
+    "RESTART_COUNT": "Restart Count",
+    "LAST_UPDATED": "Last Updated",
+    "SERVICES_READY": "Services ready",
+    "POD_IP": "Pod IP",
+    "NODE_NAME": "Node name",
+    "AGE": "Age",
+    "NODE_ROLE": "Node role",
+    "VERSION": "Version",
+    "POD_AMOUNT": "Pod amount",
+    "IP": "IP",
+    "SERVICE_NAME": "Service name",
+    "SERVICE_TYPE": "Service type",
+    "CLUSTER_IP": "Cluster IP",
+    "EXTERNAL_IP": "External IP",
+    "PORTS": "Ports",
+    "DEPLOYMENT_NAME": "Deployment name",
+    "READY_PODS": "Ready pods",
+    "UPDATED": "Updated",
+    "AVAILABLE": "Available",
+    "CONFIGMAP_NAME": "ConfigMap name",
+    "DATA": "Data",
+    "SECRET_NAME": "Secret name",
+    "SECRET_TYPE": "Secret type",
+    "INDEX": "Index"
+  },
+  "NOTFOUND": {
+    "TITLE": "It may be open source, but stay in your damn lane ;-)"
+  },
+  "ADD_DEPLOYMENT": {
+    "YAML_FILE": "Upload YAML",
+    "YAML_PLACEHOLDER": "Copy paste your YAML file...",
+    "DEPLOY": "Deploy"
+  },
+  "NOTIF": {
+    "ADD": {
+      "NODATA": "No YAML data to upload :(",
+      "SUCCESS": "Your YAML is deploying!",
+      "ERROR": "Deployment failed!"
     }
+  }
 }

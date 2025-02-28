@@ -2,6 +2,7 @@
 <table class="search-table">
     <thead>
     <tr>
+        <th>{{ 'SEARCH.INDEX' | translate }}</th>
         <th>{{ 'SEARCH.NAMESPACE' | translate }}</th>
         <th>{{ 'SEARCH.DEPLOYMENT_NAME' | translate }}</th>
         <th>{{ 'SEARCH.READY_PODS' | translate }}</th>
@@ -11,8 +12,9 @@
     </tr>
     </thead>
     <tbody>
-        @for (deployment of deployments; track deployment.Name){
+        @for (deployment of deployments; track deployment.Name; let i = $index) {
             <tr>
+                <td>{{ i + 1 }}</td>
                 <td>{{ deployment.Namespace }}</td>
                 <td>{{ deployment.Name }}</td>
                 <td>{{ deployment.Ready }}</td>

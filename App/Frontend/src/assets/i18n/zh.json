@@ -1,80 +1,81 @@
 {
-    "NAV": {
-        "LANGUAGE": "更改语言",
-        "DASHBOARD": "仪表板",
-        "SEARCH": "搜索",
-        "ADD": "添加",
-        "SETTINGS": "设置",
-        "LOGOUT": "退出登录",
-        "DESCRIPTION": "描述",
-        "REPOSITORY": "仓库",
-        "CLOSE": "关闭",
-        "THEME": "主题"
-    },
-    "FOOTER": {
-        "PART1": "由",
-        "PART2": "开源团队设计"
-    },
-    "LOGIN": {
-        "USERNAME_PLACEHOLDER": "用户名",
-        "PASSWORD_PLACEHOLDER": "密码",
-        "LOGIN_BUTTON": "登录"
-    },
-    "DASHBOARD": {
-        "CPU": "中央处理器 使用率",
-        "RAM": "内存使用率",
-        "DISK": "磁盘使用率"
-    },
-    "SEARCH": {
-        "SEARCH_PLACEHOLDER": "搜索集群...",
-        "SEARCH": "搜索",
-        "NODES": "节点",
-        "PODS": "容器组",
-        "SERVICES": "服务",
-        "DEPLOYMENTS": "部署",
-        "CONFIGMAPS": "配置映射",
-        "SECRETS": "密钥",
-        "NAMESPACE": "命名空间",
-        "CLUSTER_NAME": "集群名称",
-        "POD_NAME": "容器组 名称",
-        "STATUS": "状态",
-        "RESTART_COUNT": "重启次数",
-        "LAST_UPDATED": "最后更新",
-        "SERVICES_READY": "服務就緒",
-        "POD_IP": "花苞 IP位址",
-        "NODE_NAME": "節點名稱",
-        "AGE": "年齡",
-        "NODE_ROLE": "節點角色",
-        "VERSION": "版本",
-        "POD_AMOUNT": "花苞數量",
-        "IP": "IP位址",
-        "SERVICE_NAME": "服務名稱",
-        "SERVICE_TYPE": "服務類型",
-        "CLUSTER_IP": "叢集 IP",
-        "EXTERNAL_IP": "外部 IP",
-        "PORTS": "連接埠",
-        "DEPLOYMENT_NAME": "部署名稱",
-        "READY_PODS": "準備就緒的 Pods",
-        "UPDATED": "已更新",
-        "AVAILABLE": "可用",
-        "CONFIGMAP_NAME": "配置映射名稱",
-        "DATA": "數據",
-        "SECRET_NAME": "秘密名稱",
-        "SECRET_TYPE": "秘密類型"
-    },
-    "NOTFOUND": {
-        "TITLE": "也许是开源的，但别他妈越界 ;-)"
-    },
-    "ADD_DEPLOYMENT": {
-        "YAML_FILE": "上傳 YAML",
-        "YAML_PLACEHOLDER": "複製並貼上您的 YAML 文件...",
-        "DEPLOY" : "部署"
-    },
-    "NOTIF" : {
-        "ADD" : {
-            "NODATA": "沒有要上傳的 YAML 資料 :(",
-            "SUCCESS": "您的 YAML 正在部署中！",
-            "ERROR": "部署失敗！"
-        }
+  "NAV": {
+    "LANGUAGE": "更改语言",
+    "DASHBOARD": "仪表板",
+    "SEARCH": "搜索",
+    "ADD": "添加",
+    "SETTINGS": "设置",
+    "LOGOUT": "退出登录",
+    "DESCRIPTION": "描述",
+    "REPOSITORY": "仓库",
+    "CLOSE": "关闭",
+    "THEME": "主题"
+  },
+  "FOOTER": {
+    "PART1": "由",
+    "PART2": "开源团队设计"
+  },
+  "LOGIN": {
+    "USERNAME_PLACEHOLDER": "用户名",
+    "PASSWORD_PLACEHOLDER": "密码",
+    "LOGIN_BUTTON": "登录"
+  },
+  "DASHBOARD": {
+    "CPU": "中央处理器 使用率",
+    "RAM": "内存使用率",
+    "DISK": "磁盘使用率"
+  },
+  "SEARCH": {
+    "SEARCH_PLACEHOLDER": "搜索集群...",
+    "SEARCH": "搜索",
+    "NODES": "节点",
+    "PODS": "容器组",
+    "SERVICES": "服务",
+    "DEPLOYMENTS": "部署",
+    "CONFIGMAPS": "配置映射",
+    "SECRETS": "密钥",
+    "NAMESPACE": "命名空间",
+    "CLUSTER_NAME": "集群名称",
+    "POD_NAME": "容器组 名称",
+    "STATUS": "状态",
+    "RESTART_COUNT": "重启次数",
+    "LAST_UPDATED": "最后更新",
+    "SERVICES_READY": "服務就緒",
+    "POD_IP": "花苞 IP位址",
+    "NODE_NAME": "節點名稱",
+    "AGE": "年齡",
+    "NODE_ROLE": "節點角色",
+    "VERSION": "版本",
+    "POD_AMOUNT": "花苞數量",
+    "IP": "IP位址",
+    "SERVICE_NAME": "服務名稱",
+    "SERVICE_TYPE": "服務類型",
+    "CLUSTER_IP": "叢集 IP",
+    "EXTERNAL_IP": "外部 IP",
+    "PORTS": "連接埠",
+    "DEPLOYMENT_NAME": "部署名稱",
+    "READY_PODS": "準備就緒的 Pods",
+    "UPDATED": "已更新",
+    "AVAILABLE": "可用",
+    "CONFIGMAP_NAME": "配置映射名稱",
+    "DATA": "數據",
+    "SECRET_NAME": "秘密名稱",
+    "SECRET_TYPE": "秘密類型",
+    "INDEX": "索引"
+  },
+  "NOTFOUND": {
+    "TITLE": "也许是开源的，但别他妈越界 ;-)"
+  },
+  "ADD_DEPLOYMENT": {
+    "YAML_FILE": "上傳 YAML",
+    "YAML_PLACEHOLDER": "複製並貼上您的 YAML 文件...",
+    "DEPLOY": "部署"
+  },
+  "NOTIF": {
+    "ADD": {
+      "NODATA": "沒有要上傳的 YAML 資料 :(",
+      "SUCCESS": "您的 YAML 正在部署中！",
+      "ERROR": "部署失敗！"
     }
+  }
 }

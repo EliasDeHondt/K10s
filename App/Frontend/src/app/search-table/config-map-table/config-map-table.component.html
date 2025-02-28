@@ -1,19 +1,22 @@
 <!--Author K10s Open Source Team-->
 <table class="search-table">
     <thead>
-        <tr>
-            <th>{{ 'SEARCH.NAMESPACE' | translate }}</th>
-            <th>{{ 'SEARCH.CONFIGMAP_NAME' | translate }}</th>
-            <th>{{ 'SEARCH.DATA' | translate }}</th>
-            <th>{{ 'SEARCH.AGE' | translate }}</th>
-        </tr>
+    <tr>
+        <th>{{ 'SEARCH.INDEX' | translate }}</th>
+        <th>{{ 'SEARCH.NAMESPACE' | translate }}</th>
+        <th>{{ 'SEARCH.CONFIGMAP_NAME' | translate }}</th>
+        <th>{{ 'SEARCH.DATA' | translate }}</th>
+        <th>{{ 'SEARCH.AGE' | translate }}</th>
+    </tr>
     </thead>
     <tbody>
-        @for (configMap of configMaps; track configMap.Name) {
+        @for (configMap of configMaps; track configMap.Name; let i = $index) {
             <tr>
+                <td>{{ i + 1 }}</td>
                 <td>{{ configMap.Namespace }}</td>
                 <td>{{ configMap.Name }}</td>
-                <td class="data-length-column"  (mousemove)="showTooltip($event, configMap.Data)" (mouseout)="hideTooltip()">
+                <td class="data-length-column" (mousemove)="showTooltip($event, configMap.Data)"
+                    (mouseout)="hideTooltip()">
                     <div class="tooltip-container">
                         {{ configMap.Data ? Object.keys(configMap.Data).length : 0 }}
                     </div>

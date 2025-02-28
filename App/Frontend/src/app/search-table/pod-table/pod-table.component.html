@@ -1,20 +1,22 @@
 <!--Author K10s Open Source Team-->
 <table class="search-table">
     <thead>
-        <tr>
-            <th>{{ 'SEARCH.NAMESPACE' | translate }}</th>
-            <th>{{ 'SEARCH.POD_NAME' | translate }}</th>
-            <th>{{ 'SEARCH.SERVICES_READY' | translate }}</th>
-            <th>{{ 'SEARCH.RESTART_COUNT' | translate }}</th>
-            <th>{{ 'SEARCH.STATUS' | translate }}</th>
-            <th>{{ 'SEARCH.POD_IP' | translate }}</th>
-            <th>{{ 'SEARCH.NODE_NAME' | translate }}</th>
-            <th>{{ 'SEARCH.AGE' | translate }}</th>
-        </tr>
+    <tr>
+        <th>{{ 'SEARCH.INDEX' | translate }}</th>
+        <th>{{ 'SEARCH.NAMESPACE' | translate }}</th>
+        <th>{{ 'SEARCH.POD_NAME' | translate }}</th>
+        <th>{{ 'SEARCH.SERVICES_READY' | translate }}</th>
+        <th>{{ 'SEARCH.RESTART_COUNT' | translate }}</th>
+        <th>{{ 'SEARCH.STATUS' | translate }}</th>
+        <th>{{ 'SEARCH.POD_IP' | translate }}</th>
+        <th>{{ 'SEARCH.NODE_NAME' | translate }}</th>
+        <th>{{ 'SEARCH.AGE' | translate }}</th>
+    </tr>
     </thead>
     <tbody>
-        @for (pod of pods; track pod.Name){
+        @for (pod of pods; track pod.Name; let i = $index) {
             <tr>
+                <td>{{ i + 1 }}</td>
                 <td>{{ pod.Namespace }}</td>
                 <td>{{ pod.Name }}</td>
                 <td>{{ pod.ServicesReady }}</td>

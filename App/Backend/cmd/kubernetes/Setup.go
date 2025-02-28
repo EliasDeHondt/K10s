@@ -313,7 +313,7 @@ func TestFakeClient() IClient {
 	configMaps := []*corev1.ConfigMap{
 		{
 			ObjectMeta: metav1.ObjectMeta{Name: "configmap-1", Namespace: "default"},
-			Data:       map[string]string{"config": "value"},
+			Data:       map[string]string{"config": "valueaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
 		},
 		{
 			ObjectMeta: metav1.ObjectMeta{Name: "configmap-2", Namespace: "test"},

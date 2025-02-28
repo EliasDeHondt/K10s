@@ -2,6 +2,7 @@
 <table class="search-table">
     <thead>
     <tr>
+        <th>{{ 'SEARCH.INDEX' | translate }}</th>
         <th>{{ 'SEARCH.NAMESPACE' | translate }}</th>
         <th>{{ 'SEARCH.SERVICE_NAME' | translate }}</th>
         <th>{{ 'SEARCH.SERVICE_TYPE' | translate }}</th>
@@ -12,8 +13,9 @@
     </tr>
     </thead>
     <tbody>
-        @for (service of services; track service.Name){
+        @for (service of services; track service.Name; let i = $index) {
             <tr>
+                <td>{{ i + 1 }}</td>
                 <td>{{ service.Namespace }}</td>
                 <td>{{ service.Name }}</td>
                 <td>{{ service.Type }}</td>
