@@ -14,7 +14,7 @@ import { NotificationComponent } from "./notification/notification.component";
     selector: 'app-root',
     standalone: true,
     imports: [RouterModule, CommonModule, NotificationComponent],
-    template: `<app-notification></app-notification> <router-outlet></router-outlet>`,
+    templateUrl: './app.component.html',
     providers: [Title]
 })
 
