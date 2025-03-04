@@ -76,6 +76,9 @@
       "NODATA": "Keine YAML-Daten zum Hochladen :(",
       "SUCCESS": "Dein YAML wird bereitgestellt!",
       "ERROR": "Bereitstellung fehlgeschlagen!"
+    },
+    "AUTH": {
+      "INVALID": "Bitte geben Sie gültige Anmeldedaten ein"
     }
   }
 }

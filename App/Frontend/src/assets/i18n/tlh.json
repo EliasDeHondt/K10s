@@ -55,5 +55,8 @@
       "SUCCESS": "Yaj YAML vItlhob!",
       "ERROR": "Deplorment Qapbe'!"
     }
+  },
+  "AUTH": {
+    "INVALID": "yIDoghQo', lughbogh pat mu'mey yIchel"
   }
 }
