@@ -76,6 +76,9 @@
       "NODATA": "No YAML data to upload :(",
       "SUCCESS": "Your YAML is deploying!",
       "ERROR": "Deployment failed!"
+    },
+    "AUTH": {
+      "INVALID" : "Please enter valid credentials"
     }
   }
 }

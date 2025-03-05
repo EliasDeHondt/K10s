@@ -77,5 +77,8 @@
       "SUCCESS": "Votre YAML est en cours de déploiement !",
       "ERROR": "Le déploiement a échoué !"
     }
+  },
+  "AUTH": {
+    "INVALID": "Veuillez entrer des identifiants valides"
   }
 }

@@ -10,6 +10,7 @@ import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import anime from 'animejs/lib/anime.es.js';
 import { AuthService } from "../services/auth.service";
 import { take, tap } from "rxjs";
+import {NotificationService} from "../services/notification.service";
 
 @Component({
     selector: 'app-login',
@@ -23,7 +24,7 @@ export class LoginComponent implements AfterViewInit {
     username: string = '';
     password: string = '';
 
-    constructor(private router: Router, private translate: TranslateService, private authService: AuthService) {
+    constructor(private router: Router, private notificationService: NotificationService, private translate: TranslateService, private authService: AuthService) {
         this.translate.setDefaultLang('en');
         this.authService.isLoggedIn().pipe(take(1),
             tap(isAuthenticated => {
@@ -66,6 +67,6 @@ export class LoginComponent implements AfterViewInit {
                     this.router.navigate(['/dashboard']);
                 }
             })
-        } else alert('Please enter valid credentials.');
+        } else this.notificationService.showNotification(this.translate.instant('NOTIF.AUTH.INVALID'), 'error');
     }
 }
