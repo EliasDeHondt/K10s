@@ -8,6 +8,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, of, throwError } from 'rxjs';
 import { environment } from "../../environments/environment";
 import { map } from "rxjs/operators";
+import {NotificationService} from "./notification.service";
+import {TranslateService} from "@ngx-translate/core";
 
 @Injectable({
     providedIn: 'root'
@@ -18,7 +20,7 @@ export class AuthService {
     private logoutUrl = `${environment.BASE_URL}/logout`;
     private isloggedInUrl = `${environment.BASE_URL}/isloggedin`;
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private notificationService: NotificationService,private translate: TranslateService) { }
 
     isLoggedIn(): Observable<boolean> {
         return this.http.get<boolean>(this.isloggedInUrl, {withCredentials: true, observe: 'response'}).pipe(
@@ -37,7 +39,7 @@ export class AuthService {
         return this.http.post<string>(this.loginUrl, loginData, {withCredentials: true}).pipe(
             catchError(error => {
                 const statusCode = error.status;
-                if (statusCode === 401) alert("Please enter valid credentials")
+                if (statusCode === 401) this.notificationService.showNotification(this.translate.instant('NOTIF.AUTH.INVALID'), 'error');
 
                 return throwError(() => error);
             })
