@@ -70,7 +70,7 @@ export class SpiderWebComponent implements AfterViewInit {
         const simulation = d3
             .forceSimulation<NodeDatum>(this.graphData.nodes)
             .force('link', d3.forceLink<NodeDatum, LinkDatum>(this.graphData.links).id((d) => d.id).distance(100))
-            .force('charge', d3.forceManyBody().strength(-300))
+            .force('charge', d3.forceManyBody().strength(-600))
             .force('center', d3.forceCenter(width / 2, height / 2))
             .force('x', d3.forceX(width / 2).strength(0.1))
             .force('y', d3.forceY(height / 2).strength(0.1));
@@ -93,10 +93,10 @@ export class SpiderWebComponent implements AfterViewInit {
         node
             .append('image')
             .attr('href', (d) => `/assets/svg/${d.icon}`)
-            .attr('width', 40)
-            .attr('height', 40)
-            .attr('x', -20)
-            .attr('y', -20)
+            .attr('width', 80)
+            .attr('height', 80)
+            .attr('x', -40)
+            .attr('y', -40)
             .on('error', function () {
                 console.log('Image failed to load:', this.getAttribute('href'));
             });
@@ -105,7 +105,7 @@ export class SpiderWebComponent implements AfterViewInit {
             .append('text')
             .text((d) => d.id)
             .attr('text-anchor', 'middle')
-            .attr('dy', 30)
+            .attr('dy', 60)
             .attr('font-size', '12px')
             .attr('fill', '#333');
 
@@ -130,8 +130,8 @@ export class SpiderWebComponent implements AfterViewInit {
 
         simulation.on('tick', () => {
             node.each((d) => {
-                d.x = Math.max(20, Math.min(width - 20, d.x!));
-                d.y = Math.max(20, Math.min(height - 20, d.y!));
+                d.x = Math.max(40, Math.min(width - 40, d.x!));
+                d.y = Math.max(40, Math.min(height - 40, d.y!));
             });
 
             link

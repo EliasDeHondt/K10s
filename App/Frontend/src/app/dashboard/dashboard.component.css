@@ -113,7 +113,6 @@
     box-shadow: 2px 0 5px var(--shadow);
     width: 100%;
     position: relative;
-    pointer-events: none;
 }
 
 .dashboard-fullscreen-button,
@@ -172,13 +171,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    pointer-events: none;
 }
 
 .cursor-move {
     width: 800px;
     height: 500px;
-    pointer-events: none;
 }
 
 .spider-web {
