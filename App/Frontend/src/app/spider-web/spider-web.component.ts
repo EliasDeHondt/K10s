@@ -2,124 +2,145 @@
 /* @since 01/01/2025              */
 /* @author K10s Open Source Team  */
 /**********************************/
+import { Component, ElementRef, AfterViewInit, ViewChild } from '@angular/core';
+import * as d3 from 'd3';
 
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+interface NodeDatum extends d3.SimulationNodeDatum {
+    id: string;
+    icon: string;
+}
 
-interface Node {
-    id: number;
-    x: number;
-    y: number;
-    radius: number;
+interface LinkDatum {
+    source: string | NodeDatum;
+    target: string | NodeDatum;
 }
 
 @Component({
     selector: 'app-spider-web',
     templateUrl: './spider-web.component.html',
     standalone: true,
-    styleUrls: ['./spider-web.component.css']
+    styleUrls: ['./spider-web.component.css'],
 })
+export class SpiderWebComponent implements AfterViewInit {
+    @ViewChild('svgContainer', { static: true }) svgRef!: ElementRef<SVGSVGElement>;
 
-export class SpiderWebComponent implements OnInit {
-    @ViewChild('canvas', { static: true }) canvasRef!: ElementRef;
-    private ctx!: CanvasRenderingContext2D;
-    private nodes: Node[] = [];
-    private connections: { from: number, to: number }[] = [];
-    private isDragging = false;
-    private draggedNode: Node | null = null;
-    private offsetX = 0;
-    private offsetY = 0;
+    private graphData = {
+        nodes: [
+            { id: 'Supercluster01', icon: 'dashboard-supercluster.svg' },
+            { id: 'Cluster01', icon: 'dashboard-cluster.svg' },
+            { id: 'Cluster02', icon: 'dashboard-cluster.svg' },
+            { id: 'Node001', icon: 'dashboard-server.svg' },
+            { id: 'Node002', icon: 'dashboard-server.svg' },
+            { id: 'Node003', icon: 'dashboard-server.svg' },
+            { id: 'Node004', icon: 'dashboard-server.svg' },
+            { id: 'Node005', icon: 'dashboard-server.svg' },
+            { id: 'Deployment', icon: 'dashboard-deployment.svg' },
+            { id: 'Service', icon: 'dashboard-service.svg' },
+            { id: 'IP', icon: 'dashboard-ip.svg' },
+        ],
+        links: [
+            { source: 'Supercluster01', target: 'Cluster01' },
+            { source: 'Supercluster01', target: 'Cluster02' },
+            { source: 'Cluster01', target: 'Node001' },
+            { source: 'Cluster01', target: 'Node002' },
+            { source: 'Cluster01', target: 'Node003' },
+            { source: 'Cluster02', target: 'Node004' },
+            { source: 'Cluster02', target: 'Node005' },
+            { source: 'Node001', target: 'Deployment' },
+            { source: 'Node002', target: 'Deployment' },
+            { source: 'Node003', target: 'Deployment' },
+            { source: 'Deployment', target: 'Service' },
+            { source: 'Service', target: 'IP' },
+        ],
+    };
 
-    ngOnInit(): void {
-        this.initializeCanvas();
-        this.createNodes();
-        this.drawWeb();
-        this.addEventListeners();
+    ngAfterViewInit(): void {
+        this.createForceDirectedGraph();
     }
 
-    initializeCanvas() {
-        const canvas = this.canvasRef.nativeElement;
-        this.ctx = canvas.getContext('2d')!;
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
+    private createForceDirectedGraph(): void {
+        const width = 800;
+        const height = 500;
 
-    createNodes() { //todo echt ophalen
-        for (let i = 0; i < 10; i++) {
-        this.nodes.push({
-            id: i,
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
-            radius: 40
-        });
-        }
+        const svg = d3
+            .select(this.svgRef.nativeElement)
+            .attr('width', width)
+            .attr('height', height);
 
-        for (let i = 0; i < this.nodes.length; i++) {
-            for (let j = i + 1; j < this.nodes.length; j++) {
-                if (Math.random() > 0.5) {
-                this.connections.push({ from: i, to: j });
-                }
-            }
-        }
-    }
+        const simulation = d3
+            .forceSimulation<NodeDatum>(this.graphData.nodes)
+            .force('link', d3.forceLink<NodeDatum, LinkDatum>(this.graphData.links).id((d) => d.id).distance(100))
+            .force('charge', d3.forceManyBody().strength(-300))
+            .force('center', d3.forceCenter(width / 2, height / 2))
+            .force('x', d3.forceX(width / 2).strength(0.1))
+            .force('y', d3.forceY(height / 2).strength(0.1));
 
-    drawWeb() {
-        this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        const link = svg
+            .selectAll('.link')
+            .data(this.graphData.links)
+            .enter()
+            .append('line')
+            .attr('stroke', '#aaa')
+            .attr('stroke-width', 2);
 
-        const rootStyles = getComputedStyle(document.documentElement);
-        const primary = rootStyles.getPropertyValue('--primary').trim();
-        const statusBlue = rootStyles.getPropertyValue('--status-blue').trim();
-        const statusGrey = rootStyles.getPropertyValue('--status-grey').trim();
+        const node = svg
+            .selectAll('.node')
+            .data(this.graphData.nodes)
+            .enter()
+            .append('g')
+            .attr('class', 'node') as d3.Selection<SVGGElement, NodeDatum, SVGSVGElement, unknown>;
 
-        this.connections.forEach(connection => {
-        const fromNode = this.nodes[connection.from];
-        const toNode = this.nodes[connection.to];
-        this.ctx.beginPath();
-        this.ctx.moveTo(fromNode.x, fromNode.y);
-        this.ctx.lineTo(toNode.x, toNode.y);
-        this.ctx.strokeStyle = statusGrey;
-        this.ctx.lineWidth = 1;
-        this.ctx.stroke();
-        });
+        node
+            .append('image')
+            .attr('href', (d) => `/assets/svg/${d.icon}`)
+            .attr('width', 40)
+            .attr('height', 40)
+            .attr('x', -20)
+            .attr('y', -20)
+            .on('error', function () {
+                console.log('Image failed to load:', this.getAttribute('href'));
+            });
 
-        this.nodes.forEach(node => {
-        this.ctx.beginPath();
-        this.ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-        this.ctx.fillStyle = primary;
-        this.ctx.fill();
-        this.ctx.strokeStyle = statusBlue;
-        this.ctx.stroke();
-        });
-    }
+        node
+            .append('text')
+            .text((d) => d.id)
+            .attr('text-anchor', 'middle')
+            .attr('dy', 30)
+            .attr('font-size', '12px')
+            .attr('fill', '#333');
 
-    addEventListeners() {
-        const canvas = this.canvasRef.nativeElement;
+        const dragHandler = d3
+            .drag<SVGGElement, NodeDatum>()
+            .on('start', (event, d) => {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                d.fx = event.x;
+                d.fy = event.y;
+            })
+            .on('drag', (event, d) => {
+                d.fx = event.x;
+                d.fy = event.y;
+            })
+            .on('end', (event, d) => {
+                if (!event.active) simulation.alphaTarget(0);
+                d.fx = null;
+                d.fy = null;
+            });
 
-        canvas.addEventListener('mousedown', (event: MouseEvent) => {
-        const mouseX = event.clientX;
-        const mouseY = event.clientY;
+        node.call(dragHandler);
 
-        this.draggedNode = this.nodes.find(node =>
-            Math.sqrt(Math.pow(node.x - mouseX, 2) + Math.pow(node.y - mouseY, 2)) < node.radius
-        ) || null;
+        simulation.on('tick', () => {
+            node.each((d) => {
+                d.x = Math.max(20, Math.min(width - 20, d.x!));
+                d.y = Math.max(20, Math.min(height - 20, d.y!));
+            });
 
-        if (this.draggedNode) {
-            this.isDragging = true;
-            this.offsetX = mouseX - this.draggedNode.x;
-            this.offsetY = mouseY - this.draggedNode.y;
-        }
-        });
+            link
+                .attr('x1', (d) => (d.source as unknown as NodeDatum).x!)
+                .attr('y1', (d) => (d.source as unknown as NodeDatum).y!)
+                .attr('x2', (d) => (d.target as unknown as NodeDatum).x!)
+                .attr('y2', (d) => (d.target as unknown as NodeDatum).y!);
 
-        canvas.addEventListener('mousemove', (event: MouseEvent) => {
-        if (this.isDragging && this.draggedNode) {
-            this.draggedNode.x = event.clientX - this.offsetX;
-            this.draggedNode.y = event.clientY - this.offsetY;
-            this.drawWeb();
-        }
-        });
-
-        canvas.addEventListener('mouseup', () => {
-        this.isDragging = false;
-        this.draggedNode = null;
+            node.attr('transform', (d) => `translate(${d.x!},${d.y!})`);
         });
     }
 }

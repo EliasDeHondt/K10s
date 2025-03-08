@@ -166,6 +166,32 @@
 }
 /* Dashboard Main */
 
+/* Spiderweb */
+.dashboard-main-section {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+}
+
+.cursor-move {
+    width: 800px;
+    height: 500px;
+    pointer-events: none;
+}
+
+.spider-web {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.spider-web svg {
+    pointer-events: all;
+}
+/* Spiderweb */
+
 /* Media Queries */
 @media screen and (max-width: 1024px) {
     .dashboard-body {
