@@ -1,25 +1,23 @@
+/**********************************/
+/* @since 01/01/2025              */
+/* @author K10s Open Source Team  */
+/**********************************/
 package handlers
 
 import (
-	"context"
 	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes"
 	"github.com/gin-gonic/gin"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	v1 "k8s.io/api/core/v1"
 	"net/http"
-	"time"
+	"sync"
 )
 
 func GetServicesHandler(ctx *gin.Context) {
-	namespace, ok := ctx.GetQuery("namespace")
+	namespace, _ := ctx.GetQuery("namespace")
+	nodeName, _ := ctx.GetQuery("node")
+	pageSize, pageToken := GetPageSizeAndPageToken(ctx)
 
-	var serviceList *[]kubernetes.Service
-	var err error
-
-	if ok {
-		serviceList, err = GetServices(c, namespace)
-	} else {
-		serviceList, err = GetServices(c, "")
-	}
+	serviceList, err := GetServices(c, namespace, nodeName, pageSize, pageToken)
 
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error has occurred or the request has been timed out."})
@@ -28,19 +26,34 @@ func GetServicesHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, serviceList)
 }
 
-func GetServices(c *kubernetes.IClient, namespace string) (*[]kubernetes.Service, error) {
-	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-
-	list, err := (*c).GetServices(namespace).List(ct, metav1.ListOptions{})
+func GetServices(c kubernetes.IClient, namespace string, nodeName string, pageSize int, pageToken string) (*PaginatedResponse[[]kubernetes.Service], error) {
+	list, token, err := c.GetFilteredServices(namespace, nodeName, pageSize, pageToken)
 	if err != nil {
 		return nil, err
 	}
 
-	var serviceList = make([]kubernetes.Service, len(list.Items))
+	return &PaginatedResponse[[]kubernetes.Service]{
+		Response:  transformServices(list),
+		PageToken: token,
+	}, nil
+}
 
-	for i, service := range list.Items {
-		serviceList[i] = kubernetes.NewService(service)
+func transformServices(list *[]v1.Service) []kubernetes.Service {
+	var serviceList = make([]kubernetes.Service, len(*list))
+	var wg sync.WaitGroup
+	concurrency := 20
+	semaphore := make(chan struct{}, concurrency)
+
+	for i, service := range *list {
+		wg.Add(1)
+
+		go func(i int, service v1.Service) {
+			defer wg.Done()
+			serviceList[i] = kubernetes.NewService(service)
+			semaphore <- struct{}{}
+		}(i, service)
 	}
-	return &serviceList, nil
+	wg.Wait()
+
+	return serviceList
 }

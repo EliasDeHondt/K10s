@@ -1,3 +1,7 @@
+/**********************************/
+/* @since 01/01/2025              */
+/* @author K10s Open Source Team  */
+/**********************************/
 package handlers
 
 import (
@@ -55,5 +59,4 @@ func GetTableHandler(ctx *gin.Context) {
 	case Secrets:
 		GetSecretsHandler(ctx)
 	}
-
 }

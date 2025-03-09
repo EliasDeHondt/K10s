@@ -1,7 +1,13 @@
+/**********************************/
+/* @since 01/01/2025              */
+/* @author K10s Open Source Team  */
+/**********************************/
 package kubernetes
 
 import (
 	"context"
+	av1 "k8s.io/api/apps/v1"
+	cv1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/kubernetes/fake"
@@ -25,6 +31,7 @@ type FakeMetricsClient struct {
 }
 
 type IClient interface {
+	GetNamespaces() corev1.NamespaceInterface
 	GetNodes() corev1.NodeInterface
 	GetPods(namespace string) corev1.PodInterface
 	GetServices(namespace string) corev1.ServiceInterface
@@ -35,6 +42,16 @@ type IClient interface {
 	GetReplicaSets(namespace string) appsv1.ReplicaSetInterface
 	GetTotalUsage() (*Metrics, error)
 	GetUsageForNode(nodeName string) (*Metrics, error)
+	CreateNamespace(namespace *cv1.Namespace) (Namespace, error)
+	CreateNode(node *cv1.Node) (Node, error)
+	CreatePod(pod *cv1.Pod) (Pod, error)
+	CreateDeployment(deployment *av1.Deployment) (Deployment, error)
+	CreateService(service *cv1.Service) (Service, error)
+	CreateConfigMap(configMap *cv1.ConfigMap) (ConfigMap, error)
+	CreateSecret(secret *cv1.Secret) (Secret, error)
+	GetFilteredPods(namespace string, nodeName string, pageSize int, continueToken string) (*[]cv1.Pod, string, error)
+	GetFilteredServices(namespace string, nodeName string, pageSize int, continueToken string) (*[]cv1.Service, string, error)
+	GetFilteredDeployments(namespace string, nodeName string, pageSize int, continueToken string) (*[]av1.Deployment, string, error)
 }
 
 type FakeClient struct {
@@ -45,6 +62,10 @@ type FakeClient struct {
 type Client struct {
 	Client        *kubernetes.Clientset
 	MetricsClient *metricsv.Clientset
+}
+
+func (client *FakeClient) GetNamespaces() corev1.NamespaceInterface {
+	return client.Client.CoreV1().Namespaces()
 }
 
 func (client *FakeClient) GetNodes() corev1.NodeInterface {
@@ -77,6 +98,101 @@ func (client *FakeClient) GetDeployments(namespace string) appsv1.DeploymentInte
 
 func (client *FakeClient) GetReplicaSets(namespace string) appsv1.ReplicaSetInterface {
 	return client.Client.AppsV1().ReplicaSets(namespace)
+}
+
+func (client *FakeClient) CreateNamespace(namespace *cv1.Namespace) (Namespace, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	newNamespace, err := client.GetNamespaces().Create(ctx, namespace, metav1.CreateOptions{})
+
+	if err != nil {
+		return Namespace{}, err
+	}
+
+	return NewNamespace(*newNamespace), err
+}
+
+func (client *FakeClient) CreateNode(node *cv1.Node) (Node, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	node, err := client.GetNodes().Create(ctx, node, metav1.CreateOptions{})
+
+	if err != nil {
+		return Node{}, err
+	}
+
+	return NewNode(*node, client), err
+}
+
+func (client *FakeClient) CreatePod(pod *cv1.Pod) (Pod, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	pod, err := client.GetPods(pod.Namespace).Create(ctx, pod, metav1.CreateOptions{})
+
+	if err != nil {
+		return Pod{}, err
+	}
+
+	return NewPod(*pod, client), err
+}
+
+func (client *FakeClient) CreateDeployment(deployment *av1.Deployment) (Deployment, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	deployment, err := client.GetDeployments(deployment.Namespace).Create(ctx, deployment, metav1.CreateOptions{})
+
+	if err != nil {
+		return Deployment{}, err
+	}
+
+	return NewDeployment(*deployment), err
+}
+
+func (client *FakeClient) CreateService(service *cv1.Service) (Service, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	_, err := client.GetServices(service.Namespace).Create(ctx, service, metav1.CreateOptions{})
+
+	if err != nil {
+		return Service{}, err
+	}
+
+	return NewService(*service), err
+}
+
+func (client *FakeClient) CreateConfigMap(configMap *cv1.ConfigMap) (ConfigMap, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	_, err := client.GetConfigMaps(configMap.Namespace).Create(ctx, configMap, metav1.CreateOptions{})
+
+	if err != nil {
+		return ConfigMap{}, err
+	}
+
+	return NewConfigMap(*configMap), err
+}
+
+func (client *FakeClient) CreateSecret(secret *cv1.Secret) (Secret, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	_, err := client.GetSecrets(secret.Namespace).Create(ctx, secret, metav1.CreateOptions{})
+
+	if err != nil {
+		return Secret{}, err
+	}
+
+	return NewSecret(*secret), err
+}
+
+func (client *Client) GetNamespaces() corev1.NamespaceInterface {
+	return client.Client.CoreV1().Namespaces()
 }
 
 func (client *Client) GetNodes() corev1.NodeInterface {
@@ -190,6 +306,7 @@ func (client *Client) GetTotalUsage() (*Metrics, error) {
 		totalCpu += node.Status.Capacity.Cpu().MilliValue()
 		totalMem += node.Status.Capacity.Memory().Value()
 		totalDisk += node.Status.Capacity.Storage().Value()
+		totalDisk += node.Status.Capacity.StorageEphemeral().Value()
 
 		nodeMetrics, err := client.MetricsClient.MetricsV1beta1().NodeMetricses().Get(ctx, node.Name, metav1.GetOptions{})
 		if err != nil {
@@ -199,6 +316,7 @@ func (client *Client) GetTotalUsage() (*Metrics, error) {
 		totalCpuUsage += nodeMetrics.Usage.Cpu().MilliValue()
 		totalMemUsage += nodeMetrics.Usage.Memory().Value()
 		totalDiskUsage += nodeMetrics.Usage.Storage().Value()
+		totalDiskUsage += nodeMetrics.Usage.StorageEphemeral().Value()
 	}
 
 	cpuUsagePercent := float64(totalCpuUsage) / float64(totalCpu) * 100
@@ -233,4 +351,345 @@ func (client *Client) GetUsageForNode(nodeName string) (*Metrics, error) {
 	memoryUsagePercent := float64(usedMem) / float64(totalMem) * 100
 
 	return &Metrics{CpuUsage: cpuUsagePercent, MemUsage: memoryUsagePercent, DiskUsage: usedDisk, DiskCapacity: totalDisk}, nil
+}
+
+func (client *Client) CreateNamespace(namespace *cv1.Namespace) (Namespace, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	newNamespace, err := client.GetNamespaces().Create(ctx, namespace, metav1.CreateOptions{})
+
+	if err != nil {
+		return Namespace{}, err
+	}
+
+	return NewNamespace(*newNamespace), err
+}
+
+func (client *Client) CreateNode(node *cv1.Node) (Node, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	node, err := client.GetNodes().Create(ctx, node, metav1.CreateOptions{})
+
+	if err != nil {
+		return Node{}, err
+	}
+
+	return NewNode(*node, client), err
+}
+
+func (client *Client) CreatePod(pod *cv1.Pod) (Pod, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	pod, err := client.GetPods(pod.Namespace).Create(ctx, pod, metav1.CreateOptions{})
+
+	if err != nil {
+		return Pod{}, err
+	}
+
+	return NewPod(*pod, client), err
+}
+
+func (client *Client) CreateDeployment(deployment *av1.Deployment) (Deployment, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	deployment, err := client.GetDeployments(deployment.Namespace).Create(ctx, deployment, metav1.CreateOptions{})
+
+	if err != nil {
+		return Deployment{}, err
+	}
+
+	return NewDeployment(*deployment), err
+}
+
+func (client *Client) CreateService(service *cv1.Service) (Service, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	_, err := client.GetServices(service.Namespace).Create(ctx, service, metav1.CreateOptions{})
+
+	if err != nil {
+		return Service{}, err
+	}
+
+	return NewService(*service), err
+}
+
+func (client *Client) CreateConfigMap(configMap *cv1.ConfigMap) (ConfigMap, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	_, err := client.GetConfigMaps(configMap.Namespace).Create(ctx, configMap, metav1.CreateOptions{})
+
+	if err != nil {
+		return ConfigMap{}, err
+	}
+
+	return NewConfigMap(*configMap), err
+}
+
+func (client *Client) CreateSecret(secret *cv1.Secret) (Secret, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	_, err := client.GetSecrets(secret.Namespace).Create(ctx, secret, metav1.CreateOptions{})
+
+	if err != nil {
+		return Secret{}, err
+	}
+
+	return NewSecret(*secret), err
+}
+
+func (client *FakeClient) GetFilteredPods(namespace string, nodeName string, pageSize int, continueToken string) (*[]cv1.Pod, string, error) {
+	ct, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	var filteredPods []cv1.Pod
+	var newContinueToken string
+
+	list, err := client.Client.CoreV1().Pods(namespace).List(ct, metav1.ListOptions{
+		Limit:    int64(pageSize),
+		Continue: continueToken,
+	})
+	if err != nil {
+		return nil, "", err
+	}
+
+	for _, pod := range list.Items {
+		if nodeName == "" || pod.Spec.NodeName == nodeName {
+			filteredPods = append(filteredPods, pod)
+		}
+	}
+	newContinueToken = list.Continue
+	return &filteredPods, newContinueToken, nil
+}
+
+func (client *Client) GetFilteredPods(namespace string, nodeName string, pageSize int, continueToken string) (*[]cv1.Pod, string, error) {
+	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	var filteredPods []cv1.Pod
+	var newContinueToken string
+
+	fieldSelector := ""
+	if nodeName != "" {
+		fieldSelector = "spec.nodeName=" + nodeName
+	}
+
+	list, err := client.GetPods(namespace).List(ct, metav1.ListOptions{
+		Limit:         int64(pageSize),
+		Continue:      continueToken,
+		FieldSelector: fieldSelector,
+	})
+	if err != nil {
+		return nil, "", err
+	}
+
+	filteredPods = list.Items
+	newContinueToken = list.Continue
+	return &filteredPods, newContinueToken, nil
+}
+
+func (client *FakeClient) GetFilteredServices(namespace string, nodeName string, pageSize int, continueToken string) (*[]cv1.Service, string, error) {
+	ct, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	var filteredServices []cv1.Service
+	var newContinueToken string
+
+	services, err := client.GetServices(namespace).List(ct, metav1.ListOptions{
+		Limit:    int64(pageSize),
+		Continue: continueToken,
+	})
+	if err != nil {
+		return nil, "", err
+	}
+
+	if nodeName != "" {
+		pods, podToken, err := client.GetFilteredPods(namespace, nodeName, 0, "")
+		if err != nil {
+			return nil, "", err
+		}
+		allPods := *pods
+		for podToken != "" {
+			extraPods, nextPodToken, err := client.GetFilteredPods(namespace, nodeName, 0, podToken)
+			if err != nil {
+				return nil, "", err
+			}
+			allPods = append(allPods, *extraPods...)
+
+			podToken = nextPodToken
+		}
+
+		for _, pod := range allPods {
+			for _, svc := range services.Items {
+				if isPodMatchingService(pod, svc) {
+					filteredServices = append(filteredServices, svc)
+				}
+			}
+		}
+	} else {
+		filteredServices = services.Items
+	}
+
+	return &filteredServices, newContinueToken, nil
+}
+
+func (client *Client) GetFilteredServices(namespace string, nodeName string, pageSize int, continueToken string) (*[]cv1.Service, string, error) {
+	ct, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	var filteredServices []cv1.Service
+	var newContinueToken string
+
+	services, err := client.GetServices(namespace).List(ct, metav1.ListOptions{
+		Limit:    int64(pageSize),
+		Continue: continueToken,
+	})
+	if err != nil {
+		return nil, "", err
+	}
+
+	if nodeName != "" {
+		pods, podToken, err := client.GetFilteredPods(namespace, nodeName, 0, "")
+		if err != nil {
+			return nil, "", err
+		}
+		allPods := *pods
+		for podToken != "" {
+			extraPods, nextPodToken, err := client.GetFilteredPods(namespace, nodeName, 0, podToken)
+			if err != nil {
+				return nil, "", err
+			}
+			allPods = append(allPods, *extraPods...)
+
+			podToken = nextPodToken
+		}
+
+		for _, pod := range allPods {
+			for _, svc := range services.Items {
+				if isPodMatchingService(pod, svc) {
+					filteredServices = append(filteredServices, svc)
+				}
+			}
+		}
+	} else {
+		filteredServices = services.Items
+	}
+
+	return &filteredServices, newContinueToken, nil
+}
+
+func (client *FakeClient) GetFilteredDeployments(namespace string, nodeName string, pageSize int, continueToken string) (*[]av1.Deployment, string, error) {
+	ct, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	var filteredDeployments []av1.Deployment
+	var newContinueToken string
+
+	if nodeName != "" {
+		pods, podToken, err := client.GetFilteredPods(namespace, nodeName, 0, "")
+		if err != nil {
+			return nil, "", err
+		}
+		allPods := *pods
+		for podToken != "" {
+			extraPods, nextPodToken, err := client.GetFilteredPods(namespace, nodeName, 0, podToken)
+			if err != nil {
+				return nil, "", err
+			}
+			allPods = append(allPods, *extraPods...)
+
+			podToken = nextPodToken
+		}
+		for _, pod := range allPods {
+			for _, owner := range pod.OwnerReferences {
+				if owner.Kind == "ReplicaSet" {
+					rs, err := client.Client.AppsV1().ReplicaSets(namespace).Get(ct, owner.Name, metav1.GetOptions{})
+					if err != nil {
+						continue
+					}
+
+					for _, rsOwner := range rs.OwnerReferences {
+						if rsOwner.Kind == "Deployment" {
+							deployment, err := client.GetDeployments(namespace).Get(ct, rsOwner.Name, metav1.GetOptions{})
+							if err == nil {
+								filteredDeployments = append(filteredDeployments, *deployment)
+							}
+						}
+					}
+				}
+			}
+		}
+	} else {
+		deployments, err := client.GetDeployments(namespace).List(ct, metav1.ListOptions{
+			Limit:    int64(pageSize),
+			Continue: continueToken,
+		})
+		if err != nil {
+			return nil, "", err
+		}
+		filteredDeployments = deployments.Items
+	}
+
+	return &filteredDeployments, newContinueToken, nil
+}
+
+func (client *Client) GetFilteredDeployments(namespace string, nodeName string, pageSize int, continueToken string) (*[]av1.Deployment, string, error) {
+	ct, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	var filteredDeployments []av1.Deployment
+	var newContinueToken string
+
+	if nodeName != "" {
+		pods, podToken, err := client.GetFilteredPods(namespace, nodeName, 0, "")
+		if err != nil {
+			return nil, "", err
+		}
+		allPods := *pods
+		for podToken != "" {
+			extraPods, nextPodToken, err := client.GetFilteredPods(namespace, nodeName, 0, podToken)
+			if err != nil {
+				return nil, "", err
+			}
+			allPods = append(allPods, *extraPods...)
+
+			podToken = nextPodToken
+		}
+		for _, pod := range allPods {
+			for _, owner := range pod.OwnerReferences {
+				if owner.Kind == "ReplicaSet" {
+					rs, err := client.Client.AppsV1().ReplicaSets(namespace).Get(ct, owner.Name, metav1.GetOptions{})
+					if err != nil {
+						continue
+					}
+
+					for _, rsOwner := range rs.OwnerReferences {
+						if rsOwner.Kind == "Deployment" {
+							deployment, err := client.GetDeployments(namespace).Get(ct, rsOwner.Name, metav1.GetOptions{})
+							if err == nil {
+								filteredDeployments = append(filteredDeployments, *deployment)
+							}
+						}
+					}
+				}
+			}
+		}
+	} else {
+		deployments, err := client.GetDeployments(namespace).List(ct, metav1.ListOptions{
+			Limit:    int64(pageSize),
+			Continue: continueToken,
+		})
+		if err != nil {
+			return nil, "", err
+		}
+		filteredDeployments = deployments.Items
+	}
+
+	return &filteredDeployments, newContinueToken, nil
 }

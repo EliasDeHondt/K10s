@@ -23,6 +23,7 @@
 }
 /* SetUp Grid */
 
+/* Add Aeader */
 .add-header {
     background-color: var(--quaternary);
     color: var(--text);
@@ -36,6 +37,7 @@
     align-items: center;
     justify-content: center;
 }
+/* Add Aeader */
 
 /* Add Main */
 .add-main {
@@ -53,6 +55,11 @@
     gap: 8vh;
 }
 
+.add-svg-yaml {
+    width: 28px;
+    fill: var(--text);
+}
+
 .add-textarea-container {
     position: relative;
     width: 100%;
@@ -60,15 +67,41 @@
     display: flex;
 }
 
+.hidden-textarea {
+    display: none;
+}
+
+.add-pre {
+    background: var(--background);
+    color: var(--text);
+    font-family: monospace;
+    padding: 10px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+}
+
+.add-pre:focus {
+    outline: none;
+    border: none;
+}
+
 .add-textarea {
     width: 100%;
     height: 100%;
+    overflow: auto;
     padding: var(--spacing);
     background-color: var(--tertiary);
     color: var(--text);
-    border-radius: var(--radius);
-    box-shadow: 2px 0 5px var(--shadow);
-    overflow: hidden;
+    border: none;
+}
+
+.add-placeholder-text {
+    position: absolute;
+    top: 1.7rem;
+    left: 1rem;
+    opacity: 0.5;
+    color: var(--text);
+    pointer-events: none;
 }
 
 .add-clear-button {
@@ -106,11 +139,31 @@
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-.add-button:hover {
+.add-button:hover{
     background-color: var(--primary);
     border-color: var(--primary);
 }
 
+.add-yaml-button {
+    width: 15%;
+    border: 1px solid var(--secondary);
+    border-radius: var(--radius);
+    background-color: var(--secondary);
+    color: var(--text);
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.add-yaml-button:hover {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
 /* Add Main */
 
 /* Media Queries */
@@ -158,3 +211,4 @@
         display: none;
     }
 }
+/* Media Queries */

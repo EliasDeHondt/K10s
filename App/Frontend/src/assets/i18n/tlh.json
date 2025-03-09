@@ -1,0 +1,62 @@
+{
+  "NAV": {
+    "LANGUAGE": "Hol choH",
+    "DASHBOARD": "DeghwI'",
+    "SEARCH": "nej",
+    "ADD": "chel",
+    "SETTINGS": "chut lulaj",
+    "LOGOUT": "mej",
+    "DESCRIPTION": "Del",
+    "REPOSITORY": "QaywI' pa'",
+    "CLOSE": "SoQmoH",
+    "THEME": "QIj"
+  },
+  "FOOTER": {
+    "PART1": "chenmoHta'",
+    "PART2": "Hoch SuvwI' ghom"
+  },
+  "LOGIN": {
+    "USERNAME_PLACEHOLDER": "pong",
+    "PASSWORD_PLACEHOLDER": "ngaQHa'ghach",
+    "LOGIN_BUTTON": "'el"
+  },
+  "DASHBOARD": {
+    "CPU": "Qapchu' lo'",
+    "RAM": "qawHaq lo'",
+    "DISK": "naw' lo'"
+  },
+  "SEARCH": {
+    "SEARCH_PLACEHOLDER": "nej yugh...",
+    "SEARCH": "nej",
+    "NODES": "tetlh",
+    "PODS": "pa'mey",
+    "SERVICES": "vummeH mIw",
+    "DEPLOYMENTS": "lanchu'ghach",
+    "CONFIGMAPS": "SeHmeH De'",
+    "SECRETS": "peghmey",
+    "NAMESPACE": "pong Daq",
+    "CLUSTER_NAME": "yugh pong",
+    "POD_NAME": "pa' pong",
+    "STATUS": "Dotlh",
+    "RESTART_COUNT": "qa'angqa' mI'",
+    "LAST_UPDATED": "chu'qa'lu'pu'",
+    "INDEX": "QIn"
+  },
+  "NOTFOUND": {
+    "TITLE": "tlhIngan maH! Daq ghoSbe'!"
+  },
+  "ADD_DEPLOYMENT": {
+    "YAML_PLACEHOLDER": "yIchel 'ej ghItlh YAML ngaQHa'!",
+    "DEPLOY": "lanchu'"
+  },
+  "NOTIF": {
+    "ADD": {
+      "NODATA": "YAML tu'lu'be' :(",
+      "SUCCESS": "Yaj YAML vItlhob!",
+      "ERROR": "Deplorment Qapbe'!"
+    }
+  },
+  "AUTH": {
+    "INVALID": "yIDoghQo', lughbogh pat mu'mey yIchel"
+  }
+}

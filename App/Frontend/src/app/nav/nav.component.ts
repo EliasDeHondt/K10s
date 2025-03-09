@@ -4,17 +4,19 @@
 /**********************************/
 
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
+import { AuthService } from "../services/auth.service";
 
 @Component({
     selector: 'app-nav',
     templateUrl: './nav.component.html',
     standalone: true,
-    imports: [RouterLink, CommonModule,TranslatePipe],
+    imports: [RouterLink, CommonModule, TranslatePipe],
     styleUrls: ['./nav.component.css']
 })
+
 export class NavComponent implements OnInit {
     githubStars: string = '⭐ Loading...';
     dropdownOpen: boolean = false;
@@ -26,11 +28,12 @@ export class NavComponent implements OnInit {
             { code: 'nl', name: 'Nederlands' },
             { code: 'fr', name: 'Français' },
             { code: 'de', name: 'Deutsch' },
-            { code: 'zh', name: '中文' }
+            { code: 'zh', name: '中文' },
+            { code: 'tlh', name: 'Klingon' }
         ]
     };
 
-    constructor(private translate: TranslateService) {
+    constructor(private translate: TranslateService, private authService: AuthService, private router: Router) {
         const savedLang = localStorage.getItem('language');
         if (savedLang) {
             this.translate.use(savedLang);
@@ -47,7 +50,7 @@ export class NavComponent implements OnInit {
     async fetchGitHubStars() {
         try {
             const response = await fetch('https://api.github.com/repos/EliasDeHondt/K10s', {
-                headers: { 'User-Agent': 'Mozilla/5.0' }
+                headers: {'User-Agent': 'Mozilla/5.0'}
             });
             if (!response.ok) throw new Error('GitHub API request failed');
 
@@ -84,5 +87,14 @@ export class NavComponent implements OnInit {
         const newTheme = currentTheme === 'light' ? 'dark' : 'light';
         htmlElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
+    }
+
+    logout() {
+        this.authService.logout().subscribe({
+                next: () => {
+                    this.router.navigate(['/login']);
+                }
+            }
+        )
     }
 }

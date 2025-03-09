@@ -1,52 +1,84 @@
 {
-    "NAV": {
-        "LANGUAGE": "Taal wijzigen",
-        "DASHBOARD": "Dashboard",
-        "SEARCH": "Zoeken",
-        "ADD": "Toevoegen",
-        "SETTINGS": "Instellingen",
-        "LOGOUT": "Uitloggen",
-        "DESCRIPTION": "Beschrijving",
-        "REPOSITORY": "Repository",
-        "CLOSE": "Sluiten",
-        "THEME": "Thema"
-    },
-    "FOOTER": {
-        "PART1": "Ontworpen door de",
-        "PART2": "open-source ploeg"
-    },
-    "LOGIN": {
-        "USERNAME_PLACEHOLDER": "Gebruikersnaam",
-        "PASSWORD_PLACEHOLDER": "Wachtwoord",
-        "LOGIN_BUTTON": "Inloggen"
-    },
-    "DASHBOARD": {
-        "NODES": "Knooppunten",
-        "CPU": "CPU-gebruik",
-        "RAM": "RAM-gebruik",
-        "DISK": "Schijfgebruik"
-    },
-    "SEARCH": {
-        "SEARCH_PLACEHOLDER": "Zoek Cluster...",
-        "SEARCH": "Zoek",
-        "NODE": "Knooppunt",
-        "PODS": "Pods",
-        "SERVICES": "Diensten",
-        "DEPLOYMENTS": "Deployments",
-        "CONFIGMAPS": "ConfigMaps",
-        "SECRETS": "Geheimen",
-        "NAMESPACE" : "Naamruimte",
-        "CLUSTER_NAME": "Clusternnaam",
-        "POD_NAME": "Podnaam",
-        "STATUS": "Status",
-        "RESTART_COUNT": "Aantal herstarts",
-        "LAST_UPDATED": "Laatst bijgewerkt"
-    },
-    "NOTFOUND": {
-        "TITLE": "Het mag dan open source zijn, maar blijf verdomme in je eigen baan ;-)"
-    },
-    "ADD_DEPLOYMENT": {
-        "YAML_PLACEHOLDER": "Typ hier de YAML...",
-        "DEPLOY" : "Installeer"
+  "NAV": {
+    "LANGUAGE": "Taal wijzigen",
+    "DASHBOARD": "Dashboard",
+    "SEARCH": "Zoeken",
+    "ADD": "Toevoegen",
+    "SETTINGS": "Instellingen",
+    "LOGOUT": "Uitloggen",
+    "DESCRIPTION": "Beschrijving",
+    "REPOSITORY": "Repository",
+    "CLOSE": "Sluiten",
+    "THEME": "Thema"
+  },
+  "FOOTER": {
+    "PART1": "Ontworpen door de",
+    "PART2": "open-source ploeg"
+  },
+  "LOGIN": {
+    "USERNAME_PLACEHOLDER": "Gebruikersnaam",
+    "PASSWORD_PLACEHOLDER": "Wachtwoord",
+    "LOGIN_BUTTON": "Inloggen"
+  },
+  "DASHBOARD": {
+    "CPU": "CPU-gebruik",
+    "RAM": "RAM-gebruik",
+    "DISK": "Schijfgebruik"
+  },
+  "SEARCH": {
+    "SEARCH_PLACEHOLDER": "Zoek Cluster...",
+    "SEARCH": "Zoek",
+    "NODES": "Knooppunt",
+    "PODS": "Pods",
+    "SERVICES": "Diensten",
+    "DEPLOYMENTS": "Deployments",
+    "CONFIGMAPS": "ConfigMaps",
+    "SECRETS": "Geheimen",
+    "NAMESPACE": "Naamruimte",
+    "CLUSTER_NAME": "Clusternnaam",
+    "POD_NAME": "Podnaam",
+    "STATUS": "Status",
+    "RESTART_COUNT": "Aantal herstarts",
+    "LAST_UPDATED": "Laatst bijgewerkt",
+    "SERVICES_READY": "Services klaar",
+    "POD_IP": "Pod IP",
+    "NODE_NAME": "Node naam",
+    "AGE": "Leeftijd",
+    "NODE_ROLE": "Node rol",
+    "VERSION": "Versie",
+    "POD_AMOUNT": "Pod kwantiteit",
+    "IP": "IP",
+    "SERVICE_NAME": "Dienstnaam",
+    "SERVICE_TYPE": "Servicetype",
+    "CLUSTER_IP": "Cluster-IP",
+    "EXTERNAL_IP": "Externe IP",
+    "PORTS": "Poorten",
+    "DEPLOYMENT_NAME": "Deployementnaam",
+    "READY_PODS": "Klaarstaande pods",
+    "UPDATED": "Bijgewerkt",
+    "AVAILABLE": "Beschikbaar",
+    "CONFIGMAP_NAME": "Configmap naam",
+    "DATA": "Gegevens",
+    "SECRET_NAME": "Geheimnaam",
+    "SECRET_TYPE": "Geheimtype",
+    "INDEX": "Index"
+  },
+  "NOTFOUND": {
+    "TITLE": "Het mag dan open source zijn, maar blijf verdomme in je eigen baan ;-)"
+  },
+  "ADD_DEPLOYMENT": {
+    "YAML_FILE": "YAML uploaden",
+    "YAML_PLACEHOLDER": "Kopieer en plak je YAML-bestand...",
+    "DEPLOY": "Installeer"
+  },
+  "NOTIF": {
+    "ADD": {
+      "NODATA": "Geen YAML-gegevens om te uploaden :(",
+      "SUCCESS": "Je YAML wordt gedeployed!",
+      "ERROR": "De deployment is mislukt!"
     }
+  },
+  "AUTH": {
+    "INVALID": "Voer geldige inloggegevens in"
+  }
 }

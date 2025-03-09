@@ -1,0 +1,27 @@
+<!--Author K10s Open Source Team-->
+<table class="search-table">
+    <thead>
+    <tr>
+        <th>{{ 'SEARCH.INDEX' | translate }}</th>
+        <th>{{ 'SEARCH.NAMESPACE' | translate }}</th>
+        <th>{{ 'SEARCH.DEPLOYMENT_NAME' | translate }}</th>
+        <th>{{ 'SEARCH.READY_PODS' | translate }}</th>
+        <th>{{ 'SEARCH.UPDATED' | translate }}</th>
+        <th>{{ 'SEARCH.AVAILABLE' | translate }}</th>
+        <th>{{ 'SEARCH.AGE' | translate }}</th>
+    </tr>
+    </thead>
+    <tbody>
+        @for (deployment of deployments; track deployment.Name; let i = $index) {
+            <tr>
+                <td>{{ i + 1 }}</td>
+                <td>{{ deployment.Namespace }}</td>
+                <td>{{ deployment.Name }}</td>
+                <td>{{ deployment.Ready }}</td>
+                <td>{{ deployment.Updated }}</td>
+                <td>{{ deployment.Available }}</td>
+                <td>{{ deployment.Age }}</td>
+            </tr>
+        }
+    </tbody>
+</table>

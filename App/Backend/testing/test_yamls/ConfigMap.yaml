@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config
+  namespace: default
+data:
+  app.properties: |
+    key1=value1
+    key2=value2
+  log_level: "debug"
+---

@@ -8,14 +8,16 @@ import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { filter, map } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
+import { NotificationComponent } from "./notification/notification.component";
 
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [RouterModule,CommonModule],
-    template: `<router-outlet></router-outlet>`,
+    imports: [RouterModule, CommonModule, NotificationComponent],
+    templateUrl: './app.component.html',
     providers: [Title]
 })
+
 export class AppComponent {
     private router = inject(Router);
     private titleService = inject(Title);
@@ -29,7 +31,7 @@ export class AppComponent {
                     while (route.firstChild) {
                         route = route.firstChild;
                     }
-                    return route.snapshot.data['title'] || 'Standaard Titel';
+                    return route.snapshot.data['title'] || 'K10s';
                 })
             ).subscribe(title => {
                 this.titleService.setTitle(title);

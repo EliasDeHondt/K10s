@@ -6,11 +6,13 @@
         "start": "ng serve",
         "build": "ng build",
         "watch": "ng build --watch --configuration development",
-        "test": "ng test"
+        "test": "ng test",
+        "prod": "ng build --configuration production"
     },
     "private": true,
     "dependencies": {
         "@angular/animations": "^19.1.0",
+        "@angular/cdk": "^19.1.4",
         "@angular/common": "^19.1.0",
         "@angular/compiler": "^19.1.0",
         "@angular/core": "^19.1.0",
@@ -22,6 +24,8 @@
         "@ngx-translate/http-loader": "^16.0.1",
         "@swimlane/ngx-charts": "^22.0.0-alpha.0",
         "animejs": "^3.2.2",
+        "d3": "^7.9.0",
+        "prismjs": "^1.29.0",
         "rxjs": "~7.8.0",
         "tslib": "^2.3.0",
         "zone.js": "~0.15.0"
@@ -31,7 +35,9 @@
         "@angular/cli": "^19.1.5",
         "@angular/compiler-cli": "^19.1.0",
         "@types/animejs": "^3.1.13",
+        "@types/d3": "^7.4.3",
         "@types/jasmine": "~5.1.0",
+        "@types/prismjs": "^1.26.5",
         "jasmine-core": "~5.5.0",
         "karma": "~6.4.0",
         "karma-chrome-launcher": "~3.2.0",

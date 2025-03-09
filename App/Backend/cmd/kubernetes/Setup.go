@@ -1,3 +1,7 @@
+/**********************************/
+/* @since 01/01/2025              */
+/* @author K10s Open Source Team  */
+/**********************************/
 package kubernetes
 
 import (
@@ -14,28 +18,28 @@ import (
 	"time"
 )
 
-func GetClients() *IClient {
+func GetClients() IClient {
 	config, err := rest.InClusterConfig()
 
 	if err != nil {
 		client := TestFakeClient()
-		return &client
+		return client
 	}
 
 	c, err := kubernetes.NewForConfig(config)
 	if err != nil {
 		client := TestFakeClient()
-		return &client
+		return client
 	}
 
 	mc, err := metricsv.NewForConfig(config)
 	if err != nil {
 		client := TestFakeClient()
-		return &client
+		return client
 	}
 
 	var client IClient = &Client{c, mc}
-	return &client
+	return client
 }
 
 func TestFakeClient() IClient {
@@ -165,6 +169,18 @@ func TestFakeClient() IClient {
 	}
 	for _, node := range nodes {
 		clientset.GetNodes().Create(context.TODO(), node, metav1.CreateOptions{})
+	}
+
+	namespaces := []*corev1.Namespace{
+		{
+			ObjectMeta: metav1.ObjectMeta{
+				Name: "test",
+			},
+		},
+	}
+
+	for _, namespace := range namespaces {
+		clientset.GetNamespaces().Create(context.TODO(), namespace, metav1.CreateOptions{})
 	}
 
 	pods := []*corev1.Pod{
@@ -297,7 +313,7 @@ func TestFakeClient() IClient {
 	configMaps := []*corev1.ConfigMap{
 		{
 			ObjectMeta: metav1.ObjectMeta{Name: "configmap-1", Namespace: "default"},
-			Data:       map[string]string{"config": "value"},
+			Data:       map[string]string{"config": "valueaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
 		},
 		{
 			ObjectMeta: metav1.ObjectMeta{Name: "configmap-2", Namespace: "test"},

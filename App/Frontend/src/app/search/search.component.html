@@ -1,256 +1,102 @@
 <!--Author K10s Open Source Team-->
 <body class="search-body">
-    <header class="search-header">
-        <section class="search-header-section1">
-            <article class="search-header-article1">
-                <input class="cursor-text" type="text" id="search-input" [placeholder]="'SEARCH.SEARCH_PLACEHOLDER' | translate">
-                <button class="cursor-pointer" id="search-button">{{ 'SEARCH.SEARCH' | translate }}</button>
-            </article>
-        </section>
-        <section class="search-header-section2">
+<header class="search-header">
+    <section class="search-header-section2">
         <article class="search-header-article2">
-            <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-1">{{ 'DASHBOARD.NODES' | translate }}</label>
-            <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-2">{{ 'SEARCH.PODS' | translate }}</label>
-            <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-3">{{ 'SEARCH.SERVICES' | translate }}</label>
-            <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-4">{{ 'SEARCH.DEPLOYMENTS' | translate }}</label>
-            <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-5">{{ 'SEARCH.CONFIGMAPS' | translate }}</label>
-            <label><input class="cursor-pointer" type="radio" name="search-filter" id="search-filter-option-6">{{ 'SEARCH.SECRETS' | translate }}</label>
+            <label><input class="cursor-pointer" type="radio" (change)="updateElement('nodes')" name="search-filter"
+                          id="search-filter-option-1"
+                          [checked]="isDefaultNodeSelected()">{{ 'SEARCH.NODES' | translate }}</label>
+            <label><input class="cursor-pointer" type="radio" (change)="updateElement('pods')" name="search-filter"
+                          id="search-filter-option-2">{{ 'SEARCH.PODS' | translate }}</label>
+            <label><input class="cursor-pointer" type="radio" (change)="updateElement('services')" name="search-filter"
+                          id="search-filter-option-3">{{ 'SEARCH.SERVICES' | translate }}</label>
+            <label><input class="cursor-pointer" type="radio" (change)="updateElement('deployments')"
+                          name="search-filter"
+                          id="search-filter-option-4">{{ 'SEARCH.DEPLOYMENTS' | translate }}</label>
+            <label><input class="cursor-pointer" type="radio" (change)="updateElement('configMaps')"
+                          name="search-filter" id="search-filter-option-5">{{ 'SEARCH.CONFIGMAPS' | translate }}</label>
+            <label><input class="cursor-pointer" type="radio" (change)="updateElement('secrets')" name="search-filter"
+                          id="search-filter-option-6">{{ 'SEARCH.SECRETS' | translate }}</label>
         </article>
     </section>
-
-        <section class="search-header-section3">
-            <article class="search-header-article3">
-                <section class="search-dropdown1">
-                    <button class="search-dropdown-button cursor-pointer" (click)="toggleDropdown('searchDropdown1')">
-                        {{ 'SEARCH.NODE' | translate }}
-                    </button>
-                    <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown1']">
-                        <li class="cursor-pointer" [class.active]="selectedNode === 'None'" (click)="selectNode('None')">None</li>
-                        <li class="cursor-pointer" [class.active]="selectedNode === 'Node A'" (click)="selectNode('Node A')">Node A</li>
-                        <li class="cursor-pointer" [class.active]="selectedNode === 'Node B'" (click)="selectNode('Node B')">Node B</li>
-                    </ul>
-                </section>
-            </article>
-            <article class="search-header-article3">
-                <section class="search-dropdown2">
-                    <button class="search-dropdown-button cursor-pointer" (click)="toggleDropdown('searchDropdown2')">
+    <section class="search-header-section3">
+        <article class="search-header-article3">
+            <section class="search-dropdown1">
+                <button class="search-dropdown-button cursor-pointer" (click)="toggleDropdown('searchDropdown1')">
+                    @if (this.tableService.node() === '') {
+                        {{ 'SEARCH.NODES' | translate }}
+                    } @else {
+                        {{ this.tableService.node() }}
+                    }
+                </button>
+                <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown1']">
+                    <li class="cursor-pointer" [class.active]="this.tableService.node() === ''"
+                        (click)="selectNode('')">
+                        None
+                    </li>
+                    @for (name of nodeNames; track name) {
+                        <li class="cursor-pointer" [class.active]="this.tableService.node() === name"
+                            (click)="selectNode(name)">{{ name }}
+                        </li>
+                    }
+                </ul>
+            </section>
+        </article>
+        <article class="search-header-article3">
+            <section class="search-dropdown2">
+                <button class="search-dropdown-button cursor-pointer" (click)="toggleDropdown('searchDropdown2')">
+                    @if (this.tableService.namespace() === '') {
                         {{ 'SEARCH.NAMESPACE' | translate }}
-                    </button>
-                    <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown2']">
-                        <li class="cursor-pointer" [class.active]="selectedNamespace === 'None'" (click)="selectNamespace('None')">None</li>
-                        <li class="cursor-pointer" [class.active]="selectedNamespace === 'Webserver001'" (click)="selectNamespace('Webserver001')">Webserver001</li>
-                        <li class="cursor-pointer" [class.active]="selectedNamespace === 'Database001'" (click)="selectNamespace('Database001')">Database001</li>
-                        <li class="cursor-pointer" [class.active]="selectedNamespace === 'Monitoring001'" (click)="selectNamespace('Monitoring001')">Monitoring001</li>
-                    </ul>
-                </section>
-            </article>
-        </section>
-    </header>
-    <app-nav class="nav" id="nav"></app-nav>
-    <main class="search-main">
-        <table class="search-table"> <!-- TODO (+ todo translation when real table) -->
-            <thead>
-                <tr>
-                    <th>{{ 'SEARCH.CLUSTER_NAME' | translate }}</th>
-                    <th>{{ 'SEARCH.NAMESPACE' | translate }}</th>
-                    <th>{{ 'SEARCH.POD_NAME' | translate }}</th>
-                    <th>{{ 'SEARCH.STATUS' | translate }}</th>
-                    <th>{{ 'SEARCH.RESTART_COUNT' | translate }}</th>
-                    <th>{{ 'SEARCH.LAST_UPDATED' | translate }}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Cluster-A</td>
-                    <td>default</td>
-                    <td>nginx-pod-1</td>
-                    <td>Running</td>
-                    <td>0</td>
-                    <td>2025-01-04 10:15:30</td>
-                </tr>
-                <tr>
-                    <td>Cluster-B</td>
-                    <td>kube-system</td>
-                    <td>kube-proxy-2</td>
-                    <td>Running</td>
-                    <td>1</td>
-                    <td>2025-01-03 18:45:12</td>
-                </tr>
-                <tr>
-                    <td>Cluster-C</td>
-                    <td>production</td>
-                    <td>backend-api-4</td>
-                    <td>CrashLoopBackOff</td>
-                    <td>5</td>
-                    <td>2025-01-04 09:30:45</td>
-                </tr>
-                <tr>
-                    <td>Cluster-D</td>
-                    <td>staging</td>
-                    <td>frontend-web-3</td>
-                    <td>Pending</td>
-                    <td>0</td>
-                    <td>2025-01-03 22:12:20</td>
-                </tr>
-                <tr>
-                    <td>Cluster-E</td>
-                    <td>monitoring</td>
-                    <td>prometheus-pod-7</td>
-                    <td>Running</td>
-                    <td>2</td>
-                    <td>2025-01-04 08:50:10</td>
-                </tr>
-                <tr>
-                    <td>Cluster-F</td>
-                    <td>default</td>
-                    <td>redis-cache-9</td>
-                    <td>Running</td>
-                    <td>0</td>
-                    <td>2025-01-04 07:45:00</td>
-                </tr>
-                <tr>
-                    <td>Cluster-G</td>
-                    <td>dev</td>
-                    <td>worker-node-5</td>
-                    <td>ImagePullBackOff</td>
-                    <td>3</td>
-                    <td>2025-01-04 10:00:00</td>
-                </tr>
-                <tr>
-                    <td>Cluster-H</td>
-                    <td>test</td>
-                    <td>db-service-10</td>
-                    <td>Running</td>
-                    <td>0</td>
-                    <td>2025-01-04 06:30:30</td>
-                </tr>
-                <tr>
-                    <td>Cluster-I</td>
-                    <td>default</td>
-                    <td>nginx-pod-1</td>
-                    <td>Running</td>
-                    <td>0</td>
-                    <td>2025-01-04 10:15:30</td>
-                </tr>
-                <tr>
-                    <td>Cluster-J</td>
-                    <td>kube-system</td>
-                    <td>kube-proxy-2</td>
-                    <td>Running</td>
-                    <td>1</td>
-                    <td>2025-01-03 18:45:12</td>
-                </tr>
-                <tr>
-                    <td>Cluster-L</td>
-                    <td>production</td>
-                    <td>backend-api-4</td>
-                    <td>CrashLoopBackOff</td>
-                    <td>5</td>
-                    <td>2025-01-04 09:30:45</td>
-                </tr>
-                <tr>
-                    <td>Cluster-M</td>
-                    <td>staging</td>
-                    <td>frontend-web-3</td>
-                    <td>Pending</td>
-                    <td>0</td>
-                    <td>2025-01-03 22:12:20</td>
-                </tr>
-                <tr>
-                    <td>Cluster-O</td>
-                    <td>monitoring</td>
-                    <td>prometheus-pod-7</td>
-                    <td>Running</td>
-                    <td>2</td>
-                    <td>2025-01-04 08:50:10</td>
-                </tr>
-                <tr>
-                    <td>Cluster-P</td>
-                    <td>default</td>
-                    <td>redis-cache-9</td>
-                    <td>Running</td>
-                    <td>0</td>
-                    <td>2025-01-04 07:45:00</td>
-                </tr>
-                <tr>
-                    <td>Cluster-K</td>
-                    <td>dev</td>
-                    <td>worker-node-5</td>
-                    <td>ImagePullBackOff</td>
-                    <td>3</td>
-                    <td>2025-01-04 10:00:00</td>
-                </tr>
-                <tr>
-                    <td>Cluster-R</td>
-                    <td>test</td>
-                    <td>db-service-10</td>
-                    <td>Running</td>
-                    <td>0</td>
-                    <td>2025-01-04 06:30:30</td>
-                </tr>
-                <tr>
-                    <td>Cluster-S</td>
-                    <td>default</td>
-                    <td>nginx-pod-1</td>
-                    <td>Running</td>
-                    <td>0</td>
-                    <td>2025-01-04 10:15:30</td>
-                </tr>
-                <tr>
-                    <td>Cluster-T</td>
-                    <td>default</td>
-                    <td>redis-cache-9</td>
-                    <td>Running</td>
-                    <td>0</td>
-                    <td>2025-01-04 07:45:00</td>
-                </tr>
-                <tr>
-                    <td>Cluster-V</td>
-                    <td>dev</td>
-                    <td>worker-node-5</td>
-                    <td>ImagePullBackOff</td>
-                    <td>3</td>
-                    <td>2025-01-04 10:00:00</td>
-                </tr>
-                <tr>
-                    <td>Cluster-W</td>
-                    <td>test</td>
-                    <td>db-service-10</td>
-                    <td>Running</td>
-                    <td>0</td>
-                    <td>2025-01-04 06:30:30</td>
-                </tr>
-                <tr>
-                    <td>Cluster-X</td>
-                    <td>default</td>
-                    <td>nginx-pod-1</td>
-                    <td>Running</td>
-                    <td>0</td>
-                    <td>2025-01-04 10:15:30</td>
-                </tr>
-                <tr>
-                    <td>Cluster-Y</td>
-                    <td>dev</td>
-                    <td>worker-node-5</td>
-                    <td>ImagePullBackOff</td>
-                    <td>3</td>
-                    <td>2025-01-04 10:00:00</td>
-                </tr>
-                <tr>
-                    <td>Cluster-Z</td>
-                    <td>test</td>
-                    <td>db-service-10</td>
-                    <td>Running</td>
-                    <td>0</td>
-                    <td>2025-01-04 06:30:30</td>
-                </tr>
-            </tbody>
-        </table>
-        <section class="search-main-pagination">
-            <button class="cursor-pointer">20</button>
-            <button class="cursor-pointer">50</button>
-            <button class="cursor-pointer">100</button>
-        </section>
-    </main>
-    <app-footer class="footer" id="footer"></app-footer>
+                    } @else {
+                        {{ this.tableService.namespace() }}
+                    }
+                </button>
+                <ul class="search-dropdown-menu cursor-pointer" [class.show]="dropdowns['searchDropdown2']">
+                    <li class="cursor-pointer" [class.active]="this.tableService.namespace() === ''"
+                        (click)="selectNamespace('')">None
+                    </li>
+                    <li class="cursor-pointer" [class.active]="this.tableService.namespace() === 'default'"
+                        (click)="selectNamespace('default')">Default
+                    </li>
+                    @for (namespace of namespaces; track namespace) {
+                        <li class="cursor-pointer" [class.active]="this.tableService.namespace() === namespace.Name"
+                            (click)="selectNamespace(namespace.Name)">{{ namespace.Name }}
+                        </li>
+                    }
+                </ul>
+            </section>
+        </article>
+    </section>
+</header>
+<app-nav class="nav" id="nav"></app-nav>
+<main class="search-main">
+    @if (this.loadingService.isLoading()) {
+        <div class="skeleton-table">
+            <div class="skeleton-header"></div>
+            <div class="skeleton-content"
+                 *ngFor="let _ of [].constructor(15); let i = index"
+                 [class.odd-row]="i % 2 === 0"
+                 [class.even-row]="i % 2 !== 0">
+            </div>
+        </div>
+    } @else if (tableService.element() === "pods") {
+        <app-pod-search-table [pods]="tableService.data().Response | podCast"/>
+    } @else if (tableService.element() === "nodes") {
+        <app-node-table [nodes]="tableService.data().Response | nodeCast"/>
+    } @else if (tableService.element() === "services") {
+        <app-service-table [services]="tableService.data().Response | serviceCast"/>
+    } @else if (tableService.element() === "deployments") {
+        <app-deployment-table [deployments]="tableService.data().Response | deploymentCast"/>
+    } @else if (tableService.element() === "configMaps") {
+        <app-config-map-table [configMaps]="tableService.data().Response | configMapCast"/>
+    } @else if (tableService.element() === "secrets") {
+        <app-secret-table [secrets]="tableService.data().Response | secretCast"/>
+    }
+    <section class="search-main-pagination">
+        <button class="cursor-pointer">20</button>
+        <button class="cursor-pointer">50</button>
+        <button class="cursor-pointer">100</button>
+    </section>
+</main>
+<app-footer class="footer" id="footer"></app-footer>
 </body>

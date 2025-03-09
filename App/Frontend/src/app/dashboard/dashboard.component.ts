@@ -3,27 +3,25 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NavComponent } from '../nav/nav.component';
 import { FooterComponent } from "../footer/footer.component";
 import { TranslatePipe } from "@ngx-translate/core";
-import { StatsService } from "../services/stats.service";
 import { ByteFormatPipe } from "../byte-format.pipe";
 import { Color, NgxChartsModule, ScaleType } from "@swimlane/ngx-charts";
+import { SpiderWebComponent } from "../spider-web/spider-web.component";
+import { StatWebSocketService } from "../services/statWebsocket.service";
+import { Metrics } from "../domain/Metrics";
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css'],
-    imports: [NavComponent, FooterComponent, TranslatePipe, ByteFormatPipe, NgxChartsModule],
+    imports: [NavComponent, FooterComponent, TranslatePipe, ByteFormatPipe, NgxChartsModule, SpiderWebComponent],
     standalone: true
 })
 
-export class DashboardComponent implements AfterViewInit {
-    onRightClick(event: MouseEvent) {
-        event.preventDefault();
-    }
-
+export class DashboardComponent implements AfterViewInit, OnInit, OnDestroy {
     // Fullscreen button
     @ViewChild('dashboardMain') dashboardMain!: ElementRef;
     @ViewChild('dashboardTitle') dashboardTitle!: ElementRef;
@@ -59,13 +57,15 @@ export class DashboardComponent implements AfterViewInit {
         }
     }
 
-    // get stats
-    usage: any = null;
+    // Get stats
+    usage: Metrics | undefined = undefined;
     memoryChartData: any[] = [];
     cpuChartData: any[] = [];
     diskUsagePercentage: number = 0.00;
+    diskUsage: number = 0.00;
+    diskCapacity: number = 0.00;
 
-    colorScheme:Color = {
+    colorScheme: Color = {
         name: 'customScheme',
         selectable: true,
         group: ScaleType.Ordinal,
@@ -74,48 +74,47 @@ export class DashboardComponent implements AfterViewInit {
     colorSchemeCpu: Color = {...this.colorScheme}
     diskColor = "";
 
-    constructor(private usageService: StatsService) {}
+    constructor(private usageService: StatWebSocketService) { }
 
     ngOnInit(): void {
-        this.usageService.login().subscribe({
-            next: () => {
-                this.loadUsage();
-            },
-            error: (error) => {
-                console.error(error);
-            }
-        });
-    }
+        this.usageService.connect()
 
-    loadUsage(): void {
-        this.usageService.getStats().subscribe({
+        this.usageService.getMetrics().subscribe({
             next: (data) => {
-                console.log(data)
-                this.usage = data;
-                this.updateChartData();
+                this.updateChartData(data);
+                this.loading = false;
             },
             error: (error) => {
                 console.error(error);
+                this.loading = true;
             }
-        });
+        })
     }
 
-    updateChartData(): void {
+    loading: boolean = false;
+
+    valueFormatting(usage: number): string {
+        return usage + `%`;
+    }
+
+    updateChartData(metrics: Metrics): void {
         this.memoryChartData = [
-            { name: 'Used', value: this.usage.MemUsage },
+            {name: 'Used', value: parseFloat(metrics.MemUsage.toFixed(2))},
         ];
         this.cpuChartData = [
-            { name: 'Used', value: this.usage?.CpuUsage || 0 },
+            {name: 'Used', value: parseFloat(metrics.CpuUsage.toFixed(2))},
         ];
-        this.diskUsagePercentage = (this.usage.DiskUsage / this.usage.DiskCapacity) * 100;
+        this.diskUsage = metrics.DiskUsage;
+        this.diskCapacity = metrics.DiskCapacity;
+        this.diskUsagePercentage = (metrics.DiskUsage / metrics.DiskCapacity) * 100;
 
         this.colorScheme = {
             ...this.colorScheme,
-            domain: [this.getUsageColor(this.usage.MemUsage), '#E0E0E0']
+            domain: [this.getUsageColor(metrics.MemUsage), '#E0E0E0']
         };
         this.colorSchemeCpu = {
             ...this.colorScheme,
-            domain: [this.getUsageColor(this.usage.CpuUsage), '#E0E0E0']
+            domain: [this.getUsageColor(metrics.CpuUsage), '#E0E0E0']
         };
         this.diskColor = this.getUsageColor(this.diskUsagePercentage);
     }
@@ -126,8 +125,12 @@ export class DashboardComponent implements AfterViewInit {
         const orange = rootStyles.getPropertyValue('--status-orange').trim();
         const red = rootStyles.getPropertyValue('--status-red').trim();
 
-        if (usage < 50) return green;
-        if (usage < 80) return orange;
+        if (usage < 55) return green;
+        if (usage < 85) return orange;
         return red;
+    }
+
+    ngOnDestroy() {
+        this.usageService.disconnect();
     }
 }

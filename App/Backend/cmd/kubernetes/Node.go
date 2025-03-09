@@ -1,3 +1,7 @@
+/**********************************/
+/* @since 01/01/2025              */
+/* @author K10s Open Source Team  */
+/**********************************/
 package kubernetes
 
 import (
@@ -18,9 +22,7 @@ type Node struct {
 	IP         string
 }
 
-//TODO: remove fake clientset and use a real clientset
-
-func NewNode(node v1.Node, clientset *IClient) Node {
+func NewNode(node v1.Node, clientset IClient) Node {
 	return Node{
 		Name:       node.Name,
 		Status:     isNodeOnline(&node),
@@ -38,10 +40,10 @@ func calculateNodeAge(node *v1.Node) string {
 	return fmt.Sprintf("%d:%d:%d", int(age.Hours()/24), int(age.Hours())%24, int(age.Minutes())%60)
 }
 
-func getPodsInNode(nodeName string, clientset *IClient) int {
+func getPodsInNode(nodeName string, clientset IClient) int {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	pods, err := (*clientset).GetPods("").List(ctx, metav1.ListOptions{
+	pods, err := (clientset).GetPods("").List(ctx, metav1.ListOptions{
 		FieldSelector: "spec.nodeName=" + nodeName,
 	})
 	if err != nil {

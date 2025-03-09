@@ -3,15 +3,19 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import * as Prism from 'prismjs';
+import 'prismjs/components/prism-yaml';
+
 import { NavComponent } from "../nav/nav.component";
 import { FooterComponent } from "../footer/footer.component";
 import { FormsModule } from "@angular/forms";
-import { DeploymentService } from "../services/deployment.service";
-import { TranslatePipe } from "@ngx-translate/core";
+import { AddService } from "../services/add.service";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
+import { NotificationService } from "../services/notification.service";
 
 @Component({
-    selector: 'app-add-deployment',
+    selector: 'app-add',
     templateUrl: './add.component.html',
     styleUrl: './add.component.css',
     imports: [NavComponent, FooterComponent, FormsModule, TranslatePipe],
@@ -20,14 +24,17 @@ import { TranslatePipe } from "@ngx-translate/core";
 
 export class AddComponent {
     yamlText: string = '';
+    highlightedYaml: string = '';
     fileContent: string | null = null;
     fileUploaded: boolean = false;
     textAreaActive: boolean = false;
+    @ViewChild('yamlTextArea') yamlTextArea: ElementRef | undefined;
 
-    constructor(private deploymentService: DeploymentService) {}
+    constructor(private addService: AddService, private notificationService: NotificationService,private translate: TranslateService) {}
 
     onFileUpload(event: Event) {
         const input = event.target as HTMLInputElement;
+        if (this.yamlText.trim().length > 0) return;
         if (input.files && input.files.length > 0) {
             const file = input.files[0];
 
@@ -42,30 +49,61 @@ export class AddComponent {
         }
     }
 
-    onTextInput() {
-        this.fileUploaded = false;
-        this.fileContent = null;
-        this.textAreaActive = true;
+    highlightYaml() {
+        this.highlightedYaml = Prism.highlight(this.yamlText, Prism.languages['yaml'], 'yaml');
+    }
+
+    updateYamlText(event: Event) {
+        const target = event.target as HTMLElement;
+        this.yamlText = target.innerText;
+        this.highlightYaml();
+        if ( this.yamlTextArea && this.yamlText.trim().length > 0 ) {
+            this.yamlTextArea.nativeElement.contentEditable = 'false';
+            this.textAreaActive = true
+        }
+    }
+
+    preventTyping(event: KeyboardEvent): void {
+        if (event.ctrlKey && event.key === 'v') return;
+        if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
+            event.preventDefault();
+        }
+    }
+
+    onPaste(event: ClipboardEvent): void {
+        event.preventDefault();
+        const clipboardData = event.clipboardData || (window as any).clipboardData;
+        const pastedText = clipboardData.getData('text');
+        document.execCommand('insertText', false, pastedText);
     }
 
     sendData() {
         const yamlData = this.fileContent || this.yamlText;
 
         if (!yamlData) {
-            console.warn('No YAML data to upload');
+            this.notificationService.showNotification(this.translate.instant('NOTIF.ADD.NODATA'), 'error');
             return;
         }
 
-        this.deploymentService.uploadYaml(yamlData).subscribe({
-            next: (response) => {console.log('YAML upload success', response);  this.clearTextarea();},
-            error: (error) => console.error('Upload failed', error),
+        this.addService.uploadYaml(yamlData).subscribe({
+            next: () => {
+                this.clearTextarea();
+                this.notificationService.showNotification(this.translate.instant('NOTIF.ADD.SUCCESS'), 'success');
+            },
+            error: () => {
+                this.notificationService.showNotification(this.translate.instant('NOTIF.ADD.ERROR'), 'error');
+            },
         });
     }
 
     clearTextarea() {
         this.yamlText = '';
+        this.highlightedYaml = '';
         this.fileUploaded = true;
         this.fileContent = null;
         this.textAreaActive = false;
+        if ( this.yamlTextArea ) {
+            this.yamlTextArea.nativeElement.contentEditable = 'true';
+        }
     }
 }

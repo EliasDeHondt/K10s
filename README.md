@@ -77,15 +77,15 @@ The project's visual identity is defined by the following colors:
 
 ### 🌌Kubernetes
 
-- Step 1 - Create the necessary secrets for the application (replace the values with your own):
+- Step 1 - Deploy the application:
+```bash
+kubectl apply -f https://raw.githubusercontent.com/EliasDeHondt/K10s/refs/heads/main/Kubernetes/k10s.yaml
+```
+
+- Step 2 - Create the necessary secrets for the application (replace the values with your own):
 ```bash
 kubectl create secret generic k10s-secret-user -n k10s-namespaces --from-literal=USERNAME=admin --from-literal=PASSWORD=admin
 kubectl create secret generic k10s-secret-jwt -n k10s-namespaces --from-literal=JWT_SECRET=$(openssl rand -base64 32) # apt install openssl.
-```
-
-- Step 2 - Deploy the application:
-```bash
-kubectl apply -f https://raw.githubusercontent.com/EliasDeHondt/K10s/refs/heads/main/Kubernetes/k10s.yaml
 ```
 
 - Step 3 - Get the external IP of the application:
@@ -100,12 +100,6 @@ kubectl get svc -n k10s-namespaces
 kubectl delete -f https://raw.githubusercontent.com/EliasDeHondt/K10s/refs/heads/main/Kubernetes/k10s.yaml
 ```
 
-- If you want to delete the secrets:
-```bash
-kubectl delete secret k10s-secret-user -n k10s-namespaces
-kubectl delete secret k10s-secret-discord_webhook -n k10s-namespaces
-```
-
 ### 🐳Docker
 
 > **NOTE:** The following commands are simply for testing purposes only. For production use, please refer to the Kubernetes deployment instructions above.
@@ -113,7 +107,7 @@ kubectl delete secret k10s-secret-discord_webhook -n k10s-namespaces
 - Pull the latest image and run the container
 ```bash
 sudo docker pull ghcr.io/eliasdehondt/k10s-frontend:latest
-sudo docker run --name k10s-frontend-container -p 8080:8080 -d ghcr.io/eliasdehondt/k10s-frontend:latest
+sudo docker run --name k10s-frontend-container -p 80:80 -d ghcr.io/eliasdehondt/k10s-frontend:latest
 ```
 
 ---
@@ -123,4 +117,34 @@ sudo docker run --name k10s-frontend-container -p 8080:8080 -d ghcr.io/eliasdeho
 sudo docker stop k10s-frontend-container
 sudo docker rm k10s-frontend-container
 sudo docker rmi ghcr.io/eliasdehondt/k10s-frontend:latest
+```
+
+
+## 📚How to run K10s locally for development purposes
+
+- Step 1 - Clone the repository:
+```bash
+git clone https://github.com/EliasDeHondt/K10s.git
+```
+
+- Step 2 - Install the necessary dependencies for the frontend:
+```bash
+cd /K10s/App/Frontend
+npm install
+```
+
+- Step 3 - Run the frontend:
+```bash
+ng serve
+```
+
+- Step 4 - Install the necessary dependencies for the backend:
+```bash
+cd /K10s/App/Backend/cmd
+go build main.go
+```
+
+- Step 5 - Run the backend:
+```bash
+go run main.go
 ```

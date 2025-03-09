@@ -6,6 +6,7 @@ package auth
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 	"net/http"
 	"os"
 )
@@ -51,4 +52,23 @@ func HandleLogin(ctx *gin.Context) {
 func HandleLogout(ctx *gin.Context) {
 	ctx.SetCookie("jwt", "", -1, "/", "", false, true)
 	ctx.JSON(http.StatusOK, gin.H{"message": "Logout successful"})
+}
+
+func IsLoggedIn(ctx *gin.Context) {
+	jwtTokenString, err := ctx.Cookie("jwt")
+	if err != nil {
+		ctx.JSON(http.StatusOK, false)
+		return
+	}
+
+	token, err := jwt.Parse(jwtTokenString, func(token *jwt.Token) (interface{}, error) {
+		return jwtSecret, nil
+	})
+
+	if err != nil || !token.Valid {
+		ctx.JSON(http.StatusOK, false)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, true)
 }

@@ -1,0 +1,29 @@
+<!--Author K10s Open Source Team-->
+<table class="search-table">
+    <thead>
+    <tr>
+        <th>{{ 'SEARCH.INDEX' | translate }}</th>
+        <th>{{ 'SEARCH.NODE_NAME' | translate }}</th>
+        <th>{{ 'SEARCH.STATUS' | translate }}</th>
+        <th>{{ 'SEARCH.NODE_ROLE' | translate }}</th>
+        <th>{{ 'SEARCH.VERSION' | translate }}</th>
+        <th>{{ 'SEARCH.POD_AMOUNT' | translate }}</th>
+        <th>{{ 'SEARCH.AGE' | translate }}</th>
+        <th>{{ 'SEARCH.IP' | translate }}</th>
+    </tr>
+    </thead>
+    <tbody>
+        @for (node of nodes; track node.Name; let i = $index) {
+            <tr>
+                <td>{{ i + 1 }}</td>
+                <td>{{ node.Name }}</td>
+                <td>{{ node.Status }}</td>
+                <td>{{ node.Role }}</td>
+                <td>{{ node.Version }}</td>
+                <td>{{ node.PodsAmount }}</td>
+                <td>{{ node.NodeAge }}</td>
+                <td>{{ node.IP }}</td>
+            </tr>
+        }
+    </tbody>
+</table>
