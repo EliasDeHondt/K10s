@@ -67,13 +67,20 @@ export class SpiderWebComponent implements AfterViewInit {
             .attr('width', width)
             .attr('height', height);
 
+        this.graphData.nodes.forEach((node: NodeDatum) => {
+            if (node.id === 'Supercluster01') {
+                node.x = width / 2;
+                node.y = 40;
+            }
+        });
+
         const simulation = d3
             .forceSimulation<NodeDatum>(this.graphData.nodes)
             .force('link', d3.forceLink<NodeDatum, LinkDatum>(this.graphData.links).id((d) => d.id).distance(100))
-            .force('charge', d3.forceManyBody().strength(-600))
+            .force('charge', d3.forceManyBody().strength(-1600))
             .force('center', d3.forceCenter(width / 2, height / 2))
             .force('x', d3.forceX(width / 2).strength(0.1))
-            .force('y', d3.forceY(height / 2).strength(0.1));
+            .force('y', d3.forceY<NodeDatum>((d) => (d.id === 'Supercluster01' ? 40 : height / 2)).strength(0.2));
 
         const link = svg
             .selectAll('.link')
