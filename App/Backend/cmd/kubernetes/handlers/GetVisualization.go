@@ -6,6 +6,6 @@ import (
 )
 
 func GetVisualizationHandler(ctx *gin.Context) {
-	cluster := kubernetes.NewClusterView(*c)
+	cluster := kubernetes.VisualizeCluster(*c)
 	ctx.JSON(200, cluster)
 }

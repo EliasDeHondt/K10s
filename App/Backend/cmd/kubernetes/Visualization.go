@@ -11,6 +11,11 @@ import (
 	"time"
 )
 
+type Visualization struct {
+	Cluster       *ClusterView
+	LoadBalancers []*LoadBalancer
+}
+
 type ClusterView struct {
 	Name  string
 	Nodes []*NodeView
@@ -19,23 +24,76 @@ type ClusterView struct {
 type NodeView struct {
 	Name        string
 	Namespace   string
-	Services    []*ServiceView
 	Deployments []*DeploymentView
 }
 
 type LoadBalancer struct {
 	HostName string
 	IP       string
+	Services []*ServiceView
 }
 
 type ServiceView struct {
-	Name          string
-	LoadBalancers []*LoadBalancer
-	Deployments   []*DeploymentView
+	Name        string
+	Deployments []*DeploymentView
 }
 
 type DeploymentView struct {
 	Name string
+}
+
+func VisualizeCluster(client IClient) *Visualization {
+
+	return &Visualization{
+		Cluster:       NewClusterView(client),
+		LoadBalancers: GetAllLoadBalancers(client),
+	}
+}
+
+func GetAllLoadBalancers(client IClient) []*LoadBalancer {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	serviceList, err := client.GetServices("").List(ctx, metav1.ListOptions{})
+	if err != nil {
+		log.Fatalf("Failed to list services: %v", err)
+	}
+
+	lbMap := buildLoadBalancerMap(serviceList, client)
+
+	return mapToSlice(lbMap)
+}
+
+func buildLoadBalancerMap(svcList *v1.ServiceList, client IClient) map[string]*LoadBalancer {
+	lbMap := make(map[string]*LoadBalancer)
+
+	for _, service := range svcList.Items {
+		if service.Spec.Type == v1.ServiceTypeLoadBalancer {
+			for _, ingress := range service.Status.LoadBalancer.Ingress {
+				key := ingress.IP
+				if key == "" {
+					key = ingress.Hostname
+				}
+				if key == "" {
+					continue
+				}
+
+				if _, exists := lbMap[key]; !exists {
+					lbMap[key] = NewLoadBalancer(&ingress, client)
+				}
+			}
+		}
+	}
+
+	return lbMap
+}
+
+func mapToSlice(lbMap map[string]*LoadBalancer) []*LoadBalancer {
+	loadBalancers := make([]*LoadBalancer, 0, len(lbMap))
+	for _, lb := range lbMap {
+		loadBalancers = append(loadBalancers, lb)
+	}
+	return loadBalancers
 }
 
 func NewClusterView(client IClient) *ClusterView {
@@ -53,17 +111,14 @@ func NewClusterView(client IClient) *ClusterView {
 
 func NewNodeView(node *v1.Node, client IClient) *NodeView {
 
-	serviceViews, err := getServicesOnNode(node.Name, client)
+	deployments, err := getDeploymentsOnNode(node.Name, client)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	deployments, err := getDeploymentsOnNode(node.Name, client)
-
 	return &NodeView{
 		Name:        node.Name,
 		Namespace:   node.Namespace,
-		Services:    serviceViews,
 		Deployments: deployments,
 	}
 }
@@ -83,40 +138,42 @@ func NewServiceView(service *v1.Service, client IClient) *ServiceView {
 		return nil
 	}
 
-	loadBalancers, err := getLoadBalancersForService(service)
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	return &ServiceView{
-		Name:          service.Name,
-		Deployments:   deployments,
-		LoadBalancers: loadBalancers,
+		Name:        service.Name,
+		Deployments: deployments,
 	}
 }
 
-func NewLoadBalancer(ingress *v1.LoadBalancerIngress) *LoadBalancer {
+func NewLoadBalancer(ingress *v1.LoadBalancerIngress, client IClient) *LoadBalancer {
 	return &LoadBalancer{
 		HostName: ingress.Hostname,
 		IP:       ingress.IP,
+		Services: getServicesForLoadBalancer(client, ingress),
 	}
 }
 
-func getLoadBalancersForService(service *v1.Service) ([]*LoadBalancer, error) {
+func getServicesForLoadBalancer(client IClient, ingress *v1.LoadBalancerIngress) []*ServiceView {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
 
-	balancers := service.Status.LoadBalancer.Ingress
-	loadBalancers := make([]*LoadBalancer, 0)
+	var services []*ServiceView
 
-	if len(balancers) > 0 {
+	svcList, err := client.GetServices("").List(ctx, metav1.ListOptions{})
+	if err != nil {
+		log.Fatalf("Failed to list services: %v", err)
+	}
 
-		loadBalancers = make([]*LoadBalancer, len(balancers))
-
-		for i, ingress := range balancers {
-			loadBalancers[i] = NewLoadBalancer(&ingress)
+	for _, svc := range svcList.Items {
+		if svc.Spec.Type == v1.ServiceTypeLoadBalancer {
+			for _, lbIngress := range svc.Status.LoadBalancer.Ingress {
+				if lbIngress.IP == ingress.IP || lbIngress.Hostname == ingress.Hostname {
+					services = append(services, NewServiceView(&svc, client))
+				}
+			}
 		}
 	}
 
-	return loadBalancers, nil
+	return services
 }
 
 func getDeploymentsForService(namespace, serviceName string, client IClient) ([]*DeploymentView, error) {
