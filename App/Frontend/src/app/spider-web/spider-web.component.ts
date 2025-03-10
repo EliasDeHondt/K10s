@@ -5,8 +5,6 @@
 import {Component, ElementRef, AfterViewInit, ViewChild, inject} from '@angular/core';
 import * as d3 from 'd3';
 import {VisualizationService} from "../services/visualization.service";
-import {Metrics} from "../domain/Metrics";
-import {AddService} from "../services/add.service";
 import {NotificationService} from "../services/notification.service";
 import {TranslateService} from "@ngx-translate/core";
 
@@ -24,7 +22,7 @@ export interface VisualizationData {
         Name: string;
         Nodes: { Name: string; Namespace: string; Deployments: { Name: string }[] }[];
     };
-    Services: { Name: string; Deployments: { Name: string }[]; LoadBalancers: any[] }[];
+    Services: { Name: string; Deployments: { Name: string }[]; LoadBalancers: { Name: string }[] }[];
 }
 
 @Component({
@@ -165,7 +163,7 @@ export class SpiderWebComponent implements AfterViewInit {
             .append('g')
             .attr('class', 'node') as d3.Selection<SVGGElement, NodeDatum, SVGSVGElement, unknown>;
 
-        node
+        const images = node
             .append('image')
             .attr('href', (d) => `/assets/svg/${d.icon}`)
             .attr('width', 80)
@@ -174,6 +172,34 @@ export class SpiderWebComponent implements AfterViewInit {
             .attr('y', -40)
             .on('error', function () {
                 console.log('Image failed to load:', this.getAttribute('href'));
+            });
+
+        const tooltip = svg.append('g')
+            .attr('class', 'tooltip')
+            .style('display', 'none');
+
+        tooltip.append('rect')
+            .attr('width', 100)
+            .attr('height', 20)
+            .attr('fill', '#333')
+            .attr('opacity', 0.8);
+
+        tooltip.append('text')
+            .attr('x', 50)
+            .attr('y', 15)
+            .attr('text-anchor', 'middle')
+            .attr('fill', '#fff')
+            .attr('font-size', '12px');
+
+        images
+            .on('mouseover', function (event, d) {
+                tooltip.style('display', null);
+                tooltip.select('text').text(d.id);
+                const [x, y] = d3.pointer(event, svg.node());
+                tooltip.attr('transform', `translate(${x + 10},${y - 10})`);
+            })
+            .on('mouseout', function () {
+                tooltip.style('display', 'none');
             });
 
         node
