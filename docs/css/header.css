@@ -1,0 +1,67 @@
+/**********************************/
+/* @since 01/01/2025              */
+/* @author K10s Open Source Team  */
+/**********************************/
+
+@import url('/css/global.css');
+
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--quaternary);
+    color: var(--text);
+    border-radius: var(--radius);
+    box-shadow: 2px 0 5px var(--shadow);
+    padding: 10px;
+}
+
+.header .header-logo img {
+    height: 100px;
+    width: auto;
+    margin: 0px;
+}
+
+.header .header-company-name {
+    color: var(--secondary);
+    margin: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 2rem;
+    text-align: center;
+    flex-grow: 1;
+}
+
+.header-github-container {
+    background-color: var(--primary);
+    padding: 0px;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.header-github-container p {
+    color: #ffffff;
+    font-size: 20px;
+}
+
+.header-github-container a {
+    text-decoration: none;
+}
+
+.header-github-button {
+    background-color: var(--primary);
+    color: #ffffff;
+    margin-top: 15px;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+}
+
+.header-github-button:hover {
+    background-color: var(--secondary);
+}
+/* Header */
