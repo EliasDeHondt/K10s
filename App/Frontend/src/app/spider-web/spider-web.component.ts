@@ -46,7 +46,7 @@ export class SpiderWebComponent implements AfterViewInit {
                 console.log(":A", data)
             },
             error: () => {
-                this.notificationService.showNotification(this.translate.instant('NOTIF.ADD.ERROR'), 'error');
+                this.notificationService.showNotification(this.translate.instant('NOTIF.VISUALIZATION.GETERROR'), 'error');
             },
         });
 
@@ -170,8 +170,8 @@ export class SpiderWebComponent implements AfterViewInit {
             .attr('height', 80)
             .attr('x', -40)
             .attr('y', -40)
-            .on('error', function () {
-                console.log('Image failed to load:', this.getAttribute('href'));
+            .on('error', () => {
+                this.notificationService.showNotification(this.translate.instant('NOTIF.VISUALIZATION.GETERROR'), 'error');
             });
 
         const tooltip = svg.append('g')

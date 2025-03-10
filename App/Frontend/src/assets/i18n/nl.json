@@ -80,5 +80,8 @@
   },
   "AUTH": {
     "INVALID": "Voer geldige inloggegevens in"
+  },
+  "VISUALIZATION": {
+    "GETERROR": "Fout bij het ophalen van visualisatiegegevens :("
   }
 }

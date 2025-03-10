@@ -79,6 +79,9 @@
     },
     "AUTH": {
       "INVALID": "Bitte geben Sie gültige Anmeldedaten ein"
+    },
+    "VISUALIZATION": {
+      "GETERROR": "Fehler beim Abrufen der Visualisierungsdaten :("
     }
   }
 }
