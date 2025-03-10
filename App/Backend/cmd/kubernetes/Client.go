@@ -39,6 +39,7 @@ type IClient interface {
 	GetConfigMaps(namespace string) corev1.ConfigMapInterface
 	GetSecrets(namespace string) corev1.SecretInterface
 	GetDeployments(namespace string) appsv1.DeploymentInterface
+	GetReplicaSets(namespace string) appsv1.ReplicaSetInterface
 	GetTotalUsage() (*Metrics, error)
 	GetUsageForNode(nodeName string) (*Metrics, error)
 	CreateNamespace(namespace *cv1.Namespace) (Namespace, error)
@@ -93,6 +94,10 @@ func (client *FakeClient) GetSecrets(namespace string) corev1.SecretInterface {
 
 func (client *FakeClient) GetDeployments(namespace string) appsv1.DeploymentInterface {
 	return client.Client.AppsV1().Deployments(namespace)
+}
+
+func (client *FakeClient) GetReplicaSets(namespace string) appsv1.ReplicaSetInterface {
+	return client.Client.AppsV1().ReplicaSets(namespace)
 }
 
 func (client *FakeClient) CreateNamespace(namespace *cv1.Namespace) (Namespace, error) {
@@ -216,6 +221,10 @@ func (client *Client) GetSecrets(namespace string) corev1.SecretInterface {
 
 func (client *Client) GetDeployments(namespace string) appsv1.DeploymentInterface {
 	return client.Client.AppsV1().Deployments(namespace)
+}
+
+func (client *Client) GetReplicaSets(namespace string) appsv1.ReplicaSetInterface {
+	return client.Client.AppsV1().ReplicaSets(namespace)
 }
 
 func (client *FakeClient) GetTotalUsage() (*Metrics, error) {

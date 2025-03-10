@@ -1,4 +1,4 @@
-@base=http://localhost:8080
+@base=http://localhost:8082/api
 
 ### LOGIN
 POST {{base}}/login
@@ -38,6 +38,9 @@ GET {{base}}/secured/stats
 
 ### GET STATS FOR NODE
 GET {{base}}/secured/stats?nodeName=node-1
+
+### GET VISUALIZATION
+GET {{base}}/secured/visualization
 
 
 ### ADD A NODE

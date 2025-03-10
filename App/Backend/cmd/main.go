@@ -59,6 +59,7 @@ func main() {
 	secured.GET("/namespaces", handlers.GetNamespacesHandler)
 	secured.GET("/nodenames", handlers.GetNodeNamesHandler)
 	secured.GET("/statsocket", handlers.HandleMetricsSocket)
+	secured.GET("/visualization", handlers.GetVisualizationHandler)
 
 	err = r.Run(":8082")
 	if err != nil {
