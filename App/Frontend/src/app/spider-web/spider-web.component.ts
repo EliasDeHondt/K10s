@@ -95,7 +95,7 @@ export class SpiderWebComponent implements AfterViewInit {
         });
 
         this.graphData = { nodes, links };
-        //     private graphData = {
+//     this.graphData = {
 //         nodes: [
 //             { id: 'Supercluster01', icon: 'dashboard-supercluster.svg' },
 //             { id: 'Cluster01', icon: 'dashboard-cluster.svg' },
@@ -136,7 +136,7 @@ export class SpiderWebComponent implements AfterViewInit {
             .attr('height', height);
 
         this.graphData.nodes.forEach((node: NodeDatum) => {
-            if (node.id === 'Supercluster01') {
+            if (node.icon === 'dashboard-supercluster.svg') {
                 node.x = width / 2;
                 node.y = 40;
             }
