@@ -119,7 +119,6 @@ sudo docker rm k10s-frontend-container
 sudo docker rmi ghcr.io/eliasdehondt/k10s-frontend:latest
 ```
 
-
 ## 📚How to run K10s locally for development purposes
 
 - Step 1 - Clone the repository:
