@@ -8,6 +8,7 @@
     --text: #ecf1f4;
     --background: #040c10;
     --primary: #004b7a;
+    --primary-a: #0077a2;
     --secondary: #3c3154;
     --tertiary: #262b2e;
     --quaternary: #1f2326;
@@ -18,6 +19,7 @@
     --text: #0b1013;
     --background: #eff7fb;
     --primary: #85d0ff;
+    --primary-a: #45b8ff;
     --secondary: #b6abce;
     --tertiary: #e8eff3;
     --quaternary: #dedfed;
@@ -28,6 +30,18 @@
     --radius: 12px;
     --spacing: 16px;
     --shadow: rgba(0, 0, 0, 0.1);
+
+    --facebook-color: #1877f2;
+    --x-color: #45494d;
+    --instagram-color: #c13584;
+    --github-color: #333333;
+    --gitlab-color: #fc6d26;
+    --linkedin-color: #0077b5;
+    --youtube-color: #ff0000;
+    --whatsapp-color: #25d366;
+    --telegram-color: #0088cc;
+    --discord-color: #7289da;
+    --twitch-color: #6441a5;
 }
 /* Global Styles */
 
@@ -169,3 +183,167 @@ body {
     display: none;
 }
 /* Global Scrollbar */
+
+/* SetUp Grid */
+.header { grid-area: header; }
+.main { grid-area: main; }
+.footer { grid-area: footer; }
+
+.body {
+    display: grid;
+    grid-template-areas:
+        'header'
+        'main'
+        'footer';
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 9fr 0.5fr;
+    gap: 16px;
+    padding: 10px;
+    height: 96vh;
+}
+/* SetUp Grid */
+
+/* Main */
+.main {
+    background-color: var(--tertiary);
+    color: var(--text);
+    border-radius: var(--radius);
+    box-shadow: 2px 0 5px var(--shadow);
+    width: 100%;
+    position: relative;
+}
+
+.main-section {
+    margin-bottom: 20px;
+    padding: 10px;
+    margin: 16px;
+    background: var(--quaternary);
+    border-radius: var(--radius);
+    box-shadow: 1px 1px 3px var(--shadow);
+}
+
+.main-section h2,
+.main-section h3 {
+    color: var(--accent);
+    margin-top: 0;
+}
+
+.main-section p {
+    line-height: 1.6;
+}
+
+.main-section a {
+    color: var(--primary-a);
+    text-decoration: none;
+}
+
+.main-section strong {
+    color: var(--accent);
+}
+
+.main-section video {
+    display: block;
+    border: 5px solid var(--primary);
+    border-radius: var(--radius);
+    box-shadow: 2px 2px 10px var(--shadow);
+    max-width: calc(40% - 8px);
+    height: auto;
+    margin-bottom: 16px;
+}
+
+.main-section img {
+    display: block;
+    border-radius: var(--radius);
+    box-shadow: 2px 2px 10px var(--shadow);
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto 16px auto;
+    object-fit: cover;
+}
+
+.main-founder-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+}
+
+.main-founder-box {
+    text-align: center;
+    width: 250px;
+    padding: 20px;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.main-founder-box img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+.main-founder-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.main-social-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.main-social-buttons a {
+    padding: 8px 12px;
+    border-radius: 5px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1em;
+}
+
+.main-social-buttons a.linkedin {
+    background-color: var(--linkedin-color);
+}
+
+.main-social-buttons a.github {
+    background-color: var(--github-color);
+}
+
+.main-social-buttons a.instagram {
+    background-color: var(--instagram-color);
+}
+/* Main */
+
+/* Media Queries */
+@media screen and (max-width: 1024px) {
+    .body {
+        grid-template-rows: 1fr 9fr 0.5fr;
+    }
+
+    .main-section video {
+        max-width: calc(100% - 8px);
+    }
+
+    .main-section img {
+        max-width: calc(100% - 8px);
+    }
+
+    .main-founder-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .index-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .body {
+        grid-template-rows: 1fr 9fr 0.5fr;
+    }
+}
+/* Media Queries */

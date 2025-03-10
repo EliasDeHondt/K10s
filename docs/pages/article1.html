@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!--Author K10s Open Source Team-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>K10s - Article 1</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="K10s is a free and open-source Kubernetes management platform.">
+        <link href="/images/logo.png" rel="icon">
+        <link rel="stylesheet" href="/css/header.css">
+        <link rel="stylesheet" href="/css/footer.css">
+        <link rel="stylesheet" href="/css/context-menu.css">
+    </head>
+    <body class="body">
+        <header class="header" id="header"></header>
+        <main class="main">
+            <section class="main-section">
+                <h2>K10s: A Solution to Kubernetes Cluster Management</h2>
+                <h3>Introduction</h3>
+                <p>Kubernetes, a powerful platform for managing containerized applications, is widely used across industries for its scalability and flexibility. However, managing and visualizing Kubernetes clusters can often be complex and challenging. The K10s project emerged from the need to simplify the process of interacting with and monitoring Kubernetes clusters through a user-friendly interface. As a university project at Karel de Grote University of Applied Sciences, this tool is designed to manage, visualize, and interact with Kubernetes clusters, allowing users to easily explore and control their Kubernetes environments.</p>
+                <h3>The Problem</h3>
+                <p>Managing a Kubernetes cluster involves multiple components such as pods, services, deployments, nodes, and config maps. For many users, understanding how these elements interconnect and monitoring their performance can be difficult. The complexity of Kubernetes often requires advanced knowledge to troubleshoot and manage resources effectively.</p>
+                <p>K10s was developed as a response to this problem. It provides an intuitive and accessible web interface that enables users to visualize their Kubernetes clusters, making it easier to manage the various components without having to dive deeply into the command line or technical details.</p>
+                <h3>The Solution</h3>
+                <p>The K10s project aims to simplify the Kubernetes cluster management experience by offering a clear, hierarchical view of the entire infrastructure. It enables users to navigate and manage the following Kubernetes resources:</p>
+                <ul>
+                    <li><strong>Pods:</strong> The smallest deployable units in Kubernetes that run your containers.</li>
+                    <li><strong>Nodes:</strong> The machines (virtual or physical) that run your pods.</li>
+                    <li><strong>Deployments:</strong> Manages the deployment and scaling of sets of pods.</li>
+                    <li><strong>ConfigMaps:</strong> Store configuration data that can be used by applications in your Kubernetes cluster.</li>
+                    <li><strong>Secrets:</strong> Store sensitive information such as passwords or OAuth tokens.</li>
+                </ul>
+                <p>The K10s platform consists of three main components:</p>
+                <ul>
+                    <li><strong>Frontend:</strong> A responsive Angular-based UI that displays the Kubernetes resources, providing users with an interactive and easily navigable interface.</li>
+                    <li><strong>Backend:</strong> Written in Go, this handles all the API endpoints that interact with the Kubernetes cluster, retrieving and managing resources and their statuses.</li>
+                    <li><strong>Load Balancer:</strong> This component ensures efficient distribution of traffic and helps manage the scalability of the application.</li>
+                </ul>
+                <p>K10s makes it possible to deploy these components seamlessly in a Kubernetes cluster. It runs three containerized images:</p>
+                <ul>
+                    <li><strong>Frontend (Angular):</strong> A user-friendly interface that is fully responsive, allowing users to view and interact with their Kubernetes cluster.</li>
+                    <li><strong>Backend (Go):</strong> Handles all the logic and communication with the Kubernetes API to fetch the necessary resources and stats.</li>
+                    <li><strong>Load Balancer:</strong> Routes traffic between the frontend and backend efficiently.</li>
+                </ul>
+                <p>This approach ensures the application is scalable, highly available, and efficient. K10s can be easily deployed on a Kubernetes cluster, and users can access it by navigating to the IP address of the deployed service. Importantly, K10s is designed for private use in local environments, ensuring that complex statistics and sensitive Kubernetes data are not exposed publicly.</p>
+                <h3>Technologies Used</h3>
+                <p>K10s leverages several key technologies to ensure its smooth operation and performance in a Kubernetes environment:</p>
+                <ul>
+                    <li><strong>Kubernetes:</strong> The application is designed to run on a Kubernetes cluster, leveraging Kubernetes' native capabilities for managing containerized applications.</li>
+                    <li><strong>Angular:</strong> Used for the frontend, Angular allows us to create a dynamic, responsive, and user-friendly interface to interact with the Kubernetes resources.</li>
+                    <li><strong>Go:</strong> The backend of K10s is built using Go (Golang), a language known for its efficiency and performance in handling backend services.</li>
+                    <li><strong>Gin Framework:</strong> For the backend, we utilized the Gin framework, which is a fast web framework for Go. It is lightweight, yet powerful enough to handle requests from the frontend and interact with Kubernetes API endpoints.</li>
+                    <li><strong>CORS (Cross-Origin Resource Sharing):</strong> We implemented CORS to allow secure communication between the frontend and backend, ensuring only the frontend from trusted origins can access the APIs.</li>
+                    <li><strong>Gin Auth Middleware:</strong> Authentication and authorization are handled using Gin’s middleware, which secures certain routes and ensures that only authenticated users can access sensitive data.</li>
+                </ul>
+                <h3>Application Structure and Deployment</h3>
+                <p>The K10s application is designed to be easily deployed on any Kubernetes cluster. The deployment consists of three primary components:</p>
+                <ul>
+                    <li><strong>Frontend (Angular):</strong> The user interface is developed using Angular, making it responsive and accessible on various devices. It connects to the backend API to fetch and display the Kubernetes data.</li>
+                    <li><strong>Backend (Go):</strong> The Go-based backend serves as the intermediary between the frontend and Kubernetes API. It retrieves data from the Kubernetes cluster (e.g., pod statuses, node performance) and sends it to the frontend.</li>
+                    <li><strong>Load Balancer:</strong> The load balancer ensures that incoming traffic is efficiently distributed to the frontend and backend services. It enables horizontal scaling if the application needs to handle more users or traffic.</li>
+                </ul>
+                <p>Deployment of the K10s platform is simple and involves using Kubernetes manifests to create the required pods, services, and deployments. Once deployed, users can access the application via the cluster's external IP address.</p>
+                <h3>Security Considerations</h3>
+                <p>Given that Kubernetes clusters often manage sensitive data and critical applications, it’s essential to maintain the security of the K10s platform. To address this, the backend API has secure endpoints protected by an authentication system. Users need to log in to access certain Kubernetes resources, such as viewing pod metrics or creating new deployments.</p>
+                <p>The security flow is as follows:</p>
+                <ul>
+                    <li><strong>Login:</strong> Users authenticate using the login endpoint (/api/login), which returns a session token.</li>
+                    <li><strong>Secure Endpoints:</strong> Once logged in, users can access secure endpoints, such as /api/secured/, which include resources like pods, nodes, and services.</li>
+                </ul>
+                <p>This authentication and authorization system ensures that only authorized users can interact with sensitive resources in the Kubernetes cluster.</p>
+                <h3>Conclusion</h3>
+                <p>K10s is a powerful and user-friendly solution for managing Kubernetes clusters. It simplifies the complex process of monitoring and interacting with Kubernetes resources, making it more accessible for developers, sysadmins, and other IT professionals. By leveraging technologies like Kubernetes, Angular, Go, and the Gin framework, K10s offers a robust and scalable platform that is easy to deploy and use.</p>
+                <p>Whether you are managing a small personal project or a large-scale enterprise application, K10s helps you keep track of your Kubernetes clusters with ease, efficiency, and security.</p>
+            </section>
+        </main>
+        <footer class="footer" id="footer"></footer>
+        <section class="context-menu" id="context-menu"></section>
+        <script src="/js/main.js"></script>
+        <script src="/js/header.js"></script>
+        <script src="/js/footer.js"></script>
+        <script src="/js/context-menu.js"></script>
+    </body>
+</html>
