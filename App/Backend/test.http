@@ -1,4 +1,4 @@
-@base=http://localhost:8080
+@base=http://localhost:8082/api
 
 ### LOGIN
 POST {{base}}/login
