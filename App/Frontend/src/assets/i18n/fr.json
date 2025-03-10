@@ -80,5 +80,8 @@
   },
   "AUTH": {
     "INVALID": "Veuillez entrer des identifiants valides"
+  },
+  "VISUALIZATION": {
+    "GETERROR": "Erreur lors de la récupération des données de visualisation :("
   }
 }

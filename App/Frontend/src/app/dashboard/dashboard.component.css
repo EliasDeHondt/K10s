@@ -113,7 +113,6 @@
     box-shadow: 2px 0 5px var(--shadow);
     width: 100%;
     position: relative;
-    pointer-events: none;
 }
 
 .dashboard-fullscreen-button,
@@ -165,6 +164,30 @@
     z-index: 3;
 }
 /* Dashboard Main */
+
+/* Spiderweb */
+.dashboard-main-section {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cursor-move {
+    width: 800px;
+    height: 500px;
+}
+
+.spider-web {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.spider-web svg {
+    pointer-events: all;
+}
+/* Spiderweb */
 
 /* Media Queries */
 @media screen and (max-width: 1024px) {

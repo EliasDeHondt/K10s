@@ -79,6 +79,9 @@
     },
     "AUTH": {
       "INVALID" : "Please enter valid credentials"
+    },
+    "VISUALIZATION" : {
+      "GETERROR" : "Error getting visualization data :("
     }
   }
 }
