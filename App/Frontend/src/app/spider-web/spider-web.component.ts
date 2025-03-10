@@ -2,8 +2,13 @@
 /* @since 01/01/2025              */
 /* @author K10s Open Source Team  */
 /**********************************/
-import { Component, ElementRef, AfterViewInit, ViewChild } from '@angular/core';
+import {Component, ElementRef, AfterViewInit, ViewChild, inject} from '@angular/core';
 import * as d3 from 'd3';
+import {VisualizationService} from "../services/visualization.service";
+import {Metrics} from "../domain/Metrics";
+import {AddService} from "../services/add.service";
+import {NotificationService} from "../services/notification.service";
+import {TranslateService} from "@ngx-translate/core";
 
 interface NodeDatum extends d3.SimulationNodeDatum {
     id: string;
@@ -14,6 +19,13 @@ interface LinkDatum {
     source: string | NodeDatum;
     target: string | NodeDatum;
 }
+export interface VisualizationData {
+    Cluster: {
+        Name: string;
+        Nodes: { Name: string; Namespace: string; Deployments: { Name: string }[] }[];
+    };
+    Services: { Name: string; Deployments: { Name: string }[]; LoadBalancers: any[] }[];
+}
 
 @Component({
     selector: 'app-spider-web',
@@ -22,40 +34,96 @@ interface LinkDatum {
     styleUrls: ['./spider-web.component.css'],
 })
 export class SpiderWebComponent implements AfterViewInit {
+    visualizationService = inject(VisualizationService);
     @ViewChild('svgContainer', { static: true }) svgRef!: ElementRef<SVGSVGElement>;
+    constructor(private notificationService: NotificationService,private translate: TranslateService) {}
 
-    private graphData = {
-        nodes: [
-            { id: 'Supercluster01', icon: 'dashboard-supercluster.svg' },
-            { id: 'Cluster01', icon: 'dashboard-cluster.svg' },
-            { id: 'Cluster02', icon: 'dashboard-cluster.svg' },
-            { id: 'Node001', icon: 'dashboard-server.svg' },
-            { id: 'Node002', icon: 'dashboard-server.svg' },
-            { id: 'Node003', icon: 'dashboard-server.svg' },
-            { id: 'Node004', icon: 'dashboard-server.svg' },
-            { id: 'Node005', icon: 'dashboard-server.svg' },
-            { id: 'Deployment', icon: 'dashboard-deployment.svg' },
-            { id: 'Service', icon: 'dashboard-service.svg' },
-            { id: 'IP', icon: 'dashboard-ip.svg' },
-        ],
-        links: [
-            { source: 'Supercluster01', target: 'Cluster01' },
-            { source: 'Supercluster01', target: 'Cluster02' },
-            { source: 'Cluster01', target: 'Node001' },
-            { source: 'Cluster01', target: 'Node002' },
-            { source: 'Cluster01', target: 'Node003' },
-            { source: 'Cluster02', target: 'Node004' },
-            { source: 'Cluster02', target: 'Node005' },
-            { source: 'Node001', target: 'Deployment' },
-            { source: 'Node002', target: 'Deployment' },
-            { source: 'Node003', target: 'Deployment' },
-            { source: 'Deployment', target: 'Service' },
-            { source: 'Service', target: 'IP' },
-        ],
-    };
+    private graphData: { nodes: NodeDatum[]; links: LinkDatum[] } = { nodes: [], links: [] };
 
     ngAfterViewInit(): void {
-        this.createForceDirectedGraph();
+        this.visualizationService.getVisualization().subscribe({
+            next: (data: VisualizationData) => {
+                this.updateGraphData(data);
+                this.createForceDirectedGraph();
+                console.log(":A", data)
+            },
+            error: () => {
+                this.notificationService.showNotification(this.translate.instant('NOTIF.ADD.ERROR'), 'error');
+            },
+        });
+
+    }
+
+    private updateGraphData(data: VisualizationData): void {
+        const nodes: NodeDatum[] = [];
+        const links: LinkDatum[] = [];
+        const nodeMap = new Map<string, NodeDatum>();
+
+        const addNode = (id: string, icon: string) => {
+            if (!nodeMap.has(id)) {
+                const node = { id, icon };
+                nodeMap.set(id, node);
+                nodes.push(node);
+            }
+            return nodeMap.get(id)!;
+        };
+
+        addNode(data.Cluster.Name, 'dashboard-supercluster.svg');
+
+        data.Cluster.Nodes.forEach((node) => {
+            addNode(node.Name, 'dashboard-server.svg');
+            links.push({ source: data.Cluster.Name, target: node.Name });
+
+            node.Deployments.forEach((deployment) => {
+                addNode(deployment.Name, 'dashboard-deployment.svg');
+                links.push({ source: node.Name, target: deployment.Name });
+            });
+        });
+
+        data.Services.forEach((service) => {
+            addNode(service.Name, 'dashboard-service.svg');
+
+            service.Deployments.forEach((deployment) => {
+                addNode(deployment.Name, 'dashboard-deployment.svg');
+                links.push({ source: deployment.Name, target: service.Name });
+            });
+            service.LoadBalancers.forEach((lb, index) => {
+                const lbId = `${service.Name}-lb-${index + 1}`;
+                addNode(lbId, 'dashboard-ip.svg');
+                links.push({ source: service.Name, target: lbId });
+            });
+        });
+
+        this.graphData = { nodes, links };
+        //     private graphData = {
+//         nodes: [
+//             { id: 'Supercluster01', icon: 'dashboard-supercluster.svg' },
+//             { id: 'Cluster01', icon: 'dashboard-cluster.svg' },
+//             { id: 'Cluster02', icon: 'dashboard-cluster.svg' },
+//             { id: 'Node001', icon: 'dashboard-server.svg' },
+//             { id: 'Node002', icon: 'dashboard-server.svg' },
+//             { id: 'Node003', icon: 'dashboard-server.svg' },
+//             { id: 'Node004', icon: 'dashboard-server.svg' },
+//             { id: 'Node005', icon: 'dashboard-server.svg' },
+//             { id: 'Deployment', icon: 'dashboard-deployment.svg' },
+//             { id: 'Service', icon: 'dashboard-service.svg' },
+//             { id: 'IP', icon: 'dashboard-ip.svg' },
+//         ],
+//         links: [
+//             { source: 'Supercluster01', target: 'Cluster01' },
+//             { source: 'Supercluster01', target: 'Cluster02' },
+//             { source: 'Cluster01', target: 'Node001' },
+//             { source: 'Cluster01', target: 'Node002' },
+//             { source: 'Cluster01', target: 'Node003' },
+//             { source: 'Cluster02', target: 'Node004' },
+//             { source: 'Cluster02', target: 'Node005' },
+//             { source: 'Node001', target: 'Deployment' },
+//             { source: 'Node002', target: 'Deployment' },
+//             { source: 'Node003', target: 'Deployment' },
+//             { source: 'Deployment', target: 'Service' },
+//             { source: 'Service', target: 'IP' },
+//         ],
+//     };
     }
 
     private createForceDirectedGraph(): void {
