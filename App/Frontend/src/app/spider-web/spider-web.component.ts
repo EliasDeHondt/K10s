@@ -66,7 +66,7 @@ export class SpiderWebComponent implements AfterViewInit {
             return nodeMap.get(id)!;
         };
 
-        addNode(data.Cluster.Name, 'dashboard-supercluster.svg');
+        addNode(data.Cluster.Name, 'dashboard-cluster.svg');
 
         data.Cluster.Nodes.forEach((node) => {
             addNode(node.Name, 'dashboard-server.svg');
@@ -134,7 +134,7 @@ export class SpiderWebComponent implements AfterViewInit {
             .attr('height', height);
 
         this.graphData.nodes.forEach((node: NodeDatum) => {
-            if (node.icon === 'dashboard-supercluster.svg') {
+            if (node.icon === 'dashboard-cluster.svg') {
                 node.x = width / 2;
                 node.y = 40;
             }
