@@ -83,6 +83,7 @@
 
 :host ::ng-deep ngx-charts-gauge text {
     font-size: 2.2rem !important;
+    transform: scale(0.85) !important;
     fill: var(--text);
 }
 

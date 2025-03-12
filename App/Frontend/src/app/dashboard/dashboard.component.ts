@@ -101,14 +101,13 @@ export class DashboardComponent implements AfterViewInit, OnInit, OnDestroy {
     }
 
     valueFormatting(usage: number): string {
-        return `${usage}%`;
+        return usage.toFixed(2) + '%';
     }
+
 
     updateChartData(metrics: Metrics): void {
         this.memoryChartData = [{ name: 'Used', value: parseFloat(metrics.MemUsage.toFixed(2)) }];
         this.cpuChartData = [{ name: 'Used', value: parseFloat(metrics.CpuUsage.toFixed(2)) }];
-        this.memoryChartData = [{ name: 'Used', value: parseFloat(String(1.3)) }];
-        this.cpuChartData = [{ name: 'Used', value: parseFloat(String(17.33)) }];
         this.diskUsage = metrics.DiskUsage;
         this.diskCapacity = metrics.DiskCapacity;
 
