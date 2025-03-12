@@ -22,7 +22,7 @@ export interface VisualizationData {
         Name: string;
         Nodes: { Name: string; Namespace: string; Deployments: { Name: string }[] }[];
     };
-    Services: { Name: string; Deployments: { Name: string }[]; LoadBalancers: { Name: string }[] }[];
+    Services: { Name: string; Deployments: { Name: string }[]; LoadBalancers: { IP: string }[] }[];
 }
 
 @Component({
