@@ -76,8 +76,9 @@ func NewServiceView(service *v1.Service, client IClient) *ServiceView {
 
 	if len(service.Spec.Selector) == 0 {
 		return &ServiceView{
-			Name:        service.Name,
-			Deployments: make([]*DeploymentView, 0),
+			Name:          service.Name,
+			Deployments:   make([]*DeploymentView, 0),
+			LoadBalancers: make([]*LoadBalancer, 0),
 		}
 	}
 
