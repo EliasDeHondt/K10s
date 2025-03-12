@@ -29,7 +29,7 @@ func HandleMetricsSocket(ctx *gin.Context) {
 	}(conn)
 
 	for {
-		stats, err := c.GetTotalUsage()
+		stats, err := C.GetTotalUsage()
 		if err != nil {
 			log.Println("Error getting metrics stats:", err)
 			return

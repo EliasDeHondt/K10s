@@ -23,9 +23,9 @@ func GetConfigMapsHandler(ctx *gin.Context) {
 	var err error
 
 	if ok {
-		configMapList, err = GetConfigMaps(c, namespace, pageSize, pageToken)
+		configMapList, err = GetConfigMaps(C, namespace, pageSize, pageToken)
 	} else {
-		configMapList, err = GetConfigMaps(c, "", pageSize, pageToken)
+		configMapList, err = GetConfigMaps(C, "", pageSize, pageToken)
 	}
 
 	if err != nil {

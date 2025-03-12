@@ -6,7 +6,7 @@ import (
 )
 
 func GetVisualizationHandler(ctx *gin.Context) {
-	namespace, _ := ctx.GetQuery("namespace")
-	cluster := kubernetes.VisualizeCluster(c, namespace)
+	kubernetes.VisualizationReady.Wait()
+	cluster := kubernetes.CachedVisualization
 	ctx.JSON(200, cluster)
 }

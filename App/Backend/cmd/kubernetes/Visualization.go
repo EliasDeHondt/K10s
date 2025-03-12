@@ -7,12 +7,52 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
 	"log"
+	"sync"
 	"time"
 )
 
 type Visualization struct {
 	Cluster  *ClusterView
 	Services []*ServiceView
+	mu       sync.Mutex
+}
+
+func (v *Visualization) AddNode(node *v1.Node, client IClient) {
+	v.mu.Lock()
+	defer v.mu.Unlock()
+
+	v.Cluster.Nodes = append(v.Cluster.Nodes, NewNodeView(node, client))
+}
+
+func (v *Visualization) DeleteNode(node *v1.Node) {
+	v.mu.Lock()
+	defer v.mu.Unlock()
+
+	for i, nodeView := range v.Cluster.Nodes {
+		if nodeView.Name == node.Name {
+			v.Cluster.Nodes = append(v.Cluster.Nodes[:i], v.Cluster.Nodes[i+1:]...)
+			break
+		}
+	}
+}
+
+func (v *Visualization) AddService(service *v1.Service, client IClient) {
+	v.mu.Lock()
+	defer v.mu.Unlock()
+
+	v.Services = append(v.Services, NewServiceView(service, client))
+}
+
+func (v *Visualization) DeleteService(service *v1.Service) {
+	v.mu.Lock()
+	defer v.mu.Unlock()
+
+	for i, serviceView := range v.Services {
+		if serviceView.Name == service.Name {
+			v.Services = append(v.Services[:i], v.Services[i+1:]...)
+			break
+		}
+	}
 }
 
 type ClusterView struct {
@@ -42,15 +82,15 @@ type DeploymentView struct {
 	Name string
 }
 
-func VisualizeCluster(client IClient, namespace string) *Visualization {
+func VisualizeCluster(client IClient) *Visualization {
 
 	return &Visualization{
-		Cluster:  NewClusterView(client, namespace),
-		Services: getAllServices(client, namespace),
+		Cluster:  NewClusterView(client),
+		Services: getAllServices(client),
 	}
 }
 
-func NewClusterView(client IClient, namespace string) *ClusterView {
+func NewClusterView(client IClient) *ClusterView {
 
 	nodes, err := createNodeViews(client)
 	if err != nil {
@@ -120,7 +160,7 @@ func getLoadBalancersForService(service *v1.Service) ([]*LoadBalancer, error) {
 	return loadBalancers, nil
 }
 
-func getAllServices(client IClient, namespace string) []*ServiceView {
+func getAllServices(client IClient) []*ServiceView {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 

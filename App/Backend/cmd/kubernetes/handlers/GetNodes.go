@@ -18,7 +18,7 @@ import (
 func GetNodesHandler(ctx *gin.Context) {
 	pageSize, pageToken := GetPageSizeAndPageToken(ctx)
 
-	nodeList, err := GetNodes(c, pageSize, pageToken)
+	nodeList, err := GetNodes(C, pageSize, pageToken)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error has occurred or the request has been timed out."})
 		return
@@ -45,7 +45,7 @@ func GetNodes(c kubernetes.IClient, pageSize int, pageToken string) (*PaginatedR
 }
 
 func GetNodeNamesHandler(ctx *gin.Context) {
-	names, err := GetNodeNames(c)
+	names, err := GetNodeNames(C)
 
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error has occurred or the request has been timed out."})
@@ -102,7 +102,7 @@ func transformNodes(list *[]v1.Node) []kubernetes.Node {
 
 		go func(i int, node v1.Node) {
 			defer wg.Done()
-			nodeList[i] = kubernetes.NewNode(node, c)
+			nodeList[i] = kubernetes.NewNode(node, C)
 			<-semaphore
 		}(i, node)
 	}

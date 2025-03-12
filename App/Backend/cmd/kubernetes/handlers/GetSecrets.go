@@ -23,9 +23,9 @@ func GetSecretsHandler(ctx *gin.Context) {
 	var err error
 
 	if ok {
-		secretList, err = GetSecrets(c, namespace, pageSize, pageToken)
+		secretList, err = GetSecrets(C, namespace, pageSize, pageToken)
 	} else {
-		secretList, err = GetSecrets(c, "", pageSize, pageToken)
+		secretList, err = GetSecrets(C, "", pageSize, pageToken)
 	}
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error has occurred or the request has been timed out."})
