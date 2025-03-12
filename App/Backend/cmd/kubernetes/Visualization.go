@@ -42,15 +42,15 @@ type DeploymentView struct {
 	Name string
 }
 
-func VisualizeCluster(client IClient) *Visualization {
+func VisualizeCluster(client IClient, namespace string) *Visualization {
 
 	return &Visualization{
-		Cluster:  NewClusterView(client),
-		Services: getAllServices(client),
+		Cluster:  NewClusterView(client, namespace),
+		Services: getAllServices(client, namespace),
 	}
 }
 
-func NewClusterView(client IClient) *ClusterView {
+func NewClusterView(client IClient, namespace string) *ClusterView {
 
 	nodes, err := createNodeViews(client)
 	if err != nil {
@@ -120,7 +120,7 @@ func getLoadBalancersForService(service *v1.Service) ([]*LoadBalancer, error) {
 	return loadBalancers, nil
 }
 
-func getAllServices(client IClient) []*ServiceView {
+func getAllServices(client IClient, namespace string) []*ServiceView {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
