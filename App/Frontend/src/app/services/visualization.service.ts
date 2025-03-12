@@ -2,7 +2,7 @@ import {effect, Injectable} from "@angular/core";
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {VisualizationData} from "../spider-web/spider-web.component";
+import {Visualization} from "../domain/Visualization";
 
 @Injectable({
     providedIn: 'root'
@@ -17,7 +17,7 @@ export class VisualizationService {
         });
     }
 
-    getVisualization(): Observable<VisualizationData> {
-        return this.http.get<VisualizationData>(this.apiUrl, {withCredentials: true});
+    getVisualization(): Observable<Visualization> {
+        return this.http.get<Visualization>(this.apiUrl, {withCredentials: true});
     }
 }

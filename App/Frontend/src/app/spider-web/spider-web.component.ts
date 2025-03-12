@@ -7,6 +7,7 @@ import * as d3 from 'd3';
 import {VisualizationService} from "../services/visualization.service";
 import {NotificationService} from "../services/notification.service";
 import {TranslateService} from "@ngx-translate/core";
+import {Visualization} from "../domain/Visualization";
 
 interface NodeDatum extends d3.SimulationNodeDatum {
     id: string;
@@ -16,13 +17,6 @@ interface NodeDatum extends d3.SimulationNodeDatum {
 interface LinkDatum {
     source: string | NodeDatum;
     target: string | NodeDatum;
-}
-export interface VisualizationData {
-    Cluster: {
-        Name: string;
-        Nodes: { Name: string; Namespace: string; Deployments: { Name: string }[] }[];
-    };
-    Services: { Name: string; Deployments: { Name: string }[]; LoadBalancers: { IP: string }[] }[];
 }
 
 @Component({
@@ -40,7 +34,7 @@ export class SpiderWebComponent implements AfterViewInit {
 
     ngAfterViewInit(): void {
         this.visualizationService.getVisualization().subscribe({
-            next: (data: VisualizationData) => {
+            next: (data: Visualization) => {
                 this.updateGraphData(data);
                 this.createForceDirectedGraph();
                 console.log(":A", data)
@@ -52,7 +46,7 @@ export class SpiderWebComponent implements AfterViewInit {
 
     }
 
-    private updateGraphData(data: VisualizationData): void {
+    private updateGraphData(data: Visualization): void {
         const nodes: NodeDatum[] = [];
         const links: LinkDatum[] = [];
         const nodeMap = new Map<string, NodeDatum>();
@@ -66,29 +60,29 @@ export class SpiderWebComponent implements AfterViewInit {
             return nodeMap.get(id)!;
         };
 
-        addNode(data.Cluster.Name, 'dashboard-cluster.svg');
+        addNode(data.cluster.name, 'dashboard-cluster.svg');
 
-        data.Cluster.Nodes.forEach((node) => {
-            addNode(node.Name, 'dashboard-server.svg');
-            links.push({ source: data.Cluster.Name, target: node.Name });
+        data.cluster.nodes.forEach((node) => {
+            addNode(node.name, 'dashboard-server.svg');
+            links.push({ source: data.cluster.name, target: node.name });
 
-            node.Deployments.forEach((deployment) => {
-                addNode(deployment.Name, 'dashboard-deployment.svg');
-                links.push({ source: node.Name, target: deployment.Name });
+            node.deployments.forEach((deployment) => {
+                addNode(deployment.name, 'dashboard-deployment.svg');
+                links.push({ source: node.name, target: deployment.name });
             });
         });
 
-        data.Services.forEach((service) => {
-            addNode(service.Name, 'dashboard-service.svg');
+        data.services.forEach((service) => {
+            addNode(service.name, 'dashboard-service.svg');
 
-            service.Deployments.forEach((deployment) => {
-                addNode(deployment.Name, 'dashboard-deployment.svg');
-                links.push({ source: deployment.Name, target: service.Name });
+            service.deployments.forEach((deployment) => {
+                addNode(deployment.name, 'dashboard-deployment.svg');
+                links.push({ source: deployment.name, target: service.name });
             });
-            service.LoadBalancers.forEach((lb, index) => {
-                const lbId = `${service.Name}-lb-${index + 1}`;
+            service.loadBalancers.forEach((lb, index) => {
+                const lbId = `${service.name}-lb-${index + 1}`;
                 addNode(lbId, 'dashboard-ip.svg');
-                links.push({ source: service.Name, target: lbId });
+                links.push({ source: service.name, target: lbId });
             });
         });
 
