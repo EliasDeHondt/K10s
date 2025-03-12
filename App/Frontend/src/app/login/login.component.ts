@@ -29,6 +29,7 @@ export class LoginComponent implements AfterViewInit {
         this.authService.isLoggedIn().pipe(take(1),
             tap(isAuthenticated => {
                 if (isAuthenticated) {
+                    sessionStorage.setItem('username', this.username);
                     this.router.navigate(['/dashboard']);
                 }
             }))
