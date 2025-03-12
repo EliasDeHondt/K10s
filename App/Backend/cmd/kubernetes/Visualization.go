@@ -107,14 +107,10 @@ func NewLoadBalancer(ingress *v1.LoadBalancerIngress) *LoadBalancer {
 }
 
 func getLoadBalancersForService(service *v1.Service) ([]*LoadBalancer, error) {
-
-	balancers := service.Status.LoadBalancer.Ingress
 	loadBalancers := make([]*LoadBalancer, 0)
+	balancers := service.Status.LoadBalancer.Ingress
 
 	if len(balancers) > 0 {
-
-		loadBalancers = make([]*LoadBalancer, 0)
-
 		for _, ingress := range balancers {
 			loadBalancers = append(loadBalancers, NewLoadBalancer(&ingress))
 		}
