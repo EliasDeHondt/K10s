@@ -60,29 +60,29 @@ export class SpiderWebComponent implements AfterViewInit {
             return nodeMap.get(id)!;
         };
 
-        addNode(data.cluster.name, 'dashboard-cluster.svg');
+        addNode(data.Cluster.Name, 'dashboard-cluster.svg');
 
-        data.cluster.nodes.forEach((node) => {
-            addNode(node.name, 'dashboard-server.svg');
-            links.push({ source: data.cluster.name, target: node.name });
+        data.Cluster.Nodes.forEach((node) => {
+            addNode(node.Name, 'dashboard-server.svg');
+            links.push({ source: data.Cluster.Name, target: node.Name });
 
-            node.deployments.forEach((deployment) => {
-                addNode(deployment.name, 'dashboard-deployment.svg');
-                links.push({ source: node.name, target: deployment.name });
+            node.Deployments.forEach((deployment) => {
+                addNode(deployment.Name, 'dashboard-deployment.svg');
+                links.push({ source: node.Name, target: deployment.Name });
             });
         });
 
-        data.services.forEach((service) => {
-            addNode(service.name, 'dashboard-service.svg');
+        data.Services.forEach((service) => {
+            addNode(service.Name, 'dashboard-service.svg');
 
-            service.deployments.forEach((deployment) => {
-                addNode(deployment.name, 'dashboard-deployment.svg');
-                links.push({ source: deployment.name, target: service.name });
+            service.Deployments.forEach((deployment) => {
+                addNode(deployment.Name, 'dashboard-deployment.svg');
+                links.push({ source: deployment.Name, target: service.Name });
             });
-            service.loadBalancers.forEach((lb, index) => {
-                const lbId = `${service.name}-lb-${index + 1}`;
+            service.LoadBalancers.forEach((lb, index) => {
+                const lbId = `${service.Name}-lb-${index + 1}`;
                 addNode(lbId, 'dashboard-ip.svg');
-                links.push({ source: service.name, target: lbId });
+                links.push({ source: service.Name, target: lbId });
             });
         });
 

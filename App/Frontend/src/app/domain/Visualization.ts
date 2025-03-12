@@ -1,31 +1,31 @@
 export interface Visualization {
-    cluster: ClusterView
-    services: ServiceView[]
+    Cluster: ClusterView
+    Services: ServiceView[]
 }
 
 interface ClusterView {
-    name: string
-    nodes: NodeView[]
+    Name: string
+    Nodes: NodeView[]
 }
 
 interface NodeView {
-    name: string
-    namespace: string
-    deployments: DeploymentView[]
+    Name: string
+    Namespace: string
+    Deployments: DeploymentView[]
 }
 
 interface ServiceView {
-    name: string
-    deployments: DeploymentView[]
-    loadBalancers: LoadBalancer[]
+    Name: string
+    Deployments: DeploymentView[]
+    LoadBalancers: LoadBalancer[]
 }
 
 interface LoadBalancer {
-    hostName: string
+    HostName: string
     IP: string
 }
 
 interface DeploymentView {
-    name: string
+    Name: string
 }
 
