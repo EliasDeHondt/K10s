@@ -12,6 +12,7 @@ import { Color, NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
 import { SpiderWebComponent } from '../spider-web/spider-web.component';
 import { StatWebSocketService } from '../services/statWebsocket.service';
 import { Metrics } from '../domain/Metrics';
+import html2canvas from "html2canvas";
 
 @Component({
     selector: 'app-dashboard',
@@ -23,6 +24,7 @@ import { Metrics } from '../domain/Metrics';
 export class DashboardComponent implements AfterViewInit, OnInit, OnDestroy {
     @ViewChild('dashboardMain') dashboardMain!: ElementRef;
     @ViewChild('dashboardTitle') dashboardTitle!: ElementRef;
+    @ViewChild('spiderWeb', { static: false }) spiderWeb!: ElementRef;
 
     usage: Metrics | undefined = undefined;
     memoryChartData: any[] = [];
@@ -64,6 +66,59 @@ export class DashboardComponent implements AfterViewInit, OnInit, OnDestroy {
         if (fullscreenButton) {
             fullscreenButton.addEventListener('click', () => this.toggleFullscreen());
         }
+
+        const downloadButton = document.getElementById('dashboard-download-button');
+        if (downloadButton) {
+            downloadButton.addEventListener('click', () => this.downloadSpiderWebAsPNG());
+        }
+    }
+    // downloadCanvas(): void {
+    //     const svgElement = this.spiderWeb.nativeElement;
+    //
+    //     html2canvas(svgElement, {
+    //         scale: 2,
+    //     }).then((canvas) => {
+    //         const link = document.createElement('a');
+    //         link.href = canvas.toDataURL('image/png');
+    //         link.download = 'spider-web-graph.png';
+    //         link.click();
+    //     });
+    // }
+    downloadSpiderWebAsPNG(): void {
+        const spiderWebSvg = document.querySelector('app-spider-web svg');
+
+        if (!spiderWebSvg) {
+            console.error('Spider web SVG not found.');
+            return;
+        }
+
+        const serializer = new XMLSerializer();
+        const svgString = serializer.serializeToString(spiderWebSvg);
+
+        const svgBlob = new Blob([svgString], { type: 'image/svg' });
+        const svgUrl = URL.createObjectURL(svgBlob);
+
+        const img = new Image();
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            if (ctx) {
+                ctx.drawImage(img, 0, 0);
+                const pngUrl = canvas.toDataURL('image/png');
+
+                const a = document.createElement('a');
+                a.href = pngUrl;
+                a.download = 'spider-web.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+            URL.revokeObjectURL(svgUrl);
+        };
+
+        img.src = svgUrl;
     }
 
     ngOnDestroy(): void {
