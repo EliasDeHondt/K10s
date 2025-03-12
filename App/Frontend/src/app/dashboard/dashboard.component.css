@@ -69,6 +69,7 @@
     flex-direction: column;
     justify-content: center;
     color: var(--text);
+    font-size: 1.2rem;
 }
 
 .dashboard-header-1,
@@ -81,6 +82,8 @@
 }
 
 :host ::ng-deep ngx-charts-gauge text {
+    font-size: 2.2rem !important;
+    transform: scale(0.85) !important;
     fill: var(--text);
 }
 
@@ -171,11 +174,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.cursor-move {
-    width: 800px;
-    height: 500px;
 }
 
 .spider-web {

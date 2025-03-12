@@ -1,7 +1,6 @@
 package kubernetes
 
 import (
-	"fmt"
 	"golang.org/x/net/context"
 	appsv1 "k8s.io/api/apps/v1"
 	v1 "k8s.io/api/core/v1"
@@ -43,15 +42,15 @@ type DeploymentView struct {
 	Name string
 }
 
-func VisualizeCluster(client IClient) *Visualization {
+func VisualizeCluster(client IClient, namespace string) *Visualization {
 
 	return &Visualization{
-		Cluster:  NewClusterView(client),
-		Services: getAllServices(client),
+		Cluster:  NewClusterView(client, namespace),
+		Services: getAllServices(client, namespace),
 	}
 }
 
-func NewClusterView(client IClient) *ClusterView {
+func NewClusterView(client IClient, namespace string) *ClusterView {
 
 	nodes, err := createNodeViews(client)
 	if err != nil {
@@ -77,8 +76,9 @@ func NewServiceView(service *v1.Service, client IClient) *ServiceView {
 
 	if len(service.Spec.Selector) == 0 {
 		return &ServiceView{
-			Name:        service.Name,
-			Deployments: make([]*DeploymentView, 0),
+			Name:          service.Name,
+			Deployments:   make([]*DeploymentView, 0),
+			LoadBalancers: make([]*LoadBalancer, 0),
 		}
 	}
 
@@ -108,23 +108,19 @@ func NewLoadBalancer(ingress *v1.LoadBalancerIngress) *LoadBalancer {
 }
 
 func getLoadBalancersForService(service *v1.Service) ([]*LoadBalancer, error) {
-
-	balancers := service.Status.LoadBalancer.Ingress
 	loadBalancers := make([]*LoadBalancer, 0)
+	balancers := service.Status.LoadBalancer.Ingress
 
 	if len(balancers) > 0 {
-
-		loadBalancers = make([]*LoadBalancer, len(balancers))
-
-		for i, ingress := range balancers {
-			loadBalancers[i] = NewLoadBalancer(&ingress)
+		for _, ingress := range balancers {
+			loadBalancers = append(loadBalancers, NewLoadBalancer(&ingress))
 		}
 	}
 
 	return loadBalancers, nil
 }
 
-func getAllServices(client IClient) []*ServiceView {
+func getAllServices(client IClient, namespace string) []*ServiceView {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -152,7 +148,6 @@ func getDeploymentsForService(namespace, serviceName string, client IClient) ([]
 
 	serviceSelector := service.Spec.Selector
 	if len(serviceSelector) == 0 {
-		fmt.Println("Service has no selectors (e.g., headless service).")
 		return []*DeploymentView{}, nil
 	}
 	serviceLabelSelector := labels.Set(serviceSelector).AsSelector().String()
@@ -181,8 +176,8 @@ func getDeploymentsForService(namespace, serviceName string, client IClient) ([]
 }
 
 func transformDeployments(deployments *[]appsv1.Deployment, podLabels map[string]map[string]string) []*DeploymentView {
-	deploymentViews := make([]*DeploymentView, len(*deployments))
-	for i, deployment := range *deployments {
+	deploymentViews := make([]*DeploymentView, 0)
+	for _, deployment := range *deployments {
 		deploySelector := deployment.Spec.Selector.MatchLabels
 		matches := false
 
@@ -201,7 +196,7 @@ func transformDeployments(deployments *[]appsv1.Deployment, podLabels map[string
 		}
 
 		if matches {
-			deploymentViews[i] = NewDeploymentView(&deployment)
+			deploymentViews = append(deploymentViews, NewDeploymentView(&deployment))
 		}
 	}
 

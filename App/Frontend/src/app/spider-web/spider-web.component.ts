@@ -7,6 +7,8 @@ import * as d3 from 'd3';
 import {VisualizationService} from "../services/visualization.service";
 import {NotificationService} from "../services/notification.service";
 import {TranslateService} from "@ngx-translate/core";
+import {Visualization} from "../domain/Visualization";
+import {vhToPixels, vwToPixels} from "../domain/util";
 
 interface NodeDatum extends d3.SimulationNodeDatum {
     id: string;
@@ -16,13 +18,6 @@ interface NodeDatum extends d3.SimulationNodeDatum {
 interface LinkDatum {
     source: string | NodeDatum;
     target: string | NodeDatum;
-}
-export interface VisualizationData {
-    Cluster: {
-        Name: string;
-        Nodes: { Name: string; Namespace: string; Deployments: { Name: string }[] }[];
-    };
-    Services: { Name: string; Deployments: { Name: string }[]; LoadBalancers: { Name: string }[] }[];
 }
 
 @Component({
@@ -40,10 +35,9 @@ export class SpiderWebComponent implements AfterViewInit {
 
     ngAfterViewInit(): void {
         this.visualizationService.getVisualization().subscribe({
-            next: (data: VisualizationData) => {
+            next: (data: Visualization) => {
                 this.updateGraphData(data);
                 this.createForceDirectedGraph();
-                console.log(":A", data)
             },
             error: () => {
                 this.notificationService.showNotification(this.translate.instant('NOTIF.VISUALIZATION.GETERROR'), 'error');
@@ -52,7 +46,7 @@ export class SpiderWebComponent implements AfterViewInit {
 
     }
 
-    private updateGraphData(data: VisualizationData): void {
+    private updateGraphData(data: Visualization): void {
         const nodes: NodeDatum[] = [];
         const links: LinkDatum[] = [];
         const nodeMap = new Map<string, NodeDatum>();
@@ -124,9 +118,10 @@ export class SpiderWebComponent implements AfterViewInit {
 //     };
     }
 
+
     private createForceDirectedGraph(): void {
-        const width = 800;
-        const height = 500;
+        const width = vwToPixels(87.5);
+        const height = vhToPixels(70);
 
         const svg = d3
             .select(this.svgRef.nativeElement)
@@ -208,7 +203,7 @@ export class SpiderWebComponent implements AfterViewInit {
             .attr('text-anchor', 'middle')
             .attr('dy', 60)
             .attr('font-size', '12px')
-            .attr('fill', '#333');
+            .attr('fill', '#aaa');
 
         const dragHandler = d3
             .drag<SVGGElement, NodeDatum>()
