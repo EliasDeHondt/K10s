@@ -1,7 +1,6 @@
 package kubernetes
 
 import (
-	"fmt"
 	"golang.org/x/net/context"
 	appsv1 "k8s.io/api/apps/v1"
 	v1 "k8s.io/api/core/v1"
@@ -114,10 +113,10 @@ func getLoadBalancersForService(service *v1.Service) ([]*LoadBalancer, error) {
 
 	if len(balancers) > 0 {
 
-		loadBalancers = make([]*LoadBalancer, len(balancers))
+		loadBalancers = make([]*LoadBalancer, 0)
 
-		for i, ingress := range balancers {
-			loadBalancers[i] = NewLoadBalancer(&ingress)
+		for _, ingress := range balancers {
+			loadBalancers = append(loadBalancers, NewLoadBalancer(&ingress))
 		}
 	}
 
@@ -152,7 +151,6 @@ func getDeploymentsForService(namespace, serviceName string, client IClient) ([]
 
 	serviceSelector := service.Spec.Selector
 	if len(serviceSelector) == 0 {
-		fmt.Println("Service has no selectors (e.g., headless service).")
 		return []*DeploymentView{}, nil
 	}
 	serviceLabelSelector := labels.Set(serviceSelector).AsSelector().String()
@@ -181,8 +179,8 @@ func getDeploymentsForService(namespace, serviceName string, client IClient) ([]
 }
 
 func transformDeployments(deployments *[]appsv1.Deployment, podLabels map[string]map[string]string) []*DeploymentView {
-	deploymentViews := make([]*DeploymentView, len(*deployments))
-	for i, deployment := range *deployments {
+	deploymentViews := make([]*DeploymentView, 0)
+	for _, deployment := range *deployments {
 		deploySelector := deployment.Spec.Selector.MatchLabels
 		matches := false
 
@@ -201,7 +199,7 @@ func transformDeployments(deployments *[]appsv1.Deployment, podLabels map[string
 		}
 
 		if matches {
-			deploymentViews[i] = NewDeploymentView(&deployment)
+			deploymentViews = append(deploymentViews, NewDeploymentView(&deployment))
 		}
 	}
 
