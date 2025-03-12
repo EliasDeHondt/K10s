@@ -8,6 +8,7 @@ import {VisualizationService} from "../services/visualization.service";
 import {NotificationService} from "../services/notification.service";
 import {TranslateService} from "@ngx-translate/core";
 import {Visualization} from "../domain/Visualization";
+import {vhToPixels, vwToPixels} from "../domain/util";
 
 interface NodeDatum extends d3.SimulationNodeDatum {
     id: string;
@@ -37,7 +38,6 @@ export class SpiderWebComponent implements AfterViewInit {
             next: (data: Visualization) => {
                 this.updateGraphData(data);
                 this.createForceDirectedGraph();
-                console.log(":A", data)
             },
             error: () => {
                 this.notificationService.showNotification(this.translate.instant('NOTIF.VISUALIZATION.GETERROR'), 'error');
@@ -118,9 +118,10 @@ export class SpiderWebComponent implements AfterViewInit {
 //     };
     }
 
+
     private createForceDirectedGraph(): void {
-        const width = 800;
-        const height = 500;
+        const width = vwToPixels(87.5);
+        const height = vhToPixels(70);
 
         const svg = d3
             .select(this.svgRef.nativeElement)
