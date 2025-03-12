@@ -203,7 +203,7 @@ export class SpiderWebComponent implements AfterViewInit {
             .attr('text-anchor', 'middle')
             .attr('dy', 60)
             .attr('font-size', '12px')
-            .attr('fill', '#333');
+            .attr('fill', '#aaa');
 
         const dragHandler = d3
             .drag<SVGGElement, NodeDatum>()

@@ -69,6 +69,7 @@
     flex-direction: column;
     justify-content: center;
     color: var(--text);
+    font-size: 1.2rem;
 }
 
 .dashboard-header-1,
@@ -81,6 +82,7 @@
 }
 
 :host ::ng-deep ngx-charts-gauge text {
+    font-size: 2.2rem !important;
     fill: var(--text);
 }
 

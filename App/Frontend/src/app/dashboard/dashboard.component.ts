@@ -31,6 +31,7 @@ export class DashboardComponent implements AfterViewInit, OnInit, OnDestroy {
     diskUsage: number = 0.0;
     diskCapacity: number = 0.0;
 
+
     colorScheme: Color = {
         name: 'customScheme',
         selectable: true,
@@ -106,8 +107,11 @@ export class DashboardComponent implements AfterViewInit, OnInit, OnDestroy {
     updateChartData(metrics: Metrics): void {
         this.memoryChartData = [{ name: 'Used', value: parseFloat(metrics.MemUsage.toFixed(2)) }];
         this.cpuChartData = [{ name: 'Used', value: parseFloat(metrics.CpuUsage.toFixed(2)) }];
+        this.memoryChartData = [{ name: 'Used', value: parseFloat(String(1.3)) }];
+        this.cpuChartData = [{ name: 'Used', value: parseFloat(String(17.33)) }];
         this.diskUsage = metrics.DiskUsage;
         this.diskCapacity = metrics.DiskCapacity;
+
         this.diskUsagePercentage = (metrics.DiskUsage / metrics.DiskCapacity) * 100;
 
         this.colorScheme = {
