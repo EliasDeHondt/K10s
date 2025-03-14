@@ -47,7 +47,7 @@ func GetFrontendIP() string {
 	if len(svc.Status.LoadBalancer.Ingress) > 0 {
 
 		protocol := "http"
-		if svc.Status.LoadBalancer.Ingress[0].Hostname != "" {
+		if svc.Spec.Ports[0].Port == 443 {
 			protocol = "https"
 		}
 
@@ -61,7 +61,6 @@ func GetFrontendIP() string {
 		if svc.Spec.Ports[0].Port != 80 && svc.Spec.Ports[0].Port != 443 {
 			url += ":" + strconv.Itoa(int(svc.Spec.Ports[0].Port))
 		}
-		log.Println(url)
 		return url
 	}
 
