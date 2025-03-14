@@ -7,7 +7,6 @@ package kubernetes
 import (
 	"context"
 	"fmt"
-	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes/handlers"
 	"github.com/gorilla/websocket"
 	av1 "k8s.io/api/apps/v1"
 	cv1 "k8s.io/api/core/v1"
@@ -271,7 +270,7 @@ func (client *FakeClient) GetTotalUsage() {
 		err := conn.WriteJSON(calculatedMetrics)
 		if err != nil {
 			fmt.Println(err)
-			handlers.CloseConn(conn)
+			CloseConn(conn)
 		}
 	}
 }
@@ -365,7 +364,7 @@ func (client *Client) GetTotalUsage() {
 				err := conn.WriteJSON(calculatedMetrics)
 				if err != nil {
 					fmt.Println(err)
-					handlers.CloseConn(conn)
+					CloseConn(conn)
 				}
 			}
 		case watch.Deleted:

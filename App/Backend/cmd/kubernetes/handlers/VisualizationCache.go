@@ -141,7 +141,7 @@ func sendVisualizations() {
 			log.Println("Error writing visualization stats:", err)
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
 				log.Println("WebSocket connection closed by client.")
-				CloseConn(conn)
+				kubernetes.CloseConn(conn)
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-package handlers
+package kubernetes
 
 import (
 	"github.com/gorilla/websocket"
