@@ -62,7 +62,7 @@ func main() {
 
 	handlers.VisualizationReady.Add(1)
 	go handlers.CreateVisualization(handlers.C)
-	go handlers.C.GetTotalUsage()
+	go handlers.C.WatchUsage()
 
 	err = r.Run(":8082")
 	if err != nil {

@@ -18,4 +18,14 @@ func HandleMetricsSocket(ctx *gin.Context) {
 
 	C.AddMetricsConnection(conn)
 
+	metrics, err := C.GetTotalUsage()
+	if err != nil {
+		log.Println("Error getting metrics socket:", err)
+		return
+	}
+
+	err = conn.WriteJSON(metrics)
+	if err != nil {
+		log.Println("Error writing metrics socket:", err)
+	}
 }
