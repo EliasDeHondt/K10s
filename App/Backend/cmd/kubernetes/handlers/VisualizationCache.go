@@ -2,10 +2,12 @@
 /* @since 01/01/2025              */
 /* @author K10s Open Source Team  */
 /**********************************/
-package kubernetes
+package handlers
 
 import (
 	"context"
+	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes"
+	"github.com/gorilla/websocket"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -17,12 +19,12 @@ import (
 
 var (
 	VisualizationReady  sync.WaitGroup
-	CachedVisualization *Visualization
+	CachedVisualization *kubernetes.Visualization
 )
 
-func CreateVisualization(client IClient) *Visualization {
+func CreateVisualization(client kubernetes.IClient) *kubernetes.Visualization {
 	defer VisualizationReady.Done()
-	visualization := VisualizeCluster(client)
+	visualization := kubernetes.VisualizeCluster(client)
 	go watchNodes(client, visualization)
 	go watchDeployments(client, visualization)
 	go watchServices(client, visualization)
@@ -30,7 +32,7 @@ func CreateVisualization(client IClient) *Visualization {
 	return visualization
 }
 
-func watchNodes(client IClient, visualization *Visualization) {
+func watchNodes(client kubernetes.IClient, visualization *kubernetes.Visualization) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -59,10 +61,11 @@ func watchNodes(client IClient, visualization *Visualization) {
 			log.Printf("Error event: %v\n", event.Object)
 			break
 		}
+		sendVisualizations()
 	}
 }
 
-func watchServices(client IClient, visualization *Visualization) {
+func watchServices(client kubernetes.IClient, visualization *kubernetes.Visualization) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -92,10 +95,11 @@ func watchServices(client IClient, visualization *Visualization) {
 			log.Printf("Error event: %v\n", event.Object)
 			break
 		}
+		sendVisualizations()
 	}
 }
 
-func watchDeployments(client IClient, visualization *Visualization) {
+func watchDeployments(client kubernetes.IClient, visualization *kubernetes.Visualization) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -124,6 +128,21 @@ func watchDeployments(client IClient, visualization *Visualization) {
 		case watch.Error:
 			log.Printf("Error event: %v\n", event.Object)
 			break
+		}
+		sendVisualizations()
+	}
+}
+
+func sendVisualizations() {
+	conns := GetVisualizationConns()
+	for _, conn := range conns {
+		err := conn.WriteJSON(CachedVisualization)
+		if err != nil {
+			log.Println("Error writing visualization stats:", err)
+			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
+				log.Println("WebSocket connection closed by client.")
+				CloseConn(conn)
+			}
 		}
 	}
 }

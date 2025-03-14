@@ -25,15 +25,11 @@ func HandleMetricsSocket(ctx *gin.Context) {
 		log.Println("Error upgrading metrics socket:", err)
 		return
 	}
-	defer func(conn *websocket.Conn) {
-		err := conn.Close()
-		if err != nil {
-			log.Println("Error closing metrics socket:", err)
-		}
-	}(conn)
+	defer CloseConn(conn)
+
+	C.AddMetricsConnection(conn)
 
 	for {
-		stats, err := C.GetTotalUsage()
 		if err != nil {
 			log.Println("Error getting metrics stats:", err)
 			return
