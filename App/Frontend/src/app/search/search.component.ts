@@ -46,6 +46,8 @@ export class SearchComponent implements OnInit {
     namespaces: Namespace[] = [];
     nodeNames: string[] = [];
 
+    pageSize: number = 20;
+
     ngOnInit(): void {
         this.getNamespaces()
         this.getNodeNames()
@@ -55,9 +57,35 @@ export class SearchComponent implements OnInit {
         this.tableService.setElement('nodes');
     }
 
+    setPageSize(size: number) {
+        this.pageSize = size;
+        this.loadingService.isLoading.set(true);
+        this.tableService.getTable(
+            this.tableService.element(),
+            this.tableService.namespace(),
+            this.tableService.node(),
+            this.pageSize
+        );
+    }
+
     updateElement(filter: string) {
         this.loadingService.isLoading.set(true);
-        this.tableService.setElement(filter)
+        this.tableService.setElement(filter);
+        this.tableService.getTable(filter, this.tableService.namespace(), this.tableService.node(), this.pageSize);
+    }
+
+    selectNode(node: string) {
+        this.loadingService.isLoading.set(true);
+        this.tableService.setNodeName(node);
+        this.tableService.getTable(this.tableService.element(), this.tableService.namespace(), node, this.pageSize);
+        this.toggleDropdown('searchDropdown1');
+    }
+
+    selectNamespace(namespace: string) {
+        this.loadingService.isLoading.set(true);
+        this.tableService.setNamespace(namespace);
+        this.tableService.getTable(this.tableService.element(), namespace, this.tableService.node(), this.pageSize);
+        this.toggleDropdown('searchDropdown2');
     }
 
     toggleDropdown(dropdownKey: string) {
@@ -66,17 +94,6 @@ export class SearchComponent implements OnInit {
         }
     }
 
-    selectNode(node: string) {
-        this.loadingService.isLoading.set(true);
-        this.tableService.setNodeName(node)
-        this.toggleDropdown('searchDropdown1');
-    }
-
-    selectNamespace(namespace: string) {
-        this.loadingService.isLoading.set(true);
-        this.tableService.setNamespace(namespace)
-        this.toggleDropdown('searchDropdown2');
-    }
 
     getNamespaces() {
         this.filterDataService.getNamespaces().subscribe(response => {
