@@ -137,6 +137,10 @@ func (client *FakeClient) CreatePod(pod *cv1.Pod) (Pod, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
+	if pod.Namespace == "" {
+		pod.Namespace = "default"
+	}
+
 	pod, err := client.GetPods(pod.Namespace).Create(ctx, pod, metav1.CreateOptions{})
 
 	if err != nil {
@@ -149,6 +153,10 @@ func (client *FakeClient) CreatePod(pod *cv1.Pod) (Pod, error) {
 func (client *FakeClient) CreateDeployment(deployment *av1.Deployment) (Deployment, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
+
+	if deployment.Namespace == "" {
+		deployment.Namespace = "default"
+	}
 
 	deployment, err := client.GetDeployments(deployment.Namespace).Create(ctx, deployment, metav1.CreateOptions{})
 
@@ -163,6 +171,10 @@ func (client *FakeClient) CreateService(service *cv1.Service) (Service, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
+	if service.Namespace == "" {
+		service.Namespace = "default"
+	}
+
 	_, err := client.GetServices(service.Namespace).Create(ctx, service, metav1.CreateOptions{})
 
 	if err != nil {
@@ -176,6 +188,10 @@ func (client *FakeClient) CreateConfigMap(configMap *cv1.ConfigMap) (ConfigMap, 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
+	if configMap.Namespace == "" {
+		configMap.Namespace = "default"
+	}
+
 	_, err := client.GetConfigMaps(configMap.Namespace).Create(ctx, configMap, metav1.CreateOptions{})
 
 	if err != nil {
@@ -188,6 +204,10 @@ func (client *FakeClient) CreateConfigMap(configMap *cv1.ConfigMap) (ConfigMap, 
 func (client *FakeClient) CreateSecret(secret *cv1.Secret) (Secret, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
+
+	if secret.Namespace == "" {
+		secret.Namespace = "default"
+	}
 
 	_, err := client.GetSecrets(secret.Namespace).Create(ctx, secret, metav1.CreateOptions{})
 
@@ -420,6 +440,10 @@ func (client *Client) CreatePod(pod *cv1.Pod) (Pod, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
+	if pod.Namespace == "" {
+		pod.Namespace = "default"
+	}
+
 	pod, err := client.GetPods(pod.Namespace).Create(ctx, pod, metav1.CreateOptions{})
 
 	if err != nil {
@@ -432,6 +456,10 @@ func (client *Client) CreatePod(pod *cv1.Pod) (Pod, error) {
 func (client *Client) CreateDeployment(deployment *av1.Deployment) (Deployment, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
+
+	if deployment.Namespace == "" {
+		deployment.Namespace = "default"
+	}
 
 	deployment, err := client.GetDeployments(deployment.Namespace).Create(ctx, deployment, metav1.CreateOptions{})
 
@@ -446,6 +474,10 @@ func (client *Client) CreateService(service *cv1.Service) (Service, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
+	if service.Namespace == "" {
+		service.Namespace = "default"
+	}
+
 	_, err := client.GetServices(service.Namespace).Create(ctx, service, metav1.CreateOptions{})
 
 	if err != nil {
@@ -459,6 +491,10 @@ func (client *Client) CreateConfigMap(configMap *cv1.ConfigMap) (ConfigMap, erro
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
+	if configMap.Namespace == "" {
+		configMap.Namespace = "default"
+	}
+
 	_, err := client.GetConfigMaps(configMap.Namespace).Create(ctx, configMap, metav1.CreateOptions{})
 
 	if err != nil {
@@ -471,6 +507,10 @@ func (client *Client) CreateConfigMap(configMap *cv1.ConfigMap) (ConfigMap, erro
 func (client *Client) CreateSecret(secret *cv1.Secret) (Secret, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
+
+	if secret.Namespace == "" {
+		secret.Namespace = "default"
+	}
 
 	_, err := client.GetSecrets(secret.Namespace).Create(ctx, secret, metav1.CreateOptions{})
 
