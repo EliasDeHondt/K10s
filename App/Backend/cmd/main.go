@@ -54,12 +54,10 @@ func main() {
 	secured.GET("/configMaps", handlers.GetConfigMapsHandler)
 	secured.GET("/secrets", handlers.GetSecretsHandler)
 	secured.GET("/deployments", handlers.GetDeploymentsHandler)
-	secured.GET("/stats", handlers.GetStatsHandler)
 	secured.POST("/createresources", handlers.CreateResourcesHandler)
 	secured.GET("/namespaces", handlers.GetNamespacesHandler)
 	secured.GET("/nodenames", handlers.GetNodeNamesHandler)
 	secured.GET("/statsocket", handlers.HandleMetricsSocket)
-	secured.GET("/visualization", handlers.GetVisualizationHandler)
 
 	handlers.VisualizationReady.Add(1)
 	go handlers.CreateVisualization(handlers.C)

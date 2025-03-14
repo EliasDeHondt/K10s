@@ -44,7 +44,6 @@ type IClient interface {
 	GetDeployments(namespace string) appsv1.DeploymentInterface
 	GetReplicaSets(namespace string) appsv1.ReplicaSetInterface
 	GetTotalUsage()
-	GetUsageForNode(nodeName string) (*Metrics, error)
 	CreateNamespace(namespace *cv1.Namespace) (Namespace, error)
 	CreateNode(node *cv1.Node) (Node, error)
 	CreatePod(pod *cv1.Pod) (Pod, error)
@@ -275,31 +274,6 @@ func (client *FakeClient) GetTotalUsage() {
 	}
 }
 
-func (client *FakeClient) GetUsageForNode(nodeName string) (*Metrics, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-
-	node, err := client.Client.CoreV1().Nodes().Get(ctx, nodeName, metav1.GetOptions{})
-	if err != nil {
-		return nil, err
-	}
-
-	totalCpu := node.Status.Capacity.Cpu().MilliValue()
-	totalMem := node.Status.Capacity.Memory().Value()
-	totalDisk := node.Status.Capacity.Storage().Value()
-
-	nodeMetrics := client.MetricsClient.NodeMetrics[nodeName]
-
-	usedCpu := nodeMetrics.Usage.Cpu().MilliValue()
-	usedMem := nodeMetrics.Usage.Memory().Value()
-	usedDisk := nodeMetrics.Usage.Storage().Value()
-
-	cpuUsagePercent := float64(usedCpu) / float64(totalCpu) * 100
-	memoryUsagePercent := float64(usedMem) / float64(totalMem) * 100
-
-	return &Metrics{CpuUsage: cpuUsagePercent, MemUsage: memoryUsagePercent, DiskUsage: usedDisk, DiskCapacity: totalDisk}, nil
-}
-
 func (client *FakeClient) AddMetricsConnection(conn *websocket.Conn) {
 	client.MetricsConns = append(client.MetricsConns, conn)
 }
@@ -372,34 +346,6 @@ func (client *Client) GetTotalUsage() {
 			fmt.Printf("error watching node calculatedMetrics: %v", event.Object)
 		}
 	}
-}
-
-func (client *Client) GetUsageForNode(nodeName string) (*Metrics, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-
-	node, err := client.Client.CoreV1().Nodes().Get(ctx, nodeName, metav1.GetOptions{})
-	if err != nil {
-		return nil, err
-	}
-
-	totalCpu := node.Status.Capacity.Cpu().MilliValue()
-	totalMem := node.Status.Capacity.Memory().Value()
-	totalDisk := node.Status.Capacity.Storage().Value()
-
-	nodeMetrics, err := client.MetricsClient.MetricsV1beta1().NodeMetricses().Get(ctx, nodeName, metav1.GetOptions{})
-	if err != nil {
-		return nil, err
-	}
-
-	usedCpu := nodeMetrics.Usage.Cpu().MilliValue()
-	usedMem := nodeMetrics.Usage.Memory().Value()
-	usedDisk := nodeMetrics.Usage.Storage().Value()
-
-	cpuUsagePercent := float64(usedCpu) / float64(totalCpu) * 100
-	memoryUsagePercent := float64(usedMem) / float64(totalMem) * 100
-
-	return &Metrics{CpuUsage: cpuUsagePercent, MemUsage: memoryUsagePercent, DiskUsage: usedDisk, DiskCapacity: totalDisk}, nil
 }
 
 func (client *Client) CreateNamespace(namespace *cv1.Namespace) (Namespace, error) {
