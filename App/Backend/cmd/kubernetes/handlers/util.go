@@ -14,7 +14,7 @@ import (
 	"time"
 )
 
-var c = kubernetes.GetClients()
+var C = kubernetes.GetClients()
 
 type PaginatedResponse[T any] struct {
 	Response  T
@@ -35,7 +35,7 @@ func GetFrontendIP() string {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	svc, err := c.GetServices("k10s-namespaces").Get(ctx, "k10s-ingress-service", metav1.GetOptions{})
+	svc, err := C.GetServices("k10s-namespaces").Get(ctx, "k10s-ingress-service", metav1.GetOptions{})
 
 	if err != nil {
 		log.Printf("Failed to get k10s-ingress-service: %v, using default development url", err)

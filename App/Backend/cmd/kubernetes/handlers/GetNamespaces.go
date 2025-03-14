@@ -17,7 +17,7 @@ import (
 
 func GetNamespacesHandler(ctx *gin.Context) {
 
-	namespaces, err := GetNamespaces(c)
+	namespaces, err := GetNamespaces(C)
 
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error has occurred or the request has been timed out."})

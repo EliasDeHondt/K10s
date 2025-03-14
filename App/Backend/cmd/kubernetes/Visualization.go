@@ -7,12 +7,159 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
 	"log"
+	"sync"
 	"time"
 )
 
 type Visualization struct {
 	Cluster  *ClusterView
 	Services []*ServiceView
+	mu       sync.Mutex
+}
+
+func (v *Visualization) findOrCreateNodeView(nodeName, namespace string) *NodeView {
+	for _, node := range v.Cluster.Nodes {
+		if node.Name == nodeName && node.Namespace == namespace {
+			return node
+		}
+	}
+
+	newNode := &NodeView{
+		Name:        nodeName,
+		Namespace:   namespace,
+		Deployments: []*DeploymentView{},
+	}
+	v.Cluster.Nodes = append(v.Cluster.Nodes, newNode)
+	return newNode
+}
+
+func (v *Visualization) findOrCreateServiceView(serviceName string) *ServiceView {
+	for _, service := range v.Services {
+		if service.Name == serviceName {
+			return service
+		}
+	}
+
+	// If not found, create a new ServiceView
+	newService := &ServiceView{
+		Name:          serviceName,
+		Deployments:   []*DeploymentView{},
+		LoadBalancers: []*LoadBalancer{},
+	}
+	v.Services = append(v.Services, newService)
+	return newService
+}
+
+func matchLabels(selector, labels map[string]string) bool {
+	for key, value := range selector {
+		if labels[key] != value {
+			return false
+		}
+	}
+	return true
+}
+
+func (v *Visualization) AddNode(node *v1.Node, client IClient) {
+	v.mu.Lock()
+	defer v.mu.Unlock()
+
+	v.Cluster.Nodes = append(v.Cluster.Nodes, NewNodeView(node, client))
+}
+
+func (v *Visualization) DeleteNode(node *v1.Node) {
+	v.mu.Lock()
+	defer v.mu.Unlock()
+
+	for i, nodeView := range v.Cluster.Nodes {
+		if nodeView.Name == node.Name {
+			v.Cluster.Nodes = append(v.Cluster.Nodes[:i], v.Cluster.Nodes[i+1:]...)
+			break
+		}
+	}
+}
+
+func (v *Visualization) AddService(service *v1.Service, client IClient) {
+	v.mu.Lock()
+	defer v.mu.Unlock()
+
+	v.Services = append(v.Services, NewServiceView(service, client))
+}
+
+func (v *Visualization) DeleteService(service *v1.Service) {
+	v.mu.Lock()
+	defer v.mu.Unlock()
+
+	for i, serviceView := range v.Services {
+		if serviceView.Name == service.Name {
+			v.Services = append(v.Services[:i], v.Services[i+1:]...)
+			break
+		}
+	}
+}
+
+func removeDeploymentFromList(deployments []*DeploymentView, deploymentName string) []*DeploymentView {
+	result := make([]*DeploymentView, 0)
+	for _, deployment := range deployments {
+		if deployment.Name != deploymentName {
+			result = append(result, deployment)
+		}
+	}
+	return result
+}
+
+func (v *Visualization) AddDeployment(deployment *appsv1.Deployment, client IClient) {
+	v.mu.Lock()
+	defer v.mu.Unlock()
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	newDeployment := NewDeploymentView(deployment)
+
+	podList, err := client.GetPods(deployment.Namespace).List(ctx, metav1.ListOptions{
+		LabelSelector: metav1.FormatLabelSelector(deployment.Spec.Selector),
+	})
+	if err != nil {
+		log.Printf("Error getting Pods for Deployment %s: %v", deployment.Name, err)
+		return
+	}
+
+	for _, pod := range podList.Items {
+		nodeName := pod.Spec.NodeName
+		namespace := pod.Namespace
+
+		nodeView := v.findOrCreateNodeView(nodeName, namespace)
+		nodeView.Deployments = append(nodeView.Deployments, newDeployment)
+	}
+
+	serviceList, err := client.GetServices(deployment.Namespace).List(ctx, metav1.ListOptions{})
+	if err != nil {
+		log.Printf("Error getting Services for Deployment %s: %v", deployment.Name, err)
+		return
+	}
+
+	for _, service := range serviceList.Items {
+		if matchLabels(service.Spec.Selector, deployment.Spec.Template.Labels) {
+			serviceView := v.findOrCreateServiceView(service.Name)
+			serviceView.Deployments = append(serviceView.Deployments, newDeployment)
+		}
+	}
+
+}
+
+func (v *Visualization) DeleteDeployment(deployment *appsv1.Deployment) {
+	v.mu.Lock()
+	defer v.mu.Unlock()
+
+	deploymentName := deployment.Name
+
+	for _, node := range v.Cluster.Nodes {
+		node.Deployments = removeDeploymentFromList(node.Deployments, deploymentName)
+	}
+
+	for _, service := range v.Services {
+		service.Deployments = removeDeploymentFromList(service.Deployments, deploymentName)
+	}
 }
 
 type ClusterView struct {
@@ -42,15 +189,15 @@ type DeploymentView struct {
 	Name string
 }
 
-func VisualizeCluster(client IClient, namespace string) *Visualization {
+func VisualizeCluster(client IClient) *Visualization {
 
 	return &Visualization{
-		Cluster:  NewClusterView(client, namespace),
-		Services: getAllServices(client, namespace),
+		Cluster:  NewClusterView(client),
+		Services: getAllServices(client),
 	}
 }
 
-func NewClusterView(client IClient, namespace string) *ClusterView {
+func NewClusterView(client IClient) *ClusterView {
 
 	nodes, err := createNodeViews(client)
 	if err != nil {
@@ -120,7 +267,7 @@ func getLoadBalancersForService(service *v1.Service) ([]*LoadBalancer, error) {
 	return loadBalancers, nil
 }
 
-func getAllServices(client IClient, namespace string) []*ServiceView {
+func getAllServices(client IClient) []*ServiceView {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 

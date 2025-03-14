@@ -4,22 +4,12 @@
 /**********************************/
 import {Component, ElementRef, AfterViewInit, ViewChild, inject} from '@angular/core';
 import * as d3 from 'd3';
-import {VisualizationService} from "../services/visualization.service";
 import {NotificationService} from "../services/notification.service";
 import {TranslateService} from "@ngx-translate/core";
-import {Visualization} from "../domain/Visualization";
+import {LinkDatum, NodeDatum, NodeLinks, Visualization} from "../domain/Visualization";
 import {vhToPixels, vwToPixels} from "../domain/util";
+import {VisualizationWebSocketService} from "../services/visualizationWebsocket.service";
 import {index} from "d3";
-
-interface NodeDatum extends d3.SimulationNodeDatum {
-    id: string;
-    icon: string;
-}
-
-interface LinkDatum {
-    source: string | NodeDatum;
-    target: string | NodeDatum;
-}
 
 @Component({
     selector: 'app-spider-web',
@@ -28,26 +18,31 @@ interface LinkDatum {
     styleUrls: ['./spider-web.component.css'],
 })
 export class SpiderWebComponent implements AfterViewInit {
-    visualizationService = inject(VisualizationService);
+    visualizationService = inject(VisualizationWebSocketService);
     @ViewChild('svgContainer', { static: true }) svgRef!: ElementRef<SVGSVGElement>;
-    constructor(private notificationService: NotificationService,private translate: TranslateService) {}
+    constructor(private notificationService: NotificationService, private translate: TranslateService) {}
 
-    private graphData: { nodes: NodeDatum[]; links: LinkDatum[] } = { nodes: [], links: [] };
+    private graphData: NodeLinks = new NodeLinks([], []);
 
     ngAfterViewInit(): void {
+        this.visualizationService.connect();
+
         this.visualizationService.getVisualization().subscribe({
             next: (data: Visualization) => {
-                this.updateGraphData(data);
-                this.createForceDirectedGraph();
+                let graphData = this.updateGraphData(data);
+
+                if (!this.graphData.isEqual(graphData)) {
+                    this.graphData = graphData;
+                    this.createForceDirectedGraph();
+                }
             },
             error: () => {
                 this.notificationService.showNotification(this.translate.instant('NOTIF.VISUALIZATION.GETERROR'), 'error');
             },
         });
-
     }
 
-    private updateGraphData(data: Visualization): void {
+    private updateGraphData(data: Visualization): NodeLinks {
         const nodes: NodeDatum[] = [];
         const links: LinkDatum[] = [];
         const nodeMap = new Map<string, NodeDatum>();
@@ -87,7 +82,7 @@ export class SpiderWebComponent implements AfterViewInit {
             });
         });
 
-        this.graphData = { nodes, links };
+        return new NodeLinks(nodes, links);
     }
 
 
@@ -99,6 +94,8 @@ export class SpiderWebComponent implements AfterViewInit {
             .select(this.svgRef.nativeElement)
             .attr('width', width)
             .attr('height', height);
+
+        svg.selectAll("*").remove()
 
         this.graphData.nodes.forEach((node: NodeDatum, index: number) => {
             if (node.icon === 'dashboard-cluster.svg') {

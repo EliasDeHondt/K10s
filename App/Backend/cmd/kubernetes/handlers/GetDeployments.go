@@ -20,7 +20,7 @@ func GetDeploymentsHandler(ctx *gin.Context) {
 	var deploymentList *PaginatedResponse[[]kubernetes.Deployment]
 	var err error
 
-	deploymentList, err = GetDeployments(c, namespace, nodeName, pageSize, pageToken)
+	deploymentList, err = GetDeployments(C, namespace, nodeName, pageSize, pageToken)
 
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error has occurred or the request has been timed out."})

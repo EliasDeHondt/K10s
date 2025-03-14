@@ -17,7 +17,7 @@ func GetServicesHandler(ctx *gin.Context) {
 	nodeName, _ := ctx.GetQuery("node")
 	pageSize, pageToken := GetPageSizeAndPageToken(ctx)
 
-	serviceList, err := GetServices(c, namespace, nodeName, pageSize, pageToken)
+	serviceList, err := GetServices(C, namespace, nodeName, pageSize, pageToken)
 
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error has occurred or the request has been timed out."})

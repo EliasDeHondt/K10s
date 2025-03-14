@@ -29,7 +29,7 @@ func CreateResourcesHandler(ctx *gin.Context) {
 		return
 	}
 
-	obj, err := CreateResources(c, data)
+	obj, err := CreateResources(C, data)
 
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})

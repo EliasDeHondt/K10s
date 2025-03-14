@@ -20,7 +20,7 @@ func GetPodsHandler(ctx *gin.Context) {
 	var podList *PaginatedResponse[[]kubernetes.Pod]
 	var err error
 
-	podList, err = GetPods(c, namespace, nodeName, pageSize, pageToken)
+	podList, err = GetPods(C, namespace, nodeName, pageSize, pageToken)
 
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error has occurred or the request has been timed out."})
@@ -55,7 +55,7 @@ func transformPods(list *[]v1.Pod) []kubernetes.Pod {
 
 		go func(i int, pod v1.Pod) {
 			defer wg.Done()
-			podList[i] = kubernetes.NewPod(pod, c)
+			podList[i] = kubernetes.NewPod(pod, C)
 			<-semaphore
 		}(i, pod)
 	}

@@ -1,3 +1,7 @@
+/**********************************/
+/* @since 01/01/2025              */
+/* @author K10s Open Source Team  */
+/**********************************/
 package handlers
 
 import (
@@ -29,7 +33,7 @@ func HandleMetricsSocket(ctx *gin.Context) {
 	}(conn)
 
 	for {
-		stats, err := c.GetTotalUsage()
+		stats, err := C.GetTotalUsage()
 		if err != nil {
 			log.Println("Error getting metrics stats:", err)
 			return

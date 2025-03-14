@@ -6,6 +6,7 @@ package main
 
 import (
 	"github.com/eliasdehondt/K10s/App/Backend/cmd/auth"
+	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes"
 	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes/handlers"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -60,6 +61,9 @@ func main() {
 	secured.GET("/nodenames", handlers.GetNodeNamesHandler)
 	secured.GET("/statsocket", handlers.HandleMetricsSocket)
 	secured.GET("/visualization", handlers.GetVisualizationHandler)
+
+	kubernetes.VisualizationReady.Add(1)
+	go kubernetes.CreateVisualization(handlers.C)
 
 	err = r.Run(":8082")
 	if err != nil {
