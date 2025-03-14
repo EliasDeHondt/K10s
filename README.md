@@ -32,6 +32,8 @@ To ensure proper use and contribution, please refer to the following documentati
 
 ![photo 2](/Assets/photo2.png)
 
+![photo 3](/Assets/photo3.png)
+
 ## 🎨Color Scheme
 
 The project's visual identity is defined by the following colors:
