@@ -46,7 +46,7 @@ export class NavComponent implements OnInit {
 
     ngOnInit(): void {
         this.fetchGitHubStars();
-        this.username = sessionStorage.getItem('username') || 'Guest';
+        this.username = localStorage.getItem('username') || 'Guest';
     }
 
     async fetchGitHubStars() {

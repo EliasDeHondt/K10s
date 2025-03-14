@@ -17,6 +17,9 @@
 .nav-header {
     color: var(--secondary);
     margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
 }
 
 .nav-section {
@@ -42,8 +45,6 @@
     font-size: 1.2rem;
     font-weight: 700;
     text-align: center;
-    margin-bottom: 10px;
-    margin-left: 5px;
 }
 
 .nav-menu {

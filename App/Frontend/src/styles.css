@@ -5,13 +5,13 @@
 
 /* Global Styles */
 :root[data-theme="dark"] {
-    --text: #ecf1f4;
-    --background: #040c10;
-    --primary: #004b7a;
-    --secondary: #3c3154;
+    --text: #d9e1e8;
+    --background: #0a1218;
+    --primary: #1e88e5;
+    --secondary: #5e548e;
     --tertiary: #262b2e;
     --quaternary: #1f2326;
-    --accent: #000000;
+    --accent: #ac8fbd;
 }
 
 :root[data-theme="light"] {
