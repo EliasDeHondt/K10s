@@ -51,7 +51,13 @@ func GetFrontendIP() string {
 			protocol = "https"
 		}
 
-		url := protocol + "://" + svc.Status.LoadBalancer.Ingress[0].IP
+		// For local docker kubernetes testing
+		ingressIP := svc.Status.LoadBalancer.Ingress[0].IP
+		if ingressIP != "" {
+			ingressIP = "localhost"
+		}
+		url := protocol + "://" + ingressIP
+
 		if svc.Spec.Ports[0].Port != 80 && svc.Spec.Ports[0].Port != 443 {
 			url += ":" + strconv.Itoa(int(svc.Spec.Ports[0].Port))
 		}
