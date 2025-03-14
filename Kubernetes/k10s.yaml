@@ -129,13 +129,10 @@ metadata:
   name: k10s-backend-clusterrole
 rules:
   - apiGroups: [""]
-    resources: ["pods", "services", "endpoints", "nodes", "namespaces", "configmaps", "secrets"]
+    resources: ["pods", "services", "nodes", "namespaces", "configmaps", "secrets"]
     verbs: ["get", "list", "create", "update", "patch", "delete"]
   - apiGroups: ["apps"]
     resources: ["deployments", "replicasets", "statefulsets"]
-    verbs: ["get", "list", "create", "update", "patch", "delete"]
-  - apiGroups: ["networking.k8s.io"]
-    resources: ["networkpolicies"]
     verbs: ["get", "list", "create", "update", "patch", "delete"]
   - apiGroups: ["metrics.k8s.io"]
     resources: ["nodes", "pods"]
