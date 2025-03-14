@@ -4,21 +4,11 @@
 /**********************************/
 import {Component, ElementRef, AfterViewInit, ViewChild, inject} from '@angular/core';
 import * as d3 from 'd3';
-import {VisualizationService} from "../services/visualization.service";
 import {NotificationService} from "../services/notification.service";
 import {TranslateService} from "@ngx-translate/core";
-import {Visualization} from "../domain/Visualization";
+import {LinkDatum, NodeDatum, NodeLinks, Visualization} from "../domain/Visualization";
 import {vhToPixels, vwToPixels} from "../domain/util";
-
-interface NodeDatum extends d3.SimulationNodeDatum {
-    id: string;
-    icon: string;
-}
-
-interface LinkDatum {
-    source: string | NodeDatum;
-    target: string | NodeDatum;
-}
+import {VisualizationWebSocketService} from "../services/visualizationWebsocket.service";
 
 @Component({
     selector: 'app-spider-web',
@@ -27,26 +17,31 @@ interface LinkDatum {
     styleUrls: ['./spider-web.component.css'],
 })
 export class SpiderWebComponent implements AfterViewInit {
-    visualizationService = inject(VisualizationService);
+    visualizationService = inject(VisualizationWebSocketService);
     @ViewChild('svgContainer', { static: true }) svgRef!: ElementRef<SVGSVGElement>;
-    constructor(private notificationService: NotificationService,private translate: TranslateService) {}
+    constructor(private notificationService: NotificationService, private translate: TranslateService) {}
 
-    private graphData: { nodes: NodeDatum[]; links: LinkDatum[] } = { nodes: [], links: [] };
+    private graphData: NodeLinks = new NodeLinks([], []);
 
     ngAfterViewInit(): void {
+        this.visualizationService.connect();
+
         this.visualizationService.getVisualization().subscribe({
             next: (data: Visualization) => {
-                this.updateGraphData(data);
-                this.createForceDirectedGraph();
+                let graphData = this.updateGraphData(data);
+
+                if (!this.graphData.isEqual(graphData)) {
+                    this.graphData = graphData;
+                    this.createForceDirectedGraph();
+                }
             },
             error: () => {
                 this.notificationService.showNotification(this.translate.instant('NOTIF.VISUALIZATION.GETERROR'), 'error');
             },
         });
-
     }
 
-    private updateGraphData(data: Visualization): void {
+    private updateGraphData(data: Visualization): NodeLinks {
         const nodes: NodeDatum[] = [];
         const links: LinkDatum[] = [];
         const nodeMap = new Map<string, NodeDatum>();
@@ -86,36 +81,7 @@ export class SpiderWebComponent implements AfterViewInit {
             });
         });
 
-        this.graphData = { nodes, links };
-//     this.graphData = {
-//         nodes: [
-//             { id: 'Supercluster01', icon: 'dashboard-supercluster.svg' },
-//             { id: 'Cluster01', icon: 'dashboard-cluster.svg' },
-//             { id: 'Cluster02', icon: 'dashboard-cluster.svg' },
-//             { id: 'Node001', icon: 'dashboard-server.svg' },
-//             { id: 'Node002', icon: 'dashboard-server.svg' },
-//             { id: 'Node003', icon: 'dashboard-server.svg' },
-//             { id: 'Node004', icon: 'dashboard-server.svg' },
-//             { id: 'Node005', icon: 'dashboard-server.svg' },
-//             { id: 'Deployment', icon: 'dashboard-deployment.svg' },
-//             { id: 'Service', icon: 'dashboard-service.svg' },
-//             { id: 'IP', icon: 'dashboard-ip.svg' },
-//         ],
-//         links: [
-//             { source: 'Supercluster01', target: 'Cluster01' },
-//             { source: 'Supercluster01', target: 'Cluster02' },
-//             { source: 'Cluster01', target: 'Node001' },
-//             { source: 'Cluster01', target: 'Node002' },
-//             { source: 'Cluster01', target: 'Node003' },
-//             { source: 'Cluster02', target: 'Node004' },
-//             { source: 'Cluster02', target: 'Node005' },
-//             { source: 'Node001', target: 'Deployment' },
-//             { source: 'Node002', target: 'Deployment' },
-//             { source: 'Node003', target: 'Deployment' },
-//             { source: 'Deployment', target: 'Service' },
-//             { source: 'Service', target: 'IP' },
-//         ],
-//     };
+        return new NodeLinks(nodes, links);
     }
 
 
@@ -127,6 +93,8 @@ export class SpiderWebComponent implements AfterViewInit {
             .select(this.svgRef.nativeElement)
             .attr('width', width)
             .attr('height', height);
+
+        svg.selectAll("*").remove()
 
         this.graphData.nodes.forEach((node: NodeDatum) => {
             if (node.icon === 'dashboard-cluster.svg') {
