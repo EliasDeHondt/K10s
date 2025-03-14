@@ -58,9 +58,11 @@ func main() {
 	secured.GET("/namespaces", handlers.GetNamespacesHandler)
 	secured.GET("/nodenames", handlers.GetNodeNamesHandler)
 	secured.GET("/statsocket", handlers.HandleMetricsSocket)
+	secured.GET("/visualization", handlers.GetVisualizationHandler)
 
 	handlers.VisualizationReady.Add(1)
 	go handlers.CreateVisualization(handlers.C)
+	go handlers.C.GetTotalUsage()
 
 	err = r.Run(":8082")
 	if err != nil {
