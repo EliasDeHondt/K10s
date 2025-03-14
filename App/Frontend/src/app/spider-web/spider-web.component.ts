@@ -9,6 +9,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {LinkDatum, NodeDatum, NodeLinks, Visualization} from "../domain/Visualization";
 import {vhToPixels, vwToPixels} from "../domain/util";
 import {VisualizationWebSocketService} from "../services/visualizationWebsocket.service";
+import {index} from "d3";
 
 @Component({
     selector: 'app-spider-web',
@@ -96,20 +97,36 @@ export class SpiderWebComponent implements AfterViewInit {
 
         svg.selectAll("*").remove()
 
-        this.graphData.nodes.forEach((node: NodeDatum) => {
+        this.graphData.nodes.forEach((node: NodeDatum, index: number) => {
             if (node.icon === 'dashboard-cluster.svg') {
-                node.x = width / 2;
-                node.y = 40;
+                node.x = width / 2 + (index - 0.5) * 200;
+                node.y = 80;
+                node.fy = 80;
+            } else if (node.icon === 'dashboard-server.svg') {
+                node.y = height * 0.25;
+            }else if (node.icon === 'dashboard-deployment.svg') {
+                node.y = height * 0.5;
+            } else if (node.icon === 'dashboard-service.svg') {
+                node.y = height * 0.75;
+            } else if (node.icon === 'dashboard-ip.svg') {
+                node.y = height * 0.6;
             }
         });
 
         const simulation = d3
             .forceSimulation<NodeDatum>(this.graphData.nodes)
-            .force('link', d3.forceLink<NodeDatum, LinkDatum>(this.graphData.links).id((d) => d.id).distance(100))
-            .force('charge', d3.forceManyBody().strength(-1600))
-            .force('center', d3.forceCenter(width / 2, height / 2))
+            .force('link', d3.forceLink<NodeDatum, LinkDatum>(this.graphData.links).id((d) => d.id).distance(150))
+            .force('charge', d3.forceManyBody().strength(-800))
             .force('x', d3.forceX(width / 2).strength(0.1))
-            .force('y', d3.forceY<NodeDatum>((d) => (d.id === 'Supercluster01' ? 40 : height / 2)).strength(0.2));
+            .force('y', d3.forceY<NodeDatum>((d) => {
+                    if (d.icon === 'dashboard-cluster.svg') return 80;
+                    if (d.icon === 'dashboard-server.svg') return height * 0.35;
+                    if (d.icon === 'dashboard-deployment.svg') return height * 0.5;
+                    if (d.icon === 'dashboard-service.svg') return height * 0.75;
+                    if (d.icon === 'dashboard-ip.svg') return height * 0.8;
+                    return height / 2;
+                }).strength(0.5)
+            );
 
         const link = svg
             .selectAll('.link')
@@ -171,7 +188,7 @@ export class SpiderWebComponent implements AfterViewInit {
             .attr('text-anchor', 'middle')
             .attr('dy', 60)
             .attr('font-size', '12px')
-            .attr('fill', '#aaa');
+            .attr('fill', 'var(--text)');
 
         const dragHandler = d3
             .drag<SVGGElement, NodeDatum>()
@@ -183,11 +200,6 @@ export class SpiderWebComponent implements AfterViewInit {
             .on('drag', (event, d) => {
                 d.fx = event.x;
                 d.fy = event.y;
-            })
-            .on('end', (event, d) => {
-                if (!event.active) simulation.alphaTarget(0);
-                d.fx = null;
-                d.fy = null;
             });
 
         node.call(dragHandler);
