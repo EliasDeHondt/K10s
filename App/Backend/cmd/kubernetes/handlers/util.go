@@ -6,7 +6,6 @@ package handlers
 
 import (
 	"context"
-	"fmt"
 	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
@@ -56,7 +55,7 @@ func GetFrontendIP() string {
 		if svc.Spec.Ports[0].Port != 80 && svc.Spec.Ports[0].Port != 443 {
 			url += ":" + strconv.Itoa(int(svc.Spec.Ports[0].Port))
 		}
-		fmt.Printf(url)
+		log.Println(url)
 		return url
 	}
 
