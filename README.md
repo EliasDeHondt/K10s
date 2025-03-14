@@ -1,21 +1,6 @@
 ![logo](/Assets/logo.png)
 # 🤍🩵💜README💜🩵🤍
 
-## 📘Table of Contents
-
-1. [📘Table of Contents](#📘table-of-contents)
-2. [🖖Introduction](#🖖introduction)
-    1. [👉Key Features](#👉key-features)
-3. [🎨Color Scheme](#🎨color-scheme)
-4. [🎥Video](#🎥video)
-5. [✒️Pitch](#✒️pitch)
-6. [📷Photos](#📷photos)
-7. [📚How to deploy and destroy](#📚how-to-deploy-and-destroy)
-    1. [🌌Kubernetes](#🌌kubernetes)
-    2. [🐳Docker](#🐳docker)
-
----
-
 ## 🖖Introduction
 
 **K10s** is an open-source project designed to provide a comprehensive visual and hierarchical representation of Kubernetes clusters, including superclusters (clusters of clusters). This tool aims to give users an intuitive understanding of how their clusters operate, manage resources, and interconnect with underlying components.
@@ -46,6 +31,8 @@ To ensure proper use and contribution, please refer to the following documentati
 ![photo 1](/Assets/photo1.png)
 
 ![photo 2](/Assets/photo2.png)
+
+![photo 3](/Assets/photo3.png)
 
 ## 🎨Color Scheme
 
