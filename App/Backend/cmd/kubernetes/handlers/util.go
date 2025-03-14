@@ -53,7 +53,7 @@ func GetFrontendIP() string {
 
 		// For local docker kubernetes testing
 		ingressIP := svc.Status.LoadBalancer.Ingress[0].IP
-		if ingressIP != "" {
+		if ingressIP == "" {
 			ingressIP = "localhost"
 		}
 		url := protocol + "://" + ingressIP
