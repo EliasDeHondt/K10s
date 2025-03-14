@@ -38,11 +38,11 @@ export class TableService {
         this.node.set(name);
     }
 
-    private getTable(element: string, namespace: string, node: string) {
-        this.data.set({Response: [], PageToken: ''})
-        if (!element) return
+    getTable(element: string, namespace: string, node: string, pageSize: number = 20) {
+        this.data.set({Response: [], PageToken: ''});
+        if (!element) return;
 
-        this.http.get<PaginatedResponse>(this.tableUrl + `?element=${element}&namespace=${namespace}&node=${node}`, {withCredentials: true}).subscribe({
+        this.http.get<PaginatedResponse>(this.tableUrl + `?element=${element}&namespace=${namespace}&node=${node}&pageSize=${pageSize}`, {withCredentials: true}).subscribe({
             next: data => {
                 this.data.set(data);
                 this.loadingService.isLoading.set(false);

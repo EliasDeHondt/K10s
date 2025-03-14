@@ -93,9 +93,9 @@
         <app-secret-table [secrets]="tableService.data().Response | secretCast"/>
     }
     <section class="search-main-pagination">
-        <button class="cursor-pointer">20</button>
-        <button class="cursor-pointer">50</button>
-        <button class="cursor-pointer">100</button>
+        <button class="cursor-pointer" (click)="setPageSize(20)" [class.active]="pageSize === 20">20</button>
+        <button class="cursor-pointer" (click)="setPageSize(50)" [class.active]="pageSize === 50">50</button>
+        <button class="cursor-pointer" (click)="setPageSize(100)" [class.active]="pageSize === 100">100</button>
     </section>
 </main>
 <app-footer class="footer" id="footer"></app-footer>
