@@ -12,7 +12,6 @@ import { Color, NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
 import { SpiderWebComponent } from '../spider-web/spider-web.component';
 import { StatWebSocketService } from '../services/statWebsocket.service';
 import { Metrics } from '../domain/Metrics';
-import html2canvas from "html2canvas";
 
 @Component({
     selector: 'app-dashboard',
