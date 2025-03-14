@@ -9,6 +9,7 @@ import {NotificationService} from "../services/notification.service";
 import {TranslateService} from "@ngx-translate/core";
 import {Visualization} from "../domain/Visualization";
 import {vhToPixels, vwToPixels} from "../domain/util";
+import {index} from "d3";
 
 interface NodeDatum extends d3.SimulationNodeDatum {
     id: string;
@@ -87,35 +88,6 @@ export class SpiderWebComponent implements AfterViewInit {
         });
 
         this.graphData = { nodes, links };
-//     this.graphData = {
-//         nodes: [
-//             { id: 'Supercluster01', icon: 'dashboard-supercluster.svg' },
-//             { id: 'Cluster01', icon: 'dashboard-cluster.svg' },
-//             { id: 'Cluster02', icon: 'dashboard-cluster.svg' },
-//             { id: 'Node001', icon: 'dashboard-server.svg' },
-//             { id: 'Node002', icon: 'dashboard-server.svg' },
-//             { id: 'Node003', icon: 'dashboard-server.svg' },
-//             { id: 'Node004', icon: 'dashboard-server.svg' },
-//             { id: 'Node005', icon: 'dashboard-server.svg' },
-//             { id: 'Deployment', icon: 'dashboard-deployment.svg' },
-//             { id: 'Service', icon: 'dashboard-service.svg' },
-//             { id: 'IP', icon: 'dashboard-ip.svg' },
-//         ],
-//         links: [
-//             { source: 'Supercluster01', target: 'Cluster01' },
-//             { source: 'Supercluster01', target: 'Cluster02' },
-//             { source: 'Cluster01', target: 'Node001' },
-//             { source: 'Cluster01', target: 'Node002' },
-//             { source: 'Cluster01', target: 'Node003' },
-//             { source: 'Cluster02', target: 'Node004' },
-//             { source: 'Cluster02', target: 'Node005' },
-//             { source: 'Node001', target: 'Deployment' },
-//             { source: 'Node002', target: 'Deployment' },
-//             { source: 'Node003', target: 'Deployment' },
-//             { source: 'Deployment', target: 'Service' },
-//             { source: 'Service', target: 'IP' },
-//         ],
-//     };
     }
 
 
@@ -128,11 +100,10 @@ export class SpiderWebComponent implements AfterViewInit {
             .attr('width', width)
             .attr('height', height);
 
-        this.graphData.nodes.forEach((node: NodeDatum) => {
+        this.graphData.nodes.forEach((node: NodeDatum, index: number) => {
             if (node.icon === 'dashboard-cluster.svg') {
-                node.x = width / 2;
+                node.x = width / 2 + (index - 0.5) * 200;
                 node.y = 80;
-                node.fx = width / 2;
                 node.fy = 80;
             } else if (node.icon === 'dashboard-server.svg') {
                 node.y = height * 0.25;
