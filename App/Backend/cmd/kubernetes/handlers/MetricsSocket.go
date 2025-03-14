@@ -6,6 +6,7 @@ package handlers
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/gorilla/websocket"
 	"log"
 )
 
@@ -26,6 +27,10 @@ func HandleMetricsSocket(ctx *gin.Context) {
 
 	err = conn.WriteJSON(metrics)
 	if err != nil {
-		log.Println("Error writing metrics socket:", err)
+		log.Println("Error writing metrics stats:", err)
+		if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
+			log.Println("WebSocket connection closed by client.")
+			return
+		}
 	}
 }
