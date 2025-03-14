@@ -6,10 +6,13 @@ package handlers
 
 import (
 	"context"
+	"fmt"
 	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes"
 	"github.com/gin-gonic/gin"
+	"github.com/gorilla/websocket"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"log"
+	"net/http"
 	"strconv"
 	"time"
 )
@@ -53,9 +56,16 @@ func GetFrontendIP() string {
 		if svc.Spec.Ports[0].Port != 80 && svc.Spec.Ports[0].Port != 443 {
 			url += ":" + strconv.Itoa(int(svc.Spec.Ports[0].Port))
 		}
-
+		fmt.Printf(url)
 		return url
 	}
 
 	return "http://localhost:4200"
+}
+
+var upgrader = websocket.Upgrader{
+	CheckOrigin: func(r *http.Request) bool {
+		origin := r.Header.Get("Origin")
+		return origin == GetFrontendIP()
+	},
 }
