@@ -40,7 +40,10 @@ func watchNodes(client kubernetes.IClient, visualization *kubernetes.Visualizati
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer watcher.Stop()
+	defer func() {
+		watcher.Stop()
+		log.Println("Visualization watcher stopped")
+	}()
 
 	for event := range watcher.ResultChan() {
 		node, ok := event.Object.(*corev1.Node)
@@ -110,7 +113,10 @@ func watchDeployments(client kubernetes.IClient, visualization *kubernetes.Visua
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer watcher.Stop()
+	defer func() {
+		watcher.Stop()
+		log.Println("Visualization watcher stopped")
+	}()
 
 	for event := range watcher.ResultChan() {
 		deployment, ok := event.Object.(*appsv1.Deployment)
