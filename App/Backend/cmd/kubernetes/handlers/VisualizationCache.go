@@ -73,7 +73,10 @@ func watchServices(client kubernetes.IClient, visualization *kubernetes.Visualiz
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer watcher.Stop()
+	defer func() {
+		watcher.Stop()
+		log.Println("Visualization watcher stopped")
+	}()
 
 	for event := range watcher.ResultChan() {
 		service, ok := event.Object.(*corev1.Service)
