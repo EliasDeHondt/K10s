@@ -255,8 +255,7 @@ func (client *Client) GetReplicaSets(namespace string) appsv1.ReplicaSetInterfac
 }
 
 func (client *FakeClient) WatchUsage() {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
+	ctx := context.Background()
 
 	nodes, err := client.Client.CoreV1().Nodes().List(ctx, metav1.ListOptions{})
 	if err != nil {
@@ -305,8 +304,7 @@ func (client *Client) AddMetricsConnection(conn *websocket.Conn) {
 }
 
 func (client *Client) WatchUsage() {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
+	ctx := context.Background()
 
 	watcher, err := client.MetricsClient.MetricsV1beta1().NodeMetricses().Watch(ctx, metav1.ListOptions{})
 	if err != nil {

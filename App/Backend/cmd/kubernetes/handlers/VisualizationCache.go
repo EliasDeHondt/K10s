@@ -14,7 +14,6 @@ import (
 	"k8s.io/apimachinery/pkg/watch"
 	"log"
 	"sync"
-	"time"
 )
 
 var (
@@ -33,8 +32,7 @@ func CreateVisualization(client kubernetes.IClient) *kubernetes.Visualization {
 }
 
 func watchNodes(client kubernetes.IClient, visualization *kubernetes.Visualization) {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
+	ctx := context.Background()
 
 	watcher, err := client.GetNodes().Watch(ctx, metav1.ListOptions{})
 	if err != nil {
@@ -69,8 +67,7 @@ func watchNodes(client kubernetes.IClient, visualization *kubernetes.Visualizati
 }
 
 func watchServices(client kubernetes.IClient, visualization *kubernetes.Visualization) {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
+	ctx := context.Background()
 
 	watcher, err := client.GetServices("").Watch(ctx, metav1.ListOptions{})
 	if err != nil {
@@ -106,8 +103,7 @@ func watchServices(client kubernetes.IClient, visualization *kubernetes.Visualiz
 }
 
 func watchDeployments(client kubernetes.IClient, visualization *kubernetes.Visualization) {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
+	ctx := context.Background()
 
 	watcher, err := client.GetDeployments("").Watch(ctx, metav1.ListOptions{})
 	if err != nil {
