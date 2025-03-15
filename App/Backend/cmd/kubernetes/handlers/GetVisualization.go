@@ -33,6 +33,12 @@ func GetVisualizationHandler(ctx *gin.Context) {
 		_, message, err := conn.ReadMessage()
 		if wsError(err) {
 			return
+		} else {
+			cluster = CachedVisualization.FilterByNamespace("")
+			err = conn.WriteJSON(cluster)
+			if wsError(err) {
+				return
+			}
 		}
 		conns[conn] = string(message)
 	}
