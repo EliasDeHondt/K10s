@@ -310,7 +310,10 @@ func (client *Client) WatchUsage() {
 	if err != nil {
 		return
 	}
-	defer watcher.Stop()
+	defer func() {
+		log.Println("Metrics watcher stopped")
+		watcher.Stop()
+	}()
 
 	for event := range watcher.ResultChan() {
 		switch event.Type {
