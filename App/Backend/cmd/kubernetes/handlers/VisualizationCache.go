@@ -140,8 +140,13 @@ func watchDeployments(client kubernetes.IClient, visualization *kubernetes.Visua
 
 func sendVisualizations() {
 	conns := GetVisualizationConns()
-	for _, conn := range conns {
-		err := conn.WriteJSON(CachedVisualization)
+	for conn, namespace := range conns {
+		var err error
+		if namespace == "" {
+			err = conn.WriteJSON(CachedVisualization)
+		} else {
+			err = conn.WriteJSON(CachedVisualization.FilterByNamespace(namespace))
+		}
 		if err != nil {
 			log.Println("Error writing visualization stats:", err)
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
