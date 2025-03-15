@@ -59,7 +59,7 @@
     <section class="dashboard-title" id="dashboard-title" #dashboardTitle>K10s</section>
     <section class="dashboard-main-section">
         <article class="cursor-move" id="dashboard-main-chart">
-            <app-spider-web class="spider-web" id="spider-web"></app-spider-web>
+            <app-spider-web class="spider-web" id="spider-web" [namespaceFilter]="selectedNamespace"></app-spider-web>
         </article>
     </section>
     <section class="search-dropdown2">

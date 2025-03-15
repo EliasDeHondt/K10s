@@ -22,7 +22,7 @@ func GetVisualizationHandler(ctx *gin.Context) {
 	conns[conn] = ""
 
 	VisualizationReady.Wait()
-	cluster := CachedVisualization.FilterByNamespace("")
+	cluster := CachedVisualization
 
 	err = conn.WriteJSON(cluster)
 	if wsError(err) {
@@ -34,8 +34,12 @@ func GetVisualizationHandler(ctx *gin.Context) {
 		if wsError(err) {
 			return
 		} else {
-			cluster = CachedVisualization.FilterByNamespace("")
-			err = conn.WriteJSON(cluster)
+			namespace := string(message)
+			if namespace == "" {
+				err = conn.WriteJSON(CachedVisualization)
+			} else {
+				err = conn.WriteJSON(CachedVisualization.FilterByNamespace(namespace))
+			}
 			if wsError(err) {
 				return
 			}

@@ -3,10 +3,9 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-import { Injectable, OnDestroy } from "@angular/core";
-import { Subject } from "rxjs";
-import { Metrics } from "../domain/Metrics";
-import { environment } from "../../environments/environment";
+import {Injectable, OnDestroy} from "@angular/core";
+import {Subject} from "rxjs";
+import {environment} from "../../environments/environment";
 import {Visualization} from "../domain/Visualization";
 
 @Injectable({
@@ -18,7 +17,8 @@ export class VisualizationWebSocketService implements OnDestroy {
     private socket!: WebSocket;
     private messagesSubject: Subject<Visualization> = new Subject()
 
-    constructor() { }
+    constructor() {
+    }
 
     connect(): void {
         this.socket = new WebSocket(this.url);
@@ -51,6 +51,10 @@ export class VisualizationWebSocketService implements OnDestroy {
 
     getVisualization() {
         return this.messagesSubject.asObservable();
+    }
+
+    sendNamespaceFilter(namespace: string) {
+        this.socket.send(namespace);
     }
 
     ngOnDestroy() {

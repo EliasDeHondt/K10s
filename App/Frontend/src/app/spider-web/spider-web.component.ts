@@ -2,14 +2,13 @@
 /* @since 01/01/2025              */
 /* @author K10s Open Source Team  */
 /**********************************/
-import {Component, ElementRef, AfterViewInit, ViewChild, inject} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, inject, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
 import * as d3 from 'd3';
 import {NotificationService} from "../services/notification.service";
 import {TranslateService} from "@ngx-translate/core";
 import {LinkDatum, NodeDatum, NodeLinks, Visualization} from "../domain/Visualization";
 import {vhToPixels, vwToPixels} from "../domain/util";
 import {VisualizationWebSocketService} from "../services/visualizationWebsocket.service";
-import {index} from "d3";
 
 @Component({
     selector: 'app-spider-web',
@@ -17,12 +16,21 @@ import {index} from "d3";
     standalone: true,
     styleUrls: ['./spider-web.component.css'],
 })
-export class SpiderWebComponent implements AfterViewInit {
+export class SpiderWebComponent implements AfterViewInit, OnChanges {
     visualizationService = inject(VisualizationWebSocketService);
-    @ViewChild('svgContainer', { static: true }) svgRef!: ElementRef<SVGSVGElement>;
-    constructor(private notificationService: NotificationService, private translate: TranslateService) {}
+    @ViewChild('svgContainer', {static: true}) svgRef!: ElementRef<SVGSVGElement>;
+    @Input() namespaceFilter: string = ""
+
+    constructor(private notificationService: NotificationService, private translate: TranslateService) {
+    }
 
     private graphData: NodeLinks = new NodeLinks([], []);
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes['namespaceFilter']) {
+            this.visualizationService.sendNamespaceFilter(this.namespaceFilter);
+        }
+    }
 
     ngAfterViewInit(): void {
         this.visualizationService.connect();
@@ -49,7 +57,7 @@ export class SpiderWebComponent implements AfterViewInit {
 
         const addNode = (id: string, icon: string) => {
             if (!nodeMap.has(id)) {
-                const node = { id, icon };
+                const node = {id, icon};
                 nodeMap.set(id, node);
                 nodes.push(node);
             }
@@ -60,11 +68,11 @@ export class SpiderWebComponent implements AfterViewInit {
 
         data.Cluster.Nodes.forEach((node) => {
             addNode(node.Name, 'dashboard-server.svg');
-            links.push({ source: data.Cluster.Name, target: node.Name });
+            links.push({source: data.Cluster.Name, target: node.Name});
 
             node.Deployments.forEach((deployment) => {
                 addNode(deployment.Name, 'dashboard-deployment.svg');
-                links.push({ source: node.Name, target: deployment.Name });
+                links.push({source: node.Name, target: deployment.Name});
             });
         });
 
@@ -73,12 +81,12 @@ export class SpiderWebComponent implements AfterViewInit {
 
             service.Deployments.forEach((deployment) => {
                 addNode(deployment.Name, 'dashboard-deployment.svg');
-                links.push({ source: deployment.Name, target: service.Name });
+                links.push({source: deployment.Name, target: service.Name});
             });
             service.LoadBalancers.forEach((lb, index) => {
                 const lbId = `${service.Name}-lb-${index + 1}`;
                 addNode(lbId, 'dashboard-ip.svg');
-                links.push({ source: service.Name, target: lbId });
+                links.push({source: service.Name, target: lbId});
             });
         });
 
@@ -104,7 +112,7 @@ export class SpiderWebComponent implements AfterViewInit {
                 node.fy = 80;
             } else if (node.icon === 'dashboard-server.svg') {
                 node.y = height * 0.25;
-            }else if (node.icon === 'dashboard-deployment.svg') {
+            } else if (node.icon === 'dashboard-deployment.svg') {
                 node.y = height * 0.5;
             } else if (node.icon === 'dashboard-service.svg') {
                 node.y = height * 0.75;
