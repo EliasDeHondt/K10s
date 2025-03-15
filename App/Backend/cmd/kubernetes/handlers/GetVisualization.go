@@ -10,7 +10,7 @@ import (
 	"log"
 )
 
-var conns = make([]*websocket.Conn, 0)
+var conns = make(map[*websocket.Conn]string)
 
 func GetVisualizationHandler(ctx *gin.Context) {
 	conn, err := upgrader.Upgrade(ctx.Writer, ctx.Request, nil)
@@ -19,22 +19,37 @@ func GetVisualizationHandler(ctx *gin.Context) {
 		return
 	}
 
-	conns = append(conns, conn)
+	conns[conn] = "test"
 
 	VisualizationReady.Wait()
-	cluster := CachedVisualization
+	cluster := CachedVisualization.FilterByNamespace("test")
 
 	err = conn.WriteJSON(cluster)
+	if wsError(err) {
+		return
+	}
 
+	for {
+		_, message, err := conn.ReadMessage()
+		if wsError(err) {
+			return
+		}
+		conns[conn] = string(message)
+	}
+
+}
+
+func wsError(err error) bool {
 	if err != nil {
 		log.Println("Error writing visualization stats:", err)
 		if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
 			log.Println("WebSocket connection closed by client.")
-			return
 		}
+		return true
 	}
+	return false
 }
 
-func GetVisualizationConns() []*websocket.Conn {
+func GetVisualizationConns() map[*websocket.Conn]string {
 	return conns
 }
