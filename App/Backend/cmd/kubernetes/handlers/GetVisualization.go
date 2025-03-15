@@ -19,10 +19,10 @@ func GetVisualizationHandler(ctx *gin.Context) {
 		return
 	}
 
-	conns[conn] = "test"
+	conns[conn] = ""
 
 	VisualizationReady.Wait()
-	cluster := CachedVisualization.FilterByNamespace("test")
+	cluster := CachedVisualization.FilterByNamespace("")
 
 	err = conn.WriteJSON(cluster)
 	if wsError(err) {
