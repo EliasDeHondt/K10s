@@ -5,9 +5,9 @@ import (
 	"log"
 )
 
-func CloseConn(conn *websocket.Conn) {
+func CloseConn(conn *websocket.Conn, source string) {
 	err := conn.Close()
 	if err != nil {
-		log.Println("Error closing visualization socket:", err)
+		log.Printf("Error closing %s socket: %s \n", source, err)
 	}
 }

@@ -53,6 +53,10 @@ export class VisualizationWebSocketService implements OnDestroy {
         return this.messagesSubject.asObservable();
     }
 
+    isConnected() {
+        return this.socket && this.socket.readyState === WebSocket.OPEN;
+    }
+
     sendNamespaceFilter(namespace: string) {
         this.socket.send(namespace);
     }

@@ -290,7 +290,7 @@ func (client *FakeClient) WatchUsage() {
 		err := conn.WriteJSON(calculatedMetrics)
 		if err != nil {
 			fmt.Println(err)
-			CloseConn(conn)
+			CloseConn(conn, "metrics")
 		}
 	}
 }
@@ -328,7 +328,7 @@ func (client *Client) WatchUsage() {
 				err := conn.WriteJSON(calculatedMetrics)
 				if err != nil {
 					fmt.Println(err)
-					CloseConn(conn)
+					CloseConn(conn, "metrics")
 				}
 			}
 		case watch.Deleted:

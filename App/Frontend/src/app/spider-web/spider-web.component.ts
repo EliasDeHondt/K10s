@@ -27,7 +27,7 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
     private graphData: NodeLinks = new NodeLinks([], []);
 
     ngOnChanges(changes: SimpleChanges) {
-        if (changes['namespaceFilter']) {
+        if (changes['namespaceFilter'] && this.visualizationService.isConnected()) {
             this.visualizationService.sendNamespaceFilter(this.namespaceFilter);
         }
     }
