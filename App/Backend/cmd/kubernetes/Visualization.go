@@ -6,6 +6,7 @@ import (
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
+	"k8s.io/client-go/rest"
 	"log"
 	"sync"
 	"time"
@@ -163,8 +164,14 @@ func (v *Visualization) DeleteDeployment(deployment *appsv1.Deployment) {
 }
 
 type ClusterView struct {
-	Name  string
-	Nodes []*NodeView
+	Name            string
+	Nodes           []*NodeView
+	Endpoints       v1.Endpoints
+	ControlPlaneURL string
+	APIVersion      string
+	Timeout         time.Duration
+	QPS             float32
+	Burst           int
 }
 
 type NodeView struct {
@@ -191,24 +198,60 @@ type DeploymentView struct {
 	Namespace string
 }
 
-func VisualizeCluster(client IClient) *Visualization {
-
+func VisualizeCluster(client IClient, config *rest.Config) *Visualization {
 	return &Visualization{
-		Cluster:  NewClusterView(client),
+		Cluster:  NewClusterView(client, config),
 		Services: getAllServices(client),
 	}
 }
 
-func NewClusterView(client IClient) *ClusterView {
+func NewClusterView(client IClient, config *rest.Config) *ClusterView {
+	if config == nil {
+		inClusterConfig, err := rest.InClusterConfig()
+		if err != nil {
+			log.Printf("Error inferring in-cluster config: %v", err)
+			return &ClusterView{
+				Name: "Cluster",
+			}
+		}
+		config = inClusterConfig
+	}
+
+	controlPlaneURL := config.Host
+	if controlPlaneURL == "" {
+		log.Printf("Warning: No control plane URL found in config")
+		return &ClusterView{
+			Name: "Cluster",
+		}
+	}
 
 	nodes, err := createNodeViews(client)
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	// set to default mock values for fake client
+	qps := config.QPS
+	if qps == 0 {
+		qps = 5
+	}
+	burst := config.Burst
+	if burst == 0 {
+		burst = 10
+	}
+	timeout := config.Timeout
+	if timeout == 0 {
+		timeout = 30 * time.Second
+	}
+
 	return &ClusterView{
-		Name:  "Cluster",
-		Nodes: nodes,
+		Name:            "Cluster",
+		ControlPlaneURL: controlPlaneURL,
+		APIVersion:      config.APIPath,
+		Timeout:         timeout,
+		QPS:             qps,
+		Burst:           burst,
+		Nodes:           nodes,
 	}
 }
 
@@ -256,6 +299,7 @@ func NewLoadBalancer(ingress *v1.LoadBalancerIngress, namespace string) *LoadBal
 		HostName:  ingress.Hostname,
 		IP:        ingress.IP,
 		Namespace: namespace,
+		//todo
 	}
 }
 

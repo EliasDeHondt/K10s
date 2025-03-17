@@ -12,7 +12,11 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/watch"
+	"k8s.io/client-go/rest"
+	"k8s.io/client-go/tools/clientcmd"
 	"log"
+	"os"
+	"path/filepath"
 	"sync"
 )
 
@@ -22,15 +26,30 @@ var (
 )
 
 func CreateVisualization(client kubernetes.IClient) *kubernetes.Visualization {
+	kubeconfigPath := filepath.Join(homeDir(), ".kube", "config")
+	config, err := clientcmd.BuildConfigFromFlags("", kubeconfigPath)
+	if err != nil {
+		log.Printf("Failed to load kubeconfig, falling back to in-cluster config: %v", err)
+		config, err = rest.InClusterConfig()
+		if err != nil {
+			log.Fatalf("Failed to load in-cluster config: %v", err)
+		}
+	}
+
 	defer VisualizationReady.Done()
-	visualization := kubernetes.VisualizeCluster(client)
+	visualization := kubernetes.VisualizeCluster(client, config)
 	go watchNodes(client, visualization)
 	go watchDeployments(client, visualization)
 	go watchServices(client, visualization)
 	CachedVisualization = visualization
 	return visualization
 }
-
+func homeDir() string {
+	if h := os.Getenv("HOME"); h != "" {
+		return h
+	}
+	return os.Getenv("USERPROFILE")
+}
 func watchNodes(client kubernetes.IClient, visualization *kubernetes.Visualization) {
 	ctx := context.Background()
 
