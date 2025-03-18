@@ -43,8 +43,13 @@ export interface LoadBalancer {
     IP: string
 }
 
-interface DeploymentView {
+export interface DeploymentView {
     Name: string
+    Namespace: string
+    AvailableReplicas: number
+    ReadyReplicas: number
+    Replicas: number
+    UpdatedReplicas: number
 }
 
 export interface NodeDatum extends d3.SimulationNodeDatum {
@@ -73,7 +78,8 @@ export interface NodeDatum extends d3.SimulationNodeDatum {
     clusterIP?: string
     externalIPs?: string[],
     serviceStatus?: { type: string; status: string }[]
-    loadBalancers?: LoadBalancer[]
+    loadBalancer?: LoadBalancer
+    deploymentView?: DeploymentView
 }
 
 const nodeDatumIsEqual = (node1: NodeDatum, node2: NodeDatum) => {

@@ -6,7 +6,7 @@ import {AfterViewInit, Component, ElementRef, inject, Input, OnChanges, SimpleCh
 import * as d3 from 'd3';
 import {NotificationService} from "../services/notification.service";
 import {TranslateService} from "@ngx-translate/core";
-import {LinkDatum, LoadBalancer, NodeDatum, NodeLinks, Visualization} from "../domain/Visualization";
+import {DeploymentView, LinkDatum, LoadBalancer, NodeDatum, NodeLinks, Visualization} from "../domain/Visualization";
 import {vhToPixels, vwToPixels} from "../domain/util";
 import {VisualizationWebSocketService} from "../services/visualizationWebsocket.service";
 
@@ -64,9 +64,9 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
                          namespace? : string,
                          clusterIP?: string,
                          externalIPs?: string[],
-                         serviceStatus?: { type: string; status: string }[], loadBalancers?: LoadBalancer[]) => {
+                         serviceStatus?: { type: string; status: string }[], loadBalancer?: LoadBalancer, deploymentView?: DeploymentView) => {
             if (!nodeMap.has(id)) {
-                const node = { id, icon, controlPlaneURL, timeout, qps, burst, nodeInfo, nodeStatus, nodeAddress, resourceList,namespace, clusterIP, externalIPs, serviceStatus,loadBalancers };
+                const node = { id, icon, controlPlaneURL, timeout, qps, burst, nodeInfo, nodeStatus, nodeAddress, resourceList,namespace, clusterIP, externalIPs, serviceStatus, loadBalancer, deploymentView };
                 nodeMap.set(id, node);
                 nodes.push(node);
             }
@@ -80,7 +80,8 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
             links.push({source: data.Cluster.Name, target: node.Name});
 
             node.Deployments.forEach((deployment) => {
-                addNode(deployment.Name, 'dashboard-deployment.svg');
+                addNode(deployment.Name, 'dashboard-deployment.svg',undefined,undefined, undefined,undefined, undefined,undefined, undefined,undefined,undefined, undefined,undefined,undefined,undefined
+                    ,deployment);
                 links.push({source: node.Name, target: deployment.Name});
             });
         });
@@ -93,12 +94,14 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
                 service.ServiceStatus
             );
             service.Deployments.forEach((deployment) => {
-                addNode(deployment.Name, 'dashboard-deployment.svg');
+                addNode(deployment.Name, 'dashboard-deployment.svg',undefined,undefined, undefined,undefined, undefined,undefined, undefined,undefined,undefined, undefined,undefined,undefined,undefined
+                    ,deployment);
                 links.push({source: deployment.Name, target: service.Name});
             });
             service.LoadBalancers.forEach((lb, index) => {
                 const lbId = `${service.Name}-lb-${index + 1}`;
-                addNode(lbId, 'dashboard-ip.svg');
+                addNode(lbId, 'dashboard-ip.svg',undefined,undefined, undefined,undefined, undefined,undefined, undefined,undefined,undefined, undefined,undefined,undefined
+                    ,lb);
                 links.push({source: service.Name, target: lbId});
             });
         });
@@ -325,28 +328,50 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
 
                 }
                 if (d.icon === 'dashboard-ip.svg') {
-                    if (d.loadBalancers && d.loadBalancers.length > 0) {
-                        tooltip.select('text')
+                    tooltip.select('text')
+                        .append('tspan')
+                        .attr('x', 0)
+                        .attr('dy', '2em')
+                        .text("Status:");
+                    tooltip.select('text')
                             .append('tspan')
                             .attr('x', 0)
-                            .attr('dy', '2em')
-                            .text("Status:");
-                        d.loadBalancers.forEach(lB => {
-                            tooltip.select('text')
-                                .append('tspan')
-                                .attr('x', 0)
-                                .attr('dy', '1.2em')
-                                .text(`HostName: ${lB.HostName} \nIP: ${lB.IP}`);
-                        });
-                    }
+                            .attr('dy', '1.2em')
+                            .text(`HostName: ${d.loadBalancer?.HostName}`);
+                    tooltip.select('text')
+                        .append('tspan')
+                        .attr('x', 0)
+                        .attr('dy', '1.2em')
+                        .text(`IP: ${d.loadBalancer?.IP}`);
                 }
-                // if (d.icon === 'dashboard-deployment.svg') {
-                //     tooltip.select('text')
-                //         .append('tspan')
-                //         .attr('x', 0)
-                //         .attr('dy', '1.2em')
-                //         .text(`s: ${d.}`);
-                // }
+
+                if (d.icon === 'dashboard-deployment.svg') {
+                    tooltip.select('text')
+                        .append('tspan')
+                        .attr('x', 0)
+                        .attr('dy', '2em')
+                        .text(`Namespace: ${d.deploymentView?.Namespace}`);
+                    tooltip.select('text')
+                        .append('tspan')
+                        .attr('x', 0)
+                        .attr('dy', '1.2em')
+                        .text(`AvailableReplicas: ${d.deploymentView?.AvailableReplicas}`);
+                    tooltip.select('text')
+                        .append('tspan')
+                        .attr('x', 0)
+                        .attr('dy', '1.2em')
+                        .text(`ReadyReplicas: ${d.deploymentView?.ReadyReplicas}`);
+                    tooltip.select('text')
+                        .append('tspan')
+                        .attr('x', 0)
+                        .attr('dy', '1.2em')
+                        .text(`Replicas: ${d.deploymentView?.Replicas}`);
+                    tooltip.select('text')
+                        .append('tspan')
+                        .attr('x', 0)
+                        .attr('dy', '1.2em')
+                        .text(`UpdatedReplicas: ${d.deploymentView?.UpdatedReplicas}`);
+                }
 
                 const textBBox = (tooltip.select('text').node() as SVGTextElement).getBBox();
                 const padding = 8;
