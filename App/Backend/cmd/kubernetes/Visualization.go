@@ -202,8 +202,12 @@ type ServiceView struct {
 }
 
 type DeploymentView struct {
-	Name      string
-	Namespace string
+	Name              string
+	Namespace         string
+	Replicas          int32
+	ReadyReplicas     int32
+	UpdatedReplicas   int32
+	AvailableReplicas int32
 }
 
 func VisualizeCluster(client IClient, config *rest.Config) *Visualization {
@@ -416,8 +420,12 @@ func transformDeployments(deployments *[]appsv1.Deployment, podLabels map[string
 
 func NewDeploymentView(deployment *appsv1.Deployment) *DeploymentView {
 	return &DeploymentView{
-		Name:      deployment.Name,
-		Namespace: deployment.Namespace,
+		Name:              deployment.Name,
+		Namespace:         deployment.Namespace,
+		Replicas:          deployment.Status.Replicas,
+		ReadyReplicas:     deployment.Status.ReadyReplicas,
+		UpdatedReplicas:   deployment.Status.UpdatedReplicas,
+		AvailableReplicas: deployment.Status.AvailableReplicas,
 	}
 }
 
