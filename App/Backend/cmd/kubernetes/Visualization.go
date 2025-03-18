@@ -553,9 +553,13 @@ func (v *Visualization) FilterByNamespace(namespace string) *Visualization {
 func (n *NodeView) DeepCopy() *NodeView {
 
 	view := &NodeView{
-		Name:        n.Name,
-		Namespace:   n.Namespace,
-		Deployments: make([]*DeploymentView, len(n.Deployments)),
+		Name:         n.Name,
+		Namespace:    n.Namespace,
+		Deployments:  make([]*DeploymentView, len(n.Deployments)),
+		NodeInfo:     n.NodeInfo,
+		NodeStatus:   n.NodeStatus,
+		NodeAddress:  n.NodeAddress,
+		ResourceList: n.ResourceList,
 	}
 
 	for i, deployment := range n.Deployments {
@@ -574,6 +578,10 @@ func (s *ServiceView) DeepCopy() *ServiceView {
 		Namespace:     s.Namespace,
 		Deployments:   make([]*DeploymentView, len(s.Deployments)),
 		LoadBalancers: make([]*LoadBalancer, len(s.LoadBalancers)),
+		Type:          s.Type,
+		ClusterIP:     s.ClusterIP,
+		ExternalIPs:   s.ExternalIPs,
+		ServiceStatus: s.ServiceStatus,
 	}
 
 	for i, deployment := range s.Deployments {
