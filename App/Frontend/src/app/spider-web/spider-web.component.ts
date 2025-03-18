@@ -6,7 +6,7 @@ import {AfterViewInit, Component, ElementRef, inject, Input, OnChanges, SimpleCh
 import * as d3 from 'd3';
 import {NotificationService} from "../services/notification.service";
 import {TranslateService} from "@ngx-translate/core";
-import {LinkDatum, NodeDatum, NodeLinks, Visualization} from "../domain/Visualization";
+import {LinkDatum, LoadBalancer, NodeDatum, NodeLinks, Visualization} from "../domain/Visualization";
 import {vhToPixels, vwToPixels} from "../domain/util";
 import {VisualizationWebSocketService} from "../services/visualizationWebsocket.service";
 
@@ -64,9 +64,9 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
                          namespace? : string,
                          clusterIP?: string,
                          externalIPs?: string[],
-                         serviceStatus?: { type: string; status: string }[]) => {
+                         serviceStatus?: { type: string; status: string }[], loadBalancers?: LoadBalancer[]) => {
             if (!nodeMap.has(id)) {
-                const node = { id, icon, controlPlaneURL, timeout, qps, burst, nodeInfo, nodeStatus, nodeAddress, resourceList,namespace, clusterIP, externalIPs, serviceStatus };
+                const node = { id, icon, controlPlaneURL, timeout, qps, burst, nodeInfo, nodeStatus, nodeAddress, resourceList,namespace, clusterIP, externalIPs, serviceStatus,loadBalancers };
                 nodeMap.set(id, node);
                 nodes.push(node);
             }
@@ -322,7 +322,31 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
                                 .text(`${status.type}: ${status.status}`);
                         });
                     }
+
                 }
+                if (d.icon === 'dashboard-ip.svg') {
+                    if (d.loadBalancers && d.loadBalancers.length > 0) {
+                        tooltip.select('text')
+                            .append('tspan')
+                            .attr('x', 0)
+                            .attr('dy', '2em')
+                            .text("Status:");
+                        d.loadBalancers.forEach(lB => {
+                            tooltip.select('text')
+                                .append('tspan')
+                                .attr('x', 0)
+                                .attr('dy', '1.2em')
+                                .text(`HostName: ${lB.HostName} \nIP: ${lB.IP}`);
+                        });
+                    }
+                }
+                // if (d.icon === 'dashboard-deployment.svg') {
+                //     tooltip.select('text')
+                //         .append('tspan')
+                //         .attr('x', 0)
+                //         .attr('dy', '1.2em')
+                //         .text(`s: ${d.}`);
+                // }
 
                 const textBBox = (tooltip.select('text').node() as SVGTextElement).getBBox();
                 const padding = 8;

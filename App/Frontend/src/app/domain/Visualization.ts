@@ -38,7 +38,7 @@ interface ServiceView {
     ServiceStatus: { type: string; status: string }[],
 }
 
-interface LoadBalancer {
+export interface LoadBalancer {
     HostName: string
     IP: string
 }
@@ -73,6 +73,7 @@ export interface NodeDatum extends d3.SimulationNodeDatum {
     clusterIP?: string
     externalIPs?: string[],
     serviceStatus?: { type: string; status: string }[]
+    loadBalancers?: LoadBalancer[]
 }
 
 const nodeDatumIsEqual = (node1: NodeDatum, node2: NodeDatum) => {
