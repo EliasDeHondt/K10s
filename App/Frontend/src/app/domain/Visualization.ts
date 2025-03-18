@@ -8,6 +8,10 @@ export interface Visualization {
 interface ClusterView {
     Name: string
     Nodes: NodeView[]
+    ControlPlaneURL: string
+    Timeout: string
+    QPS: number
+    Burst: number
 }
 
 interface NodeView {
@@ -32,8 +36,12 @@ interface DeploymentView {
 }
 
 export interface NodeDatum extends d3.SimulationNodeDatum {
-    id: string;
-    icon: string;
+    id: string
+    controlPlaneURL?: string | ""
+    timeout?: string
+    qps?: number
+    burst?: number
+    icon: string
 }
 
 const nodeDatumIsEqual = (node1: NodeDatum, node2: NodeDatum) => {
