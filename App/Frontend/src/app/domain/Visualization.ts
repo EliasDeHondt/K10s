@@ -15,6 +15,14 @@ interface ClusterView {
 }
 
 interface NodeView {
+    NodeStatus: { type: string; status: string }[];
+    NodeAddress: { type: string; address: string }[];
+    ResourceList: {
+        cpu: string;
+        memory: string;
+        storage: string;
+    };
+    NodeInfo: string;
     Name: string
     Namespace: string
     Deployments: DeploymentView[]
@@ -42,6 +50,25 @@ export interface NodeDatum extends d3.SimulationNodeDatum {
     qps?: number
     burst?: number
     icon: string
+    nodeInfo?: {
+        machineID?: string
+        systemUUID?: string
+        bootID?: string
+        architecture?: string
+        containerRuntimeVersion?: string
+        kernelVersion?: string
+        kubeProxyVersion?: string
+        kubeletVersion?: string
+        operatingSystem?: string
+        osImage?: string
+    }
+    nodeStatus?: { type: string; status: string }[];
+    nodeAddress?: { type: string; address: string }[];
+    resourceList?: {
+        cpu: string;
+        memory: string;
+        storage: string;
+    };
 }
 
 const nodeDatumIsEqual = (node1: NodeDatum, node2: NodeDatum) => {

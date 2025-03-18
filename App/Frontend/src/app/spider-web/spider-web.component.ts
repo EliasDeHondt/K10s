@@ -57,9 +57,16 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
         const nodeMap = new Map<string, NodeDatum>();
 
         const addNode = (id: string, icon: string,
-                         controlPlaneURL?: string, timeout?: string, qps?: number, burst?: number) => {
+                         controlPlaneURL?: string, timeout?: string, qps?: number, burst?: number,
+                         nodeInfo?: any, nodeStatus?: { type: string; status: string }[],
+                         nodeAddress?: { type: string; address: string }[],
+                         resourceList?: {
+                             cpu: string;
+                             memory: string;
+                             storage: string;
+                         }) => {
             if (!nodeMap.has(id)) {
-                const node = {id, icon, controlPlaneURL,timeout,qps,burst};
+                const node = { id, icon, controlPlaneURL, timeout, qps, burst, nodeInfo, nodeStatus, nodeAddress, resourceList };
                 nodeMap.set(id, node);
                 nodes.push(node);
             }
@@ -69,7 +76,7 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
         addNode(data.Cluster.Name, 'dashboard-cluster.svg',data.Cluster.ControlPlaneURL,data.Cluster.Timeout, data.Cluster.QPS,data.Cluster.Burst);
 
         data.Cluster.Nodes.forEach((node) => {
-            addNode(node.Name, 'dashboard-server.svg');
+            addNode(node.Name, 'dashboard-server.svg',node.NodeInfo,undefined, undefined, undefined, undefined, node.NodeStatus, node.NodeAddress, node.ResourceList);
             links.push({source: data.Cluster.Name, target: node.Name});
 
             node.Deployments.forEach((deployment) => {
@@ -189,13 +196,13 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
                     .append('tspan')
                     .attr('x', 0)
                     .attr('dy', '0')
-                    .text(d.id);
+                    .text(`${d.id}`);
 
                 if (d.icon == 'dashboard-cluster.svg') {
                     tooltip.select('text')
                         .append('tspan')
                         .attr('x', 0)
-                        .attr('dy', '1.2em')
+                        .attr('dy', '2em')
                         .text(`URL: ${d.controlPlaneURL}`);
 
                     tooltip.select('text')
@@ -216,6 +223,61 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
                         .attr('dy', '1.2em')
                         .text(`Burst: ${d.burst}`);
                 }
+                if (d.icon == 'dashboard-server.svg'){
+                    if (d.nodeStatus && d.nodeStatus.length > 0) {
+                        tooltip.select('text')
+                            .append('tspan')
+                            .attr('x', 0)
+                            .attr('dy', '2em')
+                            .text("Conditions:");
+                        d.nodeStatus.forEach(condition => {
+                            tooltip.select('text')
+                                .append('tspan')
+                                .attr('x', 0)
+                                .attr('dy', '1.2em')
+                                .text(`${condition.type}: ${condition.status}`);
+                        });
+                    }
+
+                    if (d.nodeAddress && d.nodeAddress.length > 0) {
+                        tooltip.select('text')
+                            .append('tspan')
+                            .attr('x', 0)
+                            .attr('dy', '2em')
+                            .text("Addresses:");
+                        d.nodeAddress.forEach(address => {
+                            tooltip.select('text')
+                                .append('tspan')
+                                .attr('x', 0)
+                                .attr('dy', '1.2em')
+                                .text(`${address.type}: ${address.address}`);
+                        });
+                    }
+
+                    if (d.resourceList) {
+                        tooltip.select('text')
+                            .append('tspan')
+                            .attr('x', 0)
+                            .attr('dy', '2em')
+                            .text("Capacity:");
+                        tooltip.select('text')
+                            .append('tspan')
+                            .attr('x', 0)
+                            .attr('dy', '1.2em')
+                            .text(`CPU: ${d.resourceList.cpu}`);
+                        tooltip.select('text')
+                            .append('tspan')
+                            .attr('x', 0)
+                            .attr('dy', '1.2em')
+                            .text(`Memory: ${d.resourceList.memory}`);
+                        tooltip.select('text')
+                            .append('tspan')
+                            .attr('x', 0)
+                            .attr('dy', '1.2em')
+                            .text(`Storage: ${d.resourceList.storage}`);
+                    }
+                }
+
                 const textBBox = (tooltip.select('text').node() as SVGTextElement).getBBox();
                 const padding = 8;
                 const rectWidth = textBBox.width + 2 * padding;
