@@ -195,6 +195,10 @@ type ServiceView struct {
 	Namespace     string
 	Deployments   []*DeploymentView
 	LoadBalancers []*LoadBalancer
+	Type          string
+	ClusterIP     string
+	ExternalIPs   []string
+	ServiceStatus []metav1.Condition
 }
 
 type DeploymentView struct {
@@ -296,9 +300,13 @@ func NewServiceView(service *v1.Service, client IClient) *ServiceView {
 
 	return &ServiceView{
 		Name:          service.Name,
+		Namespace:     service.Namespace,
+		Type:          string(service.Spec.Type),
+		ClusterIP:     service.Spec.ClusterIP,
+		ExternalIPs:   service.Spec.ExternalIPs,
+		ServiceStatus: service.Status.Conditions,
 		Deployments:   deployments,
 		LoadBalancers: loadBalancers,
-		Namespace:     service.Namespace,
 	}
 }
 
@@ -307,7 +315,6 @@ func NewLoadBalancer(ingress *v1.LoadBalancerIngress, namespace string) *LoadBal
 		HostName:  ingress.Hostname,
 		IP:        ingress.IP,
 		Namespace: namespace,
-		//todo
 	}
 }
 
