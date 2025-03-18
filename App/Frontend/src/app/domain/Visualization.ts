@@ -114,16 +114,11 @@ export class NodeLinks {
 
     isEqual(nodeLink: NodeLinks): boolean {
         if (this.nodes.length != nodeLink.nodes.length || this.links.length != nodeLink.links.length) return false
-
-        console.log("length true")
-
         const nodesAreEqual = this.nodes.every((node1, index) => {
             const node2 = nodeLink.nodes[index];
             return nodeDatumIsEqual(node1, node2);
         });
-
         if (!nodesAreEqual) {
-            console.log("nodes false")
             return false;
         }
 

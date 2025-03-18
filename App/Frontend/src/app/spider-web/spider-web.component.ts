@@ -38,8 +38,6 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
         this.visualizationService.getVisualization().subscribe({
             next: (data: Visualization) => {
                 let graphData = this.updateGraphData(data);
-                console.log("graphData ", data)
-
                 if (!this.graphData.isEqual(graphData)) {
                     this.graphData = graphData;
                     this.createForceDirectedGraph();
