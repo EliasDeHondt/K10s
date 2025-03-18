@@ -112,7 +112,7 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
 
     private createForceDirectedGraph(): void {
         const width = vwToPixels(87.5);
-        const height = vhToPixels(70);
+        const height = vhToPixels(90);
 
         const svg = d3
             .select(this.svgRef.nativeElement)
