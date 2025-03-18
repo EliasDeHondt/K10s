@@ -30,6 +30,7 @@ export class LoginComponent implements AfterViewInit {
             tap(isAuthenticated => {
                 if (isAuthenticated) {
                     localStorage.setItem('username', this.username);
+                    console.log(localStorage.getItem('username'))
                     this.router.navigate(['/dashboard']);
                 }
             }))
