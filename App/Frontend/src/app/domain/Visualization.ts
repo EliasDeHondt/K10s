@@ -73,7 +73,7 @@ export interface NodeDatum extends d3.SimulationNodeDatum {
     }
     nodeStatus?: { type: string; status: string }[];
     nodeAddress?: { type: string; address: string }[];
-    resourceList?: { cpu: string; memory: string; storage: string; };
+    resourceList?: { cpu: string; memory: string; storage?: string; 'ephemeral-storage'?: string };
     namespace? : string
     clusterIP?: string
     externalIPs?: string[],

@@ -20,6 +20,7 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
     visualizationService = inject(VisualizationWebSocketService);
     @ViewChild('svgContainer', {static: true}) svgRef!: ElementRef<SVGSVGElement>;
     @Input() namespaceFilter: string = ""
+    @Input() isFullscreen: boolean = false;
 
     constructor(private notificationService: NotificationService, private translate: TranslateService) {
     }
@@ -29,6 +30,9 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
     ngOnChanges(changes: SimpleChanges) {
         if (changes['namespaceFilter'] && this.visualizationService.isConnected()) {
             this.visualizationService.sendNamespaceFilter(this.namespaceFilter);
+        }
+        if (changes['isFullscreen']) {
+            this.createForceDirectedGraph();
         }
     }
 
@@ -110,7 +114,8 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
 
     private createForceDirectedGraph(): void {
         const width = vwToPixels(87.5);
-        const height = vhToPixels(64.5);
+        const height = vhToPixels(this.isFullscreen ? 90 : 64.5);
+        const self = this;
 
         const svg = d3
             .select(this.svgRef.nativeElement)
@@ -274,12 +279,12 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
                             .append('tspan')
                             .attr('x', 0)
                             .attr('dy', '1.2em')
-                            .text(`Memory: ${d.resourceList.memory}`);
+                            .text(`Memory: ${self.visualizationService.formatMemory(d.resourceList.memory)}`);
                         tooltip.select('text')
                             .append('tspan')
                             .attr('x', 0)
                             .attr('dy', '1.2em')
-                            .text(`Storage: ${d.resourceList.storage}`);
+                            .text(`Storage: ${self.visualizationService.formatMemory(d.resourceList.storage) || self.visualizationService.formatMemory(d.resourceList['ephemeral-storage'])}`);
                     }
                 }
                 if (d.icon == 'dashboard-service.svg') {
@@ -293,7 +298,7 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
                         .append('tspan')
                         .attr('x', 0)
                         .attr('dy', '1.2em')
-                        .text(`ClusterIP: ${d.clusterIP}`);
+                        .text(`ClusterIP: ${d.clusterIP || "no IP"}`);
 
                     if (d.externalIPs && d.externalIPs.length > 0) {
                         tooltip.select('text')
@@ -327,20 +332,15 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
                 }
                 if (d.icon === 'dashboard-ip.svg') {
                     tooltip.select('text')
-                        .append('tspan')
-                        .attr('x', 0)
-                        .attr('dy', '2em')
-                        .text("Status:");
-                    tooltip.select('text')
                             .append('tspan')
                             .attr('x', 0)
                             .attr('dy', '1.2em')
-                            .text(`HostName: ${d.loadBalancer?.HostName}`);
+                            .text(`HostName: $${d.loadBalancer?.HostName || d.id}`);
                     tooltip.select('text')
                         .append('tspan')
                         .attr('x', 0)
                         .attr('dy', '1.2em')
-                        .text(`IP: ${d.loadBalancer?.IP}`);
+                        .text(`IP: ${d.loadBalancer?.IP || "no IP"}`);
                 }
 
                 if (d.icon === 'dashboard-deployment.svg') {

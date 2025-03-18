@@ -225,4 +225,5 @@ export class DashboardComponent implements AfterViewInit, OnInit, OnDestroy {
         this.toggleDropdown('searchDropdown2');
     }
 
+    protected readonly document = document;
 }
