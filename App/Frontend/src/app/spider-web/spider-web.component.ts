@@ -60,13 +60,13 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
                          controlPlaneURL?: string, timeout?: string, qps?: number, burst?: number,
                          nodeInfo?: any, nodeStatus?: { type: string; status: string }[],
                          nodeAddress?: { type: string; address: string }[],
-                         resourceList?: {
-                             cpu: string;
-                             memory: string;
-                             storage: string;
-                         }) => {
+                         resourceList?: { cpu: string; memory: string; storage: string; },
+                         namespace? : string,
+                         clusterIP?: string,
+                         externalIPs?: string[],
+                         serviceStatus?: { type: string; status: string }[]) => {
             if (!nodeMap.has(id)) {
-                const node = { id, icon, controlPlaneURL, timeout, qps, burst, nodeInfo, nodeStatus, nodeAddress, resourceList };
+                const node = { id, icon, controlPlaneURL, timeout, qps, burst, nodeInfo, nodeStatus, nodeAddress, resourceList,namespace, clusterIP, externalIPs, serviceStatus };
                 nodeMap.set(id, node);
                 nodes.push(node);
             }
@@ -86,8 +86,12 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
         });
 
         data.Services.forEach((service) => {
-            addNode(service.Name, 'dashboard-service.svg');
-
+            addNode(service.Name, 'dashboard-service.svg', undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined,
+                service.Namespace,
+                service.ClusterIP,
+                service.ExternalIPs,
+                service.ServiceStatus
+            );
             service.Deployments.forEach((deployment) => {
                 addNode(deployment.Name, 'dashboard-deployment.svg');
                 links.push({source: deployment.Name, target: service.Name});
@@ -275,6 +279,48 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
                             .attr('x', 0)
                             .attr('dy', '1.2em')
                             .text(`Storage: ${d.resourceList.storage}`);
+                    }
+                }
+                if (d.icon == 'dashboard-service.svg') {
+                    tooltip.select('text')
+                        .append('tspan')
+                        .attr('x', 0)
+                        .attr('dy', '2em')
+                        .text(`Namespace: ${d.namespace}`);
+
+                    tooltip.select('text')
+                        .append('tspan')
+                        .attr('x', 0)
+                        .attr('dy', '1.2em')
+                        .text(`ClusterIP: ${d.clusterIP}`);
+
+                    if (d.externalIPs && d.externalIPs.length > 0) {
+                        tooltip.select('text')
+                            .append('tspan')
+                            .attr('x', 0)
+                            .attr('dy', '2em')
+                            .text("External IPs:");
+                        d.externalIPs.forEach(ip => {
+                            tooltip.select('text')
+                                .append('tspan')
+                                .attr('x', 0)
+                                .attr('dy', '1.2em')
+                                .text(ip);
+                        });
+                    }
+                    if (d.serviceStatus && d.serviceStatus.length > 0) {
+                        tooltip.select('text')
+                            .append('tspan')
+                            .attr('x', 0)
+                            .attr('dy', '2em')
+                            .text("Status:");
+                        d.serviceStatus.forEach(status => {
+                            tooltip.select('text')
+                                .append('tspan')
+                                .attr('x', 0)
+                                .attr('dy', '1.2em')
+                                .text(`${status.type}: ${status.status}`);
+                        });
                     }
                 }
 
