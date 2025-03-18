@@ -28,7 +28,6 @@ export class LoginComponent implements AfterViewInit {
         this.translate.setDefaultLang('en');
         this.authService.isLoggedIn().pipe(take(1),
             tap(isAuthenticated => {
-                localStorage.setItem('username', this.username);
                 if (isAuthenticated) {
                     this.router.navigate(['/dashboard']);
                 }
@@ -65,6 +64,7 @@ export class LoginComponent implements AfterViewInit {
         if (this.username && this.password) {
             this.authService.login(this.username, this.password).subscribe({
                 next: () => {
+                    localStorage.setItem('username', this.username);
                     this.router.navigate(['/dashboard']);
                 }
             })
