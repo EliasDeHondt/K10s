@@ -38,6 +38,7 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
         this.visualizationService.getVisualization().subscribe({
             next: (data: Visualization) => {
                 let graphData = this.updateGraphData(data);
+                console.log("graphData ", data)
 
                 if (!this.graphData.isEqual(graphData)) {
                     this.graphData = graphData;
@@ -55,19 +56,27 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
         const links: LinkDatum[] = [];
         const nodeMap = new Map<string, NodeDatum>();
 
-        const addNode = (id: string, icon: string) => {
+        const addNode = (id: string, icon: string,
+                         controlPlaneURL?: string, timeout?: string, qps?: number, burst?: number,
+                         nodeInfo?: any, nodeStatus?: { type: string; status: string }[],
+                         nodeAddress?: { type: string; address: string }[],
+                         resourceList?: {
+                             cpu: string;
+                             memory: string;
+                             storage: string;
+                         }) => {
             if (!nodeMap.has(id)) {
-                const node = {id, icon};
+                const node = { id, icon, controlPlaneURL, timeout, qps, burst, nodeInfo, nodeStatus, nodeAddress, resourceList };
                 nodeMap.set(id, node);
                 nodes.push(node);
             }
             return nodeMap.get(id)!;
         };
 
-        addNode(data.Cluster.Name, 'dashboard-cluster.svg');
+        addNode(data.Cluster.Name, 'dashboard-cluster.svg',data.Cluster.ControlPlaneURL,data.Cluster.Timeout, data.Cluster.QPS,data.Cluster.Burst);
 
         data.Cluster.Nodes.forEach((node) => {
-            addNode(node.Name, 'dashboard-server.svg');
+            addNode(node.Name, 'dashboard-server.svg',node.NodeInfo,undefined, undefined, undefined, undefined, node.NodeStatus, node.NodeAddress, node.ResourceList);
             links.push({source: data.Cluster.Name, target: node.Name});
 
             node.Deployments.forEach((deployment) => {
@@ -182,9 +191,108 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
         images
             .on('mouseover', function (event, d) {
                 tooltip.style('display', null);
-                tooltip.select('text').text(d.id);
+                tooltip.select('text').selectAll('tspan').remove();
+                tooltip.select('text')
+                    .append('tspan')
+                    .attr('x', 0)
+                    .attr('dy', '0')
+                    .text(`${d.id}`);
+
+                if (d.icon == 'dashboard-cluster.svg') {
+                    tooltip.select('text')
+                        .append('tspan')
+                        .attr('x', 0)
+                        .attr('dy', '2em')
+                        .text(`URL: ${d.controlPlaneURL}`);
+
+                    tooltip.select('text')
+                        .append('tspan')
+                        .attr('x', 0)
+                        .attr('dy', '1.2em')
+                        .text(`Timeout: ${d.timeout}ms`);
+
+                    tooltip.select('text')
+                        .append('tspan')
+                        .attr('x', 0)
+                        .attr('dy', '1.2em')
+                        .text(`QPS: ${d.qps}`);
+
+                    tooltip.select('text')
+                        .append('tspan')
+                        .attr('x', 0)
+                        .attr('dy', '1.2em')
+                        .text(`Burst: ${d.burst}`);
+                }
+                if (d.icon == 'dashboard-server.svg'){
+                    if (d.nodeStatus && d.nodeStatus.length > 0) {
+                        tooltip.select('text')
+                            .append('tspan')
+                            .attr('x', 0)
+                            .attr('dy', '2em')
+                            .text("Conditions:");
+                        d.nodeStatus.forEach(condition => {
+                            tooltip.select('text')
+                                .append('tspan')
+                                .attr('x', 0)
+                                .attr('dy', '1.2em')
+                                .text(`${condition.type}: ${condition.status}`);
+                        });
+                    }
+
+                    if (d.nodeAddress && d.nodeAddress.length > 0) {
+                        tooltip.select('text')
+                            .append('tspan')
+                            .attr('x', 0)
+                            .attr('dy', '2em')
+                            .text("Addresses:");
+                        d.nodeAddress.forEach(address => {
+                            tooltip.select('text')
+                                .append('tspan')
+                                .attr('x', 0)
+                                .attr('dy', '1.2em')
+                                .text(`${address.type}: ${address.address}`);
+                        });
+                    }
+
+                    if (d.resourceList) {
+                        tooltip.select('text')
+                            .append('tspan')
+                            .attr('x', 0)
+                            .attr('dy', '2em')
+                            .text("Capacity:");
+                        tooltip.select('text')
+                            .append('tspan')
+                            .attr('x', 0)
+                            .attr('dy', '1.2em')
+                            .text(`CPU: ${d.resourceList.cpu}`);
+                        tooltip.select('text')
+                            .append('tspan')
+                            .attr('x', 0)
+                            .attr('dy', '1.2em')
+                            .text(`Memory: ${d.resourceList.memory}`);
+                        tooltip.select('text')
+                            .append('tspan')
+                            .attr('x', 0)
+                            .attr('dy', '1.2em')
+                            .text(`Storage: ${d.resourceList.storage}`);
+                    }
+                }
+
+                const textBBox = (tooltip.select('text').node() as SVGTextElement).getBBox();
+                const padding = 8;
+                const rectWidth = textBBox.width + 2 * padding;
+                const rectHeight = textBBox.height + 2 * padding;
+
+                tooltip.select('rect')
+                    .attr('x', -rectWidth / 2)
+                    .attr('y', -padding)
+                    .attr('width', rectWidth)
+                    .attr('height', rectHeight)
+                    .attr('rx', 4)
+                    .attr('ry', 4);
+
                 const [x, y] = d3.pointer(event, svg.node());
-                tooltip.attr('transform', `translate(${x + 10},${y - 10})`);
+                tooltip.attr('transform', `translate(${x},${y - rectHeight - 10})`);
             })
             .on('mouseout', function () {
                 tooltip.style('display', 'none');

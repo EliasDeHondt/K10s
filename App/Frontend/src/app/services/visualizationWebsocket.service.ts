@@ -50,6 +50,7 @@ export class VisualizationWebSocketService implements OnDestroy {
     }
 
     getVisualization() {
+        console.log("this.messagesSubject.asObservable() ",this.messagesSubject.asObservable().subscribe())
         return this.messagesSubject.asObservable();
     }
 
