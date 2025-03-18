@@ -8,9 +8,21 @@ export interface Visualization {
 interface ClusterView {
     Name: string
     Nodes: NodeView[]
+    ControlPlaneURL: string
+    Timeout: string
+    QPS: number
+    Burst: number
 }
 
 interface NodeView {
+    NodeStatus: { type: string; status: string }[];
+    NodeAddress: { type: string; address: string }[];
+    ResourceList: {
+        cpu: string;
+        memory: string;
+        storage: string;
+    };
+    NodeInfo: string;
     Name: string
     Namespace: string
     Deployments: DeploymentView[]
@@ -20,20 +32,54 @@ interface ServiceView {
     Name: string
     Deployments: DeploymentView[]
     LoadBalancers: LoadBalancer[]
+    Namespace: string
+    ClusterIP: string
+    ExternalIPs: string[],
+    ServiceStatus: { type: string; status: string }[],
 }
 
-interface LoadBalancer {
+export interface LoadBalancer {
     HostName: string
     IP: string
 }
 
-interface DeploymentView {
+export interface DeploymentView {
     Name: string
+    Namespace: string
+    AvailableReplicas: number
+    ReadyReplicas: number
+    Replicas: number
+    UpdatedReplicas: number
 }
 
 export interface NodeDatum extends d3.SimulationNodeDatum {
-    id: string;
-    icon: string;
+    id: string
+    controlPlaneURL?: string | ""
+    timeout?: string
+    qps?: number
+    burst?: number
+    icon: string
+    nodeInfo?: {
+        machineID?: string
+        systemUUID?: string
+        bootID?: string
+        architecture?: string
+        containerRuntimeVersion?: string
+        kernelVersion?: string
+        kubeProxyVersion?: string
+        kubeletVersion?: string
+        operatingSystem?: string
+        osImage?: string
+    }
+    nodeStatus?: { type: string; status: string }[];
+    nodeAddress?: { type: string; address: string }[];
+    resourceList?: { cpu: string; memory: string; storage: string; };
+    namespace? : string
+    clusterIP?: string
+    externalIPs?: string[],
+    serviceStatus?: { type: string; status: string }[]
+    loadBalancer?: LoadBalancer
+    deploymentView?: DeploymentView
 }
 
 const nodeDatumIsEqual = (node1: NodeDatum, node2: NodeDatum) => {
