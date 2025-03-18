@@ -175,9 +175,13 @@ type ClusterView struct {
 }
 
 type NodeView struct {
-	Name        string
-	Namespace   string
-	Deployments []*DeploymentView
+	Name         string
+	Namespace    string
+	Deployments  []*DeploymentView
+	NodeInfo     v1.NodeSystemInfo
+	NodeStatus   []v1.NodeCondition
+	NodeAddress  []v1.NodeAddress
+	ResourceList v1.ResourceList
 }
 
 type LoadBalancer struct {
@@ -258,9 +262,13 @@ func NewClusterView(client IClient, config *rest.Config) *ClusterView {
 func NewNodeView(node *v1.Node, client IClient) *NodeView {
 
 	return &NodeView{
-		Name:        node.Name,
-		Namespace:   node.Namespace,
-		Deployments: linkDeploymentsToNodes(client, node.Name),
+		Name:         node.Name,
+		Namespace:    node.Namespace,
+		Deployments:  linkDeploymentsToNodes(client, node.Name),
+		NodeInfo:     node.Status.NodeInfo,
+		NodeStatus:   node.Status.Conditions,
+		NodeAddress:  node.Status.Addresses,
+		ResourceList: node.Status.Capacity,
 	}
 }
 
