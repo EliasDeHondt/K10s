@@ -12,6 +12,7 @@ import (
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/kubernetes/scheme"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -25,6 +26,7 @@ func CreateResourcesHandler(ctx *gin.Context) {
 
 	data, err := ctx.GetRawData()
 	if err != nil {
+		log.Println("Create resources error: ", err)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -32,6 +34,7 @@ func CreateResourcesHandler(ctx *gin.Context) {
 	obj, err := CreateResources(C, data)
 
 	if err != nil {
+		log.Println("Create resources error: ", err)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -115,5 +118,4 @@ func isCommentsOrWhitespaceOnly(data []byte) bool {
 	}
 
 	return (whitespaceCount == len(lines)) || hasCommentedLinesOnly
-
 }

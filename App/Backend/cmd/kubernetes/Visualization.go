@@ -6,6 +6,7 @@ import (
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
+	"k8s.io/client-go/rest"
 	"log"
 	"sync"
 	"time"
@@ -33,16 +34,16 @@ func (v *Visualization) findOrCreateNodeView(nodeName, namespace string) *NodeVi
 	return newNode
 }
 
-func (v *Visualization) findOrCreateServiceView(serviceName string) *ServiceView {
+func (v *Visualization) findOrCreateServiceView(serviceName string, namespace string) *ServiceView {
 	for _, service := range v.Services {
 		if service.Name == serviceName {
 			return service
 		}
 	}
 
-	// If not found, create a new ServiceView
 	newService := &ServiceView{
 		Name:          serviceName,
+		Namespace:     namespace,
 		Deployments:   []*DeploymentView{},
 		LoadBalancers: []*LoadBalancer{},
 	}
@@ -140,7 +141,7 @@ func (v *Visualization) AddDeployment(deployment *appsv1.Deployment, client ICli
 
 	for _, service := range serviceList.Items {
 		if matchLabels(service.Spec.Selector, deployment.Spec.Template.Labels) {
-			serviceView := v.findOrCreateServiceView(service.Name)
+			serviceView := v.findOrCreateServiceView(service.Name, service.Namespace)
 			serviceView.Deployments = append(serviceView.Deployments, newDeployment)
 		}
 	}
@@ -163,59 +164,119 @@ func (v *Visualization) DeleteDeployment(deployment *appsv1.Deployment) {
 }
 
 type ClusterView struct {
-	Name  string
-	Nodes []*NodeView
+	Name            string
+	Nodes           []*NodeView
+	Endpoints       v1.Endpoints
+	ControlPlaneURL string
+	APIVersion      string
+	Timeout         time.Duration
+	QPS             float32
+	Burst           int
 }
 
 type NodeView struct {
-	Name        string
-	Namespace   string
-	Deployments []*DeploymentView
+	Name         string
+	Namespace    string
+	Deployments  []*DeploymentView
+	NodeInfo     v1.NodeSystemInfo
+	NodeStatus   []v1.NodeCondition
+	NodeAddress  []v1.NodeAddress
+	ResourceList v1.ResourceList
 }
 
 type LoadBalancer struct {
-	HostName string
-	IP       string
-	Services []*ServiceView
+	HostName  string
+	IP        string
+	Namespace string
 }
 
 type ServiceView struct {
 	Name          string
+	Namespace     string
 	Deployments   []*DeploymentView
 	LoadBalancers []*LoadBalancer
+	Type          string
+	ClusterIP     string
+	ExternalIPs   []string
+	ServiceStatus []metav1.Condition
 }
 
 type DeploymentView struct {
-	Name string
+	Name              string
+	Namespace         string
+	Replicas          int32
+	ReadyReplicas     int32
+	UpdatedReplicas   int32
+	AvailableReplicas int32
 }
 
-func VisualizeCluster(client IClient) *Visualization {
-
+func VisualizeCluster(client IClient, config *rest.Config) *Visualization {
 	return &Visualization{
-		Cluster:  NewClusterView(client),
+		Cluster:  NewClusterView(client, config),
 		Services: getAllServices(client),
 	}
 }
 
-func NewClusterView(client IClient) *ClusterView {
+func NewClusterView(client IClient, config *rest.Config) *ClusterView {
+	if config == nil {
+		inClusterConfig, err := rest.InClusterConfig()
+		if err != nil {
+			log.Printf("Error inferring in-cluster config: %v", err)
+			return &ClusterView{
+				Name: "Cluster",
+			}
+		}
+		config = inClusterConfig
+	}
+
+	controlPlaneURL := config.Host
+	if controlPlaneURL == "" {
+		log.Printf("Warning: No control plane URL found in config")
+		return &ClusterView{
+			Name: "Cluster",
+		}
+	}
 
 	nodes, err := createNodeViews(client)
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	// set to default mock values for fake client
+	qps := config.QPS
+	if qps == 0 {
+		qps = 5
+	}
+	burst := config.Burst
+	if burst == 0 {
+		burst = 10
+	}
+	timeout := config.Timeout
+	if timeout == 0 {
+		timeout = 30 * time.Second
+	}
+
 	return &ClusterView{
-		Name:  "Cluster",
-		Nodes: nodes,
+		Name:            "Cluster",
+		ControlPlaneURL: controlPlaneURL,
+		APIVersion:      config.APIPath,
+		Timeout:         timeout,
+		QPS:             qps,
+		Burst:           burst,
+		Nodes:           nodes,
 	}
 }
 
 func NewNodeView(node *v1.Node, client IClient) *NodeView {
 
 	return &NodeView{
-		Name:        node.Name,
-		Namespace:   node.Namespace,
-		Deployments: linkDeploymentsToNodes(client, node.Name),
+		Name:         node.Name,
+		Namespace:    node.Namespace,
+		Deployments:  linkDeploymentsToNodes(client, node.Name),
+		NodeInfo:     node.Status.NodeInfo,
+		NodeStatus:   node.Status.Conditions,
+		NodeAddress:  node.Status.Addresses,
+		ResourceList: node.Status.Capacity,
 	}
 }
 
@@ -226,6 +287,7 @@ func NewServiceView(service *v1.Service, client IClient) *ServiceView {
 			Name:          service.Name,
 			Deployments:   make([]*DeploymentView, 0),
 			LoadBalancers: make([]*LoadBalancer, 0),
+			Namespace:     service.Namespace,
 		}
 	}
 
@@ -242,15 +304,21 @@ func NewServiceView(service *v1.Service, client IClient) *ServiceView {
 
 	return &ServiceView{
 		Name:          service.Name,
+		Namespace:     service.Namespace,
+		Type:          string(service.Spec.Type),
+		ClusterIP:     service.Spec.ClusterIP,
+		ExternalIPs:   service.Spec.ExternalIPs,
+		ServiceStatus: service.Status.Conditions,
 		Deployments:   deployments,
 		LoadBalancers: loadBalancers,
 	}
 }
 
-func NewLoadBalancer(ingress *v1.LoadBalancerIngress) *LoadBalancer {
+func NewLoadBalancer(ingress *v1.LoadBalancerIngress, namespace string) *LoadBalancer {
 	return &LoadBalancer{
-		HostName: ingress.Hostname,
-		IP:       ingress.IP,
+		HostName:  ingress.Hostname,
+		IP:        ingress.IP,
+		Namespace: namespace,
 	}
 }
 
@@ -260,7 +328,7 @@ func getLoadBalancersForService(service *v1.Service) ([]*LoadBalancer, error) {
 
 	if len(balancers) > 0 {
 		for _, ingress := range balancers {
-			loadBalancers = append(loadBalancers, NewLoadBalancer(&ingress))
+			loadBalancers = append(loadBalancers, NewLoadBalancer(&ingress, service.Namespace))
 		}
 	}
 
@@ -352,7 +420,12 @@ func transformDeployments(deployments *[]appsv1.Deployment, podLabels map[string
 
 func NewDeploymentView(deployment *appsv1.Deployment) *DeploymentView {
 	return &DeploymentView{
-		Name: deployment.Name,
+		Name:              deployment.Name,
+		Namespace:         deployment.Namespace,
+		Replicas:          deployment.Status.Replicas,
+		ReadyReplicas:     deployment.Status.ReadyReplicas,
+		UpdatedReplicas:   deployment.Status.UpdatedReplicas,
+		AvailableReplicas: deployment.Status.AvailableReplicas,
 	}
 }
 
@@ -420,4 +493,111 @@ func getPodsForDeployment(client IClient, deployment *appsv1.Deployment) ([]*v1.
 	}
 
 	return pods, nil
+}
+
+func (v *Visualization) FilterByNamespace(namespace string) *Visualization {
+	v.mu.Lock()
+	defer v.mu.Unlock()
+
+	filtered := &Visualization{
+		Cluster: &ClusterView{
+			Name:  v.Cluster.Name,
+			Nodes: make([]*NodeView, 0),
+		},
+		Services: make([]*ServiceView, 0),
+	}
+
+	for _, node := range v.Cluster.Nodes {
+		nodeCopy := node.DeepCopy()
+
+		filteredDeployments := make([]*DeploymentView, 0)
+		for _, deployment := range nodeCopy.Deployments {
+			if deployment.Namespace == namespace {
+				filteredDeployments = append(filteredDeployments, deployment)
+			}
+		}
+		nodeCopy.Deployments = filteredDeployments
+
+		if len(nodeCopy.Deployments) > 0 {
+			filtered.Cluster.Nodes = append(filtered.Cluster.Nodes, nodeCopy)
+		}
+	}
+
+	for _, service := range v.Services {
+		if service.Namespace == namespace {
+			serviceCopy := service.DeepCopy()
+
+			filteredDeployments := make([]*DeploymentView, 0)
+			for _, deployment := range serviceCopy.Deployments {
+				if deployment.Namespace == namespace {
+					filteredDeployments = append(filteredDeployments, deployment)
+				}
+			}
+			serviceCopy.Deployments = filteredDeployments
+
+			filteredLoadBalancers := make([]*LoadBalancer, 0)
+			for _, lb := range serviceCopy.LoadBalancers {
+				if lb.Namespace == namespace {
+					filteredLoadBalancers = append(filteredLoadBalancers, lb)
+				}
+			}
+			serviceCopy.LoadBalancers = filteredLoadBalancers
+
+			filtered.Services = append(filtered.Services, serviceCopy)
+		}
+	}
+
+	return filtered
+}
+
+func (n *NodeView) DeepCopy() *NodeView {
+
+	view := &NodeView{
+		Name:         n.Name,
+		Namespace:    n.Namespace,
+		Deployments:  make([]*DeploymentView, len(n.Deployments)),
+		NodeInfo:     n.NodeInfo,
+		NodeStatus:   n.NodeStatus,
+		NodeAddress:  n.NodeAddress,
+		ResourceList: n.ResourceList,
+	}
+
+	for i, deployment := range n.Deployments {
+		view.Deployments[i] = &DeploymentView{
+			Name:      deployment.Name,
+			Namespace: deployment.Namespace,
+		}
+	}
+
+	return view
+}
+
+func (s *ServiceView) DeepCopy() *ServiceView {
+	view := &ServiceView{
+		Name:          s.Name,
+		Namespace:     s.Namespace,
+		Deployments:   make([]*DeploymentView, len(s.Deployments)),
+		LoadBalancers: make([]*LoadBalancer, len(s.LoadBalancers)),
+		Type:          s.Type,
+		ClusterIP:     s.ClusterIP,
+		ExternalIPs:   s.ExternalIPs,
+		ServiceStatus: s.ServiceStatus,
+	}
+
+	for i, deployment := range s.Deployments {
+		view.Deployments[i] = &DeploymentView{
+			Name:      deployment.Name,
+			Namespace: deployment.Namespace,
+		}
+	}
+
+	for i, lb := range s.LoadBalancers {
+		view.LoadBalancers[i] = &LoadBalancer{
+			HostName:  lb.HostName,
+			IP:        lb.IP,
+			Namespace: lb.Namespace,
+		}
+	}
+
+	return view
 }

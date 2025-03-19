@@ -3,15 +3,17 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { NavComponent } from '../nav/nav.component';
-import { FooterComponent } from '../footer/footer.component';
-import { TranslatePipe } from '@ngx-translate/core';
-import { ByteFormatPipe } from '../byte-format.pipe';
-import { Color, NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
-import { SpiderWebComponent } from '../spider-web/spider-web.component';
-import { StatWebSocketService } from '../services/statWebsocket.service';
-import { Metrics } from '../domain/Metrics';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {NavComponent} from '../nav/nav.component';
+import {FooterComponent} from '../footer/footer.component';
+import {TranslatePipe} from '@ngx-translate/core';
+import {ByteFormatPipe} from '../byte-format.pipe';
+import {Color, NgxChartsModule, ScaleType} from '@swimlane/ngx-charts';
+import {SpiderWebComponent} from '../spider-web/spider-web.component';
+import {StatWebSocketService} from '../services/statWebsocket.service';
+import {Metrics} from '../domain/Metrics';
+import {FilterDataService} from "../services/filterdata.service";
+import {Namespace} from "../domain/Kubernetes";
 
 @Component({
     selector: 'app-dashboard',
@@ -23,7 +25,10 @@ import { Metrics } from '../domain/Metrics';
 export class DashboardComponent implements AfterViewInit, OnInit, OnDestroy {
     @ViewChild('dashboardMain') dashboardMain!: ElementRef;
     @ViewChild('dashboardTitle') dashboardTitle!: ElementRef;
-    @ViewChild('spiderWeb', { static: false }) spiderWeb!: ElementRef;
+    @ViewChild('spiderWeb', {static: false}) spiderWeb!: ElementRef;
+    dropdowns: { [key: string]: boolean } = {
+        searchDropdown2: false
+    };
 
     usage: Metrics | undefined = undefined;
     memoryChartData: any[] = [];
@@ -31,7 +36,8 @@ export class DashboardComponent implements AfterViewInit, OnInit, OnDestroy {
     diskUsagePercentage: number = 0.0;
     diskUsage: number = 0.0;
     diskCapacity: number = 0.0;
-
+    namespaces: Namespace[] = [];
+    selectedNamespace: string = "";
 
     colorScheme: Color = {
         name: 'customScheme',
@@ -39,11 +45,19 @@ export class DashboardComponent implements AfterViewInit, OnInit, OnDestroy {
         group: ScaleType.Ordinal,
         domain: [],
     };
-    colorSchemeCpu: Color = { ...this.colorScheme };
+    colorSchemeCpu: Color = {...this.colorScheme};
     diskColor = '';
     loading: boolean = false;
 
-    constructor(private usageService: StatWebSocketService) {}
+    constructor(private usageService: StatWebSocketService, private filterDataService: FilterDataService) {
+        this.getNamespaces();
+    }
+
+    getNamespaces() {
+        this.filterDataService.getNamespaces().subscribe(response => {
+            this.namespaces = response;
+        })
+    }
 
     ngOnInit(): void {
         this.usageService.connect();
@@ -106,7 +120,7 @@ export class DashboardComponent implements AfterViewInit, OnInit, OnDestroy {
         Promise.all(promises).then(() => {
             const serializer = new XMLSerializer();
             const svgString = serializer.serializeToString(svgClone);
-            const svgBlob = new Blob([svgString], { type: 'image/svg+xml' });
+            const svgBlob = new Blob([svgString], {type: 'image/svg+xml'});
             const svgUrl = URL.createObjectURL(svgBlob);
 
             const img = new Image();
@@ -171,12 +185,12 @@ export class DashboardComponent implements AfterViewInit, OnInit, OnDestroy {
 
 
     updateChartData(metrics: Metrics): void {
-        this.memoryChartData = [{ name: 'Used', value: parseFloat(metrics.MemUsage.toFixed(2)) }];
-        this.cpuChartData = [{ name: 'Used', value: parseFloat(metrics.CpuUsage.toFixed(2)) }];
-        this.diskUsage = metrics.DiskUsage;
+        this.memoryChartData = [{name: 'Used', value: parseFloat(metrics.MemUsage.toFixed(2))}];
+        this.cpuChartData = [{name: 'Used', value: parseFloat(metrics.CpuUsage.toFixed(2))}];
+        this.diskUsage = metrics.DiskUsage === 0 ? metrics.DiskCapacity / 2 : metrics.DiskUsage;
         this.diskCapacity = metrics.DiskCapacity;
 
-        this.diskUsagePercentage = (metrics.DiskUsage / metrics.DiskCapacity) * 100;
+        this.diskUsagePercentage = (this.diskUsage / this.diskCapacity) * 100;
 
         this.colorScheme = {
             ...this.colorScheme,
@@ -199,4 +213,17 @@ export class DashboardComponent implements AfterViewInit, OnInit, OnDestroy {
         if (usage < 85) return orange;
         return red;
     }
+
+    toggleDropdown(dropdownKey: string) {
+        for (let key in this.dropdowns) {
+            this.dropdowns[key] = key === dropdownKey ? !this.dropdowns[key] : false;
+        }
+    }
+
+    selectNamespace(namespace: string) {
+        this.selectedNamespace = namespace
+        this.toggleDropdown('searchDropdown2');
+    }
+
+    protected readonly document = document;
 }

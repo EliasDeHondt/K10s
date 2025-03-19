@@ -6,6 +6,7 @@ package kubernetes
 
 import (
 	"context"
+	"github.com/gorilla/websocket"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
@@ -38,7 +39,7 @@ func GetClients() IClient {
 		return client
 	}
 
-	var client IClient = &Client{c, mc}
+	var client IClient = &Client{c, mc, make([]*websocket.Conn, 0)}
 	return client
 }
 
@@ -94,7 +95,7 @@ func TestFakeClient() IClient {
 		},
 	}
 
-	var clientset IClient = &FakeClient{fake.NewClientset(), fakeMetricsClient}
+	var clientset IClient = &FakeClient{fake.NewClientset(), fakeMetricsClient, make([]*websocket.Conn, 0)}
 
 	nodes := []*corev1.Node{
 		{

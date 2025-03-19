@@ -8,8 +8,10 @@ import (
 	"context"
 	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes"
 	"github.com/gin-gonic/gin"
+	"github.com/gorilla/websocket"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"log"
+	"net/http"
 	"strconv"
 	"time"
 )
@@ -45,17 +47,29 @@ func GetFrontendIP() string {
 	if len(svc.Status.LoadBalancer.Ingress) > 0 {
 
 		protocol := "http"
-		if svc.Status.LoadBalancer.Ingress[0].Hostname != "" {
+		if svc.Spec.Ports[0].Port == 443 {
 			protocol = "https"
 		}
 
-		url := protocol + "://" + svc.Status.LoadBalancer.Ingress[0].IP
+		// For local docker kubernetes testing
+		ingressIP := svc.Status.LoadBalancer.Ingress[0].IP
+		if ingressIP == "" {
+			ingressIP = "localhost"
+		}
+		url := protocol + "://" + ingressIP
+
 		if svc.Spec.Ports[0].Port != 80 && svc.Spec.Ports[0].Port != 443 {
 			url += ":" + strconv.Itoa(int(svc.Spec.Ports[0].Port))
 		}
-
 		return url
 	}
 
 	return "http://localhost:4200"
+}
+
+var upgrader = websocket.Upgrader{
+	CheckOrigin: func(r *http.Request) bool {
+		origin := r.Header.Get("Origin")
+		return origin == GetFrontendIP()
+	},
 }

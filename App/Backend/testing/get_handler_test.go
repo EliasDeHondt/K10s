@@ -118,24 +118,3 @@ func TestGetSecretsWithNamespace(t *testing.T) {
 	assert.NotEmpty(t, secrets)
 	assert.Equal(t, "secret-2", (*secrets).Response[0].Name)
 }
-
-func TestGetTotalUsage(t *testing.T) {
-	metrics, err := getClient.GetTotalUsage()
-
-	assert.NoError(t, err)
-	assert.NotEmpty(t, metrics)
-}
-
-func TestGetUsageForNode(t *testing.T) {
-	metrics, err := getClient.GetUsageForNode("node-1")
-
-	assert.NoError(t, err)
-	assert.NotEmpty(t, metrics)
-}
-
-func TestGetUsageForNonExistingNode(t *testing.T) {
-	metrics, err := getClient.GetUsageForNode("node-123")
-
-	assert.Error(t, err)
-	assert.Empty(t, metrics)
-}

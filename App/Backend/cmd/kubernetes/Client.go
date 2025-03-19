@@ -6,15 +6,19 @@ package kubernetes
 
 import (
 	"context"
+	"fmt"
+	"github.com/gorilla/websocket"
 	av1 "k8s.io/api/apps/v1"
 	cv1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/watch"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/kubernetes/fake"
 	appsv1 "k8s.io/client-go/kubernetes/typed/apps/v1"
 	corev1 "k8s.io/client-go/kubernetes/typed/core/v1"
 	"k8s.io/metrics/pkg/apis/metrics"
 	metricsv "k8s.io/metrics/pkg/client/clientset/versioned"
+	"log"
 	"time"
 )
 
@@ -40,8 +44,7 @@ type IClient interface {
 	GetSecrets(namespace string) corev1.SecretInterface
 	GetDeployments(namespace string) appsv1.DeploymentInterface
 	GetReplicaSets(namespace string) appsv1.ReplicaSetInterface
-	GetTotalUsage() (*Metrics, error)
-	GetUsageForNode(nodeName string) (*Metrics, error)
+	WatchUsage()
 	CreateNamespace(namespace *cv1.Namespace) (Namespace, error)
 	CreateNode(node *cv1.Node) (Node, error)
 	CreatePod(pod *cv1.Pod) (Pod, error)
@@ -52,16 +55,20 @@ type IClient interface {
 	GetFilteredPods(namespace string, nodeName string, pageSize int, continueToken string) (*[]cv1.Pod, string, error)
 	GetFilteredServices(namespace string, nodeName string, pageSize int, continueToken string) (*[]cv1.Service, string, error)
 	GetFilteredDeployments(namespace string, nodeName string, pageSize int, continueToken string) (*[]av1.Deployment, string, error)
+	AddMetricsConnection(conn *websocket.Conn)
+	GetTotalUsage() (*Metrics, error)
 }
 
 type FakeClient struct {
 	Client        *fake.Clientset
 	MetricsClient *FakeMetricsClient
+	MetricsConns  []*websocket.Conn
 }
 
 type Client struct {
 	Client        *kubernetes.Clientset
 	MetricsClient *metricsv.Clientset
+	MetricsConns  []*websocket.Conn
 }
 
 func (client *FakeClient) GetNamespaces() corev1.NamespaceInterface {
@@ -130,6 +137,10 @@ func (client *FakeClient) CreatePod(pod *cv1.Pod) (Pod, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
+	if pod.Namespace == "" {
+		pod.Namespace = "default"
+	}
+
 	pod, err := client.GetPods(pod.Namespace).Create(ctx, pod, metav1.CreateOptions{})
 
 	if err != nil {
@@ -142,6 +153,10 @@ func (client *FakeClient) CreatePod(pod *cv1.Pod) (Pod, error) {
 func (client *FakeClient) CreateDeployment(deployment *av1.Deployment) (Deployment, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
+
+	if deployment.Namespace == "" {
+		deployment.Namespace = "default"
+	}
 
 	deployment, err := client.GetDeployments(deployment.Namespace).Create(ctx, deployment, metav1.CreateOptions{})
 
@@ -156,6 +171,10 @@ func (client *FakeClient) CreateService(service *cv1.Service) (Service, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
+	if service.Namespace == "" {
+		service.Namespace = "default"
+	}
+
 	_, err := client.GetServices(service.Namespace).Create(ctx, service, metav1.CreateOptions{})
 
 	if err != nil {
@@ -169,6 +188,10 @@ func (client *FakeClient) CreateConfigMap(configMap *cv1.ConfigMap) (ConfigMap, 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
+	if configMap.Namespace == "" {
+		configMap.Namespace = "default"
+	}
+
 	_, err := client.GetConfigMaps(configMap.Namespace).Create(ctx, configMap, metav1.CreateOptions{})
 
 	if err != nil {
@@ -181,6 +204,10 @@ func (client *FakeClient) CreateConfigMap(configMap *cv1.ConfigMap) (ConfigMap, 
 func (client *FakeClient) CreateSecret(secret *cv1.Secret) (Secret, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
+
+	if secret.Namespace == "" {
+		secret.Namespace = "default"
+	}
 
 	_, err := client.GetSecrets(secret.Namespace).Create(ctx, secret, metav1.CreateOptions{})
 
@@ -227,6 +254,90 @@ func (client *Client) GetReplicaSets(namespace string) appsv1.ReplicaSetInterfac
 	return client.Client.AppsV1().ReplicaSets(namespace)
 }
 
+func (client *FakeClient) WatchUsage() {
+	ctx := context.Background()
+
+	nodes, err := client.Client.CoreV1().Nodes().List(ctx, metav1.ListOptions{})
+	if err != nil {
+		return
+	}
+
+	var totalCpu int64
+	var totalMem int64
+	var totalDisk int64
+	var totalCpuUsage int64
+	var totalMemUsage int64
+	var totalDiskUsage int64
+
+	for _, node := range nodes.Items {
+		totalCpu += node.Status.Capacity.Cpu().MilliValue()
+		totalMem += node.Status.Capacity.Memory().Value()
+		totalDisk += node.Status.Capacity.Storage().Value()
+
+		nodeMetrics := client.MetricsClient.NodeMetrics[node.Name]
+
+		totalCpuUsage += nodeMetrics.Usage.Cpu().MilliValue()
+		totalMemUsage += nodeMetrics.Usage.Memory().Value()
+		totalDiskUsage += nodeMetrics.Usage.Storage().Value()
+	}
+
+	cpuUsagePercent := float64(totalCpuUsage) / float64(totalCpu) * 100
+	memUsagePercent := float64(totalMemUsage) / float64(totalMem) * 100
+
+	calculatedMetrics := &Metrics{CpuUsage: cpuUsagePercent, MemUsage: memUsagePercent, DiskUsage: totalDiskUsage, DiskCapacity: totalDisk}
+
+	for _, conn := range client.MetricsConns {
+		err := conn.WriteJSON(calculatedMetrics)
+		if err != nil {
+			fmt.Println(err)
+			CloseConn(conn, "metrics")
+		}
+	}
+}
+
+func (client *FakeClient) AddMetricsConnection(conn *websocket.Conn) {
+	client.MetricsConns = append(client.MetricsConns, conn)
+}
+
+func (client *Client) AddMetricsConnection(conn *websocket.Conn) {
+	client.MetricsConns = append(client.MetricsConns, conn)
+}
+
+func (client *Client) WatchUsage() {
+	ctx := context.Background()
+
+	watcher, err := client.MetricsClient.MetricsV1beta1().NodeMetricses().Watch(ctx, metav1.ListOptions{})
+	if err != nil {
+		return
+	}
+	defer func() {
+		log.Println("Metrics watcher stopped")
+		watcher.Stop()
+	}()
+
+	for event := range watcher.ResultChan() {
+		switch event.Type {
+		case watch.Added, watch.Modified:
+			calculatedMetrics, err := client.GetTotalUsage()
+			if err != nil {
+				log.Println(err)
+				continue
+			}
+
+			for _, conn := range client.MetricsConns {
+				err := conn.WriteJSON(calculatedMetrics)
+				if err != nil {
+					fmt.Println(err)
+					CloseConn(conn, "metrics")
+				}
+			}
+		case watch.Deleted:
+		case watch.Error:
+			fmt.Printf("error watching node calculatedMetrics: %v", event.Object)
+		}
+	}
+}
+
 func (client *FakeClient) GetTotalUsage() (*Metrics, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -259,31 +370,6 @@ func (client *FakeClient) GetTotalUsage() (*Metrics, error) {
 	memUsagePercent := float64(totalMemUsage) / float64(totalMem) * 100
 
 	return &Metrics{CpuUsage: cpuUsagePercent, MemUsage: memUsagePercent, DiskUsage: totalDiskUsage, DiskCapacity: totalDisk}, nil
-}
-
-func (client *FakeClient) GetUsageForNode(nodeName string) (*Metrics, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-
-	node, err := client.Client.CoreV1().Nodes().Get(ctx, nodeName, metav1.GetOptions{})
-	if err != nil {
-		return nil, err
-	}
-
-	totalCpu := node.Status.Capacity.Cpu().MilliValue()
-	totalMem := node.Status.Capacity.Memory().Value()
-	totalDisk := node.Status.Capacity.Storage().Value()
-
-	nodeMetrics := client.MetricsClient.NodeMetrics[nodeName]
-
-	usedCpu := nodeMetrics.Usage.Cpu().MilliValue()
-	usedMem := nodeMetrics.Usage.Memory().Value()
-	usedDisk := nodeMetrics.Usage.Storage().Value()
-
-	cpuUsagePercent := float64(usedCpu) / float64(totalCpu) * 100
-	memoryUsagePercent := float64(usedMem) / float64(totalMem) * 100
-
-	return &Metrics{CpuUsage: cpuUsagePercent, MemUsage: memoryUsagePercent, DiskUsage: usedDisk, DiskCapacity: totalDisk}, nil
 }
 
 func (client *Client) GetTotalUsage() (*Metrics, error) {
@@ -325,34 +411,6 @@ func (client *Client) GetTotalUsage() (*Metrics, error) {
 	return &Metrics{CpuUsage: cpuUsagePercent, MemUsage: memUsagePercent, DiskUsage: totalDiskUsage, DiskCapacity: totalDisk}, nil
 }
 
-func (client *Client) GetUsageForNode(nodeName string) (*Metrics, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-
-	node, err := client.Client.CoreV1().Nodes().Get(ctx, nodeName, metav1.GetOptions{})
-	if err != nil {
-		return nil, err
-	}
-
-	totalCpu := node.Status.Capacity.Cpu().MilliValue()
-	totalMem := node.Status.Capacity.Memory().Value()
-	totalDisk := node.Status.Capacity.Storage().Value()
-
-	nodeMetrics, err := client.MetricsClient.MetricsV1beta1().NodeMetricses().Get(ctx, nodeName, metav1.GetOptions{})
-	if err != nil {
-		return nil, err
-	}
-
-	usedCpu := nodeMetrics.Usage.Cpu().MilliValue()
-	usedMem := nodeMetrics.Usage.Memory().Value()
-	usedDisk := nodeMetrics.Usage.Storage().Value()
-
-	cpuUsagePercent := float64(usedCpu) / float64(totalCpu) * 100
-	memoryUsagePercent := float64(usedMem) / float64(totalMem) * 100
-
-	return &Metrics{CpuUsage: cpuUsagePercent, MemUsage: memoryUsagePercent, DiskUsage: usedDisk, DiskCapacity: totalDisk}, nil
-}
-
 func (client *Client) CreateNamespace(namespace *cv1.Namespace) (Namespace, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -383,6 +441,10 @@ func (client *Client) CreatePod(pod *cv1.Pod) (Pod, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
+	if pod.Namespace == "" {
+		pod.Namespace = "default"
+	}
+
 	pod, err := client.GetPods(pod.Namespace).Create(ctx, pod, metav1.CreateOptions{})
 
 	if err != nil {
@@ -395,6 +457,10 @@ func (client *Client) CreatePod(pod *cv1.Pod) (Pod, error) {
 func (client *Client) CreateDeployment(deployment *av1.Deployment) (Deployment, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
+
+	if deployment.Namespace == "" {
+		deployment.Namespace = "default"
+	}
 
 	deployment, err := client.GetDeployments(deployment.Namespace).Create(ctx, deployment, metav1.CreateOptions{})
 
@@ -409,6 +475,10 @@ func (client *Client) CreateService(service *cv1.Service) (Service, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
+	if service.Namespace == "" {
+		service.Namespace = "default"
+	}
+
 	_, err := client.GetServices(service.Namespace).Create(ctx, service, metav1.CreateOptions{})
 
 	if err != nil {
@@ -422,6 +492,10 @@ func (client *Client) CreateConfigMap(configMap *cv1.ConfigMap) (ConfigMap, erro
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
+	if configMap.Namespace == "" {
+		configMap.Namespace = "default"
+	}
+
 	_, err := client.GetConfigMaps(configMap.Namespace).Create(ctx, configMap, metav1.CreateOptions{})
 
 	if err != nil {
@@ -434,6 +508,10 @@ func (client *Client) CreateConfigMap(configMap *cv1.ConfigMap) (ConfigMap, erro
 func (client *Client) CreateSecret(secret *cv1.Secret) (Secret, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
+
+	if secret.Namespace == "" {
+		secret.Namespace = "default"
+	}
 
 	_, err := client.GetSecrets(secret.Namespace).Create(ctx, secret, metav1.CreateOptions{})
 
