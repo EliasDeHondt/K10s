@@ -11,7 +11,6 @@ import (
 	av1 "k8s.io/api/apps/v1"
 	cv1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/watch"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/kubernetes/fake"
 	appsv1 "k8s.io/client-go/kubernetes/typed/apps/v1"
@@ -304,36 +303,21 @@ func (client *Client) AddMetricsConnection(conn *websocket.Conn) {
 }
 
 func (client *Client) WatchUsage() {
-	ctx := context.Background()
+	ticker := time.NewTicker(time.Second * 1)
+	defer ticker.Stop()
 
-	watcher, err := client.MetricsClient.MetricsV1beta1().NodeMetricses().Watch(ctx, metav1.ListOptions{})
-	if err != nil {
-		return
-	}
-	defer func() {
-		log.Println("Metrics watcher stopped")
-		watcher.Stop()
-	}()
+	for range ticker.C {
+		calculatedMetrics, err := client.GetTotalUsage()
+		if err != nil {
+			log.Println(err)
+			continue
+		}
 
-	for event := range watcher.ResultChan() {
-		switch event.Type {
-		case watch.Added, watch.Modified:
-			calculatedMetrics, err := client.GetTotalUsage()
-			if err != nil {
-				log.Println(err)
-				continue
+		for _, conn := range client.MetricsConns {
+			if err := conn.WriteJSON(calculatedMetrics); err != nil {
+				fmt.Println(err)
+				CloseConn(conn, "metrics")
 			}
-
-			for _, conn := range client.MetricsConns {
-				err := conn.WriteJSON(calculatedMetrics)
-				if err != nil {
-					fmt.Println(err)
-					CloseConn(conn, "metrics")
-				}
-			}
-		case watch.Deleted:
-		case watch.Error:
-			fmt.Printf("error watching node calculatedMetrics: %v", event.Object)
 		}
 	}
 }
