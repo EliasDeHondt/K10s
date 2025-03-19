@@ -18,6 +18,7 @@ export class VisualizationWebSocketService implements OnDestroy {
     private messagesSubject: Subject<Visualization> = new Subject()
 
     constructor() {
+        document.addEventListener('visibilitychange', this.handleVisibilityChange);
     }
 
     connect(): void {
@@ -63,7 +64,14 @@ export class VisualizationWebSocketService implements OnDestroy {
 
     ngOnDestroy() {
         this.disconnect();
+        document.removeEventListener('visibilitychange', this.handleVisibilityChange);
     }
+
+    private handleVisibilityChange = () => {
+        if (document.visibilityState === 'visible' && !this.isConnected()) {
+            this.connect();
+        }
+    };
 
     formatMemory(memory: string | undefined | null): string {
         if (!memory) return '0KB';
