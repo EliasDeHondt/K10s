@@ -2,7 +2,17 @@
 /* @since 01/01/2025              */
 /* @author K10s Open Source Team  */
 /**********************************/
-import {AfterViewInit, Component, ElementRef, inject, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    ElementRef,
+    HostListener,
+    inject,
+    Input,
+    OnChanges,
+    SimpleChanges,
+    ViewChild
+} from '@angular/core';
 import * as d3 from 'd3';
 import {NotificationService} from "../services/notification.service";
 import {TranslateService} from "@ngx-translate/core";
@@ -63,27 +73,47 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
                          nodeInfo?: any, nodeStatus?: { type: string; status: string }[],
                          nodeAddress?: { type: string; address: string }[],
                          resourceList?: { cpu: string; memory: string; storage: string; },
-                         namespace? : string,
+                         namespace?: string,
                          clusterIP?: string,
                          externalIPs?: string[],
-                         serviceStatus?: { type: string; status: string }[], loadBalancer?: LoadBalancer, deploymentView?: DeploymentView) => {
+                         serviceStatus?: {
+                             type: string;
+                             status: string
+                         }[], loadBalancer?: LoadBalancer, deploymentView?: DeploymentView) => {
             if (!nodeMap.has(id)) {
-                const node = { id, icon, controlPlaneURL, timeout, qps, burst, nodeInfo, nodeStatus, nodeAddress, resourceList,namespace, clusterIP, externalIPs, serviceStatus, loadBalancer, deploymentView };
+                const node = {
+                    id,
+                    icon,
+                    controlPlaneURL,
+                    timeout,
+                    qps,
+                    burst,
+                    nodeInfo,
+                    nodeStatus,
+                    nodeAddress,
+                    resourceList,
+                    namespace,
+                    clusterIP,
+                    externalIPs,
+                    serviceStatus,
+                    loadBalancer,
+                    deploymentView
+                };
                 nodeMap.set(id, node);
                 nodes.push(node);
             }
             return nodeMap.get(id)!;
         };
 
-        addNode(data.Cluster.Name, 'dashboard-cluster.svg',data.Cluster.ControlPlaneURL,data.Cluster.Timeout, data.Cluster.QPS,data.Cluster.Burst);
+        addNode(data.Cluster.Name, 'dashboard-cluster.svg', data.Cluster.ControlPlaneURL, data.Cluster.Timeout, data.Cluster.QPS, data.Cluster.Burst);
 
         data.Cluster.Nodes.forEach((node) => {
-            addNode(node.Name, 'dashboard-server.svg',node.NodeInfo,undefined, undefined, undefined, undefined, node.NodeStatus, node.NodeAddress, node.ResourceList);
+            addNode(node.Name, 'dashboard-server.svg', node.NodeInfo, undefined, undefined, undefined, undefined, node.NodeStatus, node.NodeAddress, node.ResourceList);
             links.push({source: data.Cluster.Name, target: node.Name});
 
             node.Deployments.forEach((deployment) => {
-                addNode(deployment.Name, 'dashboard-deployment.svg',undefined,undefined, undefined,undefined, undefined,undefined, undefined,undefined,undefined, undefined,undefined,undefined,undefined
-                    ,deployment);
+                addNode(deployment.Name, 'dashboard-deployment.svg', undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined
+                    , deployment);
                 links.push({source: node.Name, target: deployment.Name});
             });
         });
@@ -96,14 +126,14 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
                 service.ServiceStatus
             );
             service.Deployments.forEach((deployment) => {
-                addNode(deployment.Name, 'dashboard-deployment.svg',undefined,undefined, undefined,undefined, undefined,undefined, undefined,undefined,undefined, undefined,undefined,undefined,undefined
-                    ,deployment);
+                addNode(deployment.Name, 'dashboard-deployment.svg', undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined
+                    , deployment);
                 links.push({source: deployment.Name, target: service.Name});
             });
             service.LoadBalancers.forEach((lb, index) => {
                 const lbId = `${service.Name}-lb-${index + 1}`;
-                addNode(lbId, 'dashboard-ip.svg',undefined,undefined, undefined,undefined, undefined,undefined, undefined,undefined,undefined, undefined,undefined,undefined
-                    ,lb);
+                addNode(lbId, 'dashboard-ip.svg', undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined
+                    , lb);
                 links.push({source: service.Name, target: lbId});
             });
         });
@@ -233,7 +263,7 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
                         .attr('dy', '1.2em')
                         .text(`Burst: ${d.burst}`);
                 }
-                if (d.icon == 'dashboard-server.svg'){
+                if (d.icon == 'dashboard-server.svg') {
                     if (d.nodeStatus && d.nodeStatus.length > 0) {
                         tooltip.select('text')
                             .append('tspan')
@@ -332,10 +362,10 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
                 }
                 if (d.icon === 'dashboard-ip.svg') {
                     tooltip.select('text')
-                            .append('tspan')
-                            .attr('x', 0)
-                            .attr('dy', '1.2em')
-                            .text(`HostName: $${d.loadBalancer?.HostName || d.id}`);
+                        .append('tspan')
+                        .attr('x', 0)
+                        .attr('dy', '1.2em')
+                        .text(`HostName: $${d.loadBalancer?.HostName || d.id}`);
                     tooltip.select('text')
                         .append('tspan')
                         .attr('x', 0)
@@ -428,4 +458,10 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
             node.attr('transform', (d) => `translate(${d.x!},${d.y!})`);
         });
     }
+
+    @HostListener('window:resize', ['$event'])
+    onResize() {
+        this.createForceDirectedGraph()
+    }
+
 }
