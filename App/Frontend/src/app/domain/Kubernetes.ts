@@ -5,7 +5,7 @@
 /**********************************/
 
 export interface PaginatedResponse {
-    Response: Pod[] | Node[] | Service[] | Deployment[] | ConfigMap[] | Secret[]
+    Response: (Pod | Node | Service | Deployment | ConfigMap | Secret)[]
     PageToken: string
 }
 

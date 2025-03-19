@@ -25,6 +25,7 @@ import {FilterDataService} from "../services/filterdata.service";
 import {Namespace} from "../domain/Kubernetes";
 import {FormsModule} from "@angular/forms";
 import {LoadingService} from "../services/loading.service";
+import {debounceTime, fromEvent} from 'rxjs';
 
 @Component({
     selector: 'app-search',
@@ -51,6 +52,12 @@ export class SearchComponent implements OnInit {
     ngOnInit(): void {
         this.getNamespaces()
         this.getNodeNames()
+        const container = document.querySelector('.search-table');
+        if (container) {
+            fromEvent(container, 'scroll')
+                .pipe(debounceTime(300))
+                .subscribe(() => this.onScroll())
+        }
     }
 
     constructor() {
@@ -110,4 +117,17 @@ export class SearchComponent implements OnInit {
     isDefaultNodeSelected(): boolean {
         return this.tableService.element() === 'nodes';
     }
+
+    onScroll() {
+        const container = document.querySelector('.search-table');
+        if (container) {
+            const {scrollTop, scrollHeight, clientHeight} = container;
+            const scrollPosition = scrollTop + clientHeight;
+
+            if (scrollPosition >= scrollHeight / 2 && !this.loadingService.isLoading()) {
+                this.tableService.getNextPage(this.tableService.element(), this.tableService.namespace(), this.tableService.node(), this.pageSize);
+            }
+        }
+    }
+
 }

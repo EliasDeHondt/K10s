@@ -70,16 +70,7 @@
 </header>
 <app-nav class="nav" id="nav"></app-nav>
 <main class="search-main">
-    @if (this.loadingService.isLoading()) {
-        <div class="skeleton-table">
-            <div class="skeleton-header"></div>
-            <div class="skeleton-content"
-                 *ngFor="let _ of [].constructor(15); let i = index"
-                 [class.odd-row]="i % 2 === 0"
-                 [class.even-row]="i % 2 !== 0">
-            </div>
-        </div>
-    } @else if (tableService.element() === "pods") {
+    @if (tableService.element() === "pods") {
         <app-pod-search-table [pods]="tableService.data().Response | podCast"/>
     } @else if (tableService.element() === "nodes") {
         <app-node-table [nodes]="tableService.data().Response | nodeCast"/>
@@ -91,6 +82,16 @@
         <app-config-map-table [configMaps]="tableService.data().Response | configMapCast"/>
     } @else if (tableService.element() === "secrets") {
         <app-secret-table [secrets]="tableService.data().Response | secretCast"/>
+    }
+    @if (this.loadingService.isLoading()) {
+        <div class="skeleton-table">
+            <div class="skeleton-header"></div>
+            <div class="skeleton-content"
+                 *ngFor="let _ of [].constructor(15); let i = index"
+                 [class.odd-row]="i % 2 === 0"
+                 [class.even-row]="i % 2 !== 0">
+            </div>
+        </div>
     }
     <section class="search-main-pagination">
         <button class="cursor-pointer" (click)="setPageSize(20)" [class.active]="pageSize === 20">20</button>
