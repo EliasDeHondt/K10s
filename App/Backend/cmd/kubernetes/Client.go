@@ -308,8 +308,10 @@ func (client *Client) WatchUsage() {
 
 	watcher, err := client.MetricsClient.MetricsV1beta1().NodeMetricses().Watch(ctx, metav1.ListOptions{})
 	if err != nil {
+		log.Printf("watch node metrics failed: %v", err)
 		return
 	}
+	log.Println("Started watching node metrics")
 	defer func() {
 		log.Println("Metrics watcher stopped")
 		watcher.Stop()
