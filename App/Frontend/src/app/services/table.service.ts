@@ -3,7 +3,7 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-import {effect, Injectable, signal} from "@angular/core";
+import {Injectable, signal} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {PaginatedResponse} from "../domain/Kubernetes";
@@ -21,9 +21,6 @@ export class TableService {
     data = signal<PaginatedResponse>({Response: [], PageToken: ''})
 
     constructor(private http: HttpClient, private loadingService: LoadingService) {
-        effect(() => {
-            this.getTable(this.element(), this.namespace(), this.node())
-        });
     }
 
     setElement(element: string) {

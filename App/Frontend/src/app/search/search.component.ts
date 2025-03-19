@@ -52,6 +52,7 @@ export class SearchComponent implements OnInit {
     ngOnInit(): void {
         this.getNamespaces()
         this.getNodeNames()
+        this.tableService.getTable(this.tableService.element(), this.tableService.namespace(), this.tableService.node())
         const container = document.querySelector('.search-table');
         if (container) {
             fromEvent(container, 'scroll')
@@ -67,6 +68,7 @@ export class SearchComponent implements OnInit {
     setPageSize(size: number) {
         this.pageSize = size;
         this.loadingService.isLoading.set(true);
+        console.log("from pagesize")
         this.tableService.getTable(
             this.tableService.element(),
             this.tableService.namespace(),
@@ -78,12 +80,14 @@ export class SearchComponent implements OnInit {
     updateElement(filter: string) {
         this.loadingService.isLoading.set(true);
         this.tableService.setElement(filter);
+        console.log("from updateElement")
         this.tableService.getTable(filter, this.tableService.namespace(), this.tableService.node(), this.pageSize);
     }
 
     selectNode(node: string) {
         this.loadingService.isLoading.set(true);
         this.tableService.setNodeName(node);
+        console.log("from nodes")
         this.tableService.getTable(this.tableService.element(), this.tableService.namespace(), node, this.pageSize);
         this.toggleDropdown('searchDropdown1');
     }
@@ -91,6 +95,7 @@ export class SearchComponent implements OnInit {
     selectNamespace(namespace: string) {
         this.loadingService.isLoading.set(true);
         this.tableService.setNamespace(namespace);
+        console.log("from namespaces")
         this.tableService.getTable(this.tableService.element(), namespace, this.tableService.node(), this.pageSize);
         this.toggleDropdown('searchDropdown2');
     }
