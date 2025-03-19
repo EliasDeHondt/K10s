@@ -316,6 +316,7 @@ func (client *Client) WatchUsage() {
 	}()
 
 	for event := range watcher.ResultChan() {
+		log.Println("Received event:", event.Type)
 		switch event.Type {
 		case watch.Added, watch.Modified:
 			calculatedMetrics, err := client.GetTotalUsage()
@@ -331,9 +332,11 @@ func (client *Client) WatchUsage() {
 					CloseConn(conn, "metrics")
 				}
 			}
+			break
 		case watch.Deleted:
 		case watch.Error:
 			fmt.Printf("error watching node calculatedMetrics: %v", event.Object)
+			break
 		}
 	}
 }
