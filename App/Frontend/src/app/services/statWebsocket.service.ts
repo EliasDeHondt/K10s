@@ -32,12 +32,10 @@ export class StatWebSocketService implements OnDestroy {
                 const data: Metrics = JSON.parse(event.data);
                 this.messagesSubject.next(data)
             } catch (error) {
-                console.error("[WebSocketService] Error parsing data:", error)
             }
         }
 
         this.socket.onerror = () => {
-            console.error("[WebSocketService] WebSocket Error: " + this.url);
         }
 
         this.socket.onclose = () => {

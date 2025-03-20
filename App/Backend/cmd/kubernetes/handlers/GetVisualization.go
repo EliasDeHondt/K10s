@@ -63,3 +63,7 @@ func wsError(err error) bool {
 func GetVisualizationConns() map[*websocket.Conn]string {
 	return conns
 }
+
+func RemoveVisualizationConn(conn *websocket.Conn) {
+	delete(conns, conn)
+}
