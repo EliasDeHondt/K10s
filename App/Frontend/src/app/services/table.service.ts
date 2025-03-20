@@ -52,8 +52,6 @@ export class TableService {
 
     getNextPage(element: string, namespace: string, node: string, pageSize: number = 20) {
         if (!element) return;
-        console.log(!this.data().PageToken)
-        console.log(this.data().PageToken.trim())
         if (!this.data().PageToken || this.data().PageToken.trim() == "") return;
 
         this.loadingService.isLoading.set(true);

@@ -123,7 +123,6 @@ export class SearchComponent implements OnInit {
             const scrollPosition = scrollTop + clientHeight;
 
             if (scrollPosition >= scrollHeight / 2 && !this.loadingService.isLoading()) {
-                console.log("test log 2")
                 this.tableService.getNextPage(this.tableService.element(), this.tableService.namespace(), this.tableService.node(), this.pageSize);
             }
         }
