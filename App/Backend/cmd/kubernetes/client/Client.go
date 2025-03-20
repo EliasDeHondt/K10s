@@ -308,7 +308,7 @@ func (client *Client) GetFilteredServices(namespace string, nodeName string, pag
 	} else {
 		filteredServices = services.Items
 	}
-
+	newContinueToken = services.Continue
 	return &filteredServices, newContinueToken, nil
 }
 
