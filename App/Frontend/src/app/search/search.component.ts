@@ -3,7 +3,7 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, HostListener, inject, OnInit} from '@angular/core';
 import {NavComponent} from '../nav/nav.component';
 import {FooterComponent} from "../footer/footer.component";
 import {CommonModule} from "@angular/common";
@@ -25,7 +25,6 @@ import {FilterDataService} from "../services/filterdata.service";
 import {Namespace} from "../domain/Kubernetes";
 import {FormsModule} from "@angular/forms";
 import {LoadingService} from "../services/loading.service";
-import {debounceTime, fromEvent} from 'rxjs';
 
 @Component({
     selector: 'app-search',
@@ -54,11 +53,6 @@ export class SearchComponent implements OnInit {
         this.getNodeNames()
         this.tableService.getTable(this.tableService.element(), this.tableService.namespace(), this.tableService.node())
         const container = document.querySelector('.search-table');
-        if (container) {
-            fromEvent(container, 'scroll')
-                .pipe(debounceTime(300))
-                .subscribe(() => this.onScroll())
-        }
     }
 
     constructor() {
@@ -68,7 +62,6 @@ export class SearchComponent implements OnInit {
     setPageSize(size: number) {
         this.pageSize = size;
         this.loadingService.isLoading.set(true);
-        console.log("from pagesize")
         this.tableService.getTable(
             this.tableService.element(),
             this.tableService.namespace(),
@@ -80,14 +73,12 @@ export class SearchComponent implements OnInit {
     updateElement(filter: string) {
         this.loadingService.isLoading.set(true);
         this.tableService.setElement(filter);
-        console.log("from updateElement")
         this.tableService.getTable(filter, this.tableService.namespace(), this.tableService.node(), this.pageSize);
     }
 
     selectNode(node: string) {
         this.loadingService.isLoading.set(true);
         this.tableService.setNodeName(node);
-        console.log("from nodes")
         this.tableService.getTable(this.tableService.element(), this.tableService.namespace(), node, this.pageSize);
         this.toggleDropdown('searchDropdown1');
     }
@@ -95,7 +86,6 @@ export class SearchComponent implements OnInit {
     selectNamespace(namespace: string) {
         this.loadingService.isLoading.set(true);
         this.tableService.setNamespace(namespace);
-        console.log("from namespaces")
         this.tableService.getTable(this.tableService.element(), namespace, this.tableService.node(), this.pageSize);
         this.toggleDropdown('searchDropdown2');
     }
@@ -123,6 +113,7 @@ export class SearchComponent implements OnInit {
         return this.tableService.element() === 'nodes';
     }
 
+    @HostListener('scroll', ['$event'])
     onScroll() {
         const container = document.querySelector('.search-table');
         if (container) {
