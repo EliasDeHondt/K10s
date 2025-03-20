@@ -5,7 +5,7 @@
 package handlers
 
 import (
-	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes"
+	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes/client"
 	"github.com/gin-gonic/gin"
 	v1 "k8s.io/api/apps/v1"
 	"net/http"
@@ -17,7 +17,7 @@ func GetDeploymentsHandler(ctx *gin.Context) {
 	nodeName, _ := ctx.GetQuery("node")
 	pageSize, pageToken := GetPageSizeAndPageToken(ctx)
 
-	var deploymentList *PaginatedResponse[[]kubernetes.Deployment]
+	var deploymentList *PaginatedResponse[[]client.Deployment]
 	var err error
 
 	deploymentList, err = GetDeployments(C, namespace, nodeName, pageSize, pageToken)
@@ -29,20 +29,20 @@ func GetDeploymentsHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, deploymentList)
 }
 
-func GetDeployments(c kubernetes.IClient, namespace string, nodeName string, pageSize int, pageToken string) (*PaginatedResponse[[]kubernetes.Deployment], error) {
+func GetDeployments(c client.IClient, namespace string, nodeName string, pageSize int, pageToken string) (*PaginatedResponse[[]client.Deployment], error) {
 	list, token, err := c.GetFilteredDeployments(namespace, nodeName, pageSize, pageToken)
 	if err != nil {
 		return nil, err
 	}
 
-	return &PaginatedResponse[[]kubernetes.Deployment]{
+	return &PaginatedResponse[[]client.Deployment]{
 		Response:  transformDeployments(list),
 		PageToken: token,
 	}, nil
 }
 
-func transformDeployments(list *[]v1.Deployment) []kubernetes.Deployment {
-	var deploymentList = make([]kubernetes.Deployment, len(*list))
+func transformDeployments(list *[]v1.Deployment) []client.Deployment {
+	var deploymentList = make([]client.Deployment, len(*list))
 
 	var wg sync.WaitGroup
 	concurrency := 20
@@ -54,7 +54,7 @@ func transformDeployments(list *[]v1.Deployment) []kubernetes.Deployment {
 
 		go func(i int, deployment v1.Deployment) {
 			defer wg.Done()
-			deploymentList[i] = kubernetes.NewDeployment(deployment)
+			deploymentList[i] = client.NewDeployment(deployment)
 			<-semaphore
 		}(i, deployment)
 	}

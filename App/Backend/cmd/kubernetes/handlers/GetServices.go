@@ -5,7 +5,7 @@
 package handlers
 
 import (
-	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes"
+	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes/client"
 	"github.com/gin-gonic/gin"
 	v1 "k8s.io/api/core/v1"
 	"net/http"
@@ -26,20 +26,20 @@ func GetServicesHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, serviceList)
 }
 
-func GetServices(c kubernetes.IClient, namespace string, nodeName string, pageSize int, pageToken string) (*PaginatedResponse[[]kubernetes.Service], error) {
+func GetServices(c client.IClient, namespace string, nodeName string, pageSize int, pageToken string) (*PaginatedResponse[[]client.Service], error) {
 	list, token, err := c.GetFilteredServices(namespace, nodeName, pageSize, pageToken)
 	if err != nil {
 		return nil, err
 	}
 
-	return &PaginatedResponse[[]kubernetes.Service]{
+	return &PaginatedResponse[[]client.Service]{
 		Response:  transformServices(list),
 		PageToken: token,
 	}, nil
 }
 
-func transformServices(list *[]v1.Service) []kubernetes.Service {
-	var serviceList = make([]kubernetes.Service, len(*list))
+func transformServices(list *[]v1.Service) []client.Service {
+	var serviceList = make([]client.Service, len(*list))
 	var wg sync.WaitGroup
 	concurrency := 20
 	semaphore := make(chan struct{}, concurrency)
@@ -49,7 +49,7 @@ func transformServices(list *[]v1.Service) []kubernetes.Service {
 
 		go func(i int, service v1.Service) {
 			defer wg.Done()
-			serviceList[i] = kubernetes.NewService(service)
+			serviceList[i] = client.NewService(service)
 			semaphore <- struct{}{}
 		}(i, service)
 	}

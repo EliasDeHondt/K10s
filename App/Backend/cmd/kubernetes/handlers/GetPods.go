@@ -5,7 +5,7 @@
 package handlers
 
 import (
-	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes"
+	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes/client"
 	"github.com/gin-gonic/gin"
 	v1 "k8s.io/api/core/v1"
 	"net/http"
@@ -17,7 +17,7 @@ func GetPodsHandler(ctx *gin.Context) {
 	nodeName, _ := ctx.GetQuery("node")
 	pageSize, pageToken := GetPageSizeAndPageToken(ctx)
 
-	var podList *PaginatedResponse[[]kubernetes.Pod]
+	var podList *PaginatedResponse[[]client.Pod]
 	var err error
 
 	podList, err = GetPods(C, namespace, nodeName, pageSize, pageToken)
@@ -29,21 +29,21 @@ func GetPodsHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, podList)
 }
 
-func GetPods(c kubernetes.IClient, namespace string, nodeName string, pageSize int, continueToken string) (*PaginatedResponse[[]kubernetes.Pod], error) {
+func GetPods(c client.IClient, namespace string, nodeName string, pageSize int, continueToken string) (*PaginatedResponse[[]client.Pod], error) {
 
 	filteredPods, newContinueToken, err := c.GetFilteredPods(namespace, nodeName, pageSize, continueToken)
 	if err != nil {
 		return nil, err
 	}
 
-	return &PaginatedResponse[[]kubernetes.Pod]{
+	return &PaginatedResponse[[]client.Pod]{
 		Response:  transformPods(filteredPods),
 		PageToken: newContinueToken,
 	}, nil
 }
 
-func transformPods(list *[]v1.Pod) []kubernetes.Pod {
-	var podList = make([]kubernetes.Pod, len(*list))
+func transformPods(list *[]v1.Pod) []client.Pod {
+	var podList = make([]client.Pod, len(*list))
 
 	var wg sync.WaitGroup
 	concurrency := 20
@@ -55,7 +55,7 @@ func transformPods(list *[]v1.Pod) []kubernetes.Pod {
 
 		go func(i int, pod v1.Pod) {
 			defer wg.Done()
-			podList[i] = kubernetes.NewPod(pod, C)
+			podList[i] = client.NewPod(pod, C)
 			<-semaphore
 		}(i, pod)
 	}

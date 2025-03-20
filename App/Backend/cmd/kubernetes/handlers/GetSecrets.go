@@ -6,7 +6,7 @@ package handlers
 
 import (
 	"context"
-	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes"
+	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes/client"
 	"github.com/gin-gonic/gin"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -19,7 +19,7 @@ func GetSecretsHandler(ctx *gin.Context) {
 	namespace, ok := ctx.GetQuery("namespace")
 	pageSize, pageToken := GetPageSizeAndPageToken(ctx)
 
-	var secretList *PaginatedResponse[[]kubernetes.Secret]
+	var secretList *PaginatedResponse[[]client.Secret]
 	var err error
 
 	if ok {
@@ -34,7 +34,7 @@ func GetSecretsHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, secretList)
 }
 
-func GetSecrets(c kubernetes.IClient, namespace string, pageSize int, pageToken string) (*PaginatedResponse[[]kubernetes.Secret], error) {
+func GetSecrets(c client.IClient, namespace string, pageSize int, pageToken string) (*PaginatedResponse[[]client.Secret], error) {
 	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -46,14 +46,14 @@ func GetSecrets(c kubernetes.IClient, namespace string, pageSize int, pageToken 
 		return nil, err
 	}
 
-	return &PaginatedResponse[[]kubernetes.Secret]{
+	return &PaginatedResponse[[]client.Secret]{
 		Response:  transformSecrets(&list.Items),
 		PageToken: list.Continue,
 	}, nil
 }
 
-func transformSecrets(list *[]v1.Secret) []kubernetes.Secret {
-	var secretList = make([]kubernetes.Secret, len(*list))
+func transformSecrets(list *[]v1.Secret) []client.Secret {
+	var secretList = make([]client.Secret, len(*list))
 
 	var wg sync.WaitGroup
 	concurrency := 20
@@ -65,7 +65,7 @@ func transformSecrets(list *[]v1.Secret) []kubernetes.Secret {
 
 		go func(i int, secret v1.Secret) {
 			defer wg.Done()
-			secretList[i] = kubernetes.NewSecret(secret)
+			secretList[i] = client.NewSecret(secret)
 			<-semaphore
 		}(i, secret)
 

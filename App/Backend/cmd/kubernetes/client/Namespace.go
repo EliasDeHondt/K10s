@@ -2,7 +2,7 @@
 /* @since 01/01/2025              */
 /* @author K10s Open Source Team  */
 /**********************************/
-package kubernetes
+package client
 
 import corev1 "k8s.io/api/core/v1"
 

@@ -6,7 +6,7 @@ package handlers
 
 import (
 	"context"
-	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes"
+	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes/client"
 	"github.com/gin-gonic/gin"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -26,7 +26,7 @@ func GetNodesHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, nodeList)
 }
 
-func GetNodes(c kubernetes.IClient, pageSize int, pageToken string) (*PaginatedResponse[[]kubernetes.Node], error) {
+func GetNodes(c client.IClient, pageSize int, pageToken string) (*PaginatedResponse[[]client.Node], error) {
 	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -38,7 +38,7 @@ func GetNodes(c kubernetes.IClient, pageSize int, pageToken string) (*PaginatedR
 		return nil, err
 	}
 
-	return &PaginatedResponse[[]kubernetes.Node]{
+	return &PaginatedResponse[[]client.Node]{
 		Response:  transformNodes(&list.Items),
 		PageToken: list.Continue,
 	}, nil
@@ -55,7 +55,7 @@ func GetNodeNamesHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, names)
 }
 
-func GetNodeNames(c kubernetes.IClient) ([]string, error) {
+func GetNodeNames(c client.IClient) ([]string, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -89,8 +89,8 @@ func transformNodesToName(list *[]v1.Node) []string {
 	return result
 }
 
-func transformNodes(list *[]v1.Node) []kubernetes.Node {
-	var nodeList = make([]kubernetes.Node, len(*list))
+func transformNodes(list *[]v1.Node) []client.Node {
+	var nodeList = make([]client.Node, len(*list))
 
 	var wg sync.WaitGroup
 	concurrency := 20
@@ -102,7 +102,7 @@ func transformNodes(list *[]v1.Node) []kubernetes.Node {
 
 		go func(i int, node v1.Node) {
 			defer wg.Done()
-			nodeList[i] = kubernetes.NewNode(node, C)
+			nodeList[i] = client.NewNode(node, C)
 			<-semaphore
 		}(i, node)
 	}

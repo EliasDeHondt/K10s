@@ -6,6 +6,7 @@ package kubernetes
 
 import (
 	"context"
+	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes/client"
 	"github.com/gorilla/websocket"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -19,7 +20,7 @@ import (
 	"time"
 )
 
-func GetClients() IClient {
+func GetClients() client.IClient {
 	config, err := rest.InClusterConfig()
 
 	if err != nil {
@@ -39,13 +40,13 @@ func GetClients() IClient {
 		return client
 	}
 
-	var client IClient = &Client{c, mc, make([]*websocket.Conn, 0)}
+	var client client.IClient = &client.Client{c, mc, make([]*websocket.Conn, 0)}
 	return client
 }
 
-func TestFakeClient() IClient {
+func TestFakeClient() client.IClient {
 
-	fakeMetricsClient := &FakeMetricsClient{
+	fakeMetricsClient := &client.FakeMetricsClient{
 		NodeMetrics: map[string]*metrics.NodeMetrics{
 			"node-1": {
 				Usage: map[corev1.ResourceName]resource.Quantity{
@@ -95,7 +96,7 @@ func TestFakeClient() IClient {
 		},
 	}
 
-	var clientset IClient = &FakeClient{fake.NewClientset(), fakeMetricsClient, make([]*websocket.Conn, 0)}
+	var clientset client.IClient = &client.FakeClient{fake.NewClientset(), fakeMetricsClient, make([]*websocket.Conn, 0)}
 
 	nodes := []*corev1.Node{
 		{

@@ -6,7 +6,7 @@ package handlers
 
 import (
 	"context"
-	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes"
+	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes/client"
 	"github.com/gin-gonic/gin"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -27,7 +27,7 @@ func GetNamespacesHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, namespaces)
 }
 
-func GetNamespaces(c kubernetes.IClient) ([]kubernetes.Namespace, error) {
+func GetNamespaces(c client.IClient) ([]client.Namespace, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -42,8 +42,8 @@ func GetNamespaces(c kubernetes.IClient) ([]kubernetes.Namespace, error) {
 	return transformNamespaces(&namespaces.Items), nil
 }
 
-func transformNamespaces(list *[]v1.Namespace) []kubernetes.Namespace {
-	var namespaceList = make([]kubernetes.Namespace, len(*list))
+func transformNamespaces(list *[]v1.Namespace) []client.Namespace {
+	var namespaceList = make([]client.Namespace, len(*list))
 
 	var wg sync.WaitGroup
 	concurrency := 20
@@ -55,7 +55,7 @@ func transformNamespaces(list *[]v1.Namespace) []kubernetes.Namespace {
 
 		go func(i int, namespace v1.Namespace) {
 			defer wg.Done()
-			namespaceList[i] = kubernetes.NewNamespace(namespace)
+			namespaceList[i] = client.NewNamespace(namespace)
 			<-semaphore
 		}(i, namespace)
 	}

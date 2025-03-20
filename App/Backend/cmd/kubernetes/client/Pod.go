@@ -2,11 +2,12 @@
 /* @since 01/01/2025              */
 /* @author K10s Open Source Team  */
 /**********************************/
-package kubernetes
+package client
 
 import (
 	"context"
 	"fmt"
+	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes/util"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"log"
@@ -84,28 +85,12 @@ func getServicesForPod(pod v1.Pod, clientset IClient) []string {
 	}
 
 	for _, service := range services.Items {
-		if isPodMatchingService(pod, service) {
+		if util.IsPodMatchingService(pod, service) {
 			matchingServices = append(matchingServices, service.Name)
 		}
 	}
 
 	return matchingServices
-}
-
-func isPodMatchingService(pod v1.Pod, service v1.Service) bool {
-	selector := service.Spec.Selector
-
-	if len(selector) == 0 {
-		return false
-	}
-
-	for key, value := range selector {
-		if pod.Labels[key] != value {
-			return false
-		}
-	}
-
-	return true
 }
 
 func isServiceRunning(namespace, serviceName string, clientset IClient) bool {

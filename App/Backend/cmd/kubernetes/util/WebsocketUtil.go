@@ -1,4 +1,4 @@
-package kubernetes
+package util
 
 import (
 	"github.com/gorilla/websocket"

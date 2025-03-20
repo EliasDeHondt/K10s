@@ -7,7 +7,7 @@ package handlers
 import (
 	"bytes"
 	"fmt"
-	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes"
+	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes/client"
 	"github.com/gin-gonic/gin"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -41,7 +41,7 @@ func CreateResourcesHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, obj)
 }
 
-func CreateResources(c kubernetes.IClient, data []byte) ([]interface{}, error) {
+func CreateResources(c client.IClient, data []byte) ([]interface{}, error) {
 	decoder := scheme.Codecs.UniversalDeserializer()
 
 	yamlResources := bytes.Split(data, []byte("---"))
@@ -79,7 +79,7 @@ func CreateResources(c kubernetes.IClient, data []byte) ([]interface{}, error) {
 			madeResources = append(madeResources, newResource)
 		case "Service":
 			service := obj.(*corev1.Service)
-			var newService kubernetes.Service
+			var newService client.Service
 			newService, err = c.CreateService(service)
 			madeResources = append(madeResources, newService)
 		case "ConfigMap":

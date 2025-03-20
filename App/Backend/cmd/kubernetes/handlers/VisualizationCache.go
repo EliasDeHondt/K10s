@@ -7,6 +7,8 @@ package handlers
 import (
 	"context"
 	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes"
+	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes/client"
+	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes/util"
 	"github.com/gorilla/websocket"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -25,7 +27,7 @@ var (
 	CachedVisualization *kubernetes.Visualization
 )
 
-func CreateVisualization(client kubernetes.IClient) *kubernetes.Visualization {
+func CreateVisualization(client client.IClient) *kubernetes.Visualization {
 	kubeconfigPath := filepath.Join(homeDir(), ".kube", "config")
 	config, err := clientcmd.BuildConfigFromFlags("", kubeconfigPath)
 	if err != nil {
@@ -50,7 +52,7 @@ func homeDir() string {
 	}
 	return os.Getenv("USERPROFILE")
 }
-func watchNodes(client kubernetes.IClient, visualization *kubernetes.Visualization) {
+func watchNodes(client client.IClient, visualization *kubernetes.Visualization) {
 	ctx := context.Background()
 
 	watcher, err := client.GetNodes().Watch(ctx, metav1.ListOptions{})
@@ -85,7 +87,7 @@ func watchNodes(client kubernetes.IClient, visualization *kubernetes.Visualizati
 	}
 }
 
-func watchServices(client kubernetes.IClient, visualization *kubernetes.Visualization) {
+func watchServices(client client.IClient, visualization *kubernetes.Visualization) {
 	ctx := context.Background()
 
 	watcher, err := client.GetServices("").Watch(ctx, metav1.ListOptions{})
@@ -121,7 +123,7 @@ func watchServices(client kubernetes.IClient, visualization *kubernetes.Visualiz
 	}
 }
 
-func watchDeployments(client kubernetes.IClient, visualization *kubernetes.Visualization) {
+func watchDeployments(client client.IClient, visualization *kubernetes.Visualization) {
 	ctx := context.Background()
 
 	watcher, err := client.GetDeployments("").Watch(ctx, metav1.ListOptions{})
@@ -171,7 +173,7 @@ func sendVisualizations() {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
 				log.Println("WebSocket connection closed by client.")
 				RemoveVisualizationConn(conn)
-				kubernetes.CloseConn(conn, "visualization")
+				util.CloseConn(conn, "visualization")
 			}
 		}
 	}

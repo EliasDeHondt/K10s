@@ -1,6 +1,7 @@
 package kubernetes
 
 import (
+	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes/client"
 	"golang.org/x/net/context"
 	appsv1 "k8s.io/api/apps/v1"
 	v1 "k8s.io/api/core/v1"
@@ -60,7 +61,7 @@ func matchLabels(selector, labels map[string]string) bool {
 	return true
 }
 
-func (v *Visualization) AddNode(node *v1.Node, client IClient) {
+func (v *Visualization) AddNode(node *v1.Node, client client.IClient) {
 	v.mu.Lock()
 	defer v.mu.Unlock()
 
@@ -79,7 +80,7 @@ func (v *Visualization) DeleteNode(node *v1.Node) {
 	}
 }
 
-func (v *Visualization) AddService(service *v1.Service, client IClient) {
+func (v *Visualization) AddService(service *v1.Service, client client.IClient) {
 	v.mu.Lock()
 	defer v.mu.Unlock()
 
@@ -108,7 +109,7 @@ func removeDeploymentFromList(deployments []*DeploymentView, deploymentName stri
 	return result
 }
 
-func (v *Visualization) AddDeployment(deployment *appsv1.Deployment, client IClient) {
+func (v *Visualization) AddDeployment(deployment *appsv1.Deployment, client client.IClient) {
 	v.mu.Lock()
 	defer v.mu.Unlock()
 
@@ -210,14 +211,14 @@ type DeploymentView struct {
 	AvailableReplicas int32
 }
 
-func VisualizeCluster(client IClient, config *rest.Config) *Visualization {
+func VisualizeCluster(client client.IClient, config *rest.Config) *Visualization {
 	return &Visualization{
 		Cluster:  NewClusterView(client, config),
 		Services: getAllServices(client),
 	}
 }
 
-func NewClusterView(client IClient, config *rest.Config) *ClusterView {
+func NewClusterView(client client.IClient, config *rest.Config) *ClusterView {
 	if config == nil {
 		inClusterConfig, err := rest.InClusterConfig()
 		if err != nil {
@@ -267,7 +268,7 @@ func NewClusterView(client IClient, config *rest.Config) *ClusterView {
 	}
 }
 
-func NewNodeView(node *v1.Node, client IClient) *NodeView {
+func NewNodeView(node *v1.Node, client client.IClient) *NodeView {
 
 	return &NodeView{
 		Name:         node.Name,
@@ -280,7 +281,7 @@ func NewNodeView(node *v1.Node, client IClient) *NodeView {
 	}
 }
 
-func NewServiceView(service *v1.Service, client IClient) *ServiceView {
+func NewServiceView(service *v1.Service, client client.IClient) *ServiceView {
 
 	if len(service.Spec.Selector) == 0 {
 		return &ServiceView{
@@ -335,7 +336,7 @@ func getLoadBalancersForService(service *v1.Service) ([]*LoadBalancer, error) {
 	return loadBalancers, nil
 }
 
-func getAllServices(client IClient) []*ServiceView {
+func getAllServices(client client.IClient) []*ServiceView {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -352,7 +353,7 @@ func getAllServices(client IClient) []*ServiceView {
 	return serviceList
 }
 
-func getDeploymentsForService(namespace, serviceName string, client IClient) ([]*DeploymentView, error) {
+func getDeploymentsForService(namespace, serviceName string, client client.IClient) ([]*DeploymentView, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -429,7 +430,7 @@ func NewDeploymentView(deployment *appsv1.Deployment) *DeploymentView {
 	}
 }
 
-func createNodeViews(client IClient) ([]*NodeView, error) {
+func createNodeViews(client client.IClient) ([]*NodeView, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -446,7 +447,7 @@ func createNodeViews(client IClient) ([]*NodeView, error) {
 	return nodeViews, nil
 }
 
-func linkDeploymentsToNodes(client IClient, name string) []*DeploymentView {
+func linkDeploymentsToNodes(client client.IClient, name string) []*DeploymentView {
 	deployments := make([]*DeploymentView, 0)
 
 	deploymentList, err := client.GetDeployments("").List(context.TODO(), metav1.ListOptions{})
@@ -473,7 +474,7 @@ func linkDeploymentsToNodes(client IClient, name string) []*DeploymentView {
 	return deployments
 }
 
-func getPodsForDeployment(client IClient, deployment *appsv1.Deployment) ([]*v1.Pod, error) {
+func getPodsForDeployment(client client.IClient, deployment *appsv1.Deployment) ([]*v1.Pod, error) {
 	namespace := deployment.GetNamespace()
 	selector, err := metav1.LabelSelectorAsSelector(deployment.Spec.Selector)
 	if err != nil {

@@ -6,7 +6,7 @@ package handlers
 
 import (
 	"context"
-	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes"
+	"github.com/eliasdehondt/K10s/App/Backend/cmd/kubernetes/client"
 	"github.com/gin-gonic/gin"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -19,7 +19,7 @@ func GetConfigMapsHandler(ctx *gin.Context) {
 	namespace, ok := ctx.GetQuery("namespace")
 	pageSize, pageToken := GetPageSizeAndPageToken(ctx)
 
-	var configMapList *PaginatedResponse[[]kubernetes.ConfigMap]
+	var configMapList *PaginatedResponse[[]client.ConfigMap]
 	var err error
 
 	if ok {
@@ -35,7 +35,7 @@ func GetConfigMapsHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, configMapList)
 }
 
-func GetConfigMaps(c kubernetes.IClient, namespace string, pageSize int, pageToken string) (*PaginatedResponse[[]kubernetes.ConfigMap], error) {
+func GetConfigMaps(c client.IClient, namespace string, pageSize int, pageToken string) (*PaginatedResponse[[]client.ConfigMap], error) {
 	ct, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -47,14 +47,14 @@ func GetConfigMaps(c kubernetes.IClient, namespace string, pageSize int, pageTok
 		return nil, err
 	}
 
-	return &PaginatedResponse[[]kubernetes.ConfigMap]{
+	return &PaginatedResponse[[]client.ConfigMap]{
 		Response:  transformConfigMaps(&list.Items),
 		PageToken: list.Continue,
 	}, nil
 }
 
-func transformConfigMaps(list *[]v1.ConfigMap) []kubernetes.ConfigMap {
-	var configList = make([]kubernetes.ConfigMap, len(*list))
+func transformConfigMaps(list *[]v1.ConfigMap) []client.ConfigMap {
+	var configList = make([]client.ConfigMap, len(*list))
 
 	var wg sync.WaitGroup
 	concurrency := 20
@@ -66,7 +66,7 @@ func transformConfigMaps(list *[]v1.ConfigMap) []kubernetes.ConfigMap {
 
 		go func(i int, config v1.ConfigMap) {
 			defer wg.Done()
-			configList[i] = kubernetes.NewConfigMap(config)
+			configList[i] = client.NewConfigMap(config)
 			<-semaphore
 		}(i, config)
 	}
