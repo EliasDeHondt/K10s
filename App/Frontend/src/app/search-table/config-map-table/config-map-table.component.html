@@ -9,7 +9,7 @@
         <th>{{ 'SEARCH.AGE' | translate }}</th>
     </tr>
     </thead>
-    <tbody (scroll)="onScroll()">
+    <tbody (scroll)="onScroll()" class="search-table-body">
         @for (configMap of configMaps; track configMap.Name; let i = $index) {
             <tr>
                 <td>{{ i + 1 }}</td>

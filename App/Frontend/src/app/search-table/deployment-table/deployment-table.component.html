@@ -11,7 +11,7 @@
         <th>{{ 'SEARCH.AGE' | translate }}</th>
     </tr>
     </thead>
-    <tbody (scroll)="onScroll()">
+    <tbody (scroll)="onScroll()" class="search-table-body">
         @for (deployment of deployments; track deployment.Name; let i = $index) {
             <tr>
                 <td>{{ i + 1 }}</td>

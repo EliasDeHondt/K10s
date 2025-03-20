@@ -117,7 +117,7 @@ export class SearchComponent implements OnInit {
     }
 
     onScroll() {
-        const container = document.querySelector('.search-table');
+        const container = document.querySelector('.search-table-body');
         if (container) {
             const {scrollTop, scrollHeight, clientHeight} = container;
             const scrollPosition = scrollTop + clientHeight;

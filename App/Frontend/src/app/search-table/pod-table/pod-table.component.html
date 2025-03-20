@@ -13,7 +13,7 @@
         <th>{{ 'SEARCH.AGE' | translate }}</th>
     </tr>
     </thead>
-    <tbody (scroll)="onScroll()">
+    <tbody (scroll)="onScroll()" class="search-table-body">
         @for (pod of pods; track pod.Name; let i = $index) {
             <tr>
                 <td>{{ i + 1 }}</td>
