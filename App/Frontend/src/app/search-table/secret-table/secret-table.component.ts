@@ -7,6 +7,7 @@ import {Component, Input} from '@angular/core';
 import {TranslatePipe} from "@ngx-translate/core";
 import {Secret} from "../../domain/Kubernetes";
 import {SearchTooltipService} from "../../services/tooltip.service";
+import {ScrollService} from "../../services/scroll.service";
 
 @Component({
     selector: 'app-secret-table',
@@ -21,7 +22,11 @@ import {SearchTooltipService} from "../../services/tooltip.service";
 export class SecretTableComponent {
     @Input({required: true}) secrets!: Secret[];
 
-    constructor(private tooltipService: SearchTooltipService) {
+    constructor(private tooltipService: SearchTooltipService, private scrollService: ScrollService) {
+    }
+
+    onScroll(): void {
+        this.scrollService.emitScroll()
     }
 
     protected readonly Object = Object;

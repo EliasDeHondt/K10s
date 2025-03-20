@@ -3,9 +3,10 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-import { Component, Input } from '@angular/core';
-import { TranslatePipe } from "@ngx-translate/core";
-import { Deployment } from "../../domain/Kubernetes";
+import {Component, Input} from '@angular/core';
+import {TranslatePipe} from "@ngx-translate/core";
+import {Deployment} from "../../domain/Kubernetes";
+import {ScrollService} from "../../services/scroll.service";
 
 @Component({
     selector: 'app-deployment-table',
@@ -19,4 +20,12 @@ import { Deployment } from "../../domain/Kubernetes";
 
 export class DeploymentTableComponent {
     @Input({required: true}) deployments!: Deployment[];
+
+    constructor(private scrollService: ScrollService) {
+    }
+
+    onScroll(): void {
+        this.scrollService.emitScroll()
+    }
+
 }

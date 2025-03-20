@@ -12,7 +12,7 @@
         <th>{{ 'SEARCH.IP' | translate }}</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody (scroll)="onScroll()">
         @for (node of nodes; track node.Name; let i = $index) {
             <tr>
                 <td>{{ i + 1 }}</td>

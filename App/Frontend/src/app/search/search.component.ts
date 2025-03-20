@@ -3,7 +3,7 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-import {Component, HostListener, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {NavComponent} from '../nav/nav.component';
 import {FooterComponent} from "../footer/footer.component";
 import {CommonModule} from "@angular/common";
@@ -25,6 +25,7 @@ import {FilterDataService} from "../services/filterdata.service";
 import {Namespace} from "../domain/Kubernetes";
 import {FormsModule} from "@angular/forms";
 import {LoadingService} from "../services/loading.service";
+import {ScrollService} from "../services/scroll.service";
 
 @Component({
     selector: 'app-search',
@@ -52,10 +53,12 @@ export class SearchComponent implements OnInit {
         this.getNamespaces()
         this.getNodeNames()
         this.tableService.getTable(this.tableService.element(), this.tableService.namespace(), this.tableService.node())
-        const container = document.querySelector('.search-table');
+        this.scrollService.scroll$.subscribe(() => {
+            this.onScroll()
+        })
     }
 
-    constructor() {
+    constructor(private scrollService: ScrollService) {
         this.tableService.setElement('nodes');
     }
 
@@ -113,7 +116,6 @@ export class SearchComponent implements OnInit {
         return this.tableService.element() === 'nodes';
     }
 
-    @HostListener('scroll', ['$event'])
     onScroll() {
         const container = document.querySelector('.search-table');
         if (container) {

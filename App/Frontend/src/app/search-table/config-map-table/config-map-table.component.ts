@@ -3,10 +3,11 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-import { Component, Input } from '@angular/core';
-import { TranslatePipe } from "@ngx-translate/core";
-import { ConfigMap } from "../../domain/Kubernetes";
-import { SearchTooltipService } from "../../services/tooltip.service";
+import {Component, Input} from '@angular/core';
+import {TranslatePipe} from "@ngx-translate/core";
+import {ConfigMap} from "../../domain/Kubernetes";
+import {SearchTooltipService} from "../../services/tooltip.service";
+import {ScrollService} from "../../services/scroll.service";
 
 @Component({
     selector: 'app-config-map-table',
@@ -15,13 +16,14 @@ import { SearchTooltipService } from "../../services/tooltip.service";
     ],
     templateUrl: './config-map-table.component.html',
     standalone: true,
-    styleUrls: ['../../search/search.component.css','./config-map-table.component.css']
+    styleUrls: ['../../search/search.component.css', './config-map-table.component.css']
 })
 
 export class ConfigMapTableComponent {
-    @Input({ required: true }) configMaps!: ConfigMap[];
+    @Input({required: true}) configMaps!: ConfigMap[];
 
-    constructor(private tooltipService: SearchTooltipService) {}
+    constructor(private tooltipService: SearchTooltipService, private scrollService: ScrollService) {
+    }
 
     protected readonly Object = Object;
 
@@ -31,5 +33,9 @@ export class ConfigMapTableComponent {
 
     hideTooltip() {
         this.tooltipService.hideTooltip();
+    }
+
+    onScroll(): void {
+        this.scrollService.emitScroll()
     }
 }

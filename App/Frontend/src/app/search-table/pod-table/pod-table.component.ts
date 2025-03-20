@@ -3,9 +3,10 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-import { Component, Input } from '@angular/core';
-import { TranslatePipe } from "@ngx-translate/core";
-import { Pod } from "../../domain/Kubernetes";
+import {Component, Input} from '@angular/core';
+import {TranslatePipe} from "@ngx-translate/core";
+import {Pod} from "../../domain/Kubernetes";
+import {ScrollService} from "../../services/scroll.service";
 
 @Component({
     selector: 'app-pod-search-table',
@@ -19,4 +20,12 @@ import { Pod } from "../../domain/Kubernetes";
 
 export class PodTableComponent {
     @Input({required: true}) pods!: Pod[];
+
+    constructor(private scrollService: ScrollService) {
+    }
+
+    onScroll(): void {
+        this.scrollService.emitScroll()
+    }
+
 }

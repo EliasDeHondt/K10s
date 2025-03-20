@@ -3,9 +3,10 @@
 /* @author K10s Open Source Team  */
 /**********************************/
 
-import { Component, Input } from '@angular/core';
-import { Node } from "../../domain/Kubernetes";
-import { TranslatePipe } from "@ngx-translate/core";
+import {Component, Input} from '@angular/core';
+import {Node} from "../../domain/Kubernetes";
+import {TranslatePipe} from "@ngx-translate/core";
+import {ScrollService} from "../../services/scroll.service";
 
 @Component({
     selector: 'app-node-table',
@@ -19,4 +20,12 @@ import { TranslatePipe } from "@ngx-translate/core";
 
 export class NodeTableComponent {
     @Input({required: true}) nodes!: Node[];
+
+    constructor(private scrollService: ScrollService) {
+    }
+
+    onScroll(): void {
+        this.scrollService.emitScroll()
+    }
+
 }
