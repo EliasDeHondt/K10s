@@ -7,11 +7,13 @@ import {Component, Input} from '@angular/core';
 import {TranslatePipe} from "@ngx-translate/core";
 import {Pod} from "../../domain/Kubernetes";
 import {ScrollService} from "../../services/scroll.service";
+import {TableSkeletonComponent} from "../table-skeleton/table-skeleton.component";
 
 @Component({
     selector: 'app-pod-search-table',
     imports: [
-        TranslatePipe
+        TranslatePipe,
+        TableSkeletonComponent
     ],
     templateUrl: './pod-table.component.html',
     standalone: true,

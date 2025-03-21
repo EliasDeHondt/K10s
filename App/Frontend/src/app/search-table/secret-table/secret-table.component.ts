@@ -8,11 +8,13 @@ import {TranslatePipe} from "@ngx-translate/core";
 import {Secret} from "../../domain/Kubernetes";
 import {SearchTooltipService} from "../../services/tooltip.service";
 import {ScrollService} from "../../services/scroll.service";
+import {TableSkeletonComponent} from "../table-skeleton/table-skeleton.component";
 
 @Component({
     selector: 'app-secret-table',
     imports: [
         TranslatePipe,
+        TableSkeletonComponent,
     ],
     templateUrl: './secret-table.component.html',
     standalone: true,

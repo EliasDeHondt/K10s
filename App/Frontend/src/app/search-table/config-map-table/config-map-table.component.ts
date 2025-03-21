@@ -8,11 +8,13 @@ import {TranslatePipe} from "@ngx-translate/core";
 import {ConfigMap} from "../../domain/Kubernetes";
 import {SearchTooltipService} from "../../services/tooltip.service";
 import {ScrollService} from "../../services/scroll.service";
+import {TableSkeletonComponent} from "../table-skeleton/table-skeleton.component";
 
 @Component({
     selector: 'app-config-map-table',
     imports: [
-        TranslatePipe
+        TranslatePipe,
+        TableSkeletonComponent
     ],
     templateUrl: './config-map-table.component.html',
     standalone: true,

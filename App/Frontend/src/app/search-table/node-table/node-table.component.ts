@@ -7,11 +7,13 @@ import {Component, Input} from '@angular/core';
 import {Node} from "../../domain/Kubernetes";
 import {TranslatePipe} from "@ngx-translate/core";
 import {ScrollService} from "../../services/scroll.service";
+import {TableSkeletonComponent} from "../table-skeleton/table-skeleton.component";
 
 @Component({
     selector: 'app-node-table',
     imports: [
-        TranslatePipe
+        TranslatePipe,
+        TableSkeletonComponent
     ],
     templateUrl: './node-table.component.html',
     standalone: true,
