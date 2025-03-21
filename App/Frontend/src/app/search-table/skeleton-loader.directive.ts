@@ -7,7 +7,6 @@ export class SkeletonLoaderDirective {
 
     @Input() set appSkeletonLoader(isLoading: boolean) {
         this.viewContainerRef.clear()
-        console.log(isLoading)
         if (isLoading) {
             for (let i = 0; i < 15; i++) {
                 this.viewContainerRef.createEmbeddedView(this.templateRef, {
