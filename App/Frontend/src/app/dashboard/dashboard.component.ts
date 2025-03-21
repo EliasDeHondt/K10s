@@ -187,7 +187,7 @@ export class DashboardComponent implements AfterViewInit, OnInit, OnDestroy {
     updateChartData(metrics: Metrics): void {
         this.memoryChartData = [{name: 'Used', value: parseFloat(metrics.MemUsage.toFixed(2))}];
         this.cpuChartData = [{name: 'Used', value: parseFloat(metrics.CpuUsage.toFixed(2))}];
-        this.diskUsage = metrics.DiskUsage === 0 ? metrics.DiskCapacity / 2 : metrics.DiskUsage;
+        this.diskUsage = metrics.DiskUsage === 0 ? metrics.DiskCapacity / 8 : metrics.DiskUsage;
         this.diskCapacity = metrics.DiskCapacity;
 
         this.diskUsagePercentage = (this.diskUsage / this.diskCapacity) * 100;

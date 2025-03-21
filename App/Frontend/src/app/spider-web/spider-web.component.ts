@@ -365,7 +365,7 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
                         .append('tspan')
                         .attr('x', 0)
                         .attr('dy', '1.2em')
-                        .text(`HostName: $${d.loadBalancer?.HostName || d.id}`);
+                        .text(`HostName: ${d.loadBalancer?.HostName || d.id}`);
                     tooltip.select('text')
                         .append('tspan')
                         .attr('x', 0)
