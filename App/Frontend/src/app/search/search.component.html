@@ -71,17 +71,23 @@
 <app-nav class="nav" id="nav"></app-nav>
 <main class="search-main">
     @if (tableService.element() === "pods") {
-        <app-pod-search-table [pods]="tableService.data().Response | podCast"/>
+        <app-pod-search-table [pods]="tableService.data().Response | podCast"
+                              [isLoading]="this.loadingService.isLoading()"/>
     } @else if (tableService.element() === "nodes") {
-        <app-node-table [nodes]="tableService.data().Response | nodeCast"/>
+        <app-node-table [nodes]="tableService.data().Response | nodeCast"
+                        [isLoading]="this.loadingService.isLoading()"/>
     } @else if (tableService.element() === "services") {
-        <app-service-table [services]="tableService.data().Response | serviceCast"/>
+        <app-service-table [services]="tableService.data().Response | serviceCast"
+                           [isLoading]="this.loadingService.isLoading()"/>
     } @else if (tableService.element() === "deployments") {
-        <app-deployment-table [deployments]="tableService.data().Response | deploymentCast"/>
+        <app-deployment-table [deployments]="tableService.data().Response | deploymentCast"
+                              [isLoading]="this.loadingService.isLoading()"/>
     } @else if (tableService.element() === "configMaps") {
-        <app-config-map-table [configMaps]="tableService.data().Response | configMapCast"/>
+        <app-config-map-table [configMaps]="tableService.data().Response | configMapCast"
+                              [isLoading]="this.loadingService.isLoading()"/>
     } @else if (tableService.element() === "secrets") {
-        <app-secret-table [secrets]="tableService.data().Response | secretCast"/>
+        <app-secret-table [secrets]="tableService.data().Response | secretCast"
+                          [isLoading]="this.loadingService.isLoading()"/>
     }
     <section class="search-main-pagination">
         <button class="cursor-pointer" (click)="setPageSize(20)" [class.active]="pageSize === 20">20</button>

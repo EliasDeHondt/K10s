@@ -8,13 +8,13 @@ import {TranslatePipe} from "@ngx-translate/core";
 import {ConfigMap} from "../../domain/Kubernetes";
 import {SearchTooltipService} from "../../services/tooltip.service";
 import {ScrollService} from "../../services/scroll.service";
-import {TableSkeletonComponent} from "../table-skeleton/table-skeleton.component";
+import {SkeletonLoaderDirective} from "../skeleton-loader.directive";
 
 @Component({
     selector: 'app-config-map-table',
     imports: [
         TranslatePipe,
-        TableSkeletonComponent
+        SkeletonLoaderDirective
     ],
     templateUrl: './config-map-table.component.html',
     standalone: true,
@@ -23,6 +23,7 @@ import {TableSkeletonComponent} from "../table-skeleton/table-skeleton.component
 
 export class ConfigMapTableComponent {
     @Input({required: true}) configMaps!: ConfigMap[];
+    @Input({required: true}) isLoading!: boolean;
 
     constructor(private tooltipService: SearchTooltipService, private scrollService: ScrollService) {
     }

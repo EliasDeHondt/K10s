@@ -4,6 +4,7 @@
 #################################
 
 .vscode
+.idea
 App/Frontend/package-lock.json
 App/Frontend/node_modules
 App/Frontend/.angular

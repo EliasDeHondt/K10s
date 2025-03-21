@@ -1,7 +1,0 @@
-@if (this.loadingService.isLoading()){
-    <tr class="skeleton-content"
-         *ngFor="let _ of [].constructor(15); let i = index"
-         [class.odd-row]="i % 2 === 0"
-         [class.even-row]="i % 2 !== 0">
-    </tr>
-}

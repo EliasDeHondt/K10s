@@ -8,13 +8,13 @@ import {TranslatePipe} from "@ngx-translate/core";
 import {Secret} from "../../domain/Kubernetes";
 import {SearchTooltipService} from "../../services/tooltip.service";
 import {ScrollService} from "../../services/scroll.service";
-import {TableSkeletonComponent} from "../table-skeleton/table-skeleton.component";
+import {SkeletonLoaderDirective} from "../skeleton-loader.directive";
 
 @Component({
     selector: 'app-secret-table',
     imports: [
         TranslatePipe,
-        TableSkeletonComponent,
+        SkeletonLoaderDirective,
     ],
     templateUrl: './secret-table.component.html',
     standalone: true,
@@ -23,6 +23,7 @@ import {TableSkeletonComponent} from "../table-skeleton/table-skeleton.component
 
 export class SecretTableComponent {
     @Input({required: true}) secrets!: Secret[];
+    @Input({required: true}) isLoading!: boolean;
 
     constructor(private tooltipService: SearchTooltipService, private scrollService: ScrollService) {
     }

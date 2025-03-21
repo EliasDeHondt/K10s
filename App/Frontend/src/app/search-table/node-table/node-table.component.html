@@ -21,6 +21,11 @@
                 <td>{{ node.IP }}</td>
             </tr>
         }
-        <app-table-skeleton/>
+    <ng-template [appSkeletonLoader]="isLoading" let-i let-class="class">
+        <tr class="skeleton-content" [class]="class">
+            <td></td>
+            <td></td>
+        </tr>
+    </ng-template>
     </tbody>
 </table>
