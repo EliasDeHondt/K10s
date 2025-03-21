@@ -1,65 +1,87 @@
 {
   "NAV": {
-    "LANGUAGE": "Hol choH",
-    "DASHBOARD": "DeghwI'",
-    "SEARCH": "nej",
-    "ADD": "chel",
-    "SETTINGS": "chut lulaj",
-    "LOGOUT": "mej",
-    "DESCRIPTION": "Del",
-    "REPOSITORY": "QaywI' pa'",
-    "CLOSE": "SoQmoH",
-    "THEME": "QIj"
+    "LANGUAGE": "Hoch Daghom",
+    "DASHBOARD": "Dashboard",
+    "SEARCH": "He'ro'",
+    "ADD": "HoS",
+    "SETTINGS": "Settings",
+    "LOGOUT": "Qo'noS Qatlh",
+    "DESCRIPTION": "mIwvam",
+    "REPOSITORY": "wIj Repository",
+    "CLOSE": "Qel",
+    "THEME": "mIt"
   },
   "FOOTER": {
-    "PART1": "chenmoHta'",
-    "PART2": "Hoch SuvwI' ghom"
+    "PART1": "Qapla' by",
+    "PART2": "open source qel"
   },
   "LOGIN": {
-    "USERNAME_PLACEHOLDER": "pong",
-    "PASSWORD_PLACEHOLDER": "ngaQHa'ghach",
-    "LOGIN_BUTTON": "'el"
+    "USERNAME_PLACEHOLDER": "mughwI'",
+    "PASSWORD_PLACEHOLDER": "SeQ",
+    "LOGIN_BUTTON": "logh In"
   },
   "DASHBOARD": {
-    "CPU": "Qapchu' lo'",
-    "RAM": "qawHaq lo'",
-    "DISK": "naw' lo'"
+    "CPU": "CPU Hoch",
+    "RAM": "RAM Hoch",
+    "DISK": "Disk Hoch"
   },
   "SEARCH": {
-    "SEARCH_PLACEHOLDER": "nej yugh...",
-    "SEARCH": "nej",
-    "NODES": "tetlh",
-    "PODS": "pa'mey",
-    "SERVICES": "vummeH mIw",
-    "DEPLOYMENTS": "lanchu'ghach",
-    "CONFIGMAPS": "SeHmeH De'",
-    "SECRETS": "peghmey",
-    "NAMESPACE": "pong Daq",
-    "CLUSTER_NAME": "yugh pong",
-    "POD_NAME": "pa' pong",
-    "STATUS": "Dotlh",
-    "RESTART_COUNT": "qa'angqa' mI'",
-    "LAST_UPDATED": "chu'qa'lu'pu'",
-    "INDEX": "QIn"
+    "SEARCH_PLACEHOLDER": "He'ro' Cluster...",
+    "SEARCH": "He'ro'",
+    "NODES": "NODE",
+    "PODS": "PODS",
+    "SERVICES": "Se'v",
+    "DEPLOYMENTS": "Deployment",
+    "CONFIGMAPS": "ConfigMap",
+    "SECRETS": "SecreT",
+    "NAMESPACE": "Namtar",
+    "CLUSTER_NAME": "Cluster pong",
+    "POD_NAME": "POD pong",
+    "STATUS": "STATUS",
+    "RESTART_COUNT": "Qub Count",
+    "LAST_UPDATED": "po'Qo' Qub",
+    "SERVICES_READY": "Se'v Qaw'",
+    "POD_IP": "POD IP",
+    "NODE_NAME": "NODE pong",
+    "AGE": "qem",
+    "NODE_ROLE": "NODE Qel",
+    "VERSION": "Version",
+    "POD_AMOUNT": "POD Qut",
+    "IP": "IP",
+    "SERVICE_NAME": "SERVICE pong",
+    "SERVICE_TYPE": "SERVICE qI'",
+    "CLUSTER_IP": "Cluster IP",
+    "EXTERNAL_IP": "jIHqIp IP",
+    "PORTS": "pOrtS",
+    "DEPLOYMENT_NAME": "Deployment pong",
+    "READY_PODS": "ready PODS",
+    "UPDATED": "Qub",
+    "AVAILABLE": "choH",
+    "CONFIGMAP_NAME": "ConfigMap pong",
+    "DATA": "nuqDaq",
+    "SECRET_NAME": "SECRET pong",
+    "SECRET_TYPE": "SECRET qI'",
+    "INDEX": "Index"
   },
   "NOTFOUND": {
-    "TITLE": "tlhIngan maH! Daq ghoSbe'!"
+    "TITLE": "mIwvam 'oH 'e' vIqHaq, pagh tInwIj tlhej!"
   },
   "ADD_DEPLOYMENT": {
-    "YAML_PLACEHOLDER": "yIchel 'ej ghItlh YAML ngaQHa'!",
-    "DEPLOY": "lanchu'"
+    "YAML_FILE": "YAML QaD",
+    "YAML_PLACEHOLDER": "YAML QaD vItlhutlh...",
+    "DEPLOY": "Deploy"
   },
   "NOTIF": {
     "ADD": {
-      "NODATA": "YAML tu'lu'be' :(",
-      "SUCCESS": "Yaj YAML vItlhob!",
-      "ERROR": "Deplorment Qapbe'!"
+      "NODATA": "YAML Hoch vIlaD ;(",
+      "SUCCESS": "YAML vIqHaq!",
+      "ERROR": "Qap Qatlh!"
+    },
+    "AUTH": {
+      "INVALID" : "tIn mughwI'"
+    },
+    "VISUALIZATION" : {
+      "GETERROR" : "Error get visualization data ;("
     }
-  },
-  "AUTH": {
-    "INVALID": "yIDoghQo', lughbogh pat mu'mey yIchel"
-  },
-  "VISUALIZATION": {
-    "GETERROR": "HaSta De' SuqHa'lu'pu'!"
   }
 }
