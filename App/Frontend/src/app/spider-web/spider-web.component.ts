@@ -310,11 +310,6 @@ export class SpiderWebComponent implements AfterViewInit, OnChanges {
                             .attr('x', 0)
                             .attr('dy', '1.2em')
                             .text(`Memory: ${self.visualizationService.formatMemory(d.resourceList.memory)}`);
-                        tooltip.select('text')
-                            .append('tspan')
-                            .attr('x', 0)
-                            .attr('dy', '1.2em')
-                            .text(`Storage: ${self.visualizationService.formatMemory(d.resourceList.storage) || self.visualizationService.formatMemory(d.resourceList['ephemeral-storage'])}`);
                     }
                 }
                 if (d.icon == 'dashboard-service.svg') {

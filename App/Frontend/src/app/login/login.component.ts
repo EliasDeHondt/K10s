@@ -65,7 +65,6 @@ export class LoginComponent implements AfterViewInit {
             this.authService.login(this.username, this.password).subscribe({
                 next: () => {
                     localStorage.setItem('username', this.username);
-                    sessionStorage.setItem('username-session', this.username);
                     this.router.navigate(['/dashboard']);
                 }
             })
