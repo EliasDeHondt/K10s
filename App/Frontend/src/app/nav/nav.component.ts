@@ -29,6 +29,7 @@ export class NavComponent implements OnInit {
             { code: 'nl', name: 'Nederlands' },
             { code: 'fr', name: 'Français' },
             { code: 'de', name: 'Deutsch' },
+            { code: 'es', name: 'Spanish' },
             { code: 'zh', name: '中文' },
             { code: 'tlh', name: 'Klingon' }
         ]
