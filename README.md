@@ -17,6 +17,7 @@ To ensure proper use and contribution, please refer to the following documentati
 - 🔒 [SECURITY](/SECURITY.md): Guidelines for identifying and reporting vulnerabilities.
 - 🤝 [CONTRIBUTING](/CONTRIBUTING.md): Instructions for contributing to the project and submitting pull requests.
 - 📝 [CODE OF CONDUCT](/CODE-OF-CONDUCT.md): Guidelines for participating in the community and maintaining a respectful environment.
+- 💰 [FUNDING](/FUNDING.md): Information on how you can support the development and maintenance of this project.
 
 ## 🎥Video
 
