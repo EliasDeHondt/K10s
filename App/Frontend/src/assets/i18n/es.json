@@ -1,0 +1,87 @@
+{
+  "NAV": {
+    "LANGUAGE": "Cambiar idioma",
+    "DASHBOARD": "Tablero",
+    "SEARCH": "Buscar",
+    "ADD": "Añadir",
+    "SETTINGS": "Configuración",
+    "LOGOUT": "Cerrar sesión",
+    "DESCRIPTION": "Descripción",
+    "REPOSITORY": "Repositorio",
+    "CLOSE": "Cerrar",
+    "THEME": "Tema"
+  },
+  "FOOTER": {
+    "PART1": "Diseñado por el",
+    "PART2": "equipo de código abierto"
+  },
+  "LOGIN": {
+    "USERNAME_PLACEHOLDER": "Nombre de usuario",
+    "PASSWORD_PLACEHOLDER": "Contraseña",
+    "LOGIN_BUTTON": "Iniciar sesión"
+  },
+  "DASHBOARD": {
+    "CPU": "Uso de CPU",
+    "RAM": "Uso de RAM",
+    "DISK": "Uso de disco"
+  },
+  "SEARCH": {
+    "SEARCH_PLACEHOLDER": "Buscar clúster...",
+    "SEARCH": "Buscar",
+    "NODES": "Nodo",
+    "PODS": "Pods",
+    "SERVICES": "Servicios",
+    "DEPLOYMENTS": "Despliegues",
+    "CONFIGMAPS": "ConfigMaps",
+    "SECRETS": "Secretos",
+    "NAMESPACE": "Espacio de nombres",
+    "CLUSTER_NAME": "Nombre del clúster",
+    "POD_NAME": "Nombre del pod",
+    "STATUS": "Estado",
+    "RESTART_COUNT": "Conteo de reinicios",
+    "LAST_UPDATED": "Última actualización",
+    "SERVICES_READY": "Servicios listos",
+    "POD_IP": "IP del pod",
+    "NODE_NAME": "Nombre del nodo",
+    "AGE": "Edad",
+    "NODE_ROLE": "Rol del nodo",
+    "VERSION": "Versión",
+    "POD_AMOUNT": "Cantidad de pods",
+    "IP": "IP",
+    "SERVICE_NAME": "Nombre del servicio",
+    "SERVICE_TYPE": "Tipo de servicio",
+    "CLUSTER_IP": "IP del clúster",
+    "EXTERNAL_IP": "IP externa",
+    "PORTS": "Puertos",
+    "DEPLOYMENT_NAME": "Nombre del despliegue",
+    "READY_PODS": "Pods listos",
+    "UPDATED": "Actualizado",
+    "AVAILABLE": "Disponible",
+    "CONFIGMAP_NAME": "Nombre del ConfigMap",
+    "DATA": "Datos",
+    "SECRET_NAME": "Nombre del secreto",
+    "SECRET_TYPE": "Tipo de secreto",
+    "INDEX": "Índice"
+  },
+  "NOTFOUND": {
+    "TITLE": "Puede que sea de código abierto, pero ¡mantente en tu carril! ;-)"
+  },
+  "ADD_DEPLOYMENT": {
+    "YAML_FILE": "Subir YAML",
+    "YAML_PLACEHOLDER": "Copia y pega tu archivo YAML...",
+    "DEPLOY": "Desplegar"
+  },
+  "NOTIF": {
+    "ADD": {
+      "NODATA": "No hay datos YAML para subir :(",
+      "SUCCESS": "¡Tu YAML se está desplegando!",
+      "ERROR": "¡El despliegue falló!"
+    },
+    "AUTH": {
+      "INVALID": "Por favor, introduce credenciales válidas"
+    },
+    "VISUALIZATION": {
+      "GETERROR": "Error al obtener datos de visualización :("
+    }
+  }
+}
