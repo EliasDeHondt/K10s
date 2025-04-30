@@ -21,7 +21,7 @@ To ensure proper use and contribution, please refer to the following documentati
 
 ## 🎥Video
 
-[Watch our video on the K10s website](https://k10s.eliasdh.com)
+[Watch our video on the K10s website](https://https://eliasdehondt.github.io/K10s)
 
 ## ✒️Pitch
 
