@@ -27,8 +27,8 @@ function loadExternalContent(DivId, url) {
 
 // Load external content
 document.addEventListener('DOMContentLoaded', function() {
-    loadExternalContent("header", "/includes/header.html");
-    loadExternalContent("footer", "/includes/footer.html");
-    loadExternalContent("context-menu", "/includes/context-menu.html");
+    loadExternalContent("header", "https://eliasdehondt.github.io/K10s/includes/header.html");
+    loadExternalContent("footer", "https://eliasdehondt.github.io/K10s/includes/footer.html");
+    loadExternalContent("context-menu", "https://eliasdehondt.github.io/K10s/includes/context-menu.html");
     fetchGitHubStars();
 });
